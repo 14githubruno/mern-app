@@ -1,5 +1,5 @@
 // @desc    Register new user
-// @route   POST /api/users
+// @route   POST /api/users/register
 // @access  Public
 const registerUser = (req, res) => {
   res.send("register user");
