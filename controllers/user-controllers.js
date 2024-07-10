@@ -18,3 +18,5 @@ const loginUser = (req, res) => {
 const logoutUser = (req, res) => {
   res.send("logout user");
 };
+
+export const userControllers = { registerUser, loginUser, logoutUser };
