@@ -1,5 +1,5 @@
 import express from "express";
-import { tvSeriesControllers } from "../controllers/tvseries-controllers";
+import { tvSeriesControllers } from "../controllers/tvseries-controllers.js";
 
 const router = express.Router();
 
