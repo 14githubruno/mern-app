@@ -13,7 +13,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", userRouter);
 app.use("/api/tvseries", tvSeriesRouter);
 
-// testing
 app.get("/", (req, res) => {
   res.send("Testing express server");
 });
