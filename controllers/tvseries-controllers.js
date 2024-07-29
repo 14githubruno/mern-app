@@ -71,9 +71,46 @@ const createOneTvSeries = asyncHandler(async (req, res) => {
 // @route   PATCH /api/tvseries/:id
 // @access  Private
 const updateOneTvSeries = asyncHandler(async (req, res) => {
-  res.status(200).json({
-    message: "the tv series has been updated",
-  });
+  const { title, stars, image, note } = req.body;
+  if (!title || !stars || !image || !note) {
+    res.status(400);
+    throw new Error("All fields are required");
+  }
+
+  if (stars > 5 || stars < 1) {
+    res.status(400);
+    throw new Error("Number of stars must be between 1 and 5");
+  }
+
+  const tvSeriesToUpdate = await Tvseries.findById(req.params.id);
+  if (!tvSeriesToUpdate) {
+    res.status(400);
+    throw new Error(`Tv series with id [${req.params.id}] not found`);
+  }
+
+  const authorizedUser = await User.findById(req?.user?._id);
+  if (!authorizedUser) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  if (tvSeriesToUpdate.user.toString() !== authorizedUser._id.toString()) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
+  tvSeriesToUpdate.title = req.body.title || tvSeriesToUpdate.title;
+  tvSeriesToUpdate.stars = req.body.stars || tvSeriesToUpdate.stars;
+  tvSeriesToUpdate.image = req.body.image || tvSeriesToUpdate.image;
+  tvSeriesToUpdate.note = req.body.note || tvSeriesToUpdate.note;
+
+  const updatedTvSeries = await tvSeriesToUpdate.save();
+  if (updatedTvSeries) {
+    res.status(200).json({
+      message: `Tv series with ID ${req.params.id} updated`,
+      body: updatedTvSeries,
+    });
+  }
 });
 
 // @desc    Delete a tv series
