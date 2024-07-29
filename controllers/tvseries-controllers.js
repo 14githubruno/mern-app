@@ -25,9 +25,46 @@ const getAllTvSeries = asyncHandler(async (req, res) => {
 // @route   POST /api/tvseries
 // @access  Private
 const createOneTvSeries = asyncHandler(async (req, res) => {
-  res.status(201).json({
-    message: "the tv series has been created",
+  const { title, stars, image, note } = req.body;
+  if (!title || !stars || !image || !note) {
+    res.status(400);
+    throw new Error("All fields are required");
+  }
+
+  if (stars > 5 || stars < 1) {
+    res.status(400);
+    throw new Error("Number of stars must be between 1 and 5");
+  }
+
+  const authorizedUser = await User.findById(req?.user?._id);
+  if (!authorizedUser) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  const tvSeriesExists = await Tvseries.find({
+    title: title,
+    user: authorizedUser._id,
   });
+
+  if (tvSeriesExists.length === 1) {
+    res.status(400);
+    throw new Error(
+      `Tv series with title [${title}] already exists, dear [${authorizedUser.name}]`
+    );
+  } else {
+    const newTvSeries = await Tvseries.create({
+      user: req?.user?._id,
+      title,
+      stars,
+      image,
+      note,
+    });
+    res.status(201).json({
+      message: `Tv series with title [${newTvSeries.title}] created`,
+      body: newTvSeries,
+    });
+  }
 });
 
 // @desc    Update a tv series
