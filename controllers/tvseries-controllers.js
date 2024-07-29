@@ -101,10 +101,10 @@ const updateOneTvSeries = asyncHandler(async (req, res) => {
     throw new Error("User not authorized");
   }
 
-  tvSeriesToUpdate.title = req.body.title || tvSeriesToUpdate.title;
-  tvSeriesToUpdate.stars = req.body.stars || tvSeriesToUpdate.stars;
-  tvSeriesToUpdate.image = req.body.image || tvSeriesToUpdate.image;
-  tvSeriesToUpdate.note = req.body.note || tvSeriesToUpdate.note;
+  tvSeriesToUpdate.title = title || tvSeriesToUpdate.title;
+  tvSeriesToUpdate.stars = stars || tvSeriesToUpdate.stars;
+  tvSeriesToUpdate.image = image || tvSeriesToUpdate.image;
+  tvSeriesToUpdate.note = note || tvSeriesToUpdate.note;
 
   const updatedTvSeries = await tvSeriesToUpdate.save();
   if (updatedTvSeries) {
