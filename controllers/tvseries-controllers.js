@@ -117,9 +117,31 @@ const updateOneTvSeries = asyncHandler(async (req, res) => {
 // @route   DELETE /api/tvseries/:id
 // @access  Private
 const deleteOneTvSeries = asyncHandler(async (req, res) => {
-  res.status(201).json({
-    message: "the tv series has been deleted",
-  });
+  const tvSeriesToDelete = await Tvseries.findById(req.params.id);
+
+  if (!tvSeriesToDelete) {
+    res.status(400);
+    throw new Error(`Tv series with id [${req.params.id}] not found`);
+  }
+
+  const authorizedUser = await User.findById(req?.user?.id);
+  if (!authorizedUser) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  if (tvSeriesToDelete.user.toString() !== authorizedUser._id.toString()) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
+  const deleteTvSeries = await Tvseries.deleteOne(tvSeriesToDelete);
+  if (deleteTvSeries.acknowledged) {
+    res.status(201).json({
+      message: `Tv series with ID ${req.params.id} deleted`,
+      body: tvSeriesToDelete,
+    });
+  }
 });
 
 export const tvSeriesControllers = {
