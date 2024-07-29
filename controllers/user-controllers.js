@@ -82,7 +82,7 @@ const loginUser = asyncHandler(async (req, res) => {
 // @access  Private
 const logoutUser = (req, res) => {
   res.status(200).json({
-    message: "user logged out",
+    message: `User [${req.user.name}] successfully logged out`,
   });
 };
 
