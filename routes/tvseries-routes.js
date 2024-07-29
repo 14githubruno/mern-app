@@ -1,15 +1,16 @@
 import express from "express";
 import { tvSeriesControllers } from "../controllers/tvseries-controllers.js";
+import { protectRoute } from "../middlewares/protect-route.js";
 
 const router = express.Router();
 
 router
   .route("/")
-  .get(tvSeriesControllers.getAllTvSeries)
-  .post(tvSeriesControllers.createOneTvSeries);
+  .get(protectRoute, tvSeriesControllers.getAllTvSeries)
+  .post(protectRoute, tvSeriesControllers.createOneTvSeries);
 router
   .route("/:id")
-  .patch(tvSeriesControllers.updateOneTvSeries)
-  .delete(tvSeriesControllers.deleteOneTvSeries);
+  .patch(protectRoute, tvSeriesControllers.updateOneTvSeries)
+  .delete(protectRoute, tvSeriesControllers.deleteOneTvSeries);
 
 export default router;
