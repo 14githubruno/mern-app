@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 
+import { errorHandler } from "./middlewares/error-handler.js";
+
 import userRouter from "./routes/user-routes.js";
 import tvSeriesRouter from "./routes/tvseries-routes.js";
 
@@ -16,6 +18,8 @@ app.use("/api/tvseries", tvSeriesRouter);
 app.get("/", (req, res) => {
   res.send("Testing express server");
 });
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
