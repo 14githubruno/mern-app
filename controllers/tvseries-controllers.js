@@ -1,4 +1,6 @@
 import asyncHandler from "express-async-handler";
+import User from "../models/user-model.js";
+import Tvseries from "../models/tvseries-model.js";
 
 // @desc    Get all tv series
 // @route   GET /api/tvseries
