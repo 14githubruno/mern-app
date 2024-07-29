@@ -6,9 +6,19 @@ import Tvseries from "../models/tvseries-model.js";
 // @route   GET /api/tvseries
 // @access  Private
 const getAllTvSeries = asyncHandler(async (req, res) => {
-  res.status(200).json({
-    message: "these are all your tv series",
-  });
+  const tvSeries = await Tvseries.find({ user: req?.user?._id });
+  const thereAreTvSeries = tvSeries.length > 0;
+
+  if (thereAreTvSeries) {
+    res.status(200).json({
+      message: `These are your tv series, [${req.user.name}]`,
+      body: tvSeries,
+    });
+  } else {
+    res.status(401).json({
+      message: `Unfortunately, [${req.user.name}], you have no tv series yet. Create them`,
+    });
+  }
 });
 
 // @desc    Create a tv series
