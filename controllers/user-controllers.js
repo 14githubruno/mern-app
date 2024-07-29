@@ -2,6 +2,10 @@
 // @route   POST /api/users/register
 // @access  Public
 const registerUser = (req, res) => {
+  if (!req.body.name) {
+    res.status(400);
+    throw new Error("No name has been provided");
+  }
   res.status(201).json({
     message: "user created",
   });
