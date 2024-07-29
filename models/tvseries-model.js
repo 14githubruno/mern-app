@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const tvseriesSchema = mongoose.Schema(
+const tvSeriesSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -29,4 +29,4 @@ const tvseriesSchema = mongoose.Schema(
   }
 );
 
-export default mongoose.model("Tvseries", tvseriesSchema);
+export default mongoose.model("Tvseries", tvSeriesSchema);
