@@ -2,12 +2,14 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 
+import { connectDB } from "./config/connect-db.js";
 import { errorHandler } from "./middlewares/error-handler.js";
 
 import userRouter from "./routes/user-routes.js";
 import tvSeriesRouter from "./routes/tvseries-routes.js";
 
 const app = express();
+connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
