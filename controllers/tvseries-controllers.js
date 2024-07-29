@@ -60,10 +60,12 @@ const createOneTvSeries = asyncHandler(async (req, res) => {
       image,
       note,
     });
-    res.status(201).json({
-      message: `Tv series with title [${newTvSeries.title}] created`,
-      body: newTvSeries,
-    });
+    if (newTvSeries) {
+      res.status(201).json({
+        message: `Tv series with title [${newTvSeries.title}] created`,
+        body: newTvSeries,
+      });
+    }
   }
 });
 
