@@ -1,3 +1,5 @@
+import Home from "./pages/home";
+
 export default function App() {
-  return <h1>Testing Vite + React</h1>;
+  return <Home />;
 }
