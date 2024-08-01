@@ -12,7 +12,7 @@ export default defineConfig({
         __dirname,
         "src",
         "styles",
-        "variables",
+        "@use",
         "_breakpoints.scss"
       ),
     },
