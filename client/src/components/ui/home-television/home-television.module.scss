@@ -1,0 +1,10 @@
+.tvWrapper {
+  display: grid;
+  place-content: center;
+}
+
+.tv {
+  width: 26rem;
+  height: 26rem;
+  color: var(--white-color);
+}
