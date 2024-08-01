@@ -15,6 +15,13 @@ export default defineConfig({
         "@use",
         "_breakpoints.scss"
       ),
+      "@/z-index": path.join(
+        __dirname,
+        "src",
+        "styles",
+        "@use",
+        "_z-index.scss"
+      ),
     },
   },
 });
