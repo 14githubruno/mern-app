@@ -1,0 +1,5 @@
+const DEV_BASE_URL = "http://localhost:3000";
+const PROD_BASE_URL = "http://localhost:3000"; // will be replaced
+const API_USERS = "/api/users";
+
+export { DEV_BASE_URL, PROD_BASE_URL, API_USERS };
