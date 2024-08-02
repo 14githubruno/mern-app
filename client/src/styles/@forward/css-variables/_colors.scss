@@ -1,5 +1,15 @@
 :root {
   --bg-color: #020417;
+
   --white-color: #f5f5f5;
-  --purple-gradient: linear-gradient(#d809dc, #ff1e87);
+  --blue-color: #1e90ff;
+  --pink-color: #d809dc;
+  --red-color: #a40b0b;
+
+  --purple-gradient: linear-gradient(var(--pink-color), #ff1e87);
+  --pink-blue-gradient: linear-gradient(
+    to right,
+    var(--pink-color),
+    var(--blue-color)
+  );
 }
