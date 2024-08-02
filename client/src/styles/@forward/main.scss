@@ -1,2 +1,9 @@
-@forward "base";
-@forward "css-variables";
+/* BASE */
+@forward "./base/normalize";
+@forward "./base/reset";
+@forward "./base/global";
+@forward "./base/typography";
+
+/* CSS-VARIABLES */
+@forward "./css-variables/colors";
+@forward "./css-variables/fonts";
