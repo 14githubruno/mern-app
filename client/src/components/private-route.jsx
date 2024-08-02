@@ -12,8 +12,8 @@ export default function PrivateRoute() {
     }
   }, []);
 
-  let checkIfThereIsUser =
+  let check_if_user_is_logged_in =
     user !== null ? <Outlet /> : <Navigate to="/" replace />;
 
-  return checkIfThereIsUser;
+  return check_if_user_is_logged_in;
 }
