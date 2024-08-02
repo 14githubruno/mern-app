@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLogoutUserMutation } from "../../redux/api/users-api-slice";
 import { clearCredentials } from "../../redux/features/auth/auth-slice";
 import { apiSlice } from "../../redux/api/api-slice";
+import toast from "react-hot-toast";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -22,11 +23,11 @@ export default function Header() {
   const handleLogoutUser = async () => {
     try {
       const res = await logoutUser().unwrap();
-      console.log(res);
+      toast.success(res.message);
       dispatch(clearCredentials());
       dispatch(apiSlice.util.resetApiState());
     } catch (err) {
-      console.log(err);
+      toast.error(err?.data?.message);
     }
   };
 

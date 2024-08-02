@@ -5,6 +5,7 @@ import { useLoginUserMutation } from "../redux/api/users-api-slice";
 import { setCredentials } from "../redux/features/auth/auth-slice";
 import { useNavigate } from "react-router-dom";
 import UserFormParagraph from "../components/ui/user-form-paragraph/user-form-paragraph";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const { register, handleSubmit, reset } = useForm({
@@ -30,10 +31,10 @@ export default function Login() {
   const handleUserLogin = async (data) => {
     try {
       const res = await loginUser({ ...data }).unwrap();
-      console.log(res);
       dispatch(setCredentials({ user: res.body.name, token: res.body.token }));
+      toast.success(res.message);
     } catch (err) {
-      console.log(err);
+      toast.error(err?.data?.message);
     }
   };
 
