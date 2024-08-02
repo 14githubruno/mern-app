@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useRegisterUserMutation } from "../redux/api/users-api-slice";
 import { useNavigate } from "react-router-dom";
+import UserFormParagraph from "../components/ui/user-form-paragraph/user-form-paragraph";
 
 export default function Register() {
   const { register, handleSubmit } = useForm({
@@ -69,6 +70,11 @@ export default function Register() {
           {isLoading ? "Registering..." : "Register"}
         </button>
       </form>
+      <UserFormParagraph
+        paragraphText="Already have an akkount?"
+        linkText="Log in"
+        linkHref="/login"
+      />
     </section>
   );
 }

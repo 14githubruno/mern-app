@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLoginUserMutation } from "../redux/api/users-api-slice";
 import { setCredentials } from "../redux/features/auth/auth-slice";
 import { useNavigate } from "react-router-dom";
+import UserFormParagraph from "../components/ui/user-form-paragraph/user-form-paragraph";
 
 export default function Login() {
   const { register, handleSubmit, reset } = useForm({
@@ -70,6 +71,11 @@ export default function Login() {
           {isLoading ? "Logging in..." : "Log in"}
         </button>
       </form>
+      <UserFormParagraph
+        paragraphText="Don't have an akkount?"
+        linkText="Register one"
+        linkHref="/register"
+      />
     </section>
   );
 }
