@@ -1,0 +1,27 @@
+@use "@/breakpoints" as *;
+
+.homeParagraph {
+  margin: 2rem 0 4rem 0;
+  padding: 0 2rem;
+  font-size: 1.6rem;
+  line-height: 2.5rem;
+  text-align: center;
+  color: var(--white-color);
+}
+
+.heartIconWrapper {
+  position: relative;
+  top: 0.255rem;
+  left: 0.255rem;
+}
+
+.heartIcon {
+  color: var(--pink-color);
+}
+
+@media (min-width: $break-tablet) {
+  .homeParagraph {
+    width: 50rem;
+    margin-top: 0;
+  }
+}
