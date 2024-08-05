@@ -24,9 +24,9 @@ export default function Table({ tvseries, filter }) {
         );
       });
 
-  const sad_icon_and_paragraph = !there_are_tvseries && (
+  const there_are_no_rows_and_paragraph = !there_are_tvseries && (
     <div className={styles.nothingContainer}>
-      <PiMaskSadThin className={styles.sadIcon} />
+      <PiMaskSadThin className={styles.nothingIcon} />
       <span className={styles.nothingParagraph}>
         You have nothing to display. Start kreating your table rows.
       </span>
@@ -60,7 +60,7 @@ export default function Table({ tvseries, filter }) {
       <TableHead />
       {table_rows}
       {table_row_not_found_and_paragraph}
-      {sad_icon_and_paragraph}
+      {there_are_no_rows_and_paragraph}
     </article>
   );
 }
