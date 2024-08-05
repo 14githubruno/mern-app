@@ -32,7 +32,7 @@ const browserRouter = createBrowserRouter([
             element: <Dashboard />,
           },
           {
-            path: "/dashboard/create-tvseries",
+            path: "/dashboard/kreate-tvseries",
             element: <CreateTvseries />,
           },
         ],

@@ -15,7 +15,7 @@ export default function Dashboard() {
     <section>
       <h1 style={{ color: "whitesmoke" }}>{user}</h1>
       <p style={{ color: "whitesmoke" }}>{paragraph}</p>
-      <Link style={{ color: "whitesmoke" }} to={"/dashboard/create-tvseries"}>
+      <Link style={{ color: "whitesmoke" }} to={"/dashboard/kreate-tvseries"}>
         kreate a tvseries
       </Link>
     </section>
