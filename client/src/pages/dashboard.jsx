@@ -1,11 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGetAllTvseriesQuery } from "../redux/api/tvseries-api-slice";
 import { setTvseries } from "../redux/features/tvseries/tvseries-slice";
+import Searchbar from "../components/searchbar/searchbar";
 import Table from "../components/table/table";
 
 export default function Dashboard() {
+  const [filter, setFilter] = useState("");
+
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const tvseries = useSelector((state) => state.tvseries.tvseries);
@@ -23,6 +26,7 @@ export default function Dashboard() {
 
   return (
     <section>
+      <Searchbar tvseries={tvseries} filter={filter} setFilter={setFilter} />
       <p className="dashboardParag">
         This is your dashboard,{" "}
         <span className="dashboardUsername">{user}</span>
@@ -37,7 +41,7 @@ export default function Dashboard() {
         </span>
       </p>
       {/* display table with rows */}
-      <Table tvseries={tvseries} />
+      <Table tvseries={tvseries} filter={filter} />
     </section>
   );
 }
