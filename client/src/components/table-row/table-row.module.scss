@@ -1,0 +1,88 @@
+.tableRow {
+  min-width: 80rem;
+  display: flex;
+  justify-content: space-evenly;
+  color: var(--white-color);
+}
+
+.tableRow:nth-child(even) {
+  background-color: var(--dark-blue-transparency);
+}
+
+.tableRow > div {
+  padding: 1rem 0.6rem 0.6rem 0.6rem;
+  display: inline-block;
+  flex: 1;
+  font-size: 1.4rem;
+  border-bottom: 0.1rem solid var(--dark-grey-color);
+  border-left: 0.1rem solid var(--dark-grey-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tableRow > div:last-of-type {
+  display: flex;
+  justify-content: space-evenly;
+  border-right: 0.1rem solid var(--dark-grey-color);
+}
+
+.cardStarGood {
+  width: 2rem;
+  height: 2rem;
+  fill: var(--pink-color);
+  animation: move-right-and-left 100s infinite;
+}
+
+.cardStar {
+  width: 2rem;
+  height: 2rem;
+  fill: var(--white-color);
+}
+
+.image {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+}
+
+.icon:hover {
+  filter: brightness(200%);
+}
+
+.iconView {
+  color: var(--white-color);
+}
+
+.iconEdit {
+  color: var(--blue-color);
+}
+
+.iconTrash {
+  color: var(--red-color);
+}
+
+// pink stars animation
+@keyframes move-right-and-left {
+  0%,
+  20%,
+  40%,
+  60%,
+  80%,
+  100% {
+    transform: rotate(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: rotate(360deg);
+  }
+}
