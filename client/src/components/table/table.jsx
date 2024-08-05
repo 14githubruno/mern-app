@@ -1,6 +1,7 @@
 import styles from "./table.module.scss";
 import { PiMaskSadThin } from "react-icons/pi";
 import { RxEyeNone } from "react-icons/rx";
+import TableHead from "../table-head/table-head";
 import TableRow from "../table-row/table-row";
 
 export default function Table({ tvseries, filter }) {
@@ -56,15 +57,8 @@ export default function Table({ tvseries, filter }) {
           : styles.tableShow
       }`}
     >
-      <div className={styles.tableHead}>
-        <span className={styles.tableHeadHeading}>N°</span>
-        <span className={styles.tableHeadHeading}>Title</span>
-        <span className={styles.tableHeadHeading}>Stars</span>
-        <span className={styles.tableHeadHeading}>Image</span>
-        <span className={styles.tableHeadHeading}>Note</span>
-        <span className={styles.tableHeadHeading}>Actions</span>
-      </div>
-      <div>{table_rows}</div>
+      <TableHead />
+      {table_rows}
       {table_row_not_found_and_paragraph}
       {sad_icon_and_paragraph}
     </article>
