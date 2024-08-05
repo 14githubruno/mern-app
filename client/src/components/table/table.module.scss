@@ -1,0 +1,55 @@
+@use "@/z-index" as *;
+
+.baseTable {
+  width: 90%;
+  height: 43rem;
+}
+
+.tableShow {
+  overflow-x: auto;
+}
+
+.tableHide {
+  overflow-x: hidden;
+}
+
+.tableHead {
+  min-width: 80rem;
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-evenly;
+  font-weight: 400;
+  background: var(--black-blue-gradient-to-bottom);
+  color: var(--white-color);
+  border-bottom: 0.1rem solid var(--dark-grey-color);
+  z-index: $z-index-one;
+}
+
+.tableHead .tableHeadHeading {
+  padding: 0.6rem;
+  flex: 1;
+  display: inline-block;
+  font-size: 1.455rem;
+  text-align: center;
+}
+
+.sadIcon {
+  width: 30rem;
+  height: 30rem;
+  display: block;
+  color: var(--white-color);
+}
+
+.nothingContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nothingParagraph {
+  font-size: 1.8rem;
+  text-align: center;
+  color: var(--pink-color);
+}
