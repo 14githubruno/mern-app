@@ -4,7 +4,7 @@ import { RxEyeNone } from "react-icons/rx";
 import TableHead from "../table-head/table-head";
 import TableRow from "../table-row/table-row";
 
-export default function Table({ tvseries, filter }) {
+export default function Table({ tvseries, filter, contentIsLoading }) {
   const there_are_tvseries = tvseries?.length > 0;
 
   const table_rows =
@@ -58,9 +58,24 @@ export default function Table({ tvseries, filter }) {
       }`}
     >
       <TableHead />
-      {table_rows}
-      {table_row_not_found_and_paragraph}
-      {there_are_no_rows_and_paragraph}
+      {contentIsLoading ? (
+        <h1
+          style={{
+            color: "white",
+            fontSize: "10rem",
+            textAlign: "center",
+            margin: "3rem 0 0 0",
+          }}
+        >
+          ...
+        </h1>
+      ) : (
+        <>
+          {table_rows}
+          {table_row_not_found_and_paragraph}
+          {there_are_no_rows_and_paragraph}
+        </>
+      )}
     </article>
   );
 }

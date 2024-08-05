@@ -12,7 +12,7 @@ export default function Dashboard() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const tvseries = useSelector((state) => state.tvseries.tvseries);
-  const { data, isSuccess } = useGetAllTvseriesQuery();
+  const { data, isLoading, isSuccess } = useGetAllTvseriesQuery();
 
   useEffect(() => {
     if (isSuccess && data.body) {
@@ -30,7 +30,7 @@ export default function Dashboard() {
         userLoggedIn={user}
         kreateTvseriesRoute={"/dashboard/kreate-tvseries"}
       />
-      <Table tvseries={tvseries} filter={filter} />
+      <Table tvseries={tvseries} filter={filter} contentIsLoading={isLoading} />
     </section>
   );
 }
