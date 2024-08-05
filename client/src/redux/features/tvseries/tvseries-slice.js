@@ -12,7 +12,7 @@ export const tvseriesSlice = createSlice({
       state.tvseries = action.payload;
     },
     resetTvseries: (state, action) => {
-      state.tvseries = null;
+      state.tvseries = [];
     },
   },
 });
