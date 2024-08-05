@@ -45,7 +45,8 @@ label {
   margin-left: 0.255rem;
 }
 
-input {
+input,
+textarea {
   width: 94%;
   margin: 1rem auto 1.7rem auto;
   padding: 1rem;
@@ -57,11 +58,60 @@ input {
   border-bottom: 0.1rem solid var(--white-color);
   color: var(--grey-transparency);
   transition: padding 0.2s linear;
+}
 
-  &:focus {
-    padding-left: 1.5rem;
-    color: var(--white-color);
-  }
+input:focus:not(input[name="image"]),
+textarea:focus {
+  color: var(--white-color);
+  padding-left: 1.5rem;
+}
+
+textarea {
+  resize: none;
+  height: 7rem;
+}
+
+form span {
+  color: var(--white-color);
+  width: 94%;
+  margin: 0 auto;
+  text-align: right;
+  font-size: 1.3rem;
+  letter-spacing: 0.1rem;
+}
+
+input[name="stars"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+form img {
+  object-fit: cover;
+  width: 9rem;
+  height: 6rem;
+  border-radius: 1rem;
+  position: absolute;
+  top: 1rem;
+  right: 0;
+}
+
+input[name="image"] {
+  color: transparent;
+  cursor: pointer;
+}
+
+input[name="image"]::before {
+  content: url("/svg/form-img-icon.svg");
+  display: inline-block;
+  position: absolute;
+  left: 3.9rem;
+  bottom: 24.78rem;
+  width: 3rem;
+  cursor: pointer;
+}
+
+input[name="image"]::-webkit-file-upload-button {
+  opacity: 0;
+  cursor: pointer;
 }
 
 form button {
@@ -80,6 +130,15 @@ form button {
 form button:hover,
 form button:active {
   scale: 1.04;
+}
+
+.linkGoBack {
+  position: absolute;
+  color: var(--white-color);
+  bottom: 0;
+  left: 2.8rem;
+  font-size: 1.5rem;
+  text-underline-offset: 0.4rem;
 }
 
 @media (min-width: $break-tablet) {
