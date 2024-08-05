@@ -5,6 +5,7 @@ import Homepage from "../pages/homepage";
 import Register from "../pages/register";
 import Login from "../pages/login";
 import Dashboard from "../pages/dashboard";
+import CreateTvseries from "../pages/create-tvseries";
 
 const browserRouter = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const browserRouter = createBrowserRouter([
           {
             path: "/dashboard",
             element: <Dashboard />,
+          },
+          {
+            path: "/dashboard/create-tvseries",
+            element: <CreateTvseries />,
           },
         ],
       },
