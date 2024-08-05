@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import { useGetAllTvseriesQuery } from "../redux/api/tvseries-api-slice";
 import { setTvseries } from "../redux/features/tvseries/tvseries-slice";
 import Searchbar from "../components/searchbar/searchbar";
+import WelcomeGuideUserParagraphs from "../components/welcome-guide-user-paragraphs/welcome-guide-user-paragraphs";
 import Table from "../components/table/table";
 
 export default function Dashboard() {
@@ -14,7 +14,6 @@ export default function Dashboard() {
   const tvseries = useSelector((state) => state.tvseries.tvseries);
   const { data, isSuccess } = useGetAllTvseriesQuery();
 
-  // sort and set rows to be displayed in the table
   useEffect(() => {
     if (isSuccess && data.body) {
       const sortedItems = data?.body
@@ -27,20 +26,10 @@ export default function Dashboard() {
   return (
     <section>
       <Searchbar tvseries={tvseries} filter={filter} setFilter={setFilter} />
-      <p className="dashboardParag">
-        This is your dashboard,{" "}
-        <span className="dashboardUsername">{user}</span>
-        <span className="dashboardCTAParag">
-          If you want to kreate a table row,{" "}
-          <Link
-            className="dashboardKreateLink"
-            to={"/dashboard/kreate-tvseries"}
-          >
-            klick here
-          </Link>
-        </span>
-      </p>
-      {/* display table with rows */}
+      <WelcomeGuideUserParagraphs
+        userLoggedIn={user}
+        kreateTvseriesRoute={"/dashboard/kreate-tvseries"}
+      />
       <Table tvseries={tvseries} filter={filter} />
     </section>
   );
