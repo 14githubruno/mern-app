@@ -1,5 +1,7 @@
+@use "@/breakpoints" as *;
+
 .welcomeGuideUserParagraphs {
-  padding: 0.5rem 0.5rem 2rem 0.5rem;
+  padding: 0.5rem 0.5rem 2rem 1.5rem;
   align-self: flex-start;
   display: flex;
   flex-direction: column;
@@ -8,7 +10,7 @@
 
 .paragraph {
   align-self: flex-start;
-  font-size: 1.455rem;
+  font-size: 1.4rem;
   color: var(--white-color);
 }
 
@@ -16,7 +18,7 @@
   text-transform: capitalize;
   font-style: italic;
   font-weight: 600;
-  font-size: 1.655rem;
+  font-size: 1.6rem;
   -webkit-text-fill-color: transparent;
   background: var(--pink-blue-gradient) text;
 }
@@ -26,4 +28,13 @@
   text-underline-offset: 0.3rem;
   color: var(--white-color);
   cursor: pointer;
+}
+
+@media (min-width: $break-large-mobile) {
+  .paragraph {
+    font-size: 1.455rem;
+  }
+  .username {
+    font-size: 1.655rem;
+  }
 }
