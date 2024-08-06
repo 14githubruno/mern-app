@@ -40,14 +40,7 @@ export default function Login() {
 
   return (
     <section>
-      <form
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-        onSubmit={handleSubmit(handleUserLogin)}
-      >
+      <form onSubmit={handleSubmit(handleUserLogin)}>
         <label htmlFor="email">
           Email<span className="label-asterisk">*</span>
         </label>
