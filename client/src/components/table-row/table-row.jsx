@@ -12,6 +12,7 @@ export default function TableRow({
   note,
   toggleModalToDelete,
   selectTableRowToDelete,
+  showTableRowInModalView,
 }) {
   const arrayOfStars = new Array(Number(stars)).fill("*");
   const restOfStars = new Array(5 - arrayOfStars.length).fill("*");
@@ -38,7 +39,7 @@ export default function TableRow({
       ></div>
       <div className={styles.note}>{note}</div>
       <div className={styles.iconsContainer}>
-        <span className={styles.iconView}>
+        <span className={styles.iconView} onClick={showTableRowInModalView}>
           <RxMagnifyingGlass className={styles.icon} />
         </span>
         <Link

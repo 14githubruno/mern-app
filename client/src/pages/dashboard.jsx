@@ -9,11 +9,14 @@ import Searchbar from "../components/searchbar/searchbar";
 import WelcomeGuideUserParagraphs from "../components/welcome-guide-user-paragraphs/welcome-guide-user-paragraphs";
 import Table from "../components/table/table";
 import ModalDelete from "../components/modal-delete/modal-delete";
+import ModalView from "../components/modal-view/modal-view";
 import toast from "react-hot-toast";
 
 export default function Dashboard() {
   const [filter, setFilter] = useState("");
   const [tableRowToDelete, setTableRowToDelete] = useState(null);
+  const [modalViewIsOpen, setModalViewIsOpen] = useState(false);
+  const [tableRowToView, setTableRowToView] = useState(null);
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -33,7 +36,7 @@ export default function Dashboard() {
     }
   }, [data, isSuccess]);
 
-  // modal delete reference to toggle it
+  /* modal delete starts */
   const modalDeleteRef = useRef(null);
   const toggleModalToDelete = () => {
     const modal_classes = modalDeleteRef?.current.classList;
@@ -44,13 +47,11 @@ export default function Dashboard() {
     }
   };
 
-  // select table row to delete
   const selectTableRowToDelete = (id) => {
     const tableRow = tvseries.find((singleSeries) => singleSeries._id === id);
     setTableRowToDelete((prev) => ({ ...prev, ...tableRow }));
   };
 
-  // delete table row
   const deleteTableRow = async () => {
     try {
       const res = await deleteOneTvseries(tableRowToDelete).unwrap();
@@ -63,10 +64,25 @@ export default function Dashboard() {
     }
   };
 
-  // do not delete table row
   const doNotDeleteTableRow = () => {
     setTableRowToDelete(null);
   };
+  /* modal delete ends */
+
+  /* modal view starts */
+  const showTableRowInModalView = (id) => {
+    const rowToDisplay = tvseries.find(
+      (singleSeries) => singleSeries._id === id
+    );
+    setTableRowToView((prev) => ({ ...prev, ...rowToDisplay }));
+    setModalViewIsOpen(true);
+  };
+
+  const closeModalView = () => {
+    setTableRowToView(null);
+    setModalViewIsOpen(false);
+  };
+  /* modal view ends */
 
   return (
     <section>
@@ -76,6 +92,9 @@ export default function Dashboard() {
         confirm={deleteTableRow}
         doNotConfirm={doNotDeleteTableRow}
       />
+      {modalViewIsOpen && (
+        <ModalView closeModalView={closeModalView} {...tableRowToView} />
+      )}
       <Searchbar filter={filter} setFilter={setFilter} />
       <WelcomeGuideUserParagraphs
         userLoggedIn={user}
@@ -87,6 +106,7 @@ export default function Dashboard() {
         contentIsBeingDeleted={isDeleting}
         toggleModalToDelete={toggleModalToDelete}
         selectTableRowToDelete={selectTableRowToDelete}
+        showTableRowInModalView={showTableRowInModalView}
       />
     </section>
   );

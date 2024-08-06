@@ -11,6 +11,7 @@ export default function Table({
   contentIsBeingDeleted,
   toggleModalToDelete,
   selectTableRowToDelete,
+  showTableRowInModalView,
 }) {
   const tvseries = useSelector((state) => state.tvseries.tvseries);
   const there_are_tvseries = tvseries?.length > 0;
@@ -32,6 +33,9 @@ export default function Table({
             selectTableRowToDelete={() =>
               selectTableRowToDelete(singleTvseries._id)
             }
+            showTableRowInModalView={() => {
+              showTableRowInModalView(singleTvseries._id);
+            }}
           />
         );
       });
