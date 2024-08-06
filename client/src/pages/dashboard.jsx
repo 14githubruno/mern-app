@@ -76,13 +76,12 @@ export default function Dashboard() {
         confirm={deleteTableRow}
         doNotConfirm={doNotDeleteTableRow}
       />
-      <Searchbar tvseries={tvseries} filter={filter} setFilter={setFilter} />
+      <Searchbar filter={filter} setFilter={setFilter} />
       <WelcomeGuideUserParagraphs
         userLoggedIn={user}
         kreateTvseriesRoute={"/dashboard/kreate-tvseries"}
       />
       <Table
-        tvseries={tvseries}
         filter={filter}
         contentIsLoading={isLoading}
         contentIsBeingDeleted={isDeleting}

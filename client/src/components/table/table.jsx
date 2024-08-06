@@ -1,17 +1,18 @@
 import styles from "./table.module.scss";
 import { PiMaskSadThin } from "react-icons/pi";
 import { RxEyeNone } from "react-icons/rx";
+import { useSelector } from "react-redux";
 import TableHead from "../table-head/table-head";
 import TableRow from "../table-row/table-row";
 
 export default function Table({
-  tvseries,
   filter,
   contentIsLoading,
   contentIsBeingDeleted,
   toggleModalToDelete,
   selectTableRowToDelete,
 }) {
+  const tvseries = useSelector((state) => state.tvseries.tvseries);
   const there_are_tvseries = tvseries?.length > 0;
 
   const table_rows =

@@ -1,7 +1,9 @@
 import styles from "./searchbar.module.scss";
 import { BsFillSearchHeartFill } from "react-icons/bs";
+import { useSelector } from "react-redux";
 
-export default function Searchbar({ tvseries, filter, setFilter }) {
+export default function Searchbar({ filter, setFilter }) {
+  const tvseries = useSelector((state) => state.tvseries.tvseries);
   const there_are_no_tvseries = tvseries?.length === 0;
 
   return (
