@@ -4,11 +4,11 @@ import "./modal-delete.scss";
 export default function ModalDelete({
   confirm,
   doNotConfirm,
-  modalRef,
+  modalDeleteRef,
   toggleModalToDelete,
 }) {
   return (
-    <div ref={modalRef} className={`${styles.modal} modalHidden`}>
+    <div ref={modalDeleteRef} className={`${styles.modal} modalHidden`}>
       <article className={styles.questionAnswersWrapper}>
         <p className={styles.question}>
           Sure you want to delete the row?

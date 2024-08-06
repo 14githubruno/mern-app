@@ -34,9 +34,9 @@ export default function Dashboard() {
   }, [data, isSuccess]);
 
   // modal delete reference to toggle it
-  const modalRef = useRef(null);
+  const modalDeleteRef = useRef(null);
   const toggleModalToDelete = () => {
-    const modal_classes = modalRef?.current.classList;
+    const modal_classes = modalDeleteRef?.current.classList;
     if (modal_classes.contains("modalHidden")) {
       modal_classes.remove("modalHidden");
     } else {
@@ -71,7 +71,7 @@ export default function Dashboard() {
   return (
     <section>
       <ModalDelete
-        modalRef={modalRef}
+        modalDeleteRef={modalDeleteRef}
         toggleModalToDelete={toggleModalToDelete}
         confirm={deleteTableRow}
         doNotConfirm={doNotDeleteTableRow}
