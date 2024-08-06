@@ -2,8 +2,8 @@
 
 .homeHeadingOne {
   width: fit-content;
-  margin: 5rem auto;
-  font-size: 3.5rem;
+  margin: 3rem auto;
+  font-size: 3rem;
   text-align: center;
   position: relative;
   color: var(--white-color);
@@ -14,7 +14,7 @@
   margin-bottom: 1rem;
   font-weight: bolder;
   display: inline-block;
-  font-size: 4.4rem;
+  font-size: 3.7rem;
   -webkit-text-fill-color: transparent;
   background: var(--purple-gradient) text;
   rotate: 5deg;
@@ -22,21 +22,21 @@
 }
 
 .homeHeadingOneIcon {
-  width: 3rem;
-  height: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
   position: absolute;
   color: var(--white-color);
 }
 
 .noodlesIcon {
   right: -1rem;
-  top: -2rem;
+  top: -1.5rem;
   rotate: 10deg;
 }
 
 .knifeBloodIcon {
   left: -1rem;
-  top: 5.1rem;
+  top: 4.7rem;
   rotate: -8deg;
 }
 
@@ -63,17 +63,36 @@
   .homeHeadingOne {
     font-size: 3.8rem;
   }
+  .kLetter {
+    font-size: 4rem;
+  }
 }
 
 @media (min-width: $break-tablet) {
   .homeHeadingOne {
     font-size: 4.1rem;
   }
+
+  .kLetter {
+    font-size: 4.2rem;
+  }
+
+  .noodlesIcon {
+    top: -2rem;
+  }
+
+  .knifeBloodIcon {
+    top: 5.1rem;
+  }
 }
 
 @media (min-width: $break-desktop) {
   .homeHeadingOne {
     font-size: 4.4rem;
+  }
+
+  .kLetter {
+    font-size: 4.6rem;
   }
 
   .homeHeadingOneIcon {
