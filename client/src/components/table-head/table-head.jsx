@@ -1,6 +1,7 @@
 import styles from "./table-head.module.scss";
+import { memo } from "react";
 
-export default function TableHead() {
+const TableHead = memo(function TableHeadToMemoize() {
   return (
     <div className={styles.tableHead}>
       <span className={styles.tableHeadHeading}>N°</span>
@@ -11,4 +12,6 @@ export default function TableHead() {
       <span className={styles.tableHeadHeading}>Actions</span>
     </div>
   );
-}
+});
+
+export default TableHead;
