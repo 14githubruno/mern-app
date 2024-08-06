@@ -32,7 +32,10 @@ export default function TableRow({ num, id, title, stars, image, note }) {
         <span className={styles.iconView}>
           <RxMagnifyingGlass className={styles.icon} />
         </span>
-        <Link className={styles.iconEdit}>
+        <Link
+          className={styles.iconEdit}
+          to={`/dashboard/update-tvseries/${id}`}
+        >
           <RxPencil1 className={styles.icon} />
         </Link>
         <span className={styles.iconTrash}>
