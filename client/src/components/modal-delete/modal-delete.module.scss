@@ -6,15 +6,16 @@
   position: fixed;
   top: 0;
   display: grid;
-  place-content: center;
+  place-items: center;
   background: var(--dark-blue-transparency);
   animation: open-smoothly 0.055s ease;
   z-index: $z-index-max;
 }
 
 .questionAnswersWrapper {
-  width: 40rem;
   height: 20rem;
+  width: 85%;
+  max-width: 40rem;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
