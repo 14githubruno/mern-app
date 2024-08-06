@@ -4,7 +4,14 @@ import { RxEyeNone } from "react-icons/rx";
 import TableHead from "../table-head/table-head";
 import TableRow from "../table-row/table-row";
 
-export default function Table({ tvseries, filter, contentIsLoading }) {
+export default function Table({
+  tvseries,
+  filter,
+  contentIsLoading,
+  contentIsBeingDeleted,
+  toggleModalToDelete,
+  selectTableRowToDelete,
+}) {
   const there_are_tvseries = tvseries?.length > 0;
 
   const table_rows =
@@ -20,6 +27,10 @@ export default function Table({ tvseries, filter, contentIsLoading }) {
             id={singleTvseries._id}
             num={`#${index + 1}`}
             {...singleTvseries}
+            toggleModalToDelete={toggleModalToDelete}
+            selectTableRowToDelete={() =>
+              selectTableRowToDelete(singleTvseries._id)
+            }
           />
         );
       });
@@ -58,7 +69,7 @@ export default function Table({ tvseries, filter, contentIsLoading }) {
       }`}
     >
       <TableHead />
-      {contentIsLoading ? (
+      {contentIsLoading || contentIsBeingDeleted ? (
         <h1
           style={{
             color: "white",

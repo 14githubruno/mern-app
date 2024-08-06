@@ -3,7 +3,16 @@ import { AiFillStar } from "react-icons/ai";
 import { RxPencil1, RxMagnifyingGlass, RxTrash } from "react-icons/rx";
 import { Link } from "react-router-dom";
 
-export default function TableRow({ num, id, title, stars, image, note }) {
+export default function TableRow({
+  num,
+  id,
+  title,
+  stars,
+  image,
+  note,
+  toggleModalToDelete,
+  selectTableRowToDelete,
+}) {
   const arrayOfStars = new Array(Number(stars)).fill("*");
   const restOfStars = new Array(5 - arrayOfStars.length).fill("*");
 
@@ -38,7 +47,13 @@ export default function TableRow({ num, id, title, stars, image, note }) {
         >
           <RxPencil1 className={styles.icon} />
         </Link>
-        <span className={styles.iconTrash}>
+        <span
+          className={styles.iconTrash}
+          onClick={() => {
+            toggleModalToDelete();
+            selectTableRowToDelete();
+          }}
+        >
           <RxTrash className={styles.icon} />
         </span>
       </div>
