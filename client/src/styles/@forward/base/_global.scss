@@ -90,7 +90,7 @@ form img {
   height: 6rem;
   border-radius: 1rem;
   position: absolute;
-  top: 1rem;
+  top: 0.7rem;
   right: 0;
 }
 
@@ -169,5 +169,9 @@ form button:active {
   form button {
     padding: 0.9rem;
     font-size: 1.655rem;
+  }
+
+  form img {
+    top: 1rem;
   }
 }
