@@ -37,10 +37,10 @@ export default function Dashboard() {
   const modalDeleteRef = useRef(null);
   const toggleModalToDelete = () => {
     const modal_classes = modalDeleteRef?.current.classList;
-    if (modal_classes.contains("modalHidden")) {
-      modal_classes.remove("modalHidden");
+    if (modal_classes.contains("modalDeleteHidden")) {
+      modal_classes.remove("modalDeleteHidden");
     } else {
-      modal_classes.add("modalHidden");
+      modal_classes.add("modalDeleteHidden");
     }
   };
 

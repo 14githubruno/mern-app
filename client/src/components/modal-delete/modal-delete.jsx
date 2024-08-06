@@ -8,7 +8,10 @@ export default function ModalDelete({
   toggleModalToDelete,
 }) {
   return (
-    <div ref={modalDeleteRef} className={`${styles.modal} modalHidden`}>
+    <div
+      ref={modalDeleteRef}
+      className={`${styles.modalDelete} modalDeleteHidden`}
+    >
       <article className={styles.questionAnswersWrapper}>
         <p className={styles.question}>
           Sure you want to delete the row?
