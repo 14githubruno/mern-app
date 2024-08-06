@@ -1,0 +1,22 @@
+@use "@/z-index" as *;
+
+.tableHead {
+  min-width: 80rem;
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-evenly;
+  font-weight: 400;
+  background: var(--black-blue-gradient-to-bottom);
+  color: var(--white-color);
+  border-bottom: 0.1rem solid var(--dark-grey-color);
+  z-index: $z-index-one;
+}
+
+.tableHeadHeading {
+  padding: 0.6rem;
+  flex: 1;
+  display: inline-block;
+  font-size: 1.455rem;
+  text-align: center;
+}

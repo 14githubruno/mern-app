@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@/fonts": path.join(__dirname, "/fonts/Inter"),
+      "@/fonts": path.join(__dirname, "public", "fonts", "Inter"),
       "@/breakpoints": path.join(
         __dirname,
         "src",

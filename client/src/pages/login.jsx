@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLoginUserMutation } from "../redux/api/users-api-slice";
 import { setCredentials } from "../redux/features/auth/auth-slice";
 import { useNavigate } from "react-router-dom";
-import UserFormParagraph from "../components/ui/user-form-paragraph/user-form-paragraph";
+import UserFormParagraph from "../components/user-form-paragraph/user-form-paragraph";
 import toast from "react-hot-toast";
 
 export default function Login() {

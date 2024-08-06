@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useRegisterUserMutation } from "../redux/api/users-api-slice";
 import { useNavigate } from "react-router-dom";
-import UserFormParagraph from "../components/ui/user-form-paragraph/user-form-paragraph";
+import UserFormParagraph from "../components/user-form-paragraph/user-form-paragraph";
 import toast from "react-hot-toast";
 
 export default function Register() {

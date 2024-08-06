@@ -5,6 +5,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useLogoutUserMutation } from "../../redux/api/users-api-slice";
 import { clearCredentials } from "../../redux/features/auth/auth-slice";
+import { resetTvseries } from "../../redux/features/tvseries/tvseries-slice";
 import { apiSlice } from "../../redux/api/api-slice";
 import toast from "react-hot-toast";
 
@@ -25,6 +26,7 @@ export default function Header() {
       const res = await logoutUser().unwrap();
       toast.success(res.message);
       dispatch(clearCredentials());
+      dispatch(resetTvseries());
       dispatch(apiSlice.util.resetApiState());
     } catch (err) {
       toast.error(err?.data?.message);

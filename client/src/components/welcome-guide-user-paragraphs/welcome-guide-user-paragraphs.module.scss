@@ -1,0 +1,29 @@
+.welcomeGuideUserParagraphs {
+  padding: 0.5rem 0.5rem 2rem 0.5rem;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.paragraph {
+  align-self: flex-start;
+  font-size: 1.455rem;
+  color: var(--white-color);
+}
+
+.username {
+  text-transform: capitalize;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.655rem;
+  -webkit-text-fill-color: transparent;
+  background: var(--pink-blue-gradient) text;
+}
+
+.link {
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+  color: var(--white-color);
+  cursor: pointer;
+}
