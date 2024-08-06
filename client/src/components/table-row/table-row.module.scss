@@ -27,14 +27,14 @@
   border-right: 0.1rem solid var(--dark-grey-color);
 }
 
-.cardStarGood {
+.tableRowStarGood {
   width: 2rem;
   height: 2rem;
   fill: var(--pink-color);
   animation: move-right-and-left 100s infinite;
 }
 
-.cardStar {
+.tableRowStar {
   width: 2rem;
   height: 2rem;
   fill: var(--white-color);
