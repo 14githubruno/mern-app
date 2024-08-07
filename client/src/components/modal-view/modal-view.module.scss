@@ -5,8 +5,9 @@
   height: 100vh;
   position: fixed;
   top: 0;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: var(--dark-blue-transparency);
   animation: open-smoothly 0.055s ease;
   z-index: $z-index-max;
@@ -16,10 +17,10 @@
   height: 80%;
   width: 80%;
   max-width: 50rem;
-  border-radius: 1rem;
   position: relative;
-  box-shadow: 0 0 1rem var(--dark-grey-color);
+  box-shadow: 0 0 10rem var(--dark-grey-color);
   background-color: var(--dark-color);
+  border: 0.1rem solid var(--dark-blue-color);
   animation: open-smoothly 0.1s ease;
 }
 
@@ -29,12 +30,12 @@
 }
 
 .title {
-  margin: 3rem 1rem 2rem 1rem;
+  padding: 3rem 1rem 2rem 1rem;
   font-size: 2rem;
 }
 
 .starsContainer {
-  margin: 0 1rem 2rem 1rem;
+  padding: 0 1rem 2rem 1rem;
 }
 
 .cardStarGood {
@@ -58,7 +59,8 @@
 }
 
 .parag {
-  margin: 0.8rem 0.8rem 0 0.8rem;
+  height: 18rem;
+  padding: 0.8rem 1rem 0 1rem;
   overflow-y: auto;
   font-size: 1.5rem;
 }
