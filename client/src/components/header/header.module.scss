@@ -44,10 +44,15 @@
   background: var(--pink-blue-gradient);
 }
 
-.checkbox,
-.labelCheckbox,
 .dropdownContent {
   display: none;
+}
+
+.checkbox,
+.labelCheckbox {
+  position: absolute;
+  bottom: 100%;
+  opacity: 0;
 }
 
 .userIconDropdownWrapper {
