@@ -97,6 +97,7 @@ export default function Header() {
                   linkIsActive && e.target.getAttribute("aria-current");
                 if (ariaCurrentValue === "page") {
                   e.preventDefault();
+                  e.stopPropagation();
                 } else {
                   hideDropdownContent();
                   e.stopPropagation();
