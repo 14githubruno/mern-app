@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
+import ContextForSearchbarFiltering from "./context-providers/searchbar-filter-context";
 
 export default function App() {
   return (
@@ -9,7 +10,9 @@ export default function App() {
       <Toaster position="bottom-right" />
       <Header />
       <main>
-        <Outlet />
+        <ContextForSearchbarFiltering>
+          <Outlet />
+        </ContextForSearchbarFiltering>
       </main>
       <Footer />
     </>

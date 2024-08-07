@@ -1,8 +1,11 @@
 import styles from "./searchbar.module.scss";
 import { BsFillSearchHeartFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
+import { useContext } from "react";
+import { FilterContext } from "../../context-providers/searchbar-filter-context";
 
-export default function Searchbar({ filter, setFilter }) {
+export default function Searchbar() {
+  const { filter, setFilter } = useContext(FilterContext);
   const tvseries = useSelector((state) => state.tvseries.tvseries);
   const there_are_no_tvseries = tvseries?.length === 0;
 

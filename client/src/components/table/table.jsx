@@ -2,18 +2,20 @@ import styles from "./table.module.scss";
 import { PiMaskSadThin } from "react-icons/pi";
 import { RxEyeNone } from "react-icons/rx";
 import { useSelector } from "react-redux";
+import { useContext } from "react";
+import { FilterContext } from "../../context-providers/searchbar-filter-context";
 import TableHead from "../table-head/table-head";
 import TableRow from "../table-row/table-row";
 import Loader from "../loader/loader";
 
 export default function Table({
-  filter,
   contentIsLoading,
   contentIsBeingDeleted,
   toggleModalToDelete,
   selectTableRowToDelete,
   showTableRowInModalView,
 }) {
+  const { filter } = useContext(FilterContext);
   const tvseries = useSelector((state) => state.tvseries.tvseries);
   const there_are_tvseries = tvseries?.length > 0;
 

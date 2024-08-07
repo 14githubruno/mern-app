@@ -13,7 +13,6 @@ import ModalView from "../components/modal-view/modal-view";
 import toast from "react-hot-toast";
 
 export default function Dashboard() {
-  const [filter, setFilter] = useState("");
   const [tableRowToDelete, setTableRowToDelete] = useState(null);
   const [modalViewIsOpen, setModalViewIsOpen] = useState(false);
   const [tableRowToView, setTableRowToView] = useState(null);
@@ -95,13 +94,12 @@ export default function Dashboard() {
       {modalViewIsOpen && (
         <ModalView closeModalView={closeModalView} {...tableRowToView} />
       )}
-      <Searchbar filter={filter} setFilter={setFilter} />
+      <Searchbar />
       <WelcomeGuideUserParagraphs
         userLoggedIn={user}
         kreateTvseriesRoute={"/dashboard/kreate-tvseries"}
       />
       <Table
-        filter={filter}
         contentIsLoading={isLoading}
         contentIsBeingDeleted={isDeleting}
         toggleModalToDelete={toggleModalToDelete}
