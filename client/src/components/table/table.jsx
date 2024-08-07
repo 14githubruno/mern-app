@@ -4,6 +4,7 @@ import { RxEyeNone } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import TableHead from "../table-head/table-head";
 import TableRow from "../table-row/table-row";
+import Loader from "../loader/loader";
 
 export default function Table({
   filter,
@@ -62,6 +63,17 @@ export default function Table({
       </div>
     );
 
+  const show_content_when_loading_has_finished =
+    contentIsLoading || contentIsBeingDeleted ? (
+      <Loader />
+    ) : (
+      <>
+        {table_rows}
+        {table_row_not_found_and_paragraph}
+        {there_are_no_rows_and_paragraph}
+      </>
+    );
+
   return (
     <article
       className={`${styles.baseTable} ${
@@ -74,24 +86,7 @@ export default function Table({
       }`}
     >
       <TableHead />
-      {contentIsLoading || contentIsBeingDeleted ? (
-        <h1
-          style={{
-            color: "white",
-            fontSize: "10rem",
-            textAlign: "center",
-            margin: "3rem 0 0 0",
-          }}
-        >
-          ...
-        </h1>
-      ) : (
-        <>
-          {table_rows}
-          {table_row_not_found_and_paragraph}
-          {there_are_no_rows_and_paragraph}
-        </>
-      )}
+      {show_content_when_loading_has_finished}
     </article>
   );
 }
