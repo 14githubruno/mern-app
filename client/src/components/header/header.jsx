@@ -37,10 +37,8 @@ export default function Header() {
       !secondDropdownRef?.current?.contains(e.target) &&
       !dropdownRef?.current?.checked
     ) {
-      // console.log("I'm returning...");
       return;
     } else {
-      // console.log(e.target);
       dropdownRef.current.checked = false;
     }
   };
