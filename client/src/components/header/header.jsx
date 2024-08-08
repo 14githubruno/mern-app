@@ -34,8 +34,12 @@ export default function Header() {
     if (
       user &&
       !secondDropdownRef?.current?.contains(e.target) &&
-      dropdownRef?.current?.checked
+      !dropdownRef?.current?.checked
     ) {
+      // console.log("I'm returning...");
+      return;
+    } else {
+      // console.log(e.target);
       dropdownRef.current.checked = false;
     }
   };
@@ -59,10 +63,10 @@ export default function Header() {
   }, [navigate, isSuccess]);
 
   useEffect(() => {
-    window.addEventListener("click", handleClickOutsideDropdown);
+    window.addEventListener("click", handleClickOutsideDropdown, true);
 
     return () =>
-      window.removeEventListener("click", handleClickOutsideDropdown);
+      window.removeEventListener("click", handleClickOutsideDropdown, true);
   }, []);
 
   const navbar_with_user = (
