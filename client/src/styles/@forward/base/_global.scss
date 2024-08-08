@@ -150,6 +150,7 @@ form button:active {
   border: 0.1rem solid var(--bg-color);
   box-shadow: inset 0 0 0.5rem var(--blue-color);
   border-radius: 0.4rem;
+  cursor: grab;
 }
 
 ::-webkit-scrollbar-track {
