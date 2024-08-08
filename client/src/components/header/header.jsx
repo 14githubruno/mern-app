@@ -2,7 +2,7 @@ import styles from "./header.module.scss";
 import { GiSouthKorea } from "react-icons/gi";
 import { BiUser } from "react-icons/bi";
 import { useEffect, useRef } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useLogoutUserMutation } from "../../redux/api/users-api-slice";
 import { clearCredentials } from "../../redux/features/auth/auth-slice";
@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 export default function Header() {
   const dropdownRef = useRef(null);
   const secondDropdownRef = useRef(null);
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -88,18 +89,15 @@ export default function Header() {
         <BiUser className={styles.userIcon} />
         <ul className={styles.dropdownContent}>
           <li>
-            <NavLink
-              className={({ isActive }) =>
-                `${styles.dropdownLink} ${styles.linkToDashboard} ${
-                  isActive ? styles.linkToDashboardIsActive : ""
-                }`
-              }
+            <Link
+              className={`${styles.dropdownLink} ${styles.linkToDashboard} ${
+                location.pathname === "/dashboard"
+                  ? styles.linkToDashboardIsActive
+                  : ""
+              }`}
               to={"/dashboard"}
               onClick={(e) => {
-                const linkIsActive = e.target.hasAttribute("aria-current");
-                const ariaCurrentValue =
-                  linkIsActive && e.target.getAttribute("aria-current");
-                if (ariaCurrentValue === "page") {
+                if (location.pathname === "/dashboard") {
                   return;
                 } else {
                   hideDropdownContent();
@@ -108,7 +106,7 @@ export default function Header() {
               }}
             >
               Dashboard
-            </NavLink>
+            </Link>
           </li>
           <li>
             <button
