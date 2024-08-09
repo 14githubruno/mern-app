@@ -19,27 +19,32 @@ export default function Header() {
   const user = useSelector((state) => state.auth.user);
   const [logoutUser, { isSuccess }] = useLogoutUserMutation();
 
-  const showDropdownContent = () => {
-    if (user && !dropdownRef?.current?.checked) {
+  const showDropdownContent = (e) => {
+    const dropdownIsOpen = dropdownRef?.current?.checked;
+    if (user && !dropdownIsOpen) {
       dropdownRef.current.checked = true;
     }
+    e.stopPropagation();
   };
 
   const hideDropdownContent = () => {
-    if (user && dropdownRef?.current?.checked) {
+    const dropdownIsOpen = dropdownRef?.current?.checked;
+    if (user && dropdownIsOpen) {
       dropdownRef.current.checked = false;
     }
   };
 
   const handleClickOutsideDropdown = (e) => {
-    if (
-      user &&
-      !secondDropdownRef?.current?.contains(e.target) &&
-      !dropdownRef?.current?.checked
-    ) {
+    const target = e.target;
+    const userIconIsTarget = secondDropdownRef?.current?.contains(target);
+    const dropdownIsOpen = dropdownRef?.current?.checked;
+
+    if (user && !userIconIsTarget && !dropdownIsOpen) {
       return;
     } else {
-      dropdownRef.current.checked = false;
+      if (dropdownRef?.current) {
+        return (dropdownRef.current.checked = false);
+      }
     }
   };
 
@@ -62,10 +67,10 @@ export default function Header() {
   }, [navigate, isSuccess]);
 
   useEffect(() => {
-    window.addEventListener("click", handleClickOutsideDropdown, true);
+    document.addEventListener("click", handleClickOutsideDropdown);
 
     return () =>
-      window.removeEventListener("click", handleClickOutsideDropdown, true);
+      document.removeEventListener("click", handleClickOutsideDropdown);
   }, []);
 
   const navbar_with_user = (
@@ -95,12 +100,8 @@ export default function Header() {
               }`}
               to={"/dashboard"}
               onClick={(e) => {
-                if (location.pathname === "/dashboard") {
-                  return;
-                } else {
-                  hideDropdownContent();
-                  e.stopPropagation();
-                }
+                hideDropdownContent();
+                e.stopPropagation();
               }}
             >
               Dashboard
@@ -146,9 +147,14 @@ export default function Header() {
 
   return (
     <header className={styles.header}>
-      <Link to={"/"}>
+      <NavLink
+        className={({ isActive }) =>
+          `${isActive ? styles.linkToHomeIsActive : ""}`
+        }
+        to={"/"}
+      >
         <GiSouthKorea className={styles.southKoreaIcon} />
-      </Link>
+      </NavLink>
       {user ? navbar_with_user : navbar_without_user}
     </header>
   );
