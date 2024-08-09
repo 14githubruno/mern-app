@@ -1,0 +1,151 @@
+@use "@/breakpoints" as *;
+
+/*
+   make sure carousel-slide image always has 
+   the same height of tv screen
+
+   width of carousel-slide image will always
+   match the width of tv screen
+
+   carousel buttons' style is here 
+   since it depends on the tv one
+
+*/
+
+.tv,
+.tv .screen .carousel-slide {
+  height: 22rem;
+}
+
+.tv .carousel-prev-button,
+.tv .carousel-next-button {
+  position: absolute;
+  right: -5.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: var(--white-color);
+
+  &--svg {
+    font-size: 2rem;
+    color: var(--white-color);
+  }
+
+  &:hover {
+    scale: 1.05;
+  }
+}
+
+.tv .carousel-prev-button {
+  bottom: 5.5rem;
+
+  &:hover,
+  &:active {
+    box-shadow: 0 0 2rem var(--pink-color);
+  }
+}
+
+.tv .carousel-next-button {
+  top: 4.3rem;
+
+  &:hover,
+  &:active {
+    box-shadow: 0 0 2rem var(--aqua-green-color);
+  }
+}
+
+/* large mobile breakpoint */
+@media (min-width: $break-large-mobile) {
+  .tv,
+  .tv .screen .carousel-slide {
+    height: 29rem;
+  }
+
+  .tv .carousel-prev-button,
+  .tv .carousel-next-button {
+    right: -8.1rem;
+
+    &--svg {
+      font-size: 2.7rem;
+    }
+  }
+
+  .tv .carousel-prev-button {
+    bottom: 8rem;
+  }
+
+  .tv .carousel-next-button {
+    top: 6rem;
+  }
+}
+
+/* tablet breakpoint */
+@media (min-width: $break-tablet) {
+  .tv,
+  .tv .screen .carousel-slide {
+    height: 30rem;
+  }
+
+  .tv .carousel-prev-button,
+  .tv .carousel-next-button {
+    right: -8.6rem;
+
+    &--svg {
+      font-size: 3rem;
+    }
+  }
+
+  .tv .carousel-prev-button {
+    bottom: 9rem;
+  }
+
+  .tv .carousel-next-button {
+    top: 6rem;
+  }
+}
+
+/* desktop breakpoint */
+@media (min-width: $break-desktop) {
+  .tv .carousel-prev-button,
+  .tv .carousel-next-button {
+    right: -9rem;
+
+    &--svg {
+      font-size: 4rem;
+    }
+  }
+
+  .tv .carousel-prev-button {
+    bottom: 8rem;
+  }
+
+  .tv .carousel-next-button {
+    top: 5.5rem;
+  }
+}
+
+/* large desktop breakpoint */
+@media (min-width: $break-large-desktop) {
+  .tv,
+  .tv .screen .carousel-slide {
+    height: 40rem;
+  }
+
+  .tv .carousel-prev-button,
+  .tv .carousel-next-button {
+    right: -12rem;
+
+    &--svg {
+      font-size: 4.5rem;
+    }
+  }
+
+  .tv .carousel-prev-button {
+    bottom: 11rem;
+  }
+
+  .tv .carousel-next-button {
+    top: 8rem;
+  }
+}
