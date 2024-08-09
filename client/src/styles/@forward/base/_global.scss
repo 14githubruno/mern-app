@@ -176,3 +176,12 @@ form button:active {
     top: 1rem;
   }
 }
+
+@media (min-width: $break-large-desktop) {
+  .home-text-content--home-tv {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+  }
+}
