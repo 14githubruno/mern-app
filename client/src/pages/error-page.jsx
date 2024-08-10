@@ -1,0 +1,32 @@
+import { Link } from "react-router-dom";
+
+export default function ErrorPage() {
+  return (
+    <section style={{ color: "white" }}>
+      <header>
+        <h1
+          style={{
+            padding: "0 1rem",
+            fontSize: "2.5rem",
+            textAlign: "center",
+          }}
+        >
+          This resource does not exist or can't be found
+        </h1>
+      </header>
+      <Link
+        style={{
+          padding: "1rem 2rem",
+          margin: "3rem 0 0 0",
+          fontSize: "2rem",
+          borderRadius: "1rem",
+          background: "var(--pink-blue-gradient)",
+        }}
+        to={"/"}
+        replace
+      >
+        Go back home
+      </Link>
+    </section>
+  );
+}
