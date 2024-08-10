@@ -1,14 +1,9 @@
 import styles from "./modal-view.module.scss";
 import { AiFillStar } from "react-icons/ai";
 import { LiaTimesSolid } from "react-icons/lia";
+import { memo } from "react";
 
-export default function ModalView({
-  title,
-  stars,
-  image,
-  note,
-  closeModalView,
-}) {
+function ModalView({ title, stars, image, note, closeModalView }) {
   const arrayOfStars = new Array(Number(stars)).fill("*");
   const restOfStars = new Array(5 - Number(stars)).fill("*");
 
@@ -38,3 +33,5 @@ export default function ModalView({
     </div>
   );
 }
+
+export default memo(ModalView);
