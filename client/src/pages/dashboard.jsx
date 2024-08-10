@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useForm, FormProvider } from "react-hook-form";
 import {
   useGetAllTvseriesQuery,
   useDeleteOneTvseriesMutation,
@@ -23,6 +24,10 @@ export default function Dashboard() {
   const { data, isLoading, isSuccess } = useGetAllTvseriesQuery();
   const [deleteOneTvseries, { isLoading: isDeleting }] =
     useDeleteOneTvseriesMutation();
+
+  const methods = useForm({
+    defaultValues: { searchbar: "" },
+  });
 
   useEffect(() => {
     if (isSuccess && data.body) {
@@ -94,18 +99,22 @@ export default function Dashboard() {
       {modalViewIsOpen && (
         <ModalView closeModalView={closeModalView} {...tableRowToView} />
       )}
-      <Searchbar />
+      <FormProvider {...methods}>
+        <Searchbar />
+      </FormProvider>
       <WelcomeGuideUserParagraphs
         userLoggedIn={user}
         kreateTvseriesRoute={"/dashboard/kreate-tvseries"}
       />
-      <Table
-        contentIsLoading={isLoading}
-        contentIsBeingDeleted={isDeleting}
-        toggleModalToDelete={toggleModalToDelete}
-        selectTableRowToDelete={selectTableRowToDelete}
-        showTableRowInModalView={showTableRowInModalView}
-      />
+      <FormProvider {...methods}>
+        <Table
+          contentIsLoading={isLoading}
+          contentIsBeingDeleted={isDeleting}
+          toggleModalToDelete={toggleModalToDelete}
+          selectTableRowToDelete={selectTableRowToDelete}
+          showTableRowInModalView={showTableRowInModalView}
+        />
+      </FormProvider>
     </section>
   );
 }

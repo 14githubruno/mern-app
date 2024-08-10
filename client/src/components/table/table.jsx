@@ -2,8 +2,9 @@ import styles from "./table.module.scss";
 import { PiMaskSadThin } from "react-icons/pi";
 import { RxEyeNone } from "react-icons/rx";
 import { useSelector } from "react-redux";
-import { useContext } from "react";
-import { FilterContext } from "../../context-providers/searchbar-filter-context";
+// import { useContext } from "react";
+// import { FilterContext } from "../../context-providers/searchbar-filter-context";
+import { useFormContext, useWatch } from "react-hook-form";
 import TableHead from "../table-head/table-head";
 import TableRow from "../table-row/table-row";
 import Loader from "../loader/loader";
@@ -15,7 +16,9 @@ export default function Table({
   selectTableRowToDelete,
   showTableRowInModalView,
 }) {
-  const { filter } = useContext(FilterContext);
+  const { control } = useFormContext();
+  const filter = useWatch({ control, name: "searchbar" });
+  // const { filter } = useContext(FilterContext);
   const tvseries = useSelector((state) => state.tvseries.tvseries);
   const there_are_tvseries = tvseries?.length > 0;
 
