@@ -2,8 +2,9 @@ import styles from "./table-row.module.scss";
 import { AiFillStar } from "react-icons/ai";
 import { RxPencil1, RxMagnifyingGlass, RxTrash } from "react-icons/rx";
 import { Link } from "react-router-dom";
+import { memo } from "react";
 
-export default function TableRow({
+function TableRow({
   num,
   id,
   title,
@@ -61,3 +62,5 @@ export default function TableRow({
     </div>
   );
 }
+
+export default memo(TableRow);
