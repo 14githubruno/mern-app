@@ -3,7 +3,7 @@ import { BsFillSearchHeartFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useFormContext } from "react-hook-form";
 
-export default function Searchbar() {
+export default function Searchbar({ contentIsLoading }) {
   const { register } = useFormContext();
   const tvseries = useSelector((state) => state.tvseries.tvseries);
   const there_are_no_tvseries = tvseries?.length === 0;
@@ -15,8 +15,8 @@ export default function Searchbar() {
           label
         </label>
         <input
-          readOnly={there_are_no_tvseries}
-          disabled={there_are_no_tvseries}
+          readOnly={there_are_no_tvseries || contentIsLoading}
+          disabled={there_are_no_tvseries || contentIsLoading}
           className={`${styles.searchbarInput} ${
             there_are_no_tvseries ? styles.uselessSearchbarInput : ""
           }`}
@@ -24,7 +24,11 @@ export default function Searchbar() {
           id="searchbar"
           autoComplete="off"
           placeholder={
-            there_are_no_tvseries ? "No rows..." : "Searkh by title..."
+            contentIsLoading
+              ? "..."
+              : there_are_no_tvseries
+              ? "No rows..."
+              : "Searkh by title..."
           }
           {...register("searchbar")}
         />

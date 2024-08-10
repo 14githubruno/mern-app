@@ -106,7 +106,7 @@ export default function Dashboard() {
         <ModalView closeModalView={closeModalView} {...tableRowToView} />
       )}
       <FormProvider {...methods}>
-        <Searchbar />
+        <Searchbar contentIsLoading={isLoading} />
       </FormProvider>
       <WelcomeGuideUserParagraphs
         userLoggedIn={user}
