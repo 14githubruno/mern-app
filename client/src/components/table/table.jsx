@@ -1,6 +1,7 @@
 import styles from "./table.module.scss";
 import { PiMaskSadThin } from "react-icons/pi";
 import { RxEyeNone } from "react-icons/rx";
+import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useFormContext, useWatch } from "react-hook-form";
 import TableHead from "../table-head/table-head";
@@ -19,29 +20,32 @@ export default function Table({
   const tvseries = useSelector((state) => state.tvseries.tvseries);
   const there_are_tvseries = tvseries?.length > 0;
 
-  const table_rows =
-    there_are_tvseries &&
-    tvseries
-      .filter((singleSeries) =>
-        singleSeries.title.toLowerCase().includes(filter.toLowerCase())
-      )
-      .map((singleTvseries, index) => {
-        return (
-          <TableRow
-            key={singleTvseries._id}
-            id={singleTvseries._id}
-            num={`#${index + 1}`}
-            {...singleTvseries}
-            toggleModalToDelete={toggleModalToDelete}
-            selectTableRowToDelete={() =>
-              selectTableRowToDelete(singleTvseries._id)
-            }
-            showTableRowInModalView={() => {
-              showTableRowInModalView(singleTvseries._id);
-            }}
-          />
-        );
-      });
+  const table_rows = useMemo(
+    () =>
+      there_are_tvseries &&
+      tvseries
+        .filter((singleSeries) =>
+          singleSeries.title.toLowerCase().includes(filter.toLowerCase())
+        )
+        .map((singleTvseries, index) => {
+          return (
+            <TableRow
+              key={singleTvseries._id}
+              id={singleTvseries._id}
+              num={`#${index + 1}`}
+              {...singleTvseries}
+              toggleModalToDelete={toggleModalToDelete}
+              selectTableRowToDelete={() =>
+                selectTableRowToDelete(singleTvseries._id)
+              }
+              showTableRowInModalView={() => {
+                showTableRowInModalView(singleTvseries._id);
+              }}
+            />
+          );
+        }),
+    [there_are_tvseries, tvseries, filter]
+  );
 
   const there_are_no_rows_and_paragraph = !there_are_tvseries && (
     <div className={styles.nothingContainer}>
