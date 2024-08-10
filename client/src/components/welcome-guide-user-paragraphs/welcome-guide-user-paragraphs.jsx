@@ -1,10 +1,8 @@
 import styles from "./welcome-guide-user-paragraphs.module.scss";
 import { Link } from "react-router-dom";
+import { memo } from "react";
 
-export default function WelcomeGuideUserParagraphs({
-  userLoggedIn,
-  kreateTvseriesRoute,
-}) {
+function WelcomeGuideUserParagraphs({ userLoggedIn, kreateTvseriesRoute }) {
   return (
     <div className={styles.welcomeGuideUserParagraphs}>
       <p className={styles.paragraph}>
@@ -20,3 +18,5 @@ export default function WelcomeGuideUserParagraphs({
     </div>
   );
 }
+
+export default memo(WelcomeGuideUserParagraphs);
