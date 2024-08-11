@@ -6,7 +6,7 @@ import { useFormContext } from "react-hook-form";
 export default function Searchbar({ contentIsLoading }) {
   const { register } = useFormContext();
   const tvseries = useSelector((state) => state.tvseries.tvseries);
-  const there_are_no_tvseries = tvseries?.length === 0;
+  const noTvseries = tvseries?.length === 0;
 
   return (
     <form className={styles.searchbar}>
@@ -15,10 +15,10 @@ export default function Searchbar({ contentIsLoading }) {
           label
         </label>
         <input
-          readOnly={there_are_no_tvseries || contentIsLoading}
-          disabled={there_are_no_tvseries || contentIsLoading}
+          readOnly={noTvseries || contentIsLoading}
+          disabled={noTvseries || contentIsLoading}
           className={`${styles.searchbarInput} ${
-            there_are_no_tvseries ? styles.uselessSearchbarInput : ""
+            noTvseries ? styles.uselessSearchbarInput : ""
           }`}
           type="text"
           id="searchbar"
@@ -26,7 +26,7 @@ export default function Searchbar({ contentIsLoading }) {
           placeholder={
             contentIsLoading
               ? "..."
-              : there_are_no_tvseries
+              : noTvseries
               ? "No rows..."
               : "Searkh by title..."
           }
