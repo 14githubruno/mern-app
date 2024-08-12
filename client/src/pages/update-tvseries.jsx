@@ -116,7 +116,6 @@ export default function Update() {
             <TextareaChars />
           </FormProvider>
         </>
-
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Updating..." : "Update"}
         </button>
