@@ -108,6 +108,22 @@ export default function Header() {
             </Link>
           </li>
           <li>
+            <Link
+              className={`${styles.dropdownLink} ${styles.linkToProfile} ${
+                location.pathname === "/profile"
+                  ? styles.linkToProfileIsActive
+                  : ""
+              }`}
+              to={"/profile"}
+              onClick={(e) => {
+                hideDropdownContent();
+                e.stopPropagation();
+              }}
+            >
+              Profile
+            </Link>
+          </li>
+          <li>
             <button
               className={`${styles.dropdownLink} ${styles.logoutButton}`}
               onClick={(e) => {
