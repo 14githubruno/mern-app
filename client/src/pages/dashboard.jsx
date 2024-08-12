@@ -97,6 +97,7 @@ export default function Dashboard() {
   return (
     <section>
       <ModalDelete
+        question="Sure you want to delete the row?"
         modalDeleteRef={modalDeleteRef}
         toggleModalToDelete={toggleModalToDelete}
         confirm={deleteTableRow}
