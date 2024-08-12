@@ -8,5 +8,6 @@ router.route("/register").post(userControllers.registerUser);
 router.route("/login").post(userControllers.loginUser);
 router.route("/logout").post(protectRoute, userControllers.logoutUser);
 router.route("/profile").get(protectRoute, userControllers.getUserProfile);
+router.route("/:id").delete(protectRoute, userControllers.deleteUserProfile);
 
 export default router;
