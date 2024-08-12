@@ -3,8 +3,9 @@ import "./modal-delete.scss";
 import { memo } from "react";
 
 function ModalDelete({
+  question,
   confirm,
-  doNotConfirm,
+  doNotConfirm = () => {},
   modalDeleteRef,
   toggleModalToDelete,
 }) {
@@ -15,7 +16,7 @@ function ModalDelete({
     >
       <article className={styles.questionAnswersWrapper}>
         <p className={styles.question}>
-          Sure you want to delete the row?
+          {question}
           <span className={styles.questionSpan}>
             This action is irreversible
           </span>
