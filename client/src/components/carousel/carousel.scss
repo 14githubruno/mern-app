@@ -1,0 +1,47 @@
+@use "@/breakpoints" as *;
+
+/* 
+   carousel buttons style is handled by the component 
+   which uses the carousel (i.e. the HomeTelevision component) 
+*/
+
+.carousel,
+.carousel-viewport {
+  width: 100%;
+
+  &::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    background-color: var(--dark-blue-transparency);
+  }
+}
+
+.carousel,
+.carousel-slide {
+  position: relative;
+}
+
+.carousel-viewport,
+.carousel-slide {
+  overflow: hidden;
+}
+
+.carousel-container {
+  display: flex;
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+
+  &--image {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    object-fit: cover;
+    object-position: center;
+  }
+}

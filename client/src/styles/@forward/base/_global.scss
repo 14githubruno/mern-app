@@ -71,15 +71,6 @@ textarea {
   height: 7rem;
 }
 
-form span {
-  color: var(--white-color);
-  width: 94%;
-  margin: 0 auto;
-  text-align: right;
-  font-size: 1.3rem;
-  letter-spacing: 0.1rem;
-}
-
 input[name="stars"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
@@ -90,7 +81,7 @@ form img {
   height: 6rem;
   border-radius: 1rem;
   position: absolute;
-  top: 1rem;
+  top: 0.7rem;
   right: 0;
 }
 
@@ -132,15 +123,6 @@ form button:active {
   scale: 1.04;
 }
 
-.linkGoBack {
-  position: absolute;
-  color: var(--white-color);
-  bottom: 0;
-  left: 2.8rem;
-  font-size: 1.5rem;
-  text-underline-offset: 0.4rem;
-}
-
 ::-webkit-scrollbar {
   width: 1.6rem;
 }
@@ -150,6 +132,7 @@ form button:active {
   border: 0.1rem solid var(--bg-color);
   box-shadow: inset 0 0 0.5rem var(--blue-color);
   border-radius: 0.4rem;
+  cursor: grab;
 }
 
 ::-webkit-scrollbar-track {
@@ -169,5 +152,18 @@ form button:active {
   form button {
     padding: 0.9rem;
     font-size: 1.655rem;
+  }
+
+  form img {
+    top: 1rem;
+  }
+}
+
+@media (min-width: $break-large-desktop) {
+  .home-text-content--home-tv {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
   }
 }

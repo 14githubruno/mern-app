@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import PrivateRoute from "../components/private-route";
+import ErrorPage from "../pages/error-page";
 import Homepage from "../pages/homepage";
 import Register from "../pages/register";
 import Login from "../pages/login";
@@ -12,6 +13,7 @@ const browserRouter = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",

@@ -1,6 +1,8 @@
+@use "@/breakpoints" as *;
+
 .baseTable {
   width: 90%;
-  height: 43rem;
+  height: 39.055rem;
 }
 
 .tableShow {
@@ -13,8 +15,8 @@
 
 .nothingIcon,
 .notFoundIcon {
-  width: 30rem;
-  height: 30rem;
+  width: 20rem;
+  height: 20rem;
   display: block;
   color: var(--white-color);
 }
@@ -27,7 +29,19 @@
 }
 
 .nothingParagraph {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   text-align: center;
   color: var(--pink-color);
+}
+
+@media (min-width: $break-tablet) {
+  .nothingIcon,
+  .notFoundIcon {
+    width: 30rem;
+    height: 30rem;
+  }
+
+  .nothingParagraph {
+    font-size: 1.8rem;
+  }
 }

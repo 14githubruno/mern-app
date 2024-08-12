@@ -1,10 +1,12 @@
 import styles from "./searchbar.module.scss";
 import { BsFillSearchHeartFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
+import { useFormContext } from "react-hook-form";
 
-export default function Searchbar({ filter, setFilter }) {
+export default function Searchbar({ contentIsLoading }) {
+  const { register } = useFormContext();
   const tvseries = useSelector((state) => state.tvseries.tvseries);
-  const there_are_no_tvseries = tvseries?.length === 0;
+  const noTvseries = tvseries?.length === 0;
 
   return (
     <form className={styles.searchbar}>
@@ -13,19 +15,22 @@ export default function Searchbar({ filter, setFilter }) {
           label
         </label>
         <input
-          readOnly={there_are_no_tvseries}
-          disabled={there_are_no_tvseries}
+          readOnly={noTvseries || contentIsLoading}
+          disabled={noTvseries || contentIsLoading}
           className={`${styles.searchbarInput} ${
-            there_are_no_tvseries ? styles.uselessSearchbarInput : ""
+            noTvseries ? styles.uselessSearchbarInput : ""
           }`}
           type="text"
           id="searchbar"
           autoComplete="off"
           placeholder={
-            there_are_no_tvseries ? "No rows..." : "Searkh by title..."
+            contentIsLoading
+              ? "..."
+              : noTvseries
+              ? "No rows..."
+              : "Searkh by title..."
           }
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          {...register("searchbar")}
         />
         <BsFillSearchHeartFill className={styles.searchIcon} />
       </div>

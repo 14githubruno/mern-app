@@ -1,10 +1,10 @@
 @use "@/breakpoints" as *;
 
 .homeParagraph {
-  margin: 2rem 0 4rem 0;
-  padding: 0 2rem;
-  font-size: 1.6rem;
-  line-height: 2.5rem;
+  margin: 1rem 0 2rem 0;
+  padding: 0 1.8rem;
+  font-size: 1.4rem;
+  line-height: 2rem;
   text-align: center;
   color: var(--white-color);
 }
@@ -19,9 +19,27 @@
   color: var(--pink-color);
 }
 
+@media (min-width: $break-large-mobile) {
+  .homeParagraph {
+    margin: 2rem 0 4rem 0;
+    padding: 0 2rem;
+    font-size: 1.6rem;
+    line-height: 2.5rem;
+  }
+}
+
 @media (min-width: $break-tablet) {
   .homeParagraph {
     width: 50rem;
     margin-top: 0;
+  }
+}
+
+@media (min-width: $break-large-desktop) {
+  .homeParagraph {
+    width: 60rem;
+    padding: 18rem 0 0 5rem;
+    font-size: 1.8rem;
+    opacity: 0.7;
   }
 }

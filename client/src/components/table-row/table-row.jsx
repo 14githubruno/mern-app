@@ -2,8 +2,9 @@ import styles from "./table-row.module.scss";
 import { AiFillStar } from "react-icons/ai";
 import { RxPencil1, RxMagnifyingGlass, RxTrash } from "react-icons/rx";
 import { Link } from "react-router-dom";
+import { memo } from "react";
 
-export default function TableRow({
+function TableRow({
   num,
   id,
   title,
@@ -23,12 +24,12 @@ export default function TableRow({
       <div className={styles.title}>{title}</div>
       <div className={styles.starsWrapper}>
         {arrayOfStars.map((star, index) => {
-          return <AiFillStar key={index} className={styles.cardStarGood} />;
+          return <AiFillStar key={index} className={styles.tableRowStarGood} />;
         })}
         {restOfStars === 0
           ? null
           : restOfStars.map((star, index) => {
-              return <AiFillStar key={index} className={styles.cardStar} />;
+              return <AiFillStar key={index} className={styles.tableRowStar} />;
             })}
       </div>
       <div
@@ -61,3 +62,5 @@ export default function TableRow({
     </div>
   );
 }
+
+export default memo(TableRow);

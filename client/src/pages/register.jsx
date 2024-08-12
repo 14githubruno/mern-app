@@ -30,14 +30,7 @@ export default function Register() {
 
   return (
     <section>
-      <form
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-        onSubmit={handleSubmit(handleUserRegistration)}
-      >
+      <form onSubmit={handleSubmit(handleUserRegistration)}>
         <label htmlFor="name">
           Name<span className="label-asterisk">*</span>
         </label>

@@ -1,5 +1,6 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useForm, FormProvider } from "react-hook-form";
 import {
   useGetAllTvseriesQuery,
   useDeleteOneTvseriesMutation,
@@ -13,7 +14,6 @@ import ModalView from "../components/modal-view/modal-view";
 import toast from "react-hot-toast";
 
 export default function Dashboard() {
-  const [filter, setFilter] = useState("");
   const [tableRowToDelete, setTableRowToDelete] = useState(null);
   const [modalViewIsOpen, setModalViewIsOpen] = useState(false);
   const [tableRowToView, setTableRowToView] = useState(null);
@@ -24,6 +24,10 @@ export default function Dashboard() {
   const { data, isLoading, isSuccess } = useGetAllTvseriesQuery();
   const [deleteOneTvseries, { isLoading: isDeleting }] =
     useDeleteOneTvseriesMutation();
+
+  const methods = useForm({
+    defaultValues: { searchbar: "" },
+  });
 
   useEffect(() => {
     if (isSuccess && data.body) {
@@ -38,21 +42,24 @@ export default function Dashboard() {
 
   /* modal delete starts */
   const modalDeleteRef = useRef(null);
-  const toggleModalToDelete = () => {
+  const toggleModalToDelete = useCallback(() => {
     const modal_classes = modalDeleteRef?.current.classList;
     if (modal_classes.contains("modalDeleteHidden")) {
       modal_classes.remove("modalDeleteHidden");
     } else {
       modal_classes.add("modalDeleteHidden");
     }
-  };
+  }, [modalDeleteRef]);
 
-  const selectTableRowToDelete = (id) => {
-    const tableRow = tvseries.find((singleSeries) => singleSeries._id === id);
-    setTableRowToDelete((prev) => ({ ...prev, ...tableRow }));
-  };
+  const selectTableRowToDelete = useCallback(
+    (id) => {
+      const tableRow = tvseries.find((singleSeries) => singleSeries._id === id);
+      setTableRowToDelete((prev) => ({ ...prev, ...tableRow }));
+    },
+    [tvseries]
+  );
 
-  const deleteTableRow = async () => {
+  const deleteTableRow = useCallback(async () => {
     try {
       const res = await deleteOneTvseries(tableRowToDelete).unwrap();
       if (res.body) {
@@ -62,26 +69,29 @@ export default function Dashboard() {
     } catch (err) {
       toast.error(err.message);
     }
-  };
+  }, [tvseries, tableRowToDelete]);
 
-  const doNotDeleteTableRow = () => {
+  const doNotDeleteTableRow = useCallback(() => {
     setTableRowToDelete(null);
-  };
+  }, []);
   /* modal delete ends */
 
   /* modal view starts */
-  const showTableRowInModalView = (id) => {
-    const rowToDisplay = tvseries.find(
-      (singleSeries) => singleSeries._id === id
-    );
-    setTableRowToView((prev) => ({ ...prev, ...rowToDisplay }));
-    setModalViewIsOpen(true);
-  };
+  const showTableRowInModalView = useCallback(
+    (id) => {
+      const rowToDisplay = tvseries.find(
+        (singleSeries) => singleSeries._id === id
+      );
+      setTableRowToView((prev) => ({ ...prev, ...rowToDisplay }));
+      setModalViewIsOpen(true);
+    },
+    [tvseries]
+  );
 
-  const closeModalView = () => {
+  const closeModalView = useCallback(() => {
     setTableRowToView(null);
     setModalViewIsOpen(false);
-  };
+  }, []);
   /* modal view ends */
 
   return (
@@ -95,19 +105,22 @@ export default function Dashboard() {
       {modalViewIsOpen && (
         <ModalView closeModalView={closeModalView} {...tableRowToView} />
       )}
-      <Searchbar filter={filter} setFilter={setFilter} />
+      <FormProvider {...methods}>
+        <Searchbar contentIsLoading={isLoading} />
+      </FormProvider>
       <WelcomeGuideUserParagraphs
         userLoggedIn={user}
         kreateTvseriesRoute={"/dashboard/kreate-tvseries"}
       />
-      <Table
-        filter={filter}
-        contentIsLoading={isLoading}
-        contentIsBeingDeleted={isDeleting}
-        toggleModalToDelete={toggleModalToDelete}
-        selectTableRowToDelete={selectTableRowToDelete}
-        showTableRowInModalView={showTableRowInModalView}
-      />
+      <FormProvider {...methods}>
+        <Table
+          contentIsLoading={isLoading}
+          contentIsBeingDeleted={isDeleting}
+          toggleModalToDelete={toggleModalToDelete}
+          selectTableRowToDelete={selectTableRowToDelete}
+          showTableRowInModalView={showTableRowInModalView}
+        />
+      </FormProvider>
     </section>
   );
 }

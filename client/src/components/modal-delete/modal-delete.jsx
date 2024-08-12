@@ -1,7 +1,8 @@
 import styles from "./modal-delete.module.scss";
 import "./modal-delete.scss";
+import { memo } from "react";
 
-export default function ModalDelete({
+function ModalDelete({
   confirm,
   doNotConfirm,
   modalDeleteRef,
@@ -43,3 +44,5 @@ export default function ModalDelete({
     </div>
   );
 }
+
+export default memo(ModalDelete);

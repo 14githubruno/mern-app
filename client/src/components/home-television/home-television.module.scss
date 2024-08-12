@@ -1,10 +1,127 @@
-.tvWrapper {
-  display: grid;
-  place-content: center;
+@use "@/breakpoints" as *;
+
+.homeTelevision {
+  width: 100%;
+  max-width: 30rem;
+  margin: 7rem auto 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.aerials,
+.tv {
+  width: 100%;
+}
+
+.aerials {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.aerial {
+  border: 0.155rem solid var(--white-color);
+  background-color: var(--white-color);
+  border-radius: 2rem;
+  width: 8rem;
+  height: 0.1rem;
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.aerialLeft {
+  rotate: 45deg;
+}
+
+.aerialRight {
+  rotate: -225deg;
 }
 
 .tv {
-  width: 26rem;
-  height: 26rem;
-  color: var(--white-color);
+  border: 0.3rem solid var(--white-color);
+  border-radius: 2rem;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.screen {
+  flex-basis: 70%;
+  border-right: 0.3rem solid var(--white-color);
+}
+
+/*  
+    carousel buttons are in carousel component.
+    See comment in home-television.jsx 
+*/
+.carouselButtonsContainer {
+  flex-basis: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+/* large mobile breakpoint */
+@media (min-width: $break-large-mobile) {
+  .homeTelevision {
+    margin-top: 10rem;
+    width: 41rem;
+    max-width: none;
+  }
+
+  .aerial {
+    border: 0.225rem solid var(--white-color);
+    width: 12rem;
+  }
+
+  .tv {
+    border: 0.455rem solid var(--white-color);
+  }
+
+  .screen {
+    border-right: 0.455rem solid var(--white-color);
+  }
+}
+
+/* tablet breakpoint */
+@media (min-width: $break-tablet) {
+  .homeTelevision {
+    width: 42rem;
+    margin-top: 11rem;
+  }
+
+  .aerial {
+    width: 14rem;
+  }
+
+  .tv {
+    border: 0.6rem solid var(--white-color);
+  }
+
+  .screen {
+    border-right: 0.6rem solid var(--white-color);
+  }
+}
+
+/* large desktop breakpoint */
+@media (min-width: $break-large-desktop) {
+  .homeTelevision {
+    width: 60rem;
+    margin: 10rem 2rem 0 0;
+  }
+
+  .aerial {
+    width: 16rem;
+    height: 0.5rem;
+  }
+
+  .tv {
+    border: 0.8rem solid var(--white-color);
+  }
+
+  .screen {
+    border-right: 0.8rem solid var(--white-color);
+  }
 }

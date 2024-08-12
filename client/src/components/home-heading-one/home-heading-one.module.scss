@@ -2,8 +2,8 @@
 
 .homeHeadingOne {
   width: fit-content;
-  margin: 5rem auto;
-  font-size: 3.5rem;
+  margin: 3rem auto;
+  font-size: 3rem;
   text-align: center;
   position: relative;
   color: var(--white-color);
@@ -14,7 +14,7 @@
   margin-bottom: 1rem;
   font-weight: bolder;
   display: inline-block;
-  font-size: 4.4rem;
+  font-size: 3.7rem;
   -webkit-text-fill-color: transparent;
   background: var(--purple-gradient) text;
   rotate: 5deg;
@@ -22,21 +22,21 @@
 }
 
 .homeHeadingOneIcon {
-  width: 3rem;
-  height: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
   position: absolute;
   color: var(--white-color);
 }
 
 .noodlesIcon {
   right: -1rem;
-  top: -2rem;
+  top: -1.5rem;
   rotate: 10deg;
 }
 
 .knifeBloodIcon {
   left: -1rem;
-  top: 5.1rem;
+  top: 4.7rem;
   rotate: -8deg;
 }
 
@@ -63,25 +63,144 @@
   .homeHeadingOne {
     font-size: 3.8rem;
   }
+  .kLetter {
+    font-size: 4rem;
+  }
 }
 
 @media (min-width: $break-tablet) {
   .homeHeadingOne {
     font-size: 4.1rem;
   }
-}
 
-@media (min-width: $break-desktop) {
-  .homeHeadingOne {
-    font-size: 4.4rem;
-  }
-
-  .homeHeadingOneIcon {
-    width: 3.3rem;
-    height: 3.3rem;
+  .kLetter {
+    font-size: 4.2rem;
   }
 
   .noodlesIcon {
-    top: -2.5rem;
+    top: -2rem;
+  }
+
+  .knifeBloodIcon {
+    top: 5.1rem;
+  }
+}
+
+@media (min-width: $break-large-desktop) {
+  .homeHeadingOne {
+    position: relative;
+    left: 5rem;
+    font-size: 6.4rem;
+    rotate: -18deg;
+  }
+
+  .letter {
+    display: inline-block;
+    position: relative;
+  }
+
+  .letter:nth-child(1) {
+    bottom: 0;
+    left: 0.5rem;
+    rotate: -35deg;
+  }
+
+  .letter:nth-child(2) {
+    bottom: 2rem;
+    rotate: -20deg;
+  }
+
+  .letter:nth-child(3) {
+    bottom: 2.3rem;
+    left: 0.5rem;
+    rotate: 10deg;
+  }
+
+  .letter:nth-child(4) {
+    bottom: 1.7rem;
+    left: 0.5rem;
+    rotate: 20deg;
+  }
+
+  .letter:nth-child(5) {
+    bottom: 0.5rem;
+    left: 0.3rem;
+    rotate: 35deg;
+  }
+
+  .letter:nth-child(6) {
+    bottom: 5rem;
+    rotate: -10deg;
+  }
+
+  .letter:nth-child(7) {
+    bottom: 5.4rem;
+    rotate: -2deg;
+  }
+
+  .letter:nth-child(8) {
+    bottom: 5.7rem;
+    rotate: 10deg;
+  }
+
+  .letter:nth-child(9) {
+    bottom: 4.8rem;
+    rotate: 16deg;
+  }
+
+  .letter:nth-child(10) {
+    bottom: 4rem;
+    rotate: 20deg;
+  }
+
+  .letter:nth-child(11) {
+    bottom: 3.7rem;
+    rotate: 25deg;
+  }
+
+  .letter:nth-child(12) {
+    bottom: 2.2rem;
+    rotate: 35deg;
+  }
+
+  .letter:nth-child(13) {
+    bottom: 0.1rem;
+    right: 1rem;
+    rotate: 40deg;
+  }
+
+  .letter:nth-child(14) {
+    bottom: -1.5rem;
+    right: 1.6rem;
+    rotate: 45deg;
+  }
+
+  .letter:nth-child(15) {
+    bottom: -4rem;
+    right: 3rem;
+    rotate: 50deg;
+  }
+
+  .letter:nth-child(16) {
+    bottom: -8rem;
+    right: 5.5rem;
+    rotate: 70deg;
+  }
+
+  .kLetter {
+    font-size: 6.2rem;
+  }
+
+  .homeHeadingOneIcon {
+    width: 4.3rem;
+    height: 4.3rem;
+  }
+
+  .knifeBloodIcon {
+    top: 7rem;
+  }
+
+  .noodlesIcon {
+    top: 0;
   }
 }
