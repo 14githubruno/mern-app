@@ -86,4 +86,29 @@ const logoutUser = (req, res) => {
   });
 };
 
-export const userControllers = { registerUser, loginUser, logoutUser };
+// @desc    Get user profile
+// @route   GET /api/users/profile
+// @access  Private
+const getUserProfile = asyncHandler(async (req, res) => {
+  const userLoggedIn = req.user;
+  const userAuthorized = await User.findById(userLoggedIn._id);
+  if (!userAuthorized) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
+  res.status(200).json({
+    message: `User [${userLoggedIn.name}], these are your data`,
+    body: {
+      name: userLoggedIn.name,
+      email: userLoggedIn.email,
+    },
+  });
+});
+
+export const userControllers = {
+  registerUser,
+  loginUser,
+  logoutUser,
+  getUserProfile,
+};
