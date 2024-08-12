@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useUpdateOneTvseriesMutation } from "../redux/api/tvseries-api-slice";
 import { useForm, FormProvider } from "react-hook-form";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { resizeImage } from "../lib/resize-image";
 import TextareaChars from "../components/textarea-chars/textarea-chars";
+import LinkBackToDashboard from "../components/link-back-to-dashboard/link-back-to-dashboard";
 import toast from "react-hot-toast";
 
 export default function Update() {
@@ -119,9 +120,7 @@ export default function Update() {
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Updating..." : "Update"}
         </button>
-        <Link className="linkGoBack" to={"/dashboard"}>
-          &larr; back
-        </Link>
+        <LinkBackToDashboard />
       </form>
     </section>
   );

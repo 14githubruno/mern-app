@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCreateOneTvseriesMutation } from "../redux/api/tvseries-api-slice";
 import { resizeImage } from "../lib/resize-image";
 import TextareaChars from "../components/textarea-chars/textarea-chars";
+import LinkBackToDashboard from "../components/link-back-to-dashboard/link-back-to-dashboard";
 import toast from "react-hot-toast";
 
 export default function CreateTvseries() {
@@ -104,9 +105,7 @@ export default function CreateTvseries() {
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Kreating..." : "Kreate"}
         </button>
-        <Link className="linkGoBack" to={"/dashboard"}>
-          &larr; back
-        </Link>
+        <LinkBackToDashboard />
       </form>
     </section>
   );
