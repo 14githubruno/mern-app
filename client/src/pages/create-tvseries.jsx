@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { useCreateOneTvseriesMutation } from "../redux/api/tvseries-api-slice";
 import { resizeImage } from "../lib/resize-image";
+import TextareaChars from "../components/textarea-chars/textarea-chars";
 import toast from "react-hot-toast";
 
 export default function CreateTvseries() {
-  const { register, handleSubmit, reset } = useForm({
+  const { register, handleSubmit, reset, control } = useForm({
     defaultValues: {
       title: "",
       stars: null,
@@ -15,7 +16,6 @@ export default function CreateTvseries() {
     },
   });
 
-  const [char, setChar] = useState(0);
   const [img, setImg] = useState("");
   const navigate = useNavigate();
   const [createOneTvseries, { isLoading, isSuccess }] =
@@ -25,7 +25,6 @@ export default function CreateTvseries() {
     if (isSuccess) {
       reset();
       setImg("");
-      setChar(0);
       navigate("/dashboard", { replace: true });
     }
   }, [isSuccess, navigate, reset]);
@@ -95,11 +94,12 @@ export default function CreateTvseries() {
             autoComplete="off"
             maxLength={200}
             {...register("note", {
-              onChange: (e) => setChar(e.target.value.length),
               onDrop: (e) => e.preventDefault(),
             })}
           />
-          <span>{char}/200</span>
+          <FormProvider control={control}>
+            <TextareaChars />
+          </FormProvider>
         </>
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Kreating..." : "Kreate"}

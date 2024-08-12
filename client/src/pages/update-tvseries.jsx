@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useUpdateOneTvseriesMutation } from "../redux/api/tvseries-api-slice";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { resizeImage } from "../lib/resize-image";
+import TextareaChars from "../components/textarea-chars/textarea-chars";
 import toast from "react-hot-toast";
 
 export default function Update() {
   const [tvseriesToUpdate, setTvseriesToUpdate] = useState(null);
   const [img, setImg] = useState("");
-  const [char, setChar] = useState(0);
 
   const params = useParams();
   const navigate = useNavigate();
@@ -18,14 +18,13 @@ export default function Update() {
   const [updateOneTvseries, { isLoading, isSuccess }] =
     useUpdateOneTvseriesMutation();
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, control } = useForm({
     defaultValues: async () => {
       const findTvseriesToUpdate = tvseries?.find(
         (singleSeries) => singleSeries._id === params.id
       );
       setTvseriesToUpdate((prev) => ({ ...prev, ...findTvseriesToUpdate }));
       setImg(findTvseriesToUpdate.image);
-      setChar(findTvseriesToUpdate.note.length);
       return findTvseriesToUpdate;
     },
   });
@@ -110,11 +109,12 @@ export default function Update() {
             autoComplete="off"
             maxLength={200}
             {...register("note", {
-              onChange: (e) => setChar(e.target.value.length),
               onDrop: (e) => e.preventDefault(),
             })}
           />
-          <span>{char}/200</span>
+          <FormProvider control={control}>
+            <TextareaChars />
+          </FormProvider>
         </>
 
         <button type="submit" disabled={isLoading}>
