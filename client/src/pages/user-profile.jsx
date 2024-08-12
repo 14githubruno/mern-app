@@ -60,7 +60,6 @@ export default function UserProfile() {
         <p>{data.body.name}</p>
         <p>{data.body.email}</p>
         <button onClick={toggleModalToDelete}>Delete user</button>
-        <button>Update user</button>
       </section>
     );
   }
