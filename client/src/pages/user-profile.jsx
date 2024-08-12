@@ -15,22 +15,19 @@ export default function UserProfile() {
   const { data, isLoading, isSuccess } = useGetUserProfileQuery();
   const [deleteUserProfile] = useDeleteUserProfileMutation();
 
-  const handleDeleteUserProfile = useCallback(
-    async (user) => {
-      try {
-        const res = await deleteUserProfile(user).unwrap();
-        if (res.message) {
-          toast.success(res.message);
-          dispatch(clearCredentials());
-          dispatch(resetTvseries());
-          dispatch(apiSlice.util.resetApiState());
-        }
-      } catch (err) {
-        toast.error(err.message);
+  const handleDeleteUserProfile = useCallback(async (user) => {
+    try {
+      const res = await deleteUserProfile(user).unwrap();
+      if (res.message) {
+        toast.success(res.message);
+        dispatch(clearCredentials());
+        dispatch(resetTvseries());
+        dispatch(apiSlice.util.resetApiState());
       }
-    },
-    [user]
-  );
+    } catch (err) {
+      toast.error(err.message);
+    }
+  }, []);
 
   let content;
 
