@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/user-model.js";
+import Tvseries from "../models/tvseries-model.js";
 import bcrypt from "bcrypt";
 import { generateToken } from "../lib/generate-token.js";
 
@@ -91,6 +92,7 @@ const logoutUser = (req, res) => {
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
   const userLoggedIn = req.user;
+  console.log(userLoggedIn);
   const userAuthorized = await User.findById(userLoggedIn._id);
   if (!userAuthorized) {
     res.status(401);
@@ -100,10 +102,52 @@ const getUserProfile = asyncHandler(async (req, res) => {
   res.status(200).json({
     message: `User [${userLoggedIn.name}], these are your data`,
     body: {
+      _id: userLoggedIn._id,
       name: userLoggedIn.name,
       email: userLoggedIn.email,
     },
   });
+});
+
+// @desc    Delete user's profile and tvseries
+// @route   DELETE /api/users/:id
+// @access  Private
+const deleteUserProfile = asyncHandler(async (req, res) => {
+  const userToDelete = await User.findById(req.params.id);
+
+  if (!userToDelete) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  if (userToDelete._id.toString() !== req.user._id.toString()) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
+  const userTvseries = await Tvseries.find({
+    user: userToDelete._id,
+  });
+
+  const deletedUser = await User.deleteOne(userToDelete);
+  if (deletedUser.acknowledged && userTvseries.length === 0) {
+    res.status(201).json({
+      message: `User [${userToDelete.name}] deleted`,
+    });
+  }
+
+  let deleteTvseries;
+  if (deletedUser.acknowledged && userTvseries.length > 0) {
+    deleteTvseries = await Tvseries.deleteMany({
+      user: userToDelete._id,
+    });
+  }
+
+  if (deleteTvseries.acknowledged) {
+    res.status(201).json({
+      message: `User [${userToDelete.name}] and related tvseries deleted`,
+    });
+  }
 });
 
 export const userControllers = {
@@ -111,4 +155,5 @@ export const userControllers = {
   loginUser,
   logoutUser,
   getUserProfile,
+  deleteUserProfile,
 };
