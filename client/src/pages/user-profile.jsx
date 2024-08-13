@@ -2,18 +2,21 @@ import {
   useGetUserProfileQuery,
   useDeleteUserProfileMutation,
 } from "../redux/api/users-api-slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearCredentials } from "../redux/features/auth/auth-slice";
 import { resetTvseries } from "../redux/features/tvseries/tvseries-slice";
 import { apiSlice } from "../redux/api/api-slice";
 import { useCallback, useRef } from "react";
-import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import Loader from "../components/loader/loader";
 import ModalDelete from "../components/modal-delete/modal-delete";
+import UserProfileTable from "../components/user-profile-table/user-profile-table";
+import UserProfileParagraph from "../components/user-profile-paragraph/user-profile-paragraph";
+import UserProfileButtonLinkContainer from "../components/user-profile-button-link-container/user-profile-button-link-container";
 
 export default function UserProfile() {
   const dispatch = useDispatch();
+  const tvseries = useSelector((state) => state.tvseries.tvseries);
   const { data, isLoading } = useGetUserProfileQuery();
   const [deleteUserProfile, { isLoading: isDeleting }] =
     useDeleteUserProfileMutation();
@@ -45,7 +48,7 @@ export default function UserProfile() {
   /* modal delete ends */
 
   return (
-    <section style={{ color: "whitesmoke" }}>
+    <section>
       {isLoading || isDeleting ? (
         <Loader />
       ) : (
@@ -56,10 +59,17 @@ export default function UserProfile() {
             toggleModalToDelete={toggleModalToDelete}
             confirm={() => handleDeleteUserProfile(data?.body)}
           />
-          <p>{data.body.name}</p>
-          <p>{data.body.email}</p>
-          <button onClick={toggleModalToDelete}>Delete user</button>
-          <Link to={"/profile/update-user"}>update user</Link>
+          <UserProfileTable
+            data={{
+              name: data?.body.name,
+              email: data?.body.email,
+              tvseries: tvseries.length,
+            }}
+          />
+          <UserProfileParagraph />
+          <UserProfileButtonLinkContainer
+            toggleModalToDelete={toggleModalToDelete}
+          />
         </>
       )}
     </section>
