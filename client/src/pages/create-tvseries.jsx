@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useCreateOneTvseriesMutation } from "../redux/api/tvseries-api-slice";
 import { resizeImage } from "../lib/resize-image";
 import TextareaChars from "../components/textarea-chars/textarea-chars";
-import LinkBackToDashboard from "../components/link-back-to-dashboard/link-back-to-dashboard";
+import LinkBack from "../components/link-back/link-back";
 import toast from "react-hot-toast";
 
 export default function CreateTvseries() {
@@ -105,7 +105,7 @@ export default function CreateTvseries() {
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Kreating..." : "Kreate"}
         </button>
-        <LinkBackToDashboard />
+        <LinkBack linkHref={"/dashboard"} />
       </form>
     </section>
   );

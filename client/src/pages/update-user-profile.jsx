@@ -8,6 +8,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import LinkBack from "../components/link-back/link-back";
 
 export default function UpdateUserProfile() {
   const dispatch = useDispatch();
@@ -83,6 +84,7 @@ export default function UpdateUserProfile() {
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Updating..." : "Update"}
         </button>
+        <LinkBack linkHref={"/profile"} />
       </form>
     </section>
   );

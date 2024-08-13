@@ -5,7 +5,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { resizeImage } from "../lib/resize-image";
 import TextareaChars from "../components/textarea-chars/textarea-chars";
-import LinkBackToDashboard from "../components/link-back-to-dashboard/link-back-to-dashboard";
+import LinkBack from "../components/link-back/link-back";
 import toast from "react-hot-toast";
 
 export default function Update() {
@@ -120,7 +120,7 @@ export default function Update() {
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Updating..." : "Update"}
         </button>
-        <LinkBackToDashboard />
+        <LinkBack linkHref={"/dashboard"} />
       </form>
     </section>
   );
