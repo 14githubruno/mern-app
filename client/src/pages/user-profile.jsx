@@ -2,7 +2,8 @@ import {
   useGetUserProfileQuery,
   useDeleteUserProfileMutation,
 } from "../redux/api/users-api-slice";
-import { useDispatch, useSelector } from "react-redux";
+import { useGetAllTvseriesQuery } from "../redux/api/tvseries-api-slice";
+import { useDispatch } from "react-redux";
 import { clearCredentials } from "../redux/features/auth/auth-slice";
 import { resetTvseries } from "../redux/features/tvseries/tvseries-slice";
 import { apiSlice } from "../redux/api/api-slice";
@@ -16,9 +17,10 @@ import UserProfileButtonLinksContainer from "../components/user-profile-button-l
 
 export default function UserProfile() {
   const dispatch = useDispatch();
-  const tvseries = useSelector((state) => state.tvseries.tvseries);
-  const { data, isLoading } = useGetUserProfileQuery();
-  const [deleteUserProfile, { isLoading: isDeleting }] =
+  const { data, isLoading: isFetchingUserData } = useGetUserProfileQuery();
+  const { data: tvseries, isLoading: isFetchingTvseries } =
+    useGetAllTvseriesQuery();
+  const [deleteUserProfile, { isLoading: isDeletingUser }] =
     useDeleteUserProfileMutation();
 
   /* modal delete starts */
@@ -49,7 +51,7 @@ export default function UserProfile() {
 
   return (
     <section>
-      {isLoading || isDeleting ? (
+      {isFetchingUserData || isDeletingUser || isFetchingTvseries ? (
         <Loader />
       ) : (
         <>
@@ -60,12 +62,12 @@ export default function UserProfile() {
             toggleModalToDelete={toggleModalToDelete}
             confirm={() => handleDeleteUserProfile(data?.body)}
           />
+          {console.log(tvseries)}
           <UserProfileTable
             data={{
               name: data?.body.name,
               email: data?.body.email,
-              tvseries:
-                tvseries.length === 0 ? data?.body.tvseries : tvseries.length,
+              tvseries: !tvseries?.body ? 0 : tvseries.body.length,
             }}
           />
           <UserProfileParagraph />
