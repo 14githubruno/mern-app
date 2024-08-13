@@ -1,0 +1,60 @@
+@use "@/breakpoints" as *;
+
+.userProfileTable {
+  width: 90%;
+  max-width: 70rem;
+  margin-bottom: 2rem;
+  border-top: 0.1rem solid var(--grey-transparency);
+  border-bottom: 0.1rem solid var(--grey-transparency);
+}
+
+.keysValuesContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.keyWithValue {
+  display: flex;
+  border-right: 0.1rem solid var(--grey-transparency);
+  border-left: 0.1rem solid var(--grey-transparency);
+
+  &:first-of-type,
+  &:nth-child(2) {
+    border-bottom: 0.1rem solid var(--grey-transparency);
+  }
+
+  &:last-of-type {
+    margin-top: 2rem;
+    border-top: 0.1rem solid var(--grey-transparency);
+  }
+}
+
+.key {
+  padding: 2rem 2rem 2rem 1.7rem;
+  flex-basis: 30%;
+  font-size: 1.255rem;
+  color: var(--white-color);
+  background: var(--black-blue-gradient-to-bottom);
+  border-right: 0.1rem solid var(--grey-transparency);
+  text-transform: capitalize;
+}
+
+.value {
+  padding: 2rem 0 2rem 2rem;
+  flex: 1;
+  font-size: 1.3rem;
+  color: var(--grey-transparency);
+}
+
+@media (min-width: $break-tablet) {
+  .key {
+    padding: 3rem 5rem 3rem 2rem;
+    font-size: 1.5rem;
+    flex-basis: 25%;
+  }
+
+  .value {
+    padding: 3rem 0 3rem 3rem;
+    font-size: 1.6rem;
+  }
+}
