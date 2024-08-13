@@ -54,7 +54,8 @@ export default function UserProfile() {
       ) : (
         <>
           <ModalDelete
-            question={`Sure you want to delete your account, ${data?.body.name}?`}
+            isUser={true}
+            nameOfItemToDelete={data?.body.name}
             modalDeleteRef={modalDeleteRef}
             toggleModalToDelete={toggleModalToDelete}
             confirm={() => handleDeleteUserProfile(data?.body)}

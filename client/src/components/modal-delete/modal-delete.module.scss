@@ -1,3 +1,4 @@
+@use "@/breakpoints" as *;
 @use "@/z-index" as *;
 
 .modalDelete {
@@ -12,39 +13,51 @@
   z-index: $z-index-max;
 }
 
-.questionAnswersWrapper {
-  height: 20rem;
+.paragraphsButtonsContainer {
+  padding: 3rem 0;
   width: 85%;
-  max-width: 40rem;
+  max-width: 45rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   background-color: var(--white-transparency);
   animation: open-smoothly 0.1s ease;
 }
 
-.question {
-  font-size: 1.6rem;
+.paragraph {
+  padding: 0 2.5rem;
+  margin: 0.5rem;
+  font-size: 1.4rem;
   font-weight: 500;
+  line-height: 1.8rem;
   text-align: center;
   color: var(--dark-grey-color);
+
+  &:nth-child(1) {
+    margin-top: 0;
+  }
+
+  &:nth-child(3) {
+    color: var(--brown-color);
+    margin-bottom: 3rem;
+  }
 }
 
-.questionSpan {
-  display: block;
-  color: var(--brown-color);
+.nameOfItemToDelete {
+  color: var(--red-color);
+  text-transform: capitalize;
+  font-weight: 500;
 }
 
 .buttonsWrapper {
   display: flex;
   justify-content: center;
+  gap: 3rem;
 }
 
-.answer {
+.button {
   width: 10rem;
-  padding: 1rem;
-  margin-left: 1rem;
-  font-size: 1.6rem;
+  padding: 0.7rem;
+  font-size: 1.4rem;
   text-align: center;
   border-radius: 1rem;
   outline: none;
@@ -53,23 +66,23 @@
   transition: box-shadow 0.1s ease-out;
 }
 
-.answerDeletion {
+.buttonDeletion {
   background-color: var(--red-color);
   border: 0.1rem solid var(--dark-salmon-color);
   color: var(--white-color);
 }
 
-.answerDeletion:hover {
+.buttonDeletion:hover {
   box-shadow: 0 0 0.4rem var(--red-color);
 }
 
-.answerNotDeletion {
+.buttonNotDeletion {
   background-color: var(--grey-color);
   border: 0.1rem solid var(--dark-grey-color);
   color: var(--bg-color);
 }
 
-.answerNotDeletion:hover {
+.buttonNotDeletion:hover {
   box-shadow: 0 0 0.4rem var(--grey-color);
 }
 
@@ -82,5 +95,21 @@
   }
   100% {
     opacity: 1;
+  }
+}
+
+// breakpoints
+@media (min-width: $break-tablet) {
+  .paragraph,
+  .button {
+    font-size: 1.6rem;
+  }
+
+  .paragraph {
+    margin: 0.7rem;
+  }
+
+  .button {
+    padding: 1rem;
   }
 }
