@@ -17,11 +17,11 @@ function ModalDelete({
     : "Are you sure you want to delete this table row?";
 
   return (
-    <div
+    <article
       ref={modalDeleteRef}
       className={`${styles.modalDelete} modalDeleteHidden`}
     >
-      <article className={styles.paragraphsButtonsContainer}>
+      <div className={styles.paragraphsButtonsContainer}>
         <p className={styles.paragraph}>
           Name of {what_to_delete} to delete:{" "}
           <span className={styles.nameOfItemToDelete}>
@@ -55,8 +55,8 @@ function ModalDelete({
             Kancel
           </button>
         </div>
-      </article>
-    </div>
+      </div>
+    </article>
   );
 }
 
