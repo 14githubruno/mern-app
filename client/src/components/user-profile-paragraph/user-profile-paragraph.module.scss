@@ -1,0 +1,22 @@
+@use "@/breakpoints" as *;
+
+.userProfileParagraph {
+  margin: 2rem 0 3rem 0;
+  padding-right: 5rem;
+  width: 90%;
+  max-width: 70rem;
+  line-height: 1.6rem;
+  font-size: 1.2rem;
+  color: var(--grey-transparency);
+}
+
+.userProfileParagraph .differentColor {
+  color: var(--white-color);
+}
+
+@media (min-width: $break-tablet) {
+  .userProfileParagraph {
+    padding-right: 10rem;
+    font-size: 1.3rem;
+  }
+}
