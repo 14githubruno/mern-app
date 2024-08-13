@@ -4,6 +4,7 @@ import { memo } from "react";
 
 function ModalDelete({
   isUser = false,
+  numberOfTvseriesOfUser = 0,
   nameOfItemToDelete,
   confirm,
   doNotConfirm = () => {},
@@ -12,7 +13,7 @@ function ModalDelete({
 }) {
   let what_to_delete = isUser ? "user" : "table row";
   let question = isUser
-    ? "Are you sure you want to delete your akkount? All your tvseries will be deleted too"
+    ? "Are you sure you want to delete your akkount?"
     : "Are you sure you want to delete this table row?";
 
   return (
@@ -27,7 +28,12 @@ function ModalDelete({
             {nameOfItemToDelete}
           </span>
         </p>
-        <p className={styles.paragraph}>{question}</p>
+        <p className={styles.paragraph}>
+          {question}{" "}
+          {isUser && numberOfTvseriesOfUser > 0 ? (
+            <span>All your tvseries will be deleted too</span>
+          ) : null}
+        </p>
         <p className={styles.paragraph}>This aktion is irreversible</p>
         <div className={styles.buttonsWrapper}>
           <button

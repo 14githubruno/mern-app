@@ -57,6 +57,7 @@ export default function UserProfile() {
         <>
           <ModalDelete
             isUser={true}
+            numberOfTvseriesOfUser={!tvseries?.body ? 0 : tvseries.body.length}
             nameOfItemToDelete={data?.body.name}
             modalDeleteRef={modalDeleteRef}
             toggleModalToDelete={toggleModalToDelete}
