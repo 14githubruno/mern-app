@@ -92,7 +92,7 @@ const logoutUser = (req, res) => {
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
   const userLoggedIn = req.user;
-  console.log(userLoggedIn);
+
   const userAuthorized = await User.findById(userLoggedIn._id);
   if (!userAuthorized) {
     res.status(401);
