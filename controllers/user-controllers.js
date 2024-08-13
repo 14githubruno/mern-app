@@ -93,14 +93,13 @@ const logoutUser = (req, res) => {
 const getUserProfile = asyncHandler(async (req, res) => {
   const userLoggedIn = req.user;
 
-  const userAuthorized = await User.findById(userLoggedIn._id);
-  if (!userAuthorized) {
+  const thereIsUser = await User.findById(userLoggedIn._id);
+  if (!thereIsUser) {
     res.status(401);
-    throw new Error("User not authorized");
+    throw new Error("User not found");
   }
 
   res.status(200).json({
-    message: `User [${userLoggedIn.name}], these are your data`,
     body: {
       _id: userLoggedIn._id,
       name: userLoggedIn.name,
