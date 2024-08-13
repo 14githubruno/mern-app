@@ -99,11 +99,14 @@ const getUserProfile = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 
+  const userTvseries = await Tvseries.find({ user: userLoggedIn._id });
+
   res.status(200).json({
     body: {
       _id: userLoggedIn._id,
       name: userLoggedIn.name,
       email: userLoggedIn.email,
+      tvseries: userTvseries.length,
     },
   });
 });

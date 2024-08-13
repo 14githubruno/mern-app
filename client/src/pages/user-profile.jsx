@@ -63,7 +63,8 @@ export default function UserProfile() {
             data={{
               name: data?.body.name,
               email: data?.body.email,
-              tvseries: tvseries.length,
+              tvseries:
+                tvseries.length === 0 ? data?.body.tvseries : tvseries.length,
             }}
           />
           <UserProfileParagraph />
