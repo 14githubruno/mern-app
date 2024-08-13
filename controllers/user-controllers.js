@@ -109,6 +109,68 @@ const getUserProfile = asyncHandler(async (req, res) => {
   });
 });
 
+// @desc    Update user data
+// @route   PATCH /api/users/:id
+// @access  Private
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const currentUser = req.user;
+
+  const { name, email, password } = req.body;
+  if (!name || !email || !password) {
+    res.status(400);
+    throw new Error("All fields are required");
+  }
+
+  const emailAlreadyTaken = await User.findOne({
+    email,
+    _id: { $ne: currentUser._id },
+  });
+  if (emailAlreadyTaken) {
+    res.status(400);
+    throw new Error("This email seems already taken");
+  }
+
+  let userToUpdate = await User.findById(currentUser._id);
+
+  if (!userToUpdate) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  if (userToUpdate) {
+    //first check if data have not changed
+    const passwordsMatch = await bcrypt.compare(
+      password,
+      userToUpdate.password
+    );
+    const namesMatch = name === userToUpdate.name;
+    const emailsMatch = email === userToUpdate.email;
+    if (passwordsMatch && namesMatch && emailsMatch) {
+      res.status(400);
+      throw new Error("You did not update any data");
+    }
+
+    //create updated user
+    userToUpdate.name = name;
+    userToUpdate.email = email;
+    userToUpdate.password = await bcrypt.hash(password, 10);
+
+    const updatedUser = await userToUpdate.save();
+    if (updatedUser) {
+      res.status(200).json({
+        message: `User [${updatedUser.name}] updated`,
+        body: {
+          name: updatedUser.name,
+          token: generateToken(updatedUser._id),
+        },
+      });
+    } else {
+      res.status(404);
+      throw new Error("Something went wrong. Try again");
+    }
+  }
+});
+
 // @desc    Delete user's profile and tvseries
 // @route   DELETE /api/users/:id
 // @access  Private
@@ -155,5 +217,6 @@ export const userControllers = {
   loginUser,
   logoutUser,
   getUserProfile,
+  updateUserProfile,
   deleteUserProfile,
 };
