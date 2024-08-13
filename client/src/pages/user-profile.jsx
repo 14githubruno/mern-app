@@ -7,14 +7,16 @@ import { clearCredentials } from "../redux/features/auth/auth-slice";
 import { resetTvseries } from "../redux/features/tvseries/tvseries-slice";
 import { apiSlice } from "../redux/api/api-slice";
 import { useCallback, useRef } from "react";
+import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import Loader from "../components/loader/loader";
 import ModalDelete from "../components/modal-delete/modal-delete";
 
 export default function UserProfile() {
   const dispatch = useDispatch();
-  const { data, isLoading, isSuccess } = useGetUserProfileQuery();
-  const [deleteUserProfile] = useDeleteUserProfileMutation();
+  const { data, isLoading } = useGetUserProfileQuery();
+  const [deleteUserProfile, { isLoading: isDeleting }] =
+    useDeleteUserProfileMutation();
 
   /* modal delete starts */
   const modalDeleteRef = useRef(null);
@@ -37,32 +39,29 @@ export default function UserProfile() {
         dispatch(apiSlice.util.resetApiState());
       }
     } catch (err) {
-      toast.error(err.message);
+      toast.error(err.data.message);
     }
   }, []);
   /* modal delete ends */
 
-  let content;
-
-  if (isLoading) {
-    content = <Loader />;
-  }
-
-  if (isSuccess) {
-    content = (
-      <section style={{ color: "whitesmoke" }}>
-        <ModalDelete
-          question={`Sure you want to delete your account, ${data?.body.name}?`}
-          modalDeleteRef={modalDeleteRef}
-          toggleModalToDelete={toggleModalToDelete}
-          confirm={() => handleDeleteUserProfile(data?.body)}
-        />
-        <p>{data.body.name}</p>
-        <p>{data.body.email}</p>
-        <button onClick={toggleModalToDelete}>Delete user</button>
-      </section>
-    );
-  }
-
-  return content;
+  return (
+    <section style={{ color: "whitesmoke" }}>
+      {isLoading || isDeleting ? (
+        <Loader />
+      ) : (
+        <>
+          <ModalDelete
+            question={`Sure you want to delete your account, ${data?.body.name}?`}
+            modalDeleteRef={modalDeleteRef}
+            toggleModalToDelete={toggleModalToDelete}
+            confirm={() => handleDeleteUserProfile(data?.body)}
+          />
+          <p>{data.body.name}</p>
+          <p>{data.body.email}</p>
+          <button onClick={toggleModalToDelete}>Delete user</button>
+          <Link to={"/profile/update-user"}>update user</Link>
+        </>
+      )}
+    </section>
+  );
 }
