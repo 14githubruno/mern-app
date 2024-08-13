@@ -7,7 +7,7 @@ function UserProfileTable({ data }) {
       <div className={styles.keysValuesContainer}>
         {data &&
           Object.entries(data).map(([key, value]) => (
-            <div className={styles.keyWithValue}>
+            <div key={key} className={styles.keyWithValue}>
               <p className={styles.key}>{key}</p>
               <p className={styles.value}>{value}</p>
             </div>
