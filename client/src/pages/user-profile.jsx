@@ -12,7 +12,7 @@ import Loader from "../components/loader/loader";
 import ModalDelete from "../components/modal-delete/modal-delete";
 import UserProfileTable from "../components/user-profile-table/user-profile-table";
 import UserProfileParagraph from "../components/user-profile-paragraph/user-profile-paragraph";
-import UserProfileButtonLinkContainer from "../components/user-profile-button-link-container/user-profile-button-link-container";
+import UserProfileButtonLinksContainer from "../components/user-profile-button-links-container/user-profile-button-links-container";
 
 export default function UserProfile() {
   const dispatch = useDispatch();
@@ -68,7 +68,7 @@ export default function UserProfile() {
             }}
           />
           <UserProfileParagraph />
-          <UserProfileButtonLinkContainer
+          <UserProfileButtonLinksContainer
             toggleModalToDelete={toggleModalToDelete}
           />
         </>
