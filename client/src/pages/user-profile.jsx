@@ -63,7 +63,6 @@ export default function UserProfile() {
             toggleModalToDelete={toggleModalToDelete}
             confirm={() => handleDeleteUserProfile(data?.body)}
           />
-          {console.log(tvseries)}
           <UserProfileTable
             data={{
               name: data?.body.name,
