@@ -1,17 +1,26 @@
 import styles from "./user-profile-table.module.scss";
 import { memo } from "react";
 
-function UserProfileTable({ data }) {
+function UserProfileTable({ userData }) {
   return (
     <div className={styles.userProfileTable}>
       <div className={styles.keysValuesContainer}>
-        {data &&
-          Object.entries(data).map(([key, value]) => (
-            <div key={key} className={styles.keyWithValue}>
-              <p className={styles.key}>{key}</p>
-              <p className={styles.value}>{value}</p>
-            </div>
-          ))}
+        {userData &&
+          Object.entries(userData).map(([key, value]) => {
+            const keyIsName = key === "name";
+            return (
+              <div key={key} className={styles.keyWithValue}>
+                <p className={styles.key}>{key}</p>
+                <p
+                  className={`${styles.value} ${
+                    keyIsName ? styles.nameValue : ""
+                  }`}
+                >
+                  {value}
+                </p>
+              </div>
+            );
+          })}
       </div>
     </div>
   );

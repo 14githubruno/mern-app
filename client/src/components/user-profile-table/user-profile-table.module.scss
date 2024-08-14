@@ -46,6 +46,14 @@
   color: var(--grey-transparency);
 }
 
+.nameValue {
+  text-transform: lowercase;
+
+  &::first-letter {
+    text-transform: capitalize;
+  }
+}
+
 @media (min-width: $break-tablet) {
   .key {
     padding: 3rem 5rem 3rem 2rem;

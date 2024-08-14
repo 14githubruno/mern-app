@@ -64,7 +64,7 @@ export default function UserProfile() {
             confirm={() => handleDeleteUserProfile(data?.body)}
           />
           <UserProfileTable
-            data={{
+            userData={{
               name: data?.body.name,
               email: data?.body.email,
               tvseries: !tvseries?.body ? 0 : tvseries.body.length,
