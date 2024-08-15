@@ -6,6 +6,7 @@ import {
   useDeleteOneTvseriesMutation,
 } from "../redux/api/tvseries-api-slice";
 import { setTvseries } from "../redux/features/tvseries/tvseries-slice";
+import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import Searchbar from "../components/searchbar/searchbar";
 import WelcomeGuideUserParagraphs from "../components/welcome-guide-user-paragraphs/welcome-guide-user-paragraphs";
 import Table from "../components/table/table";
@@ -19,6 +20,7 @@ export default function Dashboard() {
   const [tableRowToView, setTableRowToView] = useState(null);
 
   const dispatch = useDispatch();
+  const resetAll = useResetApiAndUser();
   const user = useSelector((state) => state.auth.user);
   const tvseries = useSelector((state) => state.tvseries.tvseries);
   const { data, isLoading, isSuccess } = useGetAllTvseriesQuery();
@@ -67,7 +69,12 @@ export default function Dashboard() {
         setTableRowToDelete(null);
       }
     } catch (err) {
-      toast.error(err.message);
+      if (err.data.type === "token") {
+        toast.error("Token has expired. Log in again");
+        resetAll();
+        return;
+      }
+      toast.error(err.data.message);
     }
   }, [tvseries, tableRowToDelete]);
 

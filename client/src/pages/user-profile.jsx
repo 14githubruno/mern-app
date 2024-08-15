@@ -3,10 +3,7 @@ import {
   useDeleteUserProfileMutation,
 } from "../redux/api/users-api-slice";
 import { useGetAllTvseriesQuery } from "../redux/api/tvseries-api-slice";
-import { useDispatch } from "react-redux";
-import { clearCredentials } from "../redux/features/auth/auth-slice";
-import { resetTvseries } from "../redux/features/tvseries/tvseries-slice";
-import { apiSlice } from "../redux/api/api-slice";
+import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { useCallback, useRef } from "react";
 import toast from "react-hot-toast";
 import Loader from "../components/loader/loader";
@@ -16,7 +13,7 @@ import UserProfileParagraph from "../components/user-profile-paragraph/user-prof
 import UserProfileButtonLinksContainer from "../components/user-profile-button-links-container/user-profile-button-links-container";
 
 export default function UserProfile() {
-  const dispatch = useDispatch();
+  const resetAll = useResetApiAndUser();
   const { data, isLoading: isFetchingUserData } = useGetUserProfileQuery();
   const { data: tvseries, isLoading: isFetchingTvseries } =
     useGetAllTvseriesQuery();
@@ -39,11 +36,13 @@ export default function UserProfile() {
       const res = await deleteUserProfile(user).unwrap();
       if (res.message) {
         toast.success(res.message);
-        dispatch(clearCredentials());
-        dispatch(resetTvseries());
-        dispatch(apiSlice.util.resetApiState());
+        resetAll();
       }
     } catch (err) {
+      if (err.data.type === "token") {
+        resetAll();
+        return;
+      }
       toast.error(err.data.message);
     }
   }, []);

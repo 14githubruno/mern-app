@@ -5,6 +5,7 @@ import {
   useUpdateUserProfileMutation,
   useGetUserProfileQuery,
 } from "../redux/api/users-api-slice";
+import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -13,6 +14,7 @@ import LinkBack from "../components/link-back/link-back";
 export default function UpdateUserProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const resetAll = useResetApiAndUser();
   const { data, isSuccess: dataIsAvailable } = useGetUserProfileQuery();
   const [updateUserProfile, { isLoading, isSuccess }] =
     useUpdateUserProfileMutation();
@@ -44,11 +46,13 @@ export default function UpdateUserProfile() {
           })
         );
       }
-    } catch (error) {
-      console.log(error);
-      console.log(error.data);
-      console.log(error.data.message);
-      toast.error(error?.data?.message);
+    } catch (err) {
+      if (err.data.type === "token") {
+        toast.error("Token has expired. Log in again");
+        resetAll();
+        return;
+      }
+      toast.error(err.data.message);
     }
   };
 

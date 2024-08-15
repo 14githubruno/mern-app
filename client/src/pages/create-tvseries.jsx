@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useCreateOneTvseriesMutation } from "../redux/api/tvseries-api-slice";
+import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { resizeImage } from "../lib/resize-image";
 import TextareaChars from "../components/textarea-chars/textarea-chars";
 import LinkBack from "../components/link-back/link-back";
@@ -19,6 +20,8 @@ export default function CreateTvseries() {
 
   const [img, setImg] = useState("");
   const navigate = useNavigate();
+
+  const resetAll = useResetApiAndUser();
   const [createOneTvseries, { isLoading, isSuccess }] =
     useCreateOneTvseriesMutation();
 
@@ -44,7 +47,12 @@ export default function CreateTvseries() {
       const res = await createOneTvseries(data).unwrap();
       toast.success(res?.message);
     } catch (error) {
-      toast.error(error?.data?.message);
+      if (err.data.type === "token") {
+        toast.error("Token has expired. Log in again");
+        resetAll();
+        return;
+      }
+      toast.error(err.data.message);
     }
   };
 

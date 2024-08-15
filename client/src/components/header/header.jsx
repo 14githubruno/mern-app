@@ -53,7 +53,12 @@ export default function Header() {
       toast.success(res.message);
       resetAll();
     } catch (err) {
-      toast.error(err?.data?.message);
+      if (err.data.type === "token") {
+        toast.error("Token has expired. Log in again");
+        resetAll();
+        return;
+      }
+      toast.error(err.data.message);
     }
   };
 
