@@ -1,6 +1,9 @@
 import styles from "./header.module.scss";
 import { GiSouthKorea } from "react-icons/gi";
 import { BiUser } from "react-icons/bi";
+import { RxDashboard } from "react-icons/rx";
+import { RiProfileLine } from "react-icons/ri";
+import { IoIosLogOut } from "react-icons/io";
 import { useEffect, useRef } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -106,7 +109,10 @@ export default function Header() {
                 e.stopPropagation();
               }}
             >
-              Dashboard
+              <span>
+                <RxDashboard />
+              </span>
+              <span>Dashboard</span>
             </Link>
           </li>
           <li>
@@ -122,7 +128,10 @@ export default function Header() {
                 e.stopPropagation();
               }}
             >
-              Profile
+              <span>
+                <RiProfileLine />
+              </span>
+              <span>Profile</span>
             </Link>
           </li>
           <li>
@@ -134,7 +143,10 @@ export default function Header() {
                 e.stopPropagation();
               }}
             >
-              Log out
+              <span>
+                <IoIosLogOut />
+              </span>
+              <span>Log out</span>
             </button>
           </li>
         </ul>
