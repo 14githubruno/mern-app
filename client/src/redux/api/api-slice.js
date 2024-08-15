@@ -18,6 +18,13 @@ const apiSlice = createApi({
   reducerPath: "api",
   baseQuery,
   tagTypes: ["User", "Tvseries"],
+  extractRehydrationInfo(action, state) {
+    if (action.type === "persist/REHYDRATE") {
+      const { api } = action.payload;
+      return api || {};
+    }
+    return undefined;
+  },
   endpoints: (builder) => ({}),
 });
 
