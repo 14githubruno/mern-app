@@ -20,8 +20,12 @@ const apiSlice = createApi({
   tagTypes: ["User", "Tvseries"],
   extractRehydrationInfo(action, state) {
     if (action.type === "persist/REHYDRATE") {
-      const { api } = action.payload;
-      return api || {};
+      if (action?.payload?.api) {
+        const { api } = action.payload;
+        return api;
+      } else {
+        return {};
+      }
     }
     return undefined;
   },
