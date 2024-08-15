@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setCredentials } from "../redux/features/auth/auth-slice";
+import { setOnlyCredentialsUser } from "../redux/features/auth/auth-slice";
 import {
   useUpdateUserProfileMutation,
   useGetUserProfileQuery,
@@ -34,16 +34,20 @@ export default function UpdateUserProfile() {
   }, [isSuccess, navigate]);
 
   const handleUpdateUserData = async (data) => {
-    console.log(data);
     try {
       const res = await updateUserProfile({ ...data }).unwrap();
       if (res.body) {
         toast.success(res.message);
         dispatch(
-          setCredentials({ user: res.body.name, token: res.body.token })
+          setOnlyCredentialsUser({
+            user: res.body.name,
+          })
         );
       }
     } catch (error) {
+      console.log(error);
+      console.log(error.data);
+      console.log(error.data.message);
       toast.error(error?.data?.message);
     }
   };

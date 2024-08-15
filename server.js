@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import path from "path";
 
 const __dirname = import.meta.dirname;
@@ -18,11 +19,13 @@ import tvSeriesRouter from "./routes/tvseries-routes.js";
 app.use(
   cors({
     origin: dev_mode ? process.env.DEV_BASE_URL : process.env.PROD_BASE_URL,
+    credentials: true,
   })
 );
 
 connectDB();
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

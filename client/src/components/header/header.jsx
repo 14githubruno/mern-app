@@ -3,11 +3,9 @@ import { GiSouthKorea } from "react-icons/gi";
 import { BiUser } from "react-icons/bi";
 import { useEffect, useRef } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useLogoutUserMutation } from "../../redux/api/users-api-slice";
-import { clearCredentials } from "../../redux/features/auth/auth-slice";
-import { resetTvseries } from "../../redux/features/tvseries/tvseries-slice";
-import { apiSlice } from "../../redux/api/api-slice";
+import { useResetApiAndUser } from "../../hooks/use-reset-api-and-user";
 import toast from "react-hot-toast";
 
 export default function Header() {
@@ -15,8 +13,9 @@ export default function Header() {
   const secondDropdownRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+
+  const resetAll = useResetApiAndUser();
   const [logoutUser, { isSuccess }] = useLogoutUserMutation();
 
   const showDropdownContent = (e) => {
@@ -52,9 +51,7 @@ export default function Header() {
     try {
       const res = await logoutUser().unwrap();
       toast.success(res.message);
-      dispatch(clearCredentials());
-      dispatch(resetTvseries());
-      dispatch(apiSlice.util.resetApiState());
+      resetAll();
     } catch (err) {
       toast.error(err?.data?.message);
     }

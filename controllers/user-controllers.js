@@ -64,14 +64,24 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const passwordsMatch = await bcrypt.compare(password, user.password);
   if (user && passwordsMatch) {
-    res.status(200).json({
-      message: `User [${user.name}] is logged in`,
-      body: {
-        _id: user._id,
-        name: user.name,
-        token: generateToken(user._id),
-      },
-    });
+    const token = generateToken(user._id, "3d");
+    const cookieMaxAge = 3 * 24 * 60 * 60 * 1000 - 5 * 60 * 1000;
+
+    res
+      .cookie("jwt", token, {
+        httpOnly: process.env.NODE_ENV !== "development",
+        secure: true,
+        maxAge: cookieMaxAge,
+      })
+      .status(200)
+      .json({
+        message: `User [${user.name}] is logged in`,
+        body: {
+          _id: user._id,
+          name: user.name,
+          tokenExpirationDate: Date.now() + cookieMaxAge,
+        },
+      });
   } else {
     res.status(400);
     throw new Error("Credentials are not valid");
@@ -81,11 +91,17 @@ const loginUser = asyncHandler(async (req, res) => {
 // @desc    logout
 // @route   POST /api/users/logout
 // @access  Private
-const logoutUser = (req, res) => {
-  res.status(200).json({
-    message: `User [${req.user.name}] successfully logged out`,
-  });
-};
+const logoutUser = asyncHandler(async (req, res) => {
+  try {
+    res.clearCookie("jwt");
+    res.status(200).json({
+      message: `User [${req.user.name}] successfully logged out`,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error logging out user" });
+  }
+});
 
 // @desc    Get user profile
 // @route   GET /api/users/profile
@@ -160,7 +176,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         message: `User [${updatedUser.name}] updated`,
         body: {
           name: updatedUser.name,
-          token: generateToken(updatedUser._id),
         },
       });
     } else {
