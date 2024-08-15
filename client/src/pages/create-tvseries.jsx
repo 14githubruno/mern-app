@@ -46,7 +46,7 @@ export default function CreateTvseries() {
     try {
       const res = await createOneTvseries(data).unwrap();
       toast.success(res?.message);
-    } catch (error) {
+    } catch (err) {
       if (err.data.type === "token") {
         toast.error("Token has expired. Log in again");
         resetAll();
