@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useRegisterUserMutation } from "../redux/api/users-api-slice";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import UserFormParagraph from "../components/user-form-paragraph/user-form-paragraph";
 import toast from "react-hot-toast";
 
@@ -13,8 +15,16 @@ export default function Register() {
     },
   });
 
+  const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
   const [registerUser, { isLoading }] = useRegisterUserMutation();
+
+  useEffect(() => {
+    if (user !== null) {
+      toast.error("You are currently logged in. To Register new user, log out");
+      navigate("/", { replace: true });
+    }
+  }, [user, navigate]);
 
   const handleUserRegistration = async (data) => {
     try {
