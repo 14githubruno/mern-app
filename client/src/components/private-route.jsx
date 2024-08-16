@@ -15,15 +15,13 @@ export default function PrivateRoute() {
 
   useEffect(() => {
     if (user === null) {
-      console.log("no user");
       toast.error("Log in first or kreate an akkount");
     }
   }, [location]);
 
   useEffect(() => {
     if (user && tokenExpirationDate && tokenExpirationDate < Date.now()) {
-      console.log("invalid token");
-      toast.error("Token has expired. Log in again");
+      toast.error("Token expired. Log in again");
       resetAll();
     }
   }, [location]);
