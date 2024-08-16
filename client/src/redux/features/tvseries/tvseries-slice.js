@@ -12,7 +12,6 @@ export const tvseriesSlice = createSlice({
       state.tvseries = action.payload;
     },
     resetTvseries: (state, action) => {
-      console.log("clearing tvseries");
       state.tvseries = [];
     },
   },

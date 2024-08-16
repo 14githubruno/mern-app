@@ -17,7 +17,6 @@ export const authSlice = createSlice({
       state.user = action.payload.user;
     },
     clearCredentials: (state, action) => {
-      console.log("clearing credentials");
       state.user = null;
       state.tokenExpirationDate = null;
     },
