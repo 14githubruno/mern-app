@@ -10,10 +10,6 @@ const apiSlice = createApi({
   reducerPath: "api",
   baseQuery,
   tagTypes: ["User", "Tvseries"],
-  extractRehydrationInfo(action, state) {
-    console.log(action);
-    console.log(state);
-  },
   refetchOnReconnect: true,
   endpoints: (builder) => ({}),
 });
