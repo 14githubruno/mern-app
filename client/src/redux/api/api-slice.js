@@ -14,6 +14,7 @@ const apiSlice = createApi({
     console.log(action);
     console.log(state);
   },
+  refetchOnReconnect: true,
   endpoints: (builder) => ({}),
 });
 
