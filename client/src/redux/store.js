@@ -17,6 +17,7 @@ import tvseriesReducer from "./features/tvseries/tvseries-slice";
 const persistConfig = {
   key: "root",
   storage,
+  blacklist: [apiSlice.reducerPath],
 };
 
 const rootReducer = combineReducers({
