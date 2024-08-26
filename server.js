@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import path from "path";
 
 const __dirname = import.meta.dirname;
-const dev_mode = process.env.NODE_ENV === "development";
+const IS_DEV_MODE = process.env.NODE_ENV === "development";
 const PORT = process.env.PORT;
 const BASE_URL = process.env.BASE_URL;
 const app = express();
@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", userRouter);
 app.use("/api/tvseries", tvSeriesRouter);
 
-if (dev_mode) {
+if (IS_DEV_MODE) {
   console.log("development mode");
   app.get("/", (req, res) => {
     res.send("Testing express server");
