@@ -6,9 +6,10 @@ import {
   useGetUserProfileQuery,
 } from "../redux/api/users-api-slice";
 import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import InputPassword from "../components/input-password/input-password";
 import LinkBack from "../components/link-back/link-back";
 
 export default function UpdateUserProfile() {
@@ -19,7 +20,7 @@ export default function UpdateUserProfile() {
   const [updateUserProfile, { isLoading, isSuccess }] =
     useUpdateUserProfileMutation();
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, watch } = useForm({
     defaultValues: async () => {
       let user;
       if (dataIsAvailable) {
@@ -79,16 +80,9 @@ export default function UpdateUserProfile() {
           autoComplete="off"
           {...register("email")}
         />
-        <label htmlFor="password">
-          Password<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="password"
-          id="password"
-          placeholder="Enter your current or new password"
-          autoComplete="off"
-          {...register("password")}
-        />
+        <FormProvider watch={watch} register={register}>
+          <InputPassword placeholder={"Enter your current or new password"} />
+        </FormProvider>
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Updating..." : "Update"}
         </button>

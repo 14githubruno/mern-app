@@ -1,13 +1,14 @@
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { useRegisterUserMutation } from "../redux/api/users-api-slice";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import InputPassword from "../components/input-password/input-password";
 import UserFormParagraph from "../components/user-form-paragraph/user-form-paragraph";
 import toast from "react-hot-toast";
 
 export default function Register() {
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, watch } = useForm({
     defaultValues: {
       name: "",
       email: "",
@@ -61,20 +62,14 @@ export default function Register() {
           autoComplete="off"
           {...register("email")}
         />
-        <label htmlFor="password">
-          Password<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="password"
-          id="password"
-          placeholder="Enter password"
-          autoComplete="off"
-          {...register("password")}
-        />
+        <FormProvider watch={watch} register={register}>
+          <InputPassword placeholder={"Enter password"} />
+        </FormProvider>
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Registering..." : "Register"}
         </button>
       </form>
+
       <UserFormParagraph
         paragraphText="Already have an akkount?"
         linkText="Log in"

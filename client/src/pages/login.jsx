@@ -1,14 +1,15 @@
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { useLoginUserMutation } from "../redux/api/users-api-slice";
 import { setCredentials } from "../redux/features/auth/auth-slice";
 import { useNavigate } from "react-router-dom";
+import InputPassword from "../components/input-password/input-password";
 import UserFormParagraph from "../components/user-form-paragraph/user-form-paragraph";
 import toast from "react-hot-toast";
 
 export default function Login() {
-  const { register, handleSubmit, reset } = useForm({
+  const { register, handleSubmit, watch, reset } = useForm({
     defaultValues: {
       email: "",
       password: "",
@@ -59,16 +60,9 @@ export default function Login() {
           autoComplete="off"
           {...register("email")}
         />
-        <label htmlFor="password">
-          Password<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="password"
-          id="password"
-          placeholder="Enter password"
-          autoComplete="off"
-          {...register("password")}
-        />
+        <FormProvider watch={watch} register={register}>
+          <InputPassword placeholder={"Enter password"} />
+        </FormProvider>
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Logging in..." : "Log in"}
         </button>
