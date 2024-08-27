@@ -6,6 +6,8 @@ import Homepage from "../pages/homepage";
 import Register from "../pages/register";
 import Login from "../pages/login";
 import Dashboard from "../pages/dashboard";
+import UserProfile from "../pages/user-profile";
+import UpdateUserProfile from "../pages/update-user-profile";
 import CreateTvseries from "../pages/create-tvseries";
 import UpdateTvseries from "../pages/update-tvseries";
 
@@ -41,6 +43,14 @@ const browserRouter = createBrowserRouter([
           {
             path: "/dashboard/update-tvseries/:id",
             element: <UpdateTvseries />,
+          },
+          {
+            path: "/profile",
+            element: <UserProfile />,
+          },
+          {
+            path: "/profile/update-user",
+            element: <UpdateUserProfile />,
           },
         ],
       },

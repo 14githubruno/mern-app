@@ -1,13 +1,14 @@
 import styles from "./header.module.scss";
 import { GiSouthKorea } from "react-icons/gi";
 import { BiUser } from "react-icons/bi";
+import { RxDashboard } from "react-icons/rx";
+import { RiProfileLine } from "react-icons/ri";
+import { IoIosLogOut } from "react-icons/io";
 import { useEffect, useRef } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useLogoutUserMutation } from "../../redux/api/users-api-slice";
-import { clearCredentials } from "../../redux/features/auth/auth-slice";
-import { resetTvseries } from "../../redux/features/tvseries/tvseries-slice";
-import { apiSlice } from "../../redux/api/api-slice";
+import { useResetApiAndUser } from "../../hooks/use-reset-api-and-user";
 import toast from "react-hot-toast";
 
 export default function Header() {
@@ -15,8 +16,9 @@ export default function Header() {
   const secondDropdownRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+
+  const resetAll = useResetApiAndUser();
   const [logoutUser, { isSuccess }] = useLogoutUserMutation();
 
   const showDropdownContent = (e) => {
@@ -52,11 +54,14 @@ export default function Header() {
     try {
       const res = await logoutUser().unwrap();
       toast.success(res.message);
-      dispatch(clearCredentials());
-      dispatch(resetTvseries());
-      dispatch(apiSlice.util.resetApiState());
+      resetAll();
     } catch (err) {
-      toast.error(err?.data?.message);
+      if (err.data.type === "token") {
+        toast.error("Token has expired. Log in again");
+        resetAll();
+        return;
+      }
+      toast.error(err.data.message);
     }
   };
 
@@ -104,7 +109,29 @@ export default function Header() {
                 e.stopPropagation();
               }}
             >
-              Dashboard
+              <span>
+                <RxDashboard />
+              </span>
+              <span>Dashboard</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              className={`${styles.dropdownLink} ${styles.linkToProfile} ${
+                location.pathname === "/profile"
+                  ? styles.linkToProfileIsActive
+                  : ""
+              }`}
+              to={"/profile"}
+              onClick={(e) => {
+                hideDropdownContent();
+                e.stopPropagation();
+              }}
+            >
+              <span>
+                <RiProfileLine />
+              </span>
+              <span>Profile</span>
             </Link>
           </li>
           <li>
@@ -116,7 +143,10 @@ export default function Header() {
                 e.stopPropagation();
               }}
             >
-              Log out
+              <span>
+                <IoIosLogOut />
+              </span>
+              <span>Log out</span>
             </button>
           </li>
         </ul>

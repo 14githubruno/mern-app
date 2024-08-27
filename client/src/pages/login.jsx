@@ -18,20 +18,28 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const token = useSelector((state) => state.auth.token);
+  const tokenExpirationDate = useSelector(
+    (state) => state.auth.tokenExpirationDate
+  );
+
   const [loginUser, { isLoading }] = useLoginUserMutation();
 
   useEffect(() => {
-    if (user && token) {
+    if (user && tokenExpirationDate) {
       reset();
       navigate("/", { replace: true });
     }
-  }, [user, token, navigate, reset]);
+  }, [user, tokenExpirationDate, navigate, reset]);
 
   const handleUserLogin = async (data) => {
     try {
       const res = await loginUser({ ...data }).unwrap();
-      dispatch(setCredentials({ user: res.body.name, token: res.body.token }));
+      dispatch(
+        setCredentials({
+          user: res.body.name,
+          tokenExpirationDate: res.body.tokenExpirationDate,
+        })
+      );
       toast.success(res.message);
     } catch (err) {
       toast.error(err?.data?.message);

@@ -8,8 +8,8 @@ function ModalView({ title, stars, image, note, closeModalView }) {
   const restOfStars = new Array(5 - Number(stars)).fill("*");
 
   return (
-    <div className={styles.modalView}>
-      <article className={styles.card}>
+    <article className={styles.modalView}>
+      <div className={styles.card}>
         <h2 className={styles.title}>{title}</h2>
         <img className={styles.image} src={image} />
         <div className={styles.starsContainer}>
@@ -29,8 +29,8 @@ function ModalView({ title, stars, image, note, closeModalView }) {
         </div>
         <p className={styles.parag}>{note}</p>
         <LiaTimesSolid className={styles.closeBtn} onClick={closeModalView} />
-      </article>
-    </div>
+      </div>
+    </article>
   );
 }
 

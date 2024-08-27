@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useUpdateOneTvseriesMutation } from "../redux/api/tvseries-api-slice";
+import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { resizeImage } from "../lib/resize-image";
 import TextareaChars from "../components/textarea-chars/textarea-chars";
-import LinkBackToDashboard from "../components/link-back-to-dashboard/link-back-to-dashboard";
+import LinkBack from "../components/link-back/link-back";
 import toast from "react-hot-toast";
 
 export default function Update() {
@@ -16,6 +17,8 @@ export default function Update() {
   const navigate = useNavigate();
 
   const tvseries = useSelector((state) => state.tvseries.tvseries);
+
+  const resetAll = useResetApiAndUser();
   const [updateOneTvseries, { isLoading, isSuccess }] =
     useUpdateOneTvseriesMutation();
 
@@ -56,8 +59,13 @@ export default function Update() {
     try {
       const res = await updateOneTvseries(data).unwrap();
       toast.success(res.message);
-    } catch (error) {
-      toast.error(error?.data?.message);
+    } catch (err) {
+      if (err.data.type === "token") {
+        toast.error("Token has expired. Log in again");
+        resetAll();
+        return;
+      }
+      toast.error(err.data.message);
     }
   };
 
@@ -120,7 +128,7 @@ export default function Update() {
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Updating..." : "Update"}
         </button>
-        <LinkBackToDashboard />
+        <LinkBack linkHref={"/dashboard"} />
       </form>
     </section>
   );

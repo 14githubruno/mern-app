@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: null,
-  token: null,
+  tokenExpirationDate: null,
 };
 
 export const authSlice = createSlice({
@@ -11,14 +11,18 @@ export const authSlice = createSlice({
   reducers: {
     setCredentials: (state, action) => {
       state.user = action.payload.user;
-      state.token = action.payload.token;
+      state.tokenExpirationDate = action.payload.tokenExpirationDate;
+    },
+    setOnlyCredentialsUser: (state, action) => {
+      state.user = action.payload.user;
     },
     clearCredentials: (state, action) => {
       state.user = null;
-      state.token = null;
+      state.tokenExpirationDate = null;
     },
   },
 });
 
-export const { setCredentials, clearCredentials } = authSlice.actions;
+export const { setCredentials, setOnlyCredentialsUser, clearCredentials } =
+  authSlice.actions;
 export default authSlice.reducer;
