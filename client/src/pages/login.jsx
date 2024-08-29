@@ -9,7 +9,7 @@ import UserFormParagraph from "../components/user-form-paragraph/user-form-parag
 import toast from "react-hot-toast";
 
 export default function Login() {
-  const { register, handleSubmit, watch, reset } = useForm({
+  const methods = useForm({
     defaultValues: {
       email: "",
       password: "",
@@ -27,10 +27,10 @@ export default function Login() {
 
   useEffect(() => {
     if (user && tokenExpirationDate) {
-      reset();
+      methods.reset();
       navigate("/", { replace: true });
     }
-  }, [user, tokenExpirationDate, navigate, reset]);
+  }, [user, tokenExpirationDate, navigate, methods.reset]);
 
   const handleUserLogin = async (data) => {
     try {
@@ -49,24 +49,24 @@ export default function Login() {
 
   return (
     <section>
-      <form onSubmit={handleSubmit(handleUserLogin)}>
-        <label htmlFor="email">
-          Email<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter email"
-          autoComplete="off"
-          {...register("email")}
-        />
-        <FormProvider watch={watch} register={register}>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(handleUserLogin)}>
+          <label htmlFor="email">
+            Email<span className="label-asterisk">*</span>
+          </label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter email"
+            autoComplete="off"
+            {...methods.register("email")}
+          />
           <InputPassword placeholder={"Enter password"} />
-        </FormProvider>
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Logging in..." : "Log in"}
-        </button>
-      </form>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Log in"}
+          </button>
+        </form>
+      </FormProvider>
       <UserFormParagraph
         paragraphText="Don't have an akkount?"
         linkText="Register one"

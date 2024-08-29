@@ -9,7 +9,7 @@ import LinkBack from "../components/link-back/link-back";
 import toast from "react-hot-toast";
 
 export default function CreateTvseries() {
-  const { register, handleSubmit, reset, control } = useForm({
+  const methods = useForm({
     defaultValues: {
       title: "",
       stars: null,
@@ -27,11 +27,11 @@ export default function CreateTvseries() {
 
   useEffect(() => {
     if (isSuccess) {
-      reset();
+      methods.reset();
       setImg("");
       navigate("/dashboard", { replace: true });
     }
-  }, [isSuccess, navigate, reset]);
+  }, [isSuccess, navigate, methods.reset]);
 
   const handleImageConversionAndResize = async (e) => {
     try {
@@ -58,63 +58,63 @@ export default function CreateTvseries() {
 
   return (
     <section>
-      <form onSubmit={handleSubmit(handleCreateOneTvseries)}>
-        <label htmlFor="title">
-          Title<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="text"
-          id="title"
-          placeholder="Enter title"
-          autoComplete="off"
-          {...register("title")}
-        />
-        <label htmlFor="stars">
-          Stars<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="number"
-          id="stars"
-          placeholder="Enter number (1-5)"
-          autoComplete="off"
-          {...register("stars")}
-        />
-        <label htmlFor="image">
-          {img ? <img src={img} /> : null}
-          Image<span className="label-asterisk">*</span>
-        </label>
-        <input
-          {...register("image", {
-            onChange: (e) => {
-              handleImageConversionAndResize(e);
-            },
-          })}
-          type="file"
-          id="image"
-          accept="image/*"
-        />
-        <>
-          <label htmlFor="note">
-            Note<span className="label-asterisk">*</span>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(handleCreateOneTvseries)}>
+          <label htmlFor="title">
+            Title<span className="label-asterisk">*</span>
           </label>
-          <textarea
-            id="note"
-            placeholder="Enter note"
+          <input
+            type="text"
+            id="title"
+            placeholder="Enter title"
             autoComplete="off"
-            maxLength={200}
-            {...register("note", {
-              onDrop: (e) => e.preventDefault(),
-            })}
+            {...methods.register("title")}
           />
-          <FormProvider control={control}>
+          <label htmlFor="stars">
+            Stars<span className="label-asterisk">*</span>
+          </label>
+          <input
+            type="number"
+            id="stars"
+            placeholder="Enter number (1-5)"
+            autoComplete="off"
+            {...methods.register("stars")}
+          />
+          <label htmlFor="image">
+            {img ? <img src={img} /> : null}
+            Image<span className="label-asterisk">*</span>
+          </label>
+          <input
+            {...methods.register("image", {
+              onChange: (e) => {
+                handleImageConversionAndResize(e);
+              },
+            })}
+            type="file"
+            id="image"
+            accept="image/*"
+          />
+          <>
+            <label htmlFor="note">
+              Note<span className="label-asterisk">*</span>
+            </label>
+            <textarea
+              id="note"
+              placeholder="Enter note"
+              autoComplete="off"
+              maxLength={200}
+              {...methods.register("note", {
+                onDrop: (e) => e.preventDefault(),
+              })}
+            />
             <TextareaChars />
-          </FormProvider>
-        </>
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Kreating..." : "Kreate"}
-        </button>
-        <LinkBack linkHref={"/dashboard"} />
-      </form>
+          </>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Kreating..." : "Kreate"}
+          </button>
+          <LinkBack linkHref={"/dashboard"} />
+        </form>
+      </FormProvider>
     </section>
   );
 }

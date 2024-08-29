@@ -8,7 +8,7 @@ import UserFormParagraph from "../components/user-form-paragraph/user-form-parag
 import toast from "react-hot-toast";
 
 export default function Register() {
-  const { register, handleSubmit, watch } = useForm({
+  const methods = useForm({
     defaultValues: {
       name: "",
       email: "",
@@ -41,35 +41,34 @@ export default function Register() {
 
   return (
     <section>
-      <form onSubmit={handleSubmit(handleUserRegistration)}>
-        <label htmlFor="name">
-          Name<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="text"
-          id="name"
-          placeholder="Enter name"
-          autoComplete="off"
-          {...register("name")}
-        />
-        <label htmlFor="email">
-          Email<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter email"
-          autoComplete="off"
-          {...register("email")}
-        />
-        <FormProvider watch={watch} register={register}>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(handleUserRegistration)}>
+          <label htmlFor="name">
+            Name<span className="label-asterisk">*</span>
+          </label>
+          <input
+            type="text"
+            id="name"
+            placeholder="Enter name"
+            autoComplete="off"
+            {...methods.register("name")}
+          />
+          <label htmlFor="email">
+            Email<span className="label-asterisk">*</span>
+          </label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter email"
+            autoComplete="off"
+            {...methods.register("email")}
+          />
           <InputPassword placeholder={"Enter password"} />
-        </FormProvider>
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Registering..." : "Register"}
-        </button>
-      </form>
-
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Registering..." : "Register"}
+          </button>
+        </form>
+      </FormProvider>
       <UserFormParagraph
         paragraphText="Already have an akkount?"
         linkText="Log in"

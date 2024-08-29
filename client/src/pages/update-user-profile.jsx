@@ -20,7 +20,7 @@ export default function UpdateUserProfile() {
   const [updateUserProfile, { isLoading, isSuccess }] =
     useUpdateUserProfileMutation();
 
-  const { register, handleSubmit, watch } = useForm({
+  const methods = useForm({
     defaultValues: async () => {
       let user;
       if (dataIsAvailable) {
@@ -59,35 +59,35 @@ export default function UpdateUserProfile() {
 
   return (
     <section>
-      <form onSubmit={handleSubmit(handleUpdateUserData)}>
-        <label htmlFor="name">
-          Name<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="text"
-          id="name"
-          placeholder="Enter name"
-          autoComplete="off"
-          {...register("name")}
-        />
-        <label htmlFor="email">
-          Email<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter email"
-          autoComplete="off"
-          {...register("email")}
-        />
-        <FormProvider watch={watch} register={register}>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(handleUpdateUserData)}>
+          <label htmlFor="name">
+            Name<span className="label-asterisk">*</span>
+          </label>
+          <input
+            type="text"
+            id="name"
+            placeholder="Enter name"
+            autoComplete="off"
+            {...methods.register("name")}
+          />
+          <label htmlFor="email">
+            Email<span className="label-asterisk">*</span>
+          </label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter email"
+            autoComplete="off"
+            {...methods.register("email")}
+          />
           <InputPassword placeholder={"Enter your current or new password"} />
-        </FormProvider>
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Updating..." : "Update"}
-        </button>
-        <LinkBack linkHref={"/profile"} />
-      </form>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Updating..." : "Update"}
+          </button>
+          <LinkBack linkHref={"/profile"} />
+        </form>
+      </FormProvider>
     </section>
   );
 }

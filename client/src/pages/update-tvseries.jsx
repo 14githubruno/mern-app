@@ -17,12 +17,11 @@ export default function Update() {
   const navigate = useNavigate();
 
   const tvseries = useSelector((state) => state.tvseries.tvseries);
-
   const resetAll = useResetApiAndUser();
   const [updateOneTvseries, { isLoading, isSuccess }] =
     useUpdateOneTvseriesMutation();
 
-  const { register, handleSubmit, control } = useForm({
+  const methods = useForm({
     defaultValues: async () => {
       const findTvseriesToUpdate = tvseries?.find(
         (singleSeries) => singleSeries._id === params.id
@@ -71,65 +70,65 @@ export default function Update() {
 
   return (
     <section>
-      <form onSubmit={handleSubmit(handleUpdateOneTvseries)}>
-        <label htmlFor="title">
-          Title<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="text"
-          id="title"
-          placeholder="Enter title"
-          autoComplete="off"
-          {...register("title")}
-        />
-        <label htmlFor="stars">
-          Stars<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="number"
-          id="stars"
-          placeholder="Enter number (1-5)"
-          autoComplete="off"
-          {...register("stars", {
-            valueAsNumber: true,
-          })}
-        />
-        <label htmlFor="image">
-          {img ? <img src={img} /> : null}
-          Image<span className="label-asterisk">*</span>
-        </label>
-        <input
-          {...register("image", {
-            onChange: (e) => {
-              handleImageConversionAndResize(e);
-            },
-          })}
-          type="file"
-          id="image"
-          accept="image/*"
-        />
-        <>
-          <label htmlFor="note">
-            Note<span className="label-asterisk">*</span>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(handleUpdateOneTvseries)}>
+          <label htmlFor="title">
+            Title<span className="label-asterisk">*</span>
           </label>
-          <textarea
-            id="note"
-            placeholder="Enter note"
+          <input
+            type="text"
+            id="title"
+            placeholder="Enter title"
             autoComplete="off"
-            maxLength={200}
-            {...register("note", {
-              onDrop: (e) => e.preventDefault(),
+            {...methods.register("title")}
+          />
+          <label htmlFor="stars">
+            Stars<span className="label-asterisk">*</span>
+          </label>
+          <input
+            type="number"
+            id="stars"
+            placeholder="Enter number (1-5)"
+            autoComplete="off"
+            {...methods.register("stars", {
+              valueAsNumber: true,
             })}
           />
-          <FormProvider control={control}>
+          <label htmlFor="image">
+            {img ? <img src={img} /> : null}
+            Image<span className="label-asterisk">*</span>
+          </label>
+          <input
+            {...methods.register("image", {
+              onChange: (e) => {
+                handleImageConversionAndResize(e);
+              },
+            })}
+            type="file"
+            id="image"
+            accept="image/*"
+          />
+          <>
+            <label htmlFor="note">
+              Note<span className="label-asterisk">*</span>
+            </label>
+            <textarea
+              id="note"
+              placeholder="Enter note"
+              autoComplete="off"
+              maxLength={200}
+              {...methods.register("note", {
+                onDrop: (e) => e.preventDefault(),
+              })}
+            />
             <TextareaChars />
-          </FormProvider>
-        </>
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Updating..." : "Update"}
-        </button>
-        <LinkBack linkHref={"/dashboard"} />
-      </form>
+          </>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Updating..." : "Update"}
+          </button>
+          <LinkBack linkHref={"/dashboard"} />
+        </form>
+      </FormProvider>
     </section>
   );
 }
