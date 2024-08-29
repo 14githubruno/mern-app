@@ -3,6 +3,7 @@ import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
 import bcrypt from "bcrypt";
 import { generateToken } from "../lib/generate-token.js";
+import { passwordIsValid } from "../lib/check-password.js";
 
 // @desc    Register new user
 // @route   POST /api/users/register
@@ -12,6 +13,11 @@ const registerUser = asyncHandler(async (req, res) => {
   if (!name || !email || !password) {
     res.status(400);
     throw new Error("All fields are required");
+  }
+
+  if (!passwordIsValid(password)) {
+    res.status(400);
+    throw new Error("Password does not match the pattern");
   }
 
   const userExists = await User.findOne({ email });
