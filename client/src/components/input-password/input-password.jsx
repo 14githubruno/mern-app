@@ -26,7 +26,11 @@ export default function InputPassword({ placeholder }) {
         {...register("password")}
       />
       {inputValue?.length > 0 && (
-        <span className={styles.eyeIcon} onClick={togglePasswordVisibility}>
+        <span
+          aria-label="Toggle password visibility"
+          className={styles.eyeIcon}
+          onClick={togglePasswordVisibility}
+        >
           {inputType === "password" ? <RxEyeOpen /> : <RxEyeNone />}
         </span>
       )}
