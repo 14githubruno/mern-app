@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function ErrorPage() {
   return (
-    <section style={{ color: "white" }}>
+    <section style={{ color: "var(--white-color)" }}>
       <header>
         <h1
           style={{
