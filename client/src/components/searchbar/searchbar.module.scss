@@ -1,7 +1,12 @@
 @use "@/breakpoints" as *;
 
 .searchbar {
+  width: 90%;
+  max-width: 45rem;
+  margin: 1rem 1rem 3rem 1rem;
   padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .label {
@@ -10,6 +15,7 @@
   display: none;
 }
 
+.searchbar,
 .inputWrapper {
   position: relative;
 }
@@ -17,6 +23,7 @@
 .searchbarInput {
   width: 100%;
   height: 3rem;
+  margin: 1rem auto 1.7rem auto;
   padding: 0.7rem 3rem 0.7rem 0.7rem;
   border-radius: 2rem;
   font-size: 1.4rem;
@@ -25,16 +32,24 @@
   box-shadow: 0 0 0.3rem var(--white-color);
   transition: box-shadow 0.1s ease, padding 0.1s ease;
   background: transparent;
-  color: var(--white-color);
+  color: var(--grey-transparency);
+  transition: padding 0.2s linear;
+
+  &:focus {
+    color: var(--white-color);
+    box-shadow: 0 0 0.8rem var(--aqua-green-color);
+    padding-left: 1.5rem;
+  }
+
+  &::placeholder {
+    color: var(--dark-blue-color);
+    color: var(--grey-transparency);
+  }
 }
 
 .uselessSearchbarInput {
   opacity: 0.5;
   cursor: not-allowed;
-}
-
-.searchbarInput:focus {
-  box-shadow: 0 0 0.8rem var(--aqua-green-color);
 }
 
 .searchIcon {
@@ -45,11 +60,6 @@
   right: 0.8rem;
   color: var(--aqua-green-color);
   cursor: text;
-}
-
-.searchbarInput::placeholder {
-  color: var(--dark-blue-color);
-  color: var(--grey-transparency);
 }
 
 @media (min-width: $break-large-mobile) {
