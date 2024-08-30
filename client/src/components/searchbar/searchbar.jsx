@@ -32,7 +32,10 @@ export default function Searchbar({ contentIsLoading }) {
           }
           {...register("searchbar")}
         />
-        <BsFillSearchHeartFill className={styles.searchIcon} />
+        <BsFillSearchHeartFill
+          aria-label="search icon"
+          className={styles.searchIcon}
+        />
       </div>
     </form>
   );

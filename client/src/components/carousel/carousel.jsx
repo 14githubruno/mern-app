@@ -33,10 +33,16 @@ export default function Carousel({ images }) {
         </div>
       </div>
       <span className="carousel-next-button" onClick={scrollNext}>
-        <TfiControlForward className="carousel-next-button--svg" />
+        <TfiControlForward
+          aria-label="next button"
+          className="carousel-next-button--svg"
+        />
       </span>
       <span className="carousel-prev-button" onClick={scrollPrev}>
-        <TfiControlBackward className="carousel-prev-button--svg" />
+        <TfiControlBackward
+          aria-label="prev button"
+          className="carousel-prev-button--svg"
+        />
       </span>
     </article>
   );

@@ -49,7 +49,10 @@ export default function Table({
 
   const there_are_no_rows_and_paragraph = !noTvseries && (
     <div className={styles.nothingContainer}>
-      <PiMaskSadThin className={styles.nothingIcon} />
+      <PiMaskSadThin
+        aria-label="sad face icon"
+        className={styles.nothingIcon}
+      />
       <span className={styles.nothingParagraph}>
         You have nothing to display. Start kreating your table rows.
       </span>
@@ -61,7 +64,10 @@ export default function Table({
       singleSeries.title.toLowerCase().includes(filter.toLowerCase())
     ) && (
       <div className={styles.nothingContainer}>
-        <RxEyeNone className={styles.notFoundIcon} />
+        <RxEyeNone
+          aria-label="not found icon"
+          className={styles.notFoundIcon}
+        />
         <span className={styles.nothingParagraph}>
           None of your table rows contains that title. Try another one or kreate
           it.

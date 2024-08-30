@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <Link target="blank" to={"https://github.com/14githubruno"}>
-        <PiGithubLogo className={styles.githubLogo} />
+        <PiGithubLogo aria-label="github icon" className={styles.githubLogo} />
       </Link>
     </footer>
   );

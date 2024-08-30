@@ -26,9 +26,11 @@ export default function HomeHeadingOne() {
         })}
         <span>
           <GiNoodles
+            aria-label="noodles icon"
             className={`${styles.homeHeadingOneIcon} ${styles.noodlesIcon}`}
           />
           <RiKnifeBloodLine
+            aria-label="knife with blood icon"
             className={`${styles.homeHeadingOneIcon} ${styles.knifeBloodIcon}`}
           />
         </span>

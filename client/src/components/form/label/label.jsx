@@ -10,7 +10,7 @@ export default function Label({ htmlFor, file = null }) {
   if (isLabelForPassword) {
     content_nested_in_label = (
       <span className={styles.passwordTooltipWrapper}>
-        <IoHelp />
+        <IoHelp aria-label="question mark icon" />
         <span className={styles.passwordTooltip}>
           Password must be between 10 and 15 characters long and contain at
           least one uppercase letter, one number and one special character

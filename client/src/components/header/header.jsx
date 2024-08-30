@@ -94,7 +94,7 @@ export default function Header() {
         onClick={showDropdownContent}
         className={styles.userIconDropdownWrapper}
       >
-        <BiUser className={styles.userIcon} />
+        <BiUser aria-label="user icon" className={styles.userIcon} />
         <ul className={styles.dropdownContent}>
           <li>
             <Link
@@ -110,7 +110,7 @@ export default function Header() {
               }}
             >
               <span>
-                <RxDashboard />
+                <RxDashboard aria-label="dashboard icon" />
               </span>
               <span>Dashboard</span>
             </Link>
@@ -129,7 +129,7 @@ export default function Header() {
               }}
             >
               <span>
-                <RiProfileLine />
+                <RiProfileLine aria-label="profile icon" />
               </span>
               <span>Profile</span>
             </Link>
@@ -144,7 +144,7 @@ export default function Header() {
               }}
             >
               <span>
-                <IoIosLogOut />
+                <IoIosLogOut aria-label="logout icon" />
               </span>
               <span>Log out</span>
             </button>
@@ -183,7 +183,10 @@ export default function Header() {
         }
         to={"/"}
       >
-        <GiSouthKorea className={styles.southKoreaIcon} />
+        <GiSouthKorea
+          aria-label="south korea icon"
+          className={styles.southKoreaIcon}
+        />
       </NavLink>
       {user ? navbar_with_user : navbar_without_user}
     </header>
