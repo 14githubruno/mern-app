@@ -90,6 +90,7 @@ export default function Header() {
         />
       </label>
       <div
+        aria-haspopup="true"
         ref={secondDropdownRef}
         onClick={showDropdownContent}
         className={styles.userIconDropdownWrapper}
