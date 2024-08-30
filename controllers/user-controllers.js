@@ -142,6 +142,11 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     throw new Error("All fields are required");
   }
 
+  if (!passwordIsValid(password)) {
+    res.status(400);
+    throw new Error("Password does not match the pattern");
+  }
+
   const emailAlreadyTaken = await User.findOne({
     email,
     _id: { $ne: currentUser._id },
