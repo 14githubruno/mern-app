@@ -45,7 +45,6 @@ function TableRow({
             })}
       </div>
       <div
-        aria-label={`image of ${title} tv series`}
         className={styles.image}
         style={{
           backgroundImage: `url(${image})`,
