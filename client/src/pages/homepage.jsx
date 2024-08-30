@@ -9,17 +9,48 @@ import imageEight from "/public/images/image-eight.jpg";
 import imageNine from "/public/images/image-nine.jpg";
 import imageTen from "/public/images/image-ten.jpg";
 
+const defaultAlt = "carousel k-tvseries image";
 const images = [
-  imageOne,
-  imageTwo,
-  imageThree,
-  imageFour,
-  imageFive,
-  imageSix,
-  imageSeven,
-  imageEight,
-  imageNine,
-  imageTen,
+  {
+    src: imageOne,
+    alt: defaultAlt + " " + "one",
+  },
+  {
+    src: imageTwo,
+    alt: defaultAlt + " " + "two",
+  },
+  {
+    src: imageThree,
+    alt: defaultAlt + " " + "three",
+  },
+  {
+    src: imageFour,
+    alt: defaultAlt + " " + "four",
+  },
+  {
+    src: imageFive,
+    alt: defaultAlt + " " + "five",
+  },
+  {
+    src: imageSix,
+    alt: defaultAlt + " " + "six",
+  },
+  {
+    src: imageSeven,
+    alt: defaultAlt + " " + "seven",
+  },
+  {
+    src: imageEight,
+    alt: defaultAlt + " " + "eight",
+  },
+  {
+    src: imageNine,
+    alt: defaultAlt + " " + "nine",
+  },
+  {
+    src: imageTen,
+    alt: defaultAlt + " " + "ten",
+  },
 ];
 
 import HomeHeadingOne from "../components/home-heading-one/home-heading-one";

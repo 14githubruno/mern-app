@@ -20,12 +20,14 @@ export default function Carousel({ images }) {
       <div className="carousel-viewport" ref={emblaRef}>
         <div className="carousel-container">
           {images.map((image, index) => {
+            const { src, alt } = image;
             return (
               <div key={index} className="carousel-slide">
                 <img
                   className="carousel-slide--image"
                   loading="lazy"
-                  src={image}
+                  src={src}
+                  alt={alt}
                 />
               </div>
             );

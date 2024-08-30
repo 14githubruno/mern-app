@@ -21,7 +21,9 @@ export default function Label({ htmlFor, file = null }) {
   }
 
   if (isLabelForImage && file) {
-    content_nested_in_label = <img className={styles.uploadedImg} src={file} />;
+    content_nested_in_label = (
+      <img className={styles.uploadedImg} src={file} alt="uploaded image" />
+    );
   }
 
   return (
