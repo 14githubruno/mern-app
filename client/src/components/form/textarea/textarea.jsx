@@ -1,7 +1,7 @@
 import styles from "./textarea.module.scss";
 import { useFormContext } from "react-hook-form";
 import Label from "../label/label";
-import TextareaChars from "../../textarea-chars/textarea-chars";
+import TextareaChars from "../textarea-chars/textarea-chars";
 
 export default function Textarea() {
   const { register } = useFormContext();
@@ -19,7 +19,7 @@ export default function Textarea() {
           onDrop: (e) => e.preventDefault(),
         })}
       />
-      <TextareaChars />
+      <TextareaChars name={"note"} />
     </>
   );
 }
