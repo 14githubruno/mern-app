@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useCreateOneTvseriesMutation } from "../redux/api/tvseries-api-slice";
 import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { resizeImage } from "../lib/resize-image";
-import TextareaChars from "../components/textarea-chars/textarea-chars";
-import LinkBack from "../components/link-back/link-back";
+import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
 export default function CreateTvseries() {
@@ -59,61 +58,20 @@ export default function CreateTvseries() {
   return (
     <section>
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(handleCreateOneTvseries)}>
-          <label htmlFor="title">
-            Title<span className="label-asterisk">*</span>
-          </label>
-          <input
-            type="text"
-            id="title"
-            placeholder="Enter title"
-            autoComplete="off"
-            {...methods.register("title")}
-          />
-          <label htmlFor="stars">
-            Stars<span className="label-asterisk">*</span>
-          </label>
-          <input
-            type="number"
-            id="stars"
-            placeholder="Enter number (1-5)"
-            autoComplete="off"
-            {...methods.register("stars")}
-          />
-          <label htmlFor="image">
-            {img ? <img src={img} /> : null}
-            Image<span className="label-asterisk">*</span>
-          </label>
-          <input
-            {...methods.register("image", {
-              onChange: (e) => {
-                handleImageConversionAndResize(e);
-              },
-            })}
-            type="file"
-            id="image"
-            accept="image/*"
-          />
-          <>
-            <label htmlFor="note">
-              Note<span className="label-asterisk">*</span>
-            </label>
-            <textarea
-              id="note"
-              placeholder="Enter note"
-              autoComplete="off"
-              maxLength={200}
-              {...methods.register("note", {
-                onDrop: (e) => e.preventDefault(),
-              })}
-            />
-            <TextareaChars />
-          </>
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? "Kreating..." : "Kreate"}
-          </button>
-          <LinkBack linkHref={"/dashboard"} />
-        </form>
+        <Form
+          typeOfForm={"create tvseries"}
+          onSubmit={handleCreateOneTvseries}
+          inputFileProps={{
+            typeOfFile: "image",
+            file: img,
+            funcForInputFile: handleImageConversionAndResize,
+          }}
+          formButtonProps={{
+            isLoading,
+            textOnLoading: "Kreating...",
+            text: "Kreate",
+          }}
+        />
       </FormProvider>
     </section>
   );

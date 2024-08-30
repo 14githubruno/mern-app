@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLoginUserMutation } from "../redux/api/users-api-slice";
 import { setCredentials } from "../redux/features/auth/auth-slice";
 import { useNavigate } from "react-router-dom";
-import InputPassword from "../components/input-password/input-password";
+import Form from "../components/form/form";
 import UserFormParagraph from "../components/user-form-paragraph/user-form-paragraph";
 import toast from "react-hot-toast";
 
@@ -50,22 +50,15 @@ export default function Login() {
   return (
     <section>
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(handleUserLogin)}>
-          <label htmlFor="email">
-            Email<span className="label-asterisk">*</span>
-          </label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter email"
-            autoComplete="off"
-            {...methods.register("email")}
-          />
-          <InputPassword placeholder={"Enter password"} />
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? "Logging in..." : "Log in"}
-          </button>
-        </form>
+        <Form
+          typeOfForm={"login user"}
+          onSubmit={handleUserLogin}
+          formButtonProps={{
+            isLoading,
+            textOnLoading: "Logging in...",
+            text: "Log in",
+          }}
+        />
       </FormProvider>
       <UserFormParagraph
         paragraphText="Don't have an akkount?"

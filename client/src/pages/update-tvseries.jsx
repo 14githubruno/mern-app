@@ -5,8 +5,7 @@ import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { resizeImage } from "../lib/resize-image";
-import TextareaChars from "../components/textarea-chars/textarea-chars";
-import LinkBack from "../components/link-back/link-back";
+import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
 export default function Update() {
@@ -71,63 +70,20 @@ export default function Update() {
   return (
     <section>
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(handleUpdateOneTvseries)}>
-          <label htmlFor="title">
-            Title<span className="label-asterisk">*</span>
-          </label>
-          <input
-            type="text"
-            id="title"
-            placeholder="Enter title"
-            autoComplete="off"
-            {...methods.register("title")}
-          />
-          <label htmlFor="stars">
-            Stars<span className="label-asterisk">*</span>
-          </label>
-          <input
-            type="number"
-            id="stars"
-            placeholder="Enter number (1-5)"
-            autoComplete="off"
-            {...methods.register("stars", {
-              valueAsNumber: true,
-            })}
-          />
-          <label htmlFor="image">
-            {img ? <img src={img} /> : null}
-            Image<span className="label-asterisk">*</span>
-          </label>
-          <input
-            {...methods.register("image", {
-              onChange: (e) => {
-                handleImageConversionAndResize(e);
-              },
-            })}
-            type="file"
-            id="image"
-            accept="image/*"
-          />
-          <>
-            <label htmlFor="note">
-              Note<span className="label-asterisk">*</span>
-            </label>
-            <textarea
-              id="note"
-              placeholder="Enter note"
-              autoComplete="off"
-              maxLength={200}
-              {...methods.register("note", {
-                onDrop: (e) => e.preventDefault(),
-              })}
-            />
-            <TextareaChars />
-          </>
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? "Updating..." : "Update"}
-          </button>
-          <LinkBack linkHref={"/dashboard"} />
-        </form>
+        <Form
+          typeOfForm={"update tvseries"}
+          onSubmit={handleUpdateOneTvseries}
+          inputFileProps={{
+            typeOfFile: "image",
+            file: img,
+            funcForInputFile: handleImageConversionAndResize,
+          }}
+          formButtonProps={{
+            isLoading,
+            textOnLoading: "Updating...",
+            text: "Update",
+          }}
+        />
       </FormProvider>
     </section>
   );

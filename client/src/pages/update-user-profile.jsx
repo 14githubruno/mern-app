@@ -8,9 +8,8 @@ import {
 import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import Form from "../components/form/form";
 import toast from "react-hot-toast";
-import InputPassword from "../components/input-password/input-password";
-import LinkBack from "../components/link-back/link-back";
 
 export default function UpdateUserProfile() {
   const dispatch = useDispatch();
@@ -60,33 +59,15 @@ export default function UpdateUserProfile() {
   return (
     <section>
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(handleUpdateUserData)}>
-          <label htmlFor="name">
-            Name<span className="label-asterisk">*</span>
-          </label>
-          <input
-            type="text"
-            id="name"
-            placeholder="Enter name"
-            autoComplete="off"
-            {...methods.register("name")}
-          />
-          <label htmlFor="email">
-            Email<span className="label-asterisk">*</span>
-          </label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter email"
-            autoComplete="off"
-            {...methods.register("email")}
-          />
-          <InputPassword placeholder={"Enter your current or new password"} />
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? "Updating..." : "Update"}
-          </button>
-          <LinkBack linkHref={"/profile"} />
-        </form>
+        <Form
+          typeOfForm={"update user"}
+          onSubmit={handleUpdateUserData}
+          formButtonProps={{
+            isLoading,
+            textOnLoading: "Updating...",
+            text: "Update",
+          }}
+        />
       </FormProvider>
     </section>
   );
