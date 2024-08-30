@@ -9,8 +9,8 @@ export default function Label({ htmlFor, file = null }) {
 
   if (isLabelForPassword) {
     content_nested_in_label = (
-      <span className={styles.passwordTooltipWrapper}>
-        <IoHelp aria-label="question mark icon" />
+      <span id={`${htmlFor}-tooltip`} className={styles.passwordTooltipWrapper}>
+        <IoHelp aria-label="question mark icon" aria-hidden="true" />
         <span className={styles.passwordTooltip}>
           Password must be between 10 and 15 characters long and contain at
           least one uppercase letter, one number and one special character
@@ -25,7 +25,11 @@ export default function Label({ htmlFor, file = null }) {
   }
 
   return (
-    <label className={styles.label} htmlFor={htmlFor}>
+    <label
+      aria-describedby={`${htmlFor}-tooltip`}
+      className={styles.label}
+      htmlFor={htmlFor}
+    >
       {htmlFor}
       <span className={styles.labelAsterisk}>*</span>
       {content_nested_in_label}
