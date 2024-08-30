@@ -94,9 +94,13 @@ export default function Header() {
         ref={secondDropdownRef}
         onClick={showDropdownContent}
         className={styles.userIconDropdownWrapper}
+        id="user dropdown wrapper"
       >
         <BiUser aria-label="user icon" className={styles.userIcon} />
-        <ul className={styles.dropdownContent}>
+        <ul
+          aria-labelledby="user dropdown wrapper"
+          className={styles.dropdownContent}
+        >
           <li>
             <Link
               className={`${styles.dropdownLink} ${styles.linkToDashboard} ${
