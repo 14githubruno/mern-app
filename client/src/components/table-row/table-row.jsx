@@ -53,7 +53,11 @@ function TableRow({
       ></div>
       <div className={styles.note}>{note}</div>
       <div className={styles.iconsContainer}>
-        <span className={styles.iconView} onClick={showTableRowInModalView}>
+        <span
+          role="button"
+          className={styles.iconView}
+          onClick={showTableRowInModalView}
+        >
           <RxMagnifyingGlass
             aria-label="magnifying glass icon"
             className={styles.icon}
@@ -66,6 +70,7 @@ function TableRow({
           <RxPencil1 aria-label="pencil edit icon" className={styles.icon} />
         </Link>
         <span
+          role="button"
           className={styles.iconTrash}
           onClick={() => {
             toggleModalToDelete();
