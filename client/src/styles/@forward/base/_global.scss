@@ -22,105 +22,9 @@ section {
   align-items: center;
 }
 
-form {
-  width: 90%;
-  max-width: 45rem;
-  margin: 1rem 1rem 3rem 1rem;
-  padding: 1rem 1.8rem 3rem 1.8rem;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-label {
-  width: 94%;
-  margin: 1rem auto 0.2rem auto;
-  font-size: 1.355rem;
-  color: var(--white-color);
-  position: relative;
-}
-
-.label-asterisk {
-  color: var(--pink-color);
-  margin-left: 0.255rem;
-}
-
-input,
-textarea {
-  width: 94%;
-  margin: 1rem auto 1.7rem auto;
-  padding: 1rem;
-  font-size: 1.45rem;
-  display: block;
-  background: transparent;
-  outline: none;
-  border: none;
-  border-bottom: 0.1rem solid var(--white-color);
-  color: var(--grey-transparency);
-  transition: padding 0.2s linear;
-}
-
-input:focus:not(input[name="image"]),
-textarea:focus {
-  color: var(--white-color);
-  padding-left: 1.5rem;
-}
-
-textarea {
-  resize: none;
-  height: 7rem;
-}
-
-input[name="stars"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-}
-
-form img {
-  object-fit: cover;
-  width: 9rem;
-  height: 6rem;
-  border-radius: 1rem;
-  position: absolute;
-  top: 0.7rem;
-  right: 0;
-}
-
 input[name="image"] {
   color: transparent;
   cursor: pointer;
-}
-
-input[name="image"]::before {
-  content: url("/svg/form-img-icon.svg");
-  display: inline-block;
-  position: absolute;
-  left: 3.9rem;
-  bottom: 24.78rem;
-  width: 3rem;
-  cursor: pointer;
-}
-
-input[name="image"]::-webkit-file-upload-button {
-  opacity: 0;
-  cursor: pointer;
-}
-
-form button {
-  width: 94%;
-  margin: 2rem auto 0 auto;
-  padding: 0.8rem;
-  font-size: 1.555rem;
-  border-radius: 1rem;
-  outline: none;
-  border: none;
-  background: var(--blue-color);
-  transition: scale 0.2s linear;
-  cursor: pointer;
-}
-
-form button:hover,
-form button:active {
-  scale: 1.04;
 }
 
 ::-webkit-scrollbar {
@@ -142,21 +46,6 @@ form button:active {
 
 ::-webkit-scrollbar-corner {
   background-color: transparent;
-}
-
-@media (min-width: $break-tablet) {
-  label {
-    font-size: 1.455rem;
-  }
-
-  form button {
-    padding: 0.9rem;
-    font-size: 1.655rem;
-  }
-
-  form img {
-    top: 1rem;
-  }
 }
 
 @media (min-width: $break-large-desktop) {

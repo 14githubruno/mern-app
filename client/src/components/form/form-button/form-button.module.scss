@@ -1,0 +1,26 @@
+@use "@/breakpoints" as *;
+
+.formButton {
+  width: 94%;
+  margin: 2rem auto 0 auto;
+  padding: 0.8rem;
+  font-size: 1.555rem;
+  border-radius: 1rem;
+  outline: none;
+  border: none;
+  background: var(--blue-color);
+  transition: scale 0.2s linear;
+  cursor: pointer;
+}
+
+.formButton:hover,
+.formButton:active {
+  scale: 1.04;
+}
+
+@media (min-width: $break-tablet) {
+  .formButton {
+    padding: 0.9rem;
+    font-size: 1.655rem;
+  }
+}
