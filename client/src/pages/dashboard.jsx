@@ -1,3 +1,4 @@
+import { useHeadTags } from "../hooks/use-head-tags";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm, FormProvider } from "react-hook-form";
@@ -47,6 +48,9 @@ export default function Dashboard() {
       dispatch(setTvseries([]));
     }
   }, [data, isSuccess, error]);
+
+  // this below fires a useEffect
+  useHeadTags("dashboard", user);
 
   /* modal delete starts */
   const modalDeleteRef = useRef(null);

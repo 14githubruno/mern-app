@@ -1,8 +1,10 @@
+import { useHeadTags } from "../hooks/use-head-tags";
 import { useNavigate } from "react-router-dom";
 import {
   useGetUserProfileQuery,
   useDeleteUserProfileMutation,
 } from "../redux/api/users-api-slice";
+import { useSelector } from "react-redux";
 import { useGetAllTvseriesQuery } from "../redux/api/tvseries-api-slice";
 import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { useCallback, useRef } from "react";
@@ -16,6 +18,7 @@ import UserProfileButtonLinksContainer from "../components/user-profile-button-l
 export default function UserProfile() {
   const navigate = useNavigate();
   const resetAll = useResetApiAndUser();
+  const user = useSelector((state) => state.auth.user);
   const {
     data,
     isLoading: isFetchingUserData,
@@ -31,6 +34,8 @@ export default function UserProfile() {
     navigate("/login", { replace: true });
     toast.error("Token has expired. Log in again");
   }
+
+  useHeadTags("profile", user);
 
   /* modal delete starts */
   const modalDeleteRef = useRef(null);

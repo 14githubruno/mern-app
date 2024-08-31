@@ -1,3 +1,5 @@
+import { useHeadTags } from "../hooks/use-head-tags";
+
 import imageOne from "/public/images/image-one.jpg";
 import imageTwo from "/public/images/image-two.jpg";
 import imageThree from "/public/images/image-three.jpg";
@@ -58,6 +60,9 @@ import HomeParagraph from "../components/home-paragraph/home-paragraph";
 import HomeTelevision from "../components/home-television/home-television";
 
 export default function Homepage() {
+  // this below fires a useEffect
+  useHeadTags("homepage");
+
   return (
     <section>
       <div className="home-text-content--home-tv">

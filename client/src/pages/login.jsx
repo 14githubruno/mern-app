@@ -1,3 +1,4 @@
+import { useHeadTags } from "../hooks/use-head-tags";
 import { useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
@@ -31,6 +32,9 @@ export default function Login() {
       navigate("/", { replace: true });
     }
   }, [user, tokenExpirationDate, navigate, methods.reset]);
+
+  // this below fires a useEffect
+  useHeadTags("login");
 
   const handleUserLogin = async (data) => {
     try {

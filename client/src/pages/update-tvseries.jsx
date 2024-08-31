@@ -1,3 +1,4 @@
+import { useHeadTags } from "../hooks/use-head-tags";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useUpdateOneTvseriesMutation } from "../redux/api/tvseries-api-slice";
@@ -36,6 +37,9 @@ export default function Update() {
       navigate("/dashboard", { replace: true });
     }
   }, [isSuccess, navigate]);
+
+  // this below fires a useEffect
+  useHeadTags("updateTvseries", params.title);
 
   const handleImageConversionAndResize = async (e) => {
     try {

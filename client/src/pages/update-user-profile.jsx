@@ -1,3 +1,4 @@
+import { useHeadTags } from "../hooks/use-head-tags";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setOnlyCredentialsUser } from "../redux/features/auth/auth-slice";
@@ -5,6 +6,7 @@ import {
   useUpdateUserProfileMutation,
   useGetUserProfileQuery,
 } from "../redux/api/users-api-slice";
+import { useSelector } from "react-redux";
 import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +17,7 @@ export default function UpdateUserProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const resetAll = useResetApiAndUser();
+  const user = useSelector((state) => state.auth.user);
   const { data, isSuccess: dataIsAvailable } = useGetUserProfileQuery();
   const [updateUserProfile, { isLoading, isSuccess }] =
     useUpdateUserProfileMutation();
@@ -34,6 +37,9 @@ export default function UpdateUserProfile() {
       navigate("/profile", { replace: true });
     }
   }, [isSuccess, navigate]);
+
+  // this below fires a useEffect
+  useHeadTags("updateProfile", user);
 
   const handleUpdateUserData = async (data) => {
     try {

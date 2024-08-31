@@ -1,3 +1,4 @@
+import { useHeadTags } from "../hooks/use-head-tags";
 import { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +32,9 @@ export default function CreateTvseries() {
       navigate("/dashboard", { replace: true });
     }
   }, [isSuccess, navigate, methods.reset]);
+
+  // this below fires a useEffect
+  useHeadTags("createTvseries");
 
   const handleImageConversionAndResize = async (e) => {
     try {

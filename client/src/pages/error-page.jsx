@@ -1,6 +1,10 @@
+import { useHeadTags } from "../hooks/use-head-tags";
 import { Link } from "react-router-dom";
 
 export default function ErrorPage() {
+  // this below fires a useEffect
+  useHeadTags("error");
+
   return (
     <section style={{ color: "var(--white-color)" }}>
       <header>

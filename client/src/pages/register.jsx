@@ -1,3 +1,4 @@
+import { useHeadTags } from "../hooks/use-head-tags";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRegisterUserMutation } from "../redux/api/users-api-slice";
 import { useNavigate } from "react-router-dom";
@@ -26,6 +27,9 @@ export default function Register() {
       navigate("/", { replace: true });
     }
   }, [user, navigate]);
+
+  // this below fires a useEffect
+  useHeadTags("register");
 
   const handleUserRegistration = async (data) => {
     try {
