@@ -14,7 +14,9 @@ export default function InputNumber({ name, placeholder }) {
         id={name}
         placeholder={placeholder}
         autoComplete="off"
-        {...register(name)}
+        {...register(name, {
+          valueAsNumber: true,
+        })}
       />
     </>
   );
