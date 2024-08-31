@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
   useGetUserProfileQuery,
   useDeleteUserProfileMutation,
@@ -13,12 +14,23 @@ import UserProfileParagraph from "../components/user-profile-paragraph/user-prof
 import UserProfileButtonLinksContainer from "../components/user-profile-button-links-container/user-profile-button-links-container";
 
 export default function UserProfile() {
+  const navigate = useNavigate();
   const resetAll = useResetApiAndUser();
-  const { data, isLoading: isFetchingUserData } = useGetUserProfileQuery();
+  const {
+    data,
+    isLoading: isFetchingUserData,
+    error,
+  } = useGetUserProfileQuery();
   const { data: tvseries, isLoading: isFetchingTvseries } =
     useGetAllTvseriesQuery();
   const [deleteUserProfile, { isLoading: isDeletingUser }] =
     useDeleteUserProfileMutation();
+
+  if (error) {
+    resetAll();
+    navigate("/login", { replace: true });
+    toast.error("Token has expired. Log in again");
+  }
 
   /* modal delete starts */
   const modalDeleteRef = useRef(null);
