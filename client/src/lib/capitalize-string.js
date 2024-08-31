@@ -1,3 +1,5 @@
+// Note: this function is only used in useHeadTags hook
+
 const capitalize = (string) => {
   let capitalizedString = string
     .split(" ")
