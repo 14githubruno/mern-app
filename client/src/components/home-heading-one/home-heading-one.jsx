@@ -17,7 +17,7 @@ export default function HomeHeadingOne() {
               <span
                 key={index}
                 className={`${styles.letter} ${
-                  letter === k ? styles.kLetter : ""
+                  letter === k ? styles.kLetter : styles.notKletter
                 }`}
               >
                 {letter}
