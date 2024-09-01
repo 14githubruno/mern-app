@@ -6,6 +6,7 @@ import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { resizeImage } from "../lib/resize-image";
+import { parseFormData } from "../lib/parse-form-data";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
@@ -50,16 +51,21 @@ export default function Update() {
   };
 
   const handleUpdateOneTvseries = async (data) => {
+    const parsedData = parseFormData(data);
+    if (parsedData === false) {
+      toast.error("Data structure is not valid");
+      return;
+    }
+
     //quick check on the client if user did update any field or didn't
-    if (JSON.stringify(data) === JSON.stringify(tvseriesToUpdate)) {
+    if (JSON.stringify(parsedData) === JSON.stringify(tvseriesToUpdate)) {
       toast.error("You did not update any field");
       return;
     }
 
-    data.image = img;
-
     try {
-      const res = await updateOneTvseries(data).unwrap();
+      parsedData.image = img;
+      const res = await updateOneTvseries(parsedData).unwrap();
       toast.success(res.message);
     } catch (err) {
       if (err.data.type === "token") {

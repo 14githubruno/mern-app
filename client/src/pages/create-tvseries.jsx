@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useCreateOneTvseriesMutation } from "../redux/api/tvseries-api-slice";
 import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { resizeImage } from "../lib/resize-image";
+import { parseFormData } from "../lib/parse-form-data";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
@@ -45,9 +46,15 @@ export default function CreateTvseries() {
   };
 
   const handleCreateOneTvseries = async (data) => {
-    data.image = img;
+    const parsedData = parseFormData(data);
+    if (parsedData === false) {
+      toast.error("Data structure is not valid");
+      return;
+    }
+
     try {
-      const res = await createOneTvseries(data).unwrap();
+      parsedData.image = img;
+      const res = await createOneTvseries(parsedData).unwrap();
       toast.success(res?.message);
     } catch (err) {
       if (err.data.type === "token") {

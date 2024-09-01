@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLoginUserMutation } from "../redux/api/users-api-slice";
 import { setCredentials } from "../redux/features/auth/auth-slice";
 import { useNavigate } from "react-router-dom";
+import { parseFormData } from "../lib/parse-form-data";
 import Form from "../components/form/form";
 import UserFormParagraph from "../components/user-form-paragraph/user-form-paragraph";
 import toast from "react-hot-toast";
@@ -37,8 +38,14 @@ export default function Login() {
   useHeadTags("login");
 
   const handleUserLogin = async (data) => {
+    const parsedData = parseFormData(data);
+    if (parsedData === false) {
+      toast.error("Data structure is not valid");
+      return;
+    }
+
     try {
-      const res = await loginUser({ ...data }).unwrap();
+      const res = await loginUser(parsedData).unwrap();
       dispatch(
         setCredentials({
           user: res.body.name,

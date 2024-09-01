@@ -4,6 +4,7 @@ import { useRegisterUserMutation } from "../redux/api/users-api-slice";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { parseFormData } from "../lib/parse-form-data";
 import Form from "../components/form/form";
 import UserFormParagraph from "../components/user-form-paragraph/user-form-paragraph";
 import toast from "react-hot-toast";
@@ -32,8 +33,14 @@ export default function Register() {
   useHeadTags("register");
 
   const handleUserRegistration = async (data) => {
+    const parsedData = parseFormData(data);
+    if (parsedData === false) {
+      toast.error("Data structure is not valid");
+      return;
+    }
+
     try {
-      const res = await registerUser({ ...data }).unwrap();
+      const res = await registerUser(parsedData).unwrap();
       if (res?.body.name) {
         toast.success(res.message);
         navigate("/login", { replace: true });
