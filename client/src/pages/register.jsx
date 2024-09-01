@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { parseFormData } from "../lib/parse-form-data";
 import Form from "../components/form/form";
-import UserFormParagraph from "../components/user-form-paragraph/user-form-paragraph";
 import toast from "react-hot-toast";
 
 export default function Register() {
@@ -63,11 +62,6 @@ export default function Register() {
           }}
         />
       </FormProvider>
-      <UserFormParagraph
-        paragraphText="Already have an akkount?"
-        linkText="Log in"
-        linkHref="/login"
-      />
     </section>
   );
 }

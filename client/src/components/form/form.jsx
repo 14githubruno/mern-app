@@ -7,6 +7,7 @@ import InputFile from "./input-file/input-file";
 import Textarea from "./textarea/textarea";
 import FormButton from "./form-button/form-button";
 import LinkBack from "../link-back/link-back";
+import FormParagraph from "./form-paragraph/form-paragraph";
 import { useFormContext } from "react-hook-form";
 import { Fragment } from "react";
 
@@ -27,6 +28,11 @@ export default function Form({
           <InputEmail name={"email"} />
           <InputPassword name={"password"} />
           <FormButton {...formButtonProps} />
+          <FormParagraph
+            paragraphText="Already have an akkount?"
+            linkText="Log in"
+            linkHref="/login"
+          />
         </Fragment>
       );
       break;
@@ -36,6 +42,11 @@ export default function Form({
           <InputEmail name={"email"} />
           <InputPassword name={"password"} />
           <FormButton {...formButtonProps} />
+          <FormParagraph
+            paragraphText="Don't have an akkount?"
+            linkText="Register one"
+            linkHref="/register"
+          />
         </Fragment>
       );
       break;

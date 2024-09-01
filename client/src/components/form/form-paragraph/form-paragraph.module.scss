@@ -1,0 +1,19 @@
+.formParagraph {
+  width: 94%;
+  position: absolute;
+  bottom: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.formParagraph,
+.link {
+  font-size: 1.4rem;
+  color: var(--white-color);
+}
+
+.link {
+  text-decoration: underline;
+  text-underline-offset: 0.4rem;
+}

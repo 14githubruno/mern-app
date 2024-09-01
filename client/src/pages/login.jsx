@@ -7,7 +7,6 @@ import { setCredentials } from "../redux/features/auth/auth-slice";
 import { useNavigate } from "react-router-dom";
 import { parseFormData } from "../lib/parse-form-data";
 import Form from "../components/form/form";
-import UserFormParagraph from "../components/user-form-paragraph/user-form-paragraph";
 import toast from "react-hot-toast";
 
 export default function Login() {
@@ -71,11 +70,6 @@ export default function Login() {
           }}
         />
       </FormProvider>
-      <UserFormParagraph
-        paragraphText="Don't have an akkount?"
-        linkText="Register one"
-        linkHref="/register"
-      />
     </section>
   );
 }
