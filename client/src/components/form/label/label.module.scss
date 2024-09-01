@@ -22,7 +22,8 @@ if label password
   cursor: pointer;
 
   & svg {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    color: var(--blue-color);
   }
 }
 
@@ -33,7 +34,7 @@ if label password
   line-height: 1.3rem;
   position: absolute;
   bottom: 1rem;
-  left: 102%;
+  left: 100%;
   display: none;
   color: var(--bg-color);
   background: var(--grey-color);
