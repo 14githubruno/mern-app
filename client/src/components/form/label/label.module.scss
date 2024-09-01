@@ -37,6 +37,7 @@ if label password
   display: none;
   color: var(--bg-color);
   background: var(--grey-color);
+  text-transform: none;
 }
 
 .passwordTooltipWrapper:active .passwordTooltip,
