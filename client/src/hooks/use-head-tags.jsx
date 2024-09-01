@@ -1,4 +1,4 @@
-import { headTags } from "../data-config/head-tags-data";
+import { headTags } from "../data-content/head-tags-data";
 import { capitalize } from "../lib/capitalize-string";
 import { useEffect } from "react";
 
