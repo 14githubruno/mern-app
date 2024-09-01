@@ -31,4 +31,9 @@
     var(--blue-color)
   );
   --black-blue-gradient-to-bottom: linear-gradient(to bottom, #0e0d0d, #052647);
+  --tv-border-gradient: radial-gradient(
+    var(--grey-color),
+    var(--bg-color),
+    var(--white-color)
+  );
 }
