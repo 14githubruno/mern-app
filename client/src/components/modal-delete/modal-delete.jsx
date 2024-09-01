@@ -24,7 +24,11 @@ function ModalDelete({
       <div className={styles.paragraphsButtonsContainer}>
         <p className={styles.paragraph}>
           Name of {what_to_delete} to delete:{" "}
-          <span className={styles.nameOfItemToDelete}>
+          <span
+            className={`${styles.nameOfItemToDelete} ${
+              isUser ? styles.isUserToDelete : ""
+            }`}
+          >
             {nameOfItemToDelete}
           </span>
         </p>

@@ -44,8 +44,11 @@
 
 .nameOfItemToDelete {
   color: var(--red-color);
-  text-transform: capitalize;
   font-weight: 500;
+}
+
+.isUserToDelete {
+  text-transform: capitalize;
 }
 
 .buttonsWrapper {
