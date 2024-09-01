@@ -75,18 +75,10 @@
   color: var(--white-color);
 }
 
-.buttonDeletion:hover {
-  box-shadow: 0 0 0.4rem var(--red-color);
-}
-
 .buttonNotDeletion {
   background-color: var(--grey-color);
   border: 0.1rem solid var(--dark-grey-color);
   color: var(--bg-color);
-}
-
-.buttonNotDeletion:hover {
-  box-shadow: 0 0 0.4rem var(--grey-color);
 }
 
 @keyframes open-smoothly {
