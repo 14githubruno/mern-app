@@ -110,6 +110,13 @@
   .homeTelevision {
     width: 60rem;
     margin: 10rem 2rem 0 0;
+    perspective: 150rem;
+    transform-style: preserve-3d;
+  }
+
+  .aerials,
+  .tv {
+    transform: rotateX(-10deg) rotateY(-25deg);
   }
 
   .aerial {
