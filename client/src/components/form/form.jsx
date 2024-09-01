@@ -6,7 +6,7 @@ import InputNumber from "./input-number/input-number";
 import InputFile from "./input-file/input-file";
 import Textarea from "./textarea/textarea";
 import FormButton from "./form-button/form-button";
-import LinkBack from "../link-back/link-back";
+import FormLinkBack from "./form-link-back/form-link-back";
 import FormParagraph from "./form-paragraph/form-paragraph";
 import { useFormContext } from "react-hook-form";
 import { Fragment } from "react";
@@ -60,7 +60,7 @@ export default function Form({
             placeholder={"Enter current or new password"}
           />
           <FormButton {...formButtonProps} />
-          <LinkBack linkHref={"/profile"} />
+          <FormLinkBack linkHref={"/profile"} />
         </Fragment>
       );
       break;
@@ -72,7 +72,7 @@ export default function Form({
           <InputFile {...inputFileProps} />
           <Textarea />
           <FormButton {...formButtonProps} />
-          <LinkBack linkHref={"/dashboard"} />
+          <FormLinkBack linkHref={"/dashboard"} />
         </Fragment>
       );
     case "update tvseries":
@@ -83,7 +83,7 @@ export default function Form({
           <InputFile {...inputFileProps} />
           <Textarea />
           <FormButton {...formButtonProps} />
-          <LinkBack linkHref={"/dashboard"} />
+          <FormLinkBack linkHref={"/dashboard"} />
         </Fragment>
       );
   }
