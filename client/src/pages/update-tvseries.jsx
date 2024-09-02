@@ -51,15 +51,15 @@ export default function Update() {
   };
 
   const handleUpdateOneTvseries = async (data) => {
-    const parsedData = parseFormData(data);
-    if (parsedData === false) {
-      toast.error("Data structure is not valid");
+    //quick check on the client if user did update any field or didn't
+    if (JSON.stringify(data) === JSON.stringify(tvseriesToUpdate)) {
+      toast.error("You did not update any field");
       return;
     }
 
-    //quick check on the client if user did update any field or didn't
-    if (JSON.stringify(parsedData) === JSON.stringify(tvseriesToUpdate)) {
-      toast.error("You did not update any field");
+    const parsedData = parseFormData(data);
+    if (parsedData === false) {
+      toast.error("Data structure is not valid");
       return;
     }
 
