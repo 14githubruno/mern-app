@@ -35,6 +35,17 @@
   color: var(--grey-transparency);
   transition: padding 0.2s linear;
 
+  &::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    height: 4rem;
+    width: 2rem;
+    position: relative;
+    bottom: 0.1rem;
+    background: url("/public/svg/searchbar-cancel-button.svg") no-repeat 50% 50%;
+    background-size: cover;
+    cursor: pointer;
+  }
+
   &:focus {
     color: var(--white-color);
     box-shadow: 0 0 0.8rem var(--aqua-green-color);
@@ -67,6 +78,10 @@
     height: 3.3rem;
     padding: 1rem 4rem 1rem 1rem;
     font-size: 1.455rem;
+
+    &::-webkit-search-cancel-button {
+      left: 0.9rem;
+    }
   }
 
   .searchIcon {

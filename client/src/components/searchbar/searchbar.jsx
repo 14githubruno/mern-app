@@ -20,8 +20,9 @@ export default function Searchbar({ contentIsLoading }) {
           className={`${styles.searchbarInput} ${
             noTvseries ? styles.uselessSearchbarInput : ""
           }`}
-          type="text"
           id="searchbar"
+          type="search"
+          role="searchbox"
           autoComplete="off"
           placeholder={
             contentIsLoading
