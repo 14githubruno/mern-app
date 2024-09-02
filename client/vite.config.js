@@ -23,6 +23,7 @@ export default defineConfig({
         "@use",
         "_z-index.scss"
       ),
+      "@/mixins": path.join(__dirname, "src", "styles", "@use", "_mixins.scss"),
     },
   },
 });

@@ -1,0 +1,19 @@
+.inputFile[type="file"] {
+  color: transparent;
+  cursor: pointer;
+
+  &::-webkit-file-upload-button {
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  &::before {
+    content: url("/svg/form-img-icon.svg");
+    display: inline-block;
+    position: absolute;
+    left: 3.9rem;
+    bottom: 24.78rem;
+    width: 3rem;
+    cursor: pointer;
+  }
+}

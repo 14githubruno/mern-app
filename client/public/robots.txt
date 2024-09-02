@@ -1,0 +1,7 @@
+user-agent: *
+disallow: /
+allow: /
+allow: /register
+allow: /login
+allow: /dashboard
+allow: /profile

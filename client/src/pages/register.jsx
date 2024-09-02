@@ -1,13 +1,15 @@
-import { useForm } from "react-hook-form";
+import { useHeadTags } from "../hooks/use-head-tags";
+import { useForm, FormProvider } from "react-hook-form";
 import { useRegisterUserMutation } from "../redux/api/users-api-slice";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import UserFormParagraph from "../components/user-form-paragraph/user-form-paragraph";
+import { parseFormData } from "../lib/parse-form-data";
+import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
 export default function Register() {
-  const { register, handleSubmit } = useForm({
+  const methods = useForm({
     defaultValues: {
       name: "",
       email: "",
@@ -26,9 +28,18 @@ export default function Register() {
     }
   }, [user, navigate]);
 
+  // this below fires a useEffect
+  useHeadTags("register");
+
   const handleUserRegistration = async (data) => {
+    const parsedData = parseFormData(data);
+    if (parsedData === false) {
+      toast.error("Data structure is not valid");
+      return;
+    }
+
     try {
-      const res = await registerUser({ ...data }).unwrap();
+      const res = await registerUser(parsedData).unwrap();
       if (res?.body.name) {
         toast.success(res.message);
         navigate("/login", { replace: true });
@@ -40,46 +51,17 @@ export default function Register() {
 
   return (
     <section>
-      <form onSubmit={handleSubmit(handleUserRegistration)}>
-        <label htmlFor="name">
-          Name<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="text"
-          id="name"
-          placeholder="Enter name"
-          autoComplete="off"
-          {...register("name")}
+      <FormProvider {...methods}>
+        <Form
+          typeOfForm={"register user"}
+          onSubmit={handleUserRegistration}
+          formButtonProps={{
+            isLoading,
+            textOnLoading: "Registering...",
+            text: "Register",
+          }}
         />
-        <label htmlFor="email">
-          Email<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter email"
-          autoComplete="off"
-          {...register("email")}
-        />
-        <label htmlFor="password">
-          Password<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="password"
-          id="password"
-          placeholder="Enter password"
-          autoComplete="off"
-          {...register("password")}
-        />
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Registering..." : "Register"}
-        </button>
-      </form>
-      <UserFormParagraph
-        paragraphText="Already have an akkount?"
-        linkText="Log in"
-        linkHref="/login"
-      />
+      </FormProvider>
     </section>
   );
 }

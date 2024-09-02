@@ -14,13 +14,20 @@ function ModalView({ title, stars, image, note, closeModalView }) {
         <img className={styles.image} src={image} />
         <div className={styles.starsContainer}>
           {arrayOfStars.map((star, index) => {
-            return <AiFillStar key={index} className={styles.cardStarGood} />;
+            return (
+              <AiFillStar
+                aria-label="star icon"
+                key={index}
+                className={styles.cardStarGood}
+              />
+            );
           })}
           {restOfStars === 0
             ? null
             : restOfStars.map((star, index) => {
                 return (
                   <AiFillStar
+                    aria-label="star icon"
                     key={index + arrayOfStars.length}
                     className={styles.cardStar}
                   />
@@ -28,7 +35,11 @@ function ModalView({ title, stars, image, note, closeModalView }) {
               })}
         </div>
         <p className={styles.parag}>{note}</p>
-        <LiaTimesSolid className={styles.closeBtn} onClick={closeModalView} />
+        <LiaTimesSolid
+          aria-label="close button icon"
+          className={styles.closeBtn}
+          onClick={closeModalView}
+        />
       </div>
     </article>
   );

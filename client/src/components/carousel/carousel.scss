@@ -46,3 +46,18 @@
     user-select: none;
   }
 }
+
+@media (min-width: $break-large-desktop) {
+  .carousel,
+  .carousel-viewport {
+    &::after {
+      height: 96.5%;
+    }
+  }
+
+  .carousel-slide {
+    &--image {
+      height: 96.5%;
+    }
+  }
+}

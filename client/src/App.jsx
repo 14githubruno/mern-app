@@ -6,7 +6,15 @@ import Footer from "./components/footer/footer";
 export default function App() {
   return (
     <>
-      <Toaster position="bottom-right" />
+      <Toaster
+        toastOptions={{
+          className: "",
+          style: {
+            borderRadius: "0",
+          },
+        }}
+        position="bottom-right"
+      />
       <Header />
       <main>
         <Outlet />

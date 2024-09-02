@@ -1,6 +1,8 @@
+import { useHeadTags } from "../hooks/use-head-tags";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm, FormProvider } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import {
   useGetAllTvseriesQuery,
   useDeleteOneTvseriesMutation,
@@ -19,11 +21,12 @@ export default function Dashboard() {
   const [modalViewIsOpen, setModalViewIsOpen] = useState(false);
   const [tableRowToView, setTableRowToView] = useState(null);
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const resetAll = useResetApiAndUser();
   const user = useSelector((state) => state.auth.user);
   const tvseries = useSelector((state) => state.tvseries.tvseries);
-  const { data, isLoading, isSuccess } = useGetAllTvseriesQuery();
+  const { data, isLoading, isSuccess, error } = useGetAllTvseriesQuery();
   const [deleteOneTvseries, { isLoading: isDeleting }] =
     useDeleteOneTvseriesMutation();
 
@@ -32,7 +35,11 @@ export default function Dashboard() {
   });
 
   useEffect(() => {
-    if (isSuccess && data.body) {
+    if (error) {
+      resetAll();
+      navigate("/login", { replace: true });
+      toast.error("Token has expired. Log in again");
+    } else if (isSuccess && data.body) {
       const sortedItems = data.body
         .slice()
         .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
@@ -40,7 +47,10 @@ export default function Dashboard() {
     } else {
       dispatch(setTvseries([]));
     }
-  }, [data, isSuccess]);
+  }, [data, isSuccess, error]);
+
+  // this below fires a useEffect
+  useHeadTags("dashboard", user);
 
   /* modal delete starts */
   const modalDeleteRef = useRef(null);

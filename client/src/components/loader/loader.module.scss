@@ -1,0 +1,45 @@
+@use "@/breakpoints" as *;
+@use "@/mixins" as *;
+
+.loader {
+  @include coverViewport;
+  transition: all 0.2s linear;
+}
+
+.spinner {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  border: 0.175rem solid var(--aqua-green-color);
+  border-right-color: var(--grey-color);
+  animation: spin 0.7s infinite linear;
+}
+
+// animation
+@keyframes spin {
+  0%,
+  50% {
+    transform: scale(1) translateY(0);
+  }
+
+  25% {
+    transform: scale(1.05) translateY(-0.1rem);
+  }
+
+  75% {
+    transform: scale(1.05) translateY(0.1rem);
+  }
+
+  100% {
+    transform: scale(1) translateY(0);
+    rotate: 1turn;
+  }
+}
+
+// breakpoints
+@media (min-width: $break-tablet) {
+  .spinner {
+    width: 6rem;
+    height: 6rem;
+  }
+}

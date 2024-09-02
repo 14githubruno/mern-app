@@ -1,16 +1,8 @@
-@use "@/z-index" as *;
+@use "@/mixins" as *;
 
 .modalView {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--dark-blue-transparency);
+  @include coverViewport;
   animation: open-smoothly 0.055s ease;
-  z-index: $z-index-max;
 }
 
 .card {

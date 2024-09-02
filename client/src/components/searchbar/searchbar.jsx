@@ -20,8 +20,9 @@ export default function Searchbar({ contentIsLoading }) {
           className={`${styles.searchbarInput} ${
             noTvseries ? styles.uselessSearchbarInput : ""
           }`}
-          type="text"
           id="searchbar"
+          type="search"
+          role="searchbox"
           autoComplete="off"
           placeholder={
             contentIsLoading
@@ -32,7 +33,10 @@ export default function Searchbar({ contentIsLoading }) {
           }
           {...register("searchbar")}
         />
-        <BsFillSearchHeartFill className={styles.searchIcon} />
+        <BsFillSearchHeartFill
+          aria-label="search icon"
+          className={styles.searchIcon}
+        />
       </div>
     </form>
   );

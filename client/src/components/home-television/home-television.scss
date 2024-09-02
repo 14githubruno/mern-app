@@ -20,7 +20,7 @@
 .tv .carousel-prev-button,
 .tv .carousel-next-button {
   position: absolute;
-  right: -5.2rem;
+  right: -5.4rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -47,7 +47,7 @@
 }
 
 .tv .carousel-next-button {
-  top: 4.3rem;
+  top: 4.6rem;
 
   &:hover,
   &:active {
@@ -64,7 +64,7 @@
 
   .tv .carousel-prev-button,
   .tv .carousel-next-button {
-    right: -8.1rem;
+    right: -7.5rem;
 
     &--svg {
       font-size: 2.7rem;
@@ -72,11 +72,11 @@
   }
 
   .tv .carousel-prev-button {
-    bottom: 8rem;
+    bottom: 7.3rem;
   }
 
   .tv .carousel-next-button {
-    top: 6rem;
+    top: 6.5rem;
   }
 }
 
@@ -89,30 +89,10 @@
 
   .tv .carousel-prev-button,
   .tv .carousel-next-button {
-    right: -8.6rem;
+    right: -8rem;
 
     &--svg {
       font-size: 3rem;
-    }
-  }
-
-  .tv .carousel-prev-button {
-    bottom: 9rem;
-  }
-
-  .tv .carousel-next-button {
-    top: 6rem;
-  }
-}
-
-/* desktop breakpoint */
-@media (min-width: $break-desktop) {
-  .tv .carousel-prev-button,
-  .tv .carousel-next-button {
-    right: -9rem;
-
-    &--svg {
-      font-size: 4rem;
     }
   }
 
@@ -121,7 +101,27 @@
   }
 
   .tv .carousel-next-button {
-    top: 5.5rem;
+    top: 6.3rem;
+  }
+}
+
+/* desktop breakpoint */
+@media (min-width: $break-desktop) {
+  .tv .carousel-prev-button,
+  .tv .carousel-next-button {
+    right: -8.4rem;
+
+    &--svg {
+      font-size: 3.5rem;
+    }
+  }
+
+  .tv .carousel-prev-button {
+    bottom: 7rem;
+  }
+
+  .tv .carousel-next-button {
+    top: 6rem;
   }
 }
 

@@ -1,16 +1,9 @@
 @use "@/breakpoints" as *;
-@use "@/z-index" as *;
+@use "@/mixins" as *;
 
 .modalDelete {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  display: grid;
-  place-items: center;
-  background: var(--dark-blue-transparency);
+  @include coverViewport;
   animation: open-smoothly 0.055s ease;
-  z-index: $z-index-max;
 }
 
 .paragraphsButtonsContainer {
@@ -37,15 +30,18 @@
   }
 
   &:nth-child(3) {
-    color: var(--brown-color);
+    color: var(--red-color);
     margin-bottom: 3rem;
   }
 }
 
 .nameOfItemToDelete {
   color: var(--red-color);
-  text-transform: capitalize;
   font-weight: 500;
+}
+
+.isUserToDelete {
+  text-transform: capitalize;
 }
 
 .buttonsWrapper {
@@ -59,7 +55,6 @@
   padding: 0.7rem;
   font-size: 1.4rem;
   text-align: center;
-  border-radius: 1rem;
   outline: none;
   border: none;
   cursor: pointer;
@@ -72,18 +67,10 @@
   color: var(--white-color);
 }
 
-.buttonDeletion:hover {
-  box-shadow: 0 0 0.4rem var(--red-color);
-}
-
 .buttonNotDeletion {
   background-color: var(--grey-color);
   border: 0.1rem solid var(--dark-grey-color);
   color: var(--bg-color);
-}
-
-.buttonNotDeletion:hover {
-  box-shadow: 0 0 0.4rem var(--grey-color);
 }
 
 @keyframes open-smoothly {
@@ -102,7 +89,7 @@
 @media (min-width: $break-tablet) {
   .paragraph,
   .button {
-    font-size: 1.6rem;
+    font-size: 1.55rem;
   }
 
   .paragraph {

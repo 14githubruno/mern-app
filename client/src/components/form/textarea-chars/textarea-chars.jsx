@@ -1,9 +1,9 @@
 import styles from "./textarea-chars.module.scss";
 import { useFormContext, useWatch } from "react-hook-form";
 
-export default function TextareaChars() {
+export default function TextareaChars({ name }) {
   const { control } = useFormContext();
-  const chars = useWatch({ control, name: "note" });
+  const chars = useWatch({ control, name: name });
 
   let lengthOfChars;
   if (chars && chars.length > 0) {

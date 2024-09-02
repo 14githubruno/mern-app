@@ -1,14 +1,16 @@
+import { useHeadTags } from "../hooks/use-head-tags";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { useLoginUserMutation } from "../redux/api/users-api-slice";
 import { setCredentials } from "../redux/features/auth/auth-slice";
 import { useNavigate } from "react-router-dom";
-import UserFormParagraph from "../components/user-form-paragraph/user-form-paragraph";
+import { parseFormData } from "../lib/parse-form-data";
+import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
 export default function Login() {
-  const { register, handleSubmit, reset } = useForm({
+  const methods = useForm({
     defaultValues: {
       email: "",
       password: "",
@@ -26,14 +28,23 @@ export default function Login() {
 
   useEffect(() => {
     if (user && tokenExpirationDate) {
-      reset();
+      methods.reset();
       navigate("/", { replace: true });
     }
-  }, [user, tokenExpirationDate, navigate, reset]);
+  }, [user, tokenExpirationDate, navigate, methods.reset]);
+
+  // this below fires a useEffect
+  useHeadTags("login");
 
   const handleUserLogin = async (data) => {
+    const parsedData = parseFormData(data);
+    if (parsedData === false) {
+      toast.error("Data structure is not valid");
+      return;
+    }
+
     try {
-      const res = await loginUser({ ...data }).unwrap();
+      const res = await loginUser(parsedData).unwrap();
       dispatch(
         setCredentials({
           user: res.body.name,
@@ -48,36 +59,17 @@ export default function Login() {
 
   return (
     <section>
-      <form onSubmit={handleSubmit(handleUserLogin)}>
-        <label htmlFor="email">
-          Email<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter email"
-          autoComplete="off"
-          {...register("email")}
+      <FormProvider {...methods}>
+        <Form
+          typeOfForm={"login user"}
+          onSubmit={handleUserLogin}
+          formButtonProps={{
+            isLoading,
+            textOnLoading: "Logging in...",
+            text: "Log in",
+          }}
         />
-        <label htmlFor="password">
-          Password<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="password"
-          id="password"
-          placeholder="Enter password"
-          autoComplete="off"
-          {...register("password")}
-        />
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Logging in..." : "Log in"}
-        </button>
-      </form>
-      <UserFormParagraph
-        paragraphText="Don't have an akkount?"
-        linkText="Register one"
-        linkHref="/register"
-      />
+      </FormProvider>
     </section>
   );
 }

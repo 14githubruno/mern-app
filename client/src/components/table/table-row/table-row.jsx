@@ -24,12 +24,24 @@ function TableRow({
       <div className={styles.title}>{title}</div>
       <div className={styles.starsWrapper}>
         {arrayOfStars.map((star, index) => {
-          return <AiFillStar key={index} className={styles.tableRowStarGood} />;
+          return (
+            <AiFillStar
+              aria-label="star icon"
+              key={index}
+              className={styles.tableRowStarGood}
+            />
+          );
         })}
         {restOfStars === 0
           ? null
           : restOfStars.map((star, index) => {
-              return <AiFillStar key={index} className={styles.tableRowStar} />;
+              return (
+                <AiFillStar
+                  aria-label="star icon"
+                  key={index}
+                  className={styles.tableRowStar}
+                />
+              );
             })}
       </div>
       <div
@@ -40,23 +52,31 @@ function TableRow({
       ></div>
       <div className={styles.note}>{note}</div>
       <div className={styles.iconsContainer}>
-        <span className={styles.iconView} onClick={showTableRowInModalView}>
-          <RxMagnifyingGlass className={styles.icon} />
+        <span
+          role="button"
+          className={styles.iconView}
+          onClick={showTableRowInModalView}
+        >
+          <RxMagnifyingGlass
+            aria-label="magnifying glass icon"
+            className={styles.icon}
+          />
         </span>
         <Link
           className={styles.iconEdit}
-          to={`/dashboard/update-tvseries/${id}`}
+          to={`/dashboard/update-tvseries/${id}/${title}`}
         >
-          <RxPencil1 className={styles.icon} />
+          <RxPencil1 aria-label="pencil edit icon" className={styles.icon} />
         </Link>
         <span
+          role="button"
           className={styles.iconTrash}
           onClick={() => {
             toggleModalToDelete();
             selectTableRowToDelete();
           }}
         >
-          <RxTrash className={styles.icon} />
+          <RxTrash aria-label="trash delete icon" className={styles.icon} />
         </span>
       </div>
     </div>

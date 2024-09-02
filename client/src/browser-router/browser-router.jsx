@@ -41,7 +41,7 @@ const browserRouter = createBrowserRouter([
             element: <CreateTvseries />,
           },
           {
-            path: "/dashboard/update-tvseries/:id",
+            path: "/dashboard/update-tvseries/:id/:title",
             element: <UpdateTvseries />,
           },
           {

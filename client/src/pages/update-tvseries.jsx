@@ -1,3 +1,4 @@
+import { useHeadTags } from "../hooks/use-head-tags";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useUpdateOneTvseriesMutation } from "../redux/api/tvseries-api-slice";
@@ -5,8 +6,8 @@ import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { resizeImage } from "../lib/resize-image";
-import TextareaChars from "../components/textarea-chars/textarea-chars";
-import LinkBack from "../components/link-back/link-back";
+import { parseFormData } from "../lib/parse-form-data";
+import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
 export default function Update() {
@@ -17,12 +18,11 @@ export default function Update() {
   const navigate = useNavigate();
 
   const tvseries = useSelector((state) => state.tvseries.tvseries);
-
   const resetAll = useResetApiAndUser();
   const [updateOneTvseries, { isLoading, isSuccess }] =
     useUpdateOneTvseriesMutation();
 
-  const { register, handleSubmit, control } = useForm({
+  const methods = useForm({
     defaultValues: async () => {
       const findTvseriesToUpdate = tvseries?.find(
         (singleSeries) => singleSeries._id === params.id
@@ -39,6 +39,9 @@ export default function Update() {
     }
   }, [isSuccess, navigate]);
 
+  // this below fires a useEffect
+  useHeadTags("updateTvseries", params.title);
+
   const handleImageConversionAndResize = async (e) => {
     try {
       const image = e.target.files[0];
@@ -54,10 +57,15 @@ export default function Update() {
       return;
     }
 
-    data.image = img;
+    const parsedData = parseFormData(data);
+    if (parsedData === false) {
+      toast.error("Data structure is not valid");
+      return;
+    }
 
     try {
-      const res = await updateOneTvseries(data).unwrap();
+      parsedData.image = img;
+      const res = await updateOneTvseries(parsedData).unwrap();
       toast.success(res.message);
     } catch (err) {
       if (err.data.type === "token") {
@@ -71,65 +79,22 @@ export default function Update() {
 
   return (
     <section>
-      <form onSubmit={handleSubmit(handleUpdateOneTvseries)}>
-        <label htmlFor="title">
-          Title<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="text"
-          id="title"
-          placeholder="Enter title"
-          autoComplete="off"
-          {...register("title")}
+      <FormProvider {...methods}>
+        <Form
+          typeOfForm={"update tvseries"}
+          onSubmit={handleUpdateOneTvseries}
+          inputFileProps={{
+            typeOfFile: "image",
+            file: img,
+            funcForInputFile: handleImageConversionAndResize,
+          }}
+          formButtonProps={{
+            isLoading,
+            textOnLoading: "Updating...",
+            text: "Update",
+          }}
         />
-        <label htmlFor="stars">
-          Stars<span className="label-asterisk">*</span>
-        </label>
-        <input
-          type="number"
-          id="stars"
-          placeholder="Enter number (1-5)"
-          autoComplete="off"
-          {...register("stars", {
-            valueAsNumber: true,
-          })}
-        />
-        <label htmlFor="image">
-          {img ? <img src={img} /> : null}
-          Image<span className="label-asterisk">*</span>
-        </label>
-        <input
-          {...register("image", {
-            onChange: (e) => {
-              handleImageConversionAndResize(e);
-            },
-          })}
-          type="file"
-          id="image"
-          accept="image/*"
-        />
-        <>
-          <label htmlFor="note">
-            Note<span className="label-asterisk">*</span>
-          </label>
-          <textarea
-            id="note"
-            placeholder="Enter note"
-            autoComplete="off"
-            maxLength={200}
-            {...register("note", {
-              onDrop: (e) => e.preventDefault(),
-            })}
-          />
-          <FormProvider control={control}>
-            <TextareaChars />
-          </FormProvider>
-        </>
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Updating..." : "Update"}
-        </button>
-        <LinkBack linkHref={"/dashboard"} />
-      </form>
+      </FormProvider>
     </section>
   );
 }
