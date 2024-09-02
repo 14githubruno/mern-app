@@ -15,7 +15,7 @@ export default function ErrorPage() {
             textAlign: "center",
           }}
         >
-          This resource does not exist or kan't be found
+          This resource doesn't exist or kan't be found
         </h1>
       </header>
       <Link
