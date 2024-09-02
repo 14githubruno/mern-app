@@ -39,8 +39,9 @@ const parseFormData = (data) => {
     } else if (key === "password" && !validatePassword(trimmedData[key])) {
       finalData = false;
       break;
+    } else {
+      finalData[key] = trimmedData[key];
     }
-    finalData[key] = trimmedData[key];
   }
   return finalData;
 };
