@@ -23,7 +23,6 @@ export default function ErrorPage() {
           padding: "1rem 2rem",
           margin: "3rem 0 0 0",
           fontSize: "2rem",
-          borderRadius: "1rem",
           background: "var(--pink-blue-gradient)",
         }}
         to={"/"}
