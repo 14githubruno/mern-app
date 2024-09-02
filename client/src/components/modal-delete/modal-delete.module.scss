@@ -1,16 +1,9 @@
 @use "@/breakpoints" as *;
-@use "@/z-index" as *;
+@use "@/mixins" as *;
 
 .modalDelete {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  display: grid;
-  place-items: center;
-  background: var(--dark-blue-transparency);
+  @include coverViewport;
   animation: open-smoothly 0.055s ease;
-  z-index: $z-index-max;
 }
 
 .paragraphsButtonsContainer {

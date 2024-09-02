@@ -1,17 +1,8 @@
 @use "@/breakpoints" as *;
-@use "@/z-index" as *;
+@use "@/mixins" as *;
 
 .loader {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--dark-blue-transparency);
-  z-index: $z-index-max;
+  @include coverViewport;
   transition: all 0.2s linear;
 }
 
