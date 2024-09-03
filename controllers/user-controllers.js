@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
+import Token from "../models/token-verification-model.js";
 import bcrypt from "bcrypt";
 import { generateToken } from "../lib/generate-token.js";
 import { sendEmail } from "../config/email/send-email.js";
@@ -21,12 +22,6 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 
-  sendEmail(
-    email,
-    `Verify your email, dear ${name}`,
-    `Hi, ${name}, we need to verify your email ${email}`
-  );
-
   const hashedPassword = await bcrypt.hash(password, 10);
   if (!hashedPassword) {
     res.status(400);
@@ -39,7 +34,15 @@ const registerUser = asyncHandler(async (req, res) => {
     password: hashedPassword,
   });
 
+  let token;
   if (user) {
+    token = await Token.create({
+      user: user._id,
+      token: generateToken(user._id, "1h"),
+    });
+  }
+
+  if (user && token) {
     res.status(201).json({
       message: `User [${user.name}] created`,
       body: {
@@ -47,6 +50,11 @@ const registerUser = asyncHandler(async (req, res) => {
         name: user.name,
       },
     });
+    sendEmail(
+      email,
+      `Verify your email, dear ${name}`,
+      `Hi, ${name}, we need to verify your email. Click on this link to verify it: ${process.env.BASE_URL}/api/users/verify/${token.token}`
+    );
   } else {
     res.status(400);
     throw new Error("Data are not valid");
