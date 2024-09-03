@@ -5,6 +5,7 @@ import { protectRoute } from "../middlewares/protect-route.js";
 const router = express.Router();
 
 router.route("/register").post(userControllers.registerUser);
+router.route("/verify/:token").get(userControllers.verifyUser);
 router.route("/login").post(userControllers.loginUser);
 router.route("/logout").post(protectRoute, userControllers.logoutUser);
 router.route("/profile").get(protectRoute, userControllers.getUserProfile);
