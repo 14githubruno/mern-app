@@ -4,6 +4,7 @@ import PrivateRoute from "../components/private-route";
 import ErrorPage from "../pages/error-page";
 import Homepage from "../pages/homepage";
 import Register from "../pages/register";
+import VerifyUser from "../pages/verify-user";
 import Login from "../pages/login";
 import Dashboard from "../pages/dashboard";
 import UserProfile from "../pages/user-profile";
@@ -24,6 +25,10 @@ const browserRouter = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/verify/:token",
+        element: <VerifyUser />,
       },
       {
         path: "/login",
