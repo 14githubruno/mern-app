@@ -70,7 +70,9 @@ const verifyUser = asyncHandler(async (req, res) => {
 
   if (!thereIsToken) {
     res.status(400);
-    throw new Error("Ops, token does not exist or has expired");
+    throw new Error(
+      "Token does not exist, or has expired, or you already verified your email"
+    );
   }
 
   const decoded = jwt.verify(req.params.token, process.env.JWT_SECRET);
