@@ -3,6 +3,7 @@ import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
 import bcrypt from "bcrypt";
 import { generateToken } from "../lib/generate-token.js";
+import { sendEmail } from "../config/email/send-email.js";
 
 // @desc    Register new user
 // @route   POST /api/users/register
@@ -19,6 +20,12 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("User already exists");
   }
+
+  sendEmail(
+    email,
+    `Verify your email, dear ${name}`,
+    `Hi, ${name}, we need to verify your email ${email}`
+  );
 
   const hashedPassword = await bcrypt.hash(password, 10);
   if (!hashedPassword) {
