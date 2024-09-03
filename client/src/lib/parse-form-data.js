@@ -1,5 +1,24 @@
 /* 
 *****************************************************
+OBJ TO SPECIFY PARSING ERRORS (used in FUNC TO PARSE DATA and in FUNC TO CHECK PARSING ERRORS)
+*****************************************************
+*/
+const error = {
+  wrong: {
+    type: false,
+    msg: "Some data structure is not valid",
+  },
+  empty: {
+    type: "empty",
+    msg: "All fields are required",
+  },
+};
+/*
+ *****************************************************
+ */
+
+/* 
+*****************************************************
 FUNC TO VALIDATE PASSWORD
 *****************************************************
 */
@@ -27,7 +46,7 @@ const parseFormData = (data) => {
   const values = Object.values(data);
   const empty = values.some((value) => value === "");
   if (empty) {
-    finalData = "empty";
+    finalData = error.empty.type;
     return finalData;
   }
 
@@ -45,7 +64,7 @@ const parseFormData = (data) => {
     if (typeof trimmedData[key] === "string" && key !== "password") {
       finalData[key] = trimmedData[key].toLowerCase();
     } else if (key === "password" && !validatePassword(trimmedData[key])) {
-      finalData = false;
+      finalData = error.wrong.type;
       break;
     } else {
       finalData[key] = trimmedData[key];
@@ -65,21 +84,13 @@ FUNC TO CHECK PARSING DATA ERRORS
 const checkParsingError = (err) => {
   let msgToToast;
 
-  const error = {
-    wrong: {
-      type: false,
-      msg: "Some data structure is not valid",
-    },
-    empty: {
-      type: "empty",
-      msg: "All fields are required",
-    },
-  };
-
-  if (err === error.wrong.type) {
-    msgToToast = error.wrong.msg;
-  } else if (err === error.empty.type) {
-    msgToToast = error.empty.msg;
+  switch (err) {
+    case error.wrong.type:
+      msgToToast = error.wrong.msg;
+      break;
+    case error.empty.type:
+      msgToToast = error.empty.msg;
+      break;
   }
 
   return msgToToast;
