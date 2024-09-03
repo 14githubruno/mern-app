@@ -16,12 +16,20 @@ const validatePassword = (pw) => {
 
 /* 
 *****************************************************
-FUNC TO PARSE DATA (THE ONE TO EXPORT)
+FUNC TO PARSE DATA
 *****************************************************
 */
 const parseFormData = (data) => {
   let trimmedData = {};
   let finalData = {};
+
+  // check empty fields and, if any, exit
+  const values = Object.values(data);
+  const empty = values.some((value) => value === "");
+  if (empty) {
+    finalData = "empty";
+    return finalData;
+  }
 
   // trim strings
   for (const key in data) {
@@ -49,4 +57,35 @@ const parseFormData = (data) => {
  *****************************************************
  */
 
-export { parseFormData };
+/* 
+*****************************************************
+FUNC TO CHECK PARSING DATA ERRORS
+*****************************************************
+*/
+const checkParsingError = (err) => {
+  let msgToToast;
+
+  const error = {
+    wrong: {
+      type: false,
+      msg: "Some data structure is not valid",
+    },
+    empty: {
+      type: "empty",
+      msg: "All fields are required",
+    },
+  };
+
+  if (err === error.wrong.type) {
+    msgToToast = error.wrong.msg;
+  } else if (err === error.empty.type) {
+    msgToToast = error.empty.msg;
+  }
+
+  return msgToToast;
+};
+/*
+ *****************************************************
+ */
+
+export { parseFormData, checkParsingError };

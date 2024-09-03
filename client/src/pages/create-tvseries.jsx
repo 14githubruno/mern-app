@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useCreateOneTvseriesMutation } from "../redux/api/tvseries-api-slice";
 import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { resizeImage } from "../lib/resize-image";
-import { parseFormData } from "../lib/parse-form-data";
+import { parseFormData, checkParsingError } from "../lib/parse-form-data";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
@@ -47,8 +47,9 @@ export default function CreateTvseries() {
 
   const handleCreateOneTvseries = async (data) => {
     const parsedData = parseFormData(data);
-    if (parsedData === false) {
-      toast.error("Data structure is not valid");
+    const error = checkParsingError(parsedData);
+    if (error) {
+      toast.error(error);
       return;
     }
 

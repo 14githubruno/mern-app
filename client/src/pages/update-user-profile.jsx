@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { parseFormData } from "../lib/parse-form-data";
+import { parseFormData, checkParsingError } from "../lib/parse-form-data";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
@@ -44,8 +44,9 @@ export default function UpdateUserProfile() {
 
   const handleUpdateUserData = async (data) => {
     const parsedData = parseFormData(data);
-    if (parsedData === false) {
-      toast.error("Data structure is not valid");
+    const error = checkParsingError(parsedData);
+    if (error) {
+      toast.error(error);
       return;
     }
 
