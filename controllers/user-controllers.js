@@ -3,6 +3,7 @@ import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
 import Token from "../models/token-verification-model.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import { generateToken } from "../lib/generate-token.js";
 import { sendEmail } from "../config/email/send-email.js";
 
@@ -53,11 +54,52 @@ const registerUser = asyncHandler(async (req, res) => {
     sendEmail(
       email,
       `Verify your email, dear ${name}`,
-      `Hi, ${name}, we need to verify your email. Click on this link to verify it: ${process.env.BASE_URL}/api/users/verify/${token.token}`
+      `Hi, ${name}, we need to verify your email. Click on this link to verify it: ${process.env.BASE_URL}/verify/${token.token}`
     );
   } else {
     res.status(400);
     throw new Error("Data are not valid");
+  }
+});
+
+// @desc    Verify User
+// @route   GET /api/users/verify
+// @access  Public
+const verifyUser = asyncHandler(async (req, res) => {
+  const thereIsToken = await Token.findOne({ token: req.params.token });
+
+  if (!thereIsToken) {
+    res.status(400);
+    throw new Error("Ops, token does not exist or has expired");
+  }
+
+  const decoded = jwt.verify(req.params.token, process.env.JWT_SECRET);
+  const userToVerify = await User.findById(decoded._id);
+
+  if (!userToVerify) {
+    res.status(500);
+    throw new Error("Something went wrong. Try again");
+  }
+
+  userToVerify.verified = true;
+  const updatedUser = await userToVerify.save();
+
+  if (updatedUser) {
+    const deleteToken = await Token.deleteOne({ token: req.params.token });
+
+    if (deleteToken.acknowledged) {
+      return res.status(200).json({
+        message: `Dear ${updatedUser.name}, your email is verified. You kan log in`,
+      });
+    } else {
+      res.status(500);
+      throw new Error(
+        "Something went wrong with email verification. Try again"
+      );
+    }
+  } else {
+    res.status(500);
+    throw new Error("Something went wrong with email verification. Try again");
   }
 });
 
@@ -243,6 +285,7 @@ const deleteUserProfile = asyncHandler(async (req, res) => {
 
 export const userControllers = {
   registerUser,
+  verifyUser,
   loginUser,
   logoutUser,
   getUserProfile,
