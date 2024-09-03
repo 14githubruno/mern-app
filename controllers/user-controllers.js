@@ -119,6 +119,13 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new Error("Credentials are not valid");
   }
 
+  if (!user.verified) {
+    res.status(400);
+    throw new Error(
+      `Dear ${user.name}, your email is not verified. Check your email`
+    );
+  }
+
   const passwordsMatch = await bcrypt.compare(password, user.password);
   if (user && passwordsMatch) {
     const token = generateToken(user._id, "3d");
