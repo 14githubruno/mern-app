@@ -41,9 +41,9 @@ export default function Register() {
 
     try {
       const res = await registerUser(parsedData).unwrap();
-      if (res?.body.name) {
+      if (res.body) {
         toast.success(res.message);
-        navigate("/login", { replace: true });
+        navigate(`/verify/${res.body.token}`, { replace: true });
       }
     } catch (err) {
       toast.error(err?.data?.message);
