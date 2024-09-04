@@ -124,6 +124,7 @@ const verifyUser = asyncHandler(async (req, res) => {
   }
 
   userToVerify.verified = true;
+  userToVerify.verificationEndpointHit = true;
   const updatedUser = await userToVerify.save();
 
   if (updatedUser) {
