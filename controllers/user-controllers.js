@@ -77,6 +77,27 @@ const verifyToken = asyncHandler(async (req, res) => {
       "Token invalid or expired, or you have already verified your email"
     );
   }
+
+  const decoded = jwt.verify(req.params.token, process.env.JWT_SECRET);
+  const userToVerify = await User.findById(decoded._id);
+
+  // if endpoint is already hit, delete from db symbol and user to verify
+  if (!userToVerify.verified && userToVerify.verificationEndpointHit) {
+    const deleteSymbol = await Symbol.deleteOne({
+      token: req.params.token,
+    });
+    const deleteUser = await User.deleteOne({ _id: userToVerify._id });
+
+    if (deleteSymbol.acknowledged && deleteUser.acknowledged) {
+      res.status(400);
+      throw new Error(
+        "This endpoint kan be hit only once. Register again to receive a new secret"
+      );
+    }
+  }
+
+  userToVerify.verificationEndpointHit = true;
+  await userToVerify.save();
 });
 
 // @desc    verify symbol (verify user)
