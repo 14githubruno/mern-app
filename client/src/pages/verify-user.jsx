@@ -1,3 +1,4 @@
+import { useHeadTags } from "../hooks/use-head-tags";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import { useEffect } from "react";
@@ -29,6 +30,9 @@ export default function VerifyUser() {
       navigate("/login", { replace: true });
     }
   }, [error, isSuccess, navigate]);
+
+  // this below fires a useEffect
+  useHeadTags("verify");
 
   const handleUserVerification = async (data) => {
     const parsedData = parseFormData(data);

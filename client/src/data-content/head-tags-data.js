@@ -15,6 +15,11 @@ const headTags = {
       "Kreate your akkount and use the ultimate Reakt Applikation to feed your k-drama-love💞",
   },
 
+  verify: {
+    title: "Korean Reakt App | Verify Akkount🚧",
+    metaDescription: "Verify your akkount to start kreating k-memories✨",
+  },
+
   login: {
     title: "Korean Reakt App | Login🔑",
     metaDescription:
