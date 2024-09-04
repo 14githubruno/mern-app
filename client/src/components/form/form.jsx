@@ -36,6 +36,14 @@ export default function Form({
         </Fragment>
       );
       break;
+    case "verify user":
+      formContent = (
+        <Fragment>
+          <InputText name={"secret"} />
+          <FormButton {...formButtonProps} />
+        </Fragment>
+      );
+      break;
     case "login user":
       formContent = (
         <Fragment>
