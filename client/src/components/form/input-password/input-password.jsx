@@ -17,7 +17,7 @@ export default function InputPassword({
   }
 
   return (
-    <>
+    <div className={styles.inputPassword}>
       <Label htmlFor={name} />
       <input
         type={inputType}
@@ -36,6 +36,6 @@ export default function InputPassword({
           {inputType === name ? <RxEyeOpen /> : <RxEyeNone />}
         </span>
       )}
-    </>
+    </div>
   );
 }
