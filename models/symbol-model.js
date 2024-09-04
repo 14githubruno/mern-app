@@ -1,12 +1,16 @@
 import mongoose from "mongoose";
 
-const tokenVerificationSchema = mongoose.Schema({
+const symbolSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "User",
   },
   token: {
+    type: String,
+    required: true,
+  },
+  secret: {
     type: String,
     required: true,
   },
@@ -17,4 +21,4 @@ const tokenVerificationSchema = mongoose.Schema({
   },
 });
 
-export default mongoose.model("Token", tokenVerificationSchema);
+export default mongoose.model("Symbol", symbolSchema);
