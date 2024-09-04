@@ -1,10 +1,11 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
-import Token from "../models/token-verification-model.js";
+import Symbol from "../models/symbol-model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { generateToken } from "../lib/generate-token.js";
+import { generateSecret } from "../lib/generate-secret.js";
 import { sendEmail } from "../config/email/send-email.js";
 
 // @desc    Register new user
@@ -35,26 +36,28 @@ const registerUser = asyncHandler(async (req, res) => {
     password: hashedPassword,
   });
 
-  let token;
+  let symbol;
   if (user) {
-    token = await Token.create({
+    symbol = await Symbol.create({
       user: user._id,
       token: generateToken(user._id, "1h"),
+      secret: generateSecret(),
     });
   }
 
-  if (user && token) {
+  if (user && symbol) {
     res.status(201).json({
-      message: `User [${user.name}] created`,
+      message: `Dear [${user.name}], check your mailbox to verify your akkount`,
       body: {
         _id: user._id,
         name: user.name,
+        token: symbol.token,
       },
     });
     sendEmail(
       email,
-      `Verify your email, dear ${name}`,
-      `Hi, ${name}, we need to verify your email. Click on this link to verify it: ${process.env.BASE_URL}/verify/${token.token}`
+      `Verify your email, dear ${user.name}`,
+      `Hi, ${user.name}, we need to verify your email.\nSend back this code to verify it: ${symbol.secret}`
     );
   } else {
     res.status(400);
@@ -62,22 +65,38 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Verify User
-// @route   GET /api/users/verify
+// @desc    Verify token
+// @route   GET /api/users/verify/:token
 // @access  Public
-const verifyUser = asyncHandler(async (req, res) => {
-  const thereIsToken = await Token.findOne({ token: req.params.token });
+const verifyToken = asyncHandler(async (req, res) => {
+  const thereIsToken = await Symbol.findOne({ token: req.params.token });
 
   if (!thereIsToken) {
     res.status(400);
     throw new Error(
-      "Token does not exist, or has expired, or you already verified your email"
+      "Token invalid or expired, or you have already verified your email"
     );
   }
+});
 
-  const decoded = jwt.verify(req.params.token, process.env.JWT_SECRET);
+// @desc    verify symbol (verify user)
+// @route   POST /api/users/verify/:token
+// @access  Public
+const verifyUser = asyncHandler(async (req, res) => {
+  const { secret } = req.body;
+  const token = req.params.token;
+
+  const thereIsToken = await Symbol.findOne({
+    token,
+    secret,
+  });
+  if (!thereIsToken) {
+    res.status(400);
+    throw new Error("Secrets do not match or token invalid");
+  }
+
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
   const userToVerify = await User.findById(decoded._id);
-
   if (!userToVerify) {
     res.status(500);
     throw new Error("Something went wrong. Try again");
@@ -87,9 +106,12 @@ const verifyUser = asyncHandler(async (req, res) => {
   const updatedUser = await userToVerify.save();
 
   if (updatedUser) {
-    const deleteToken = await Token.deleteOne({ token: req.params.token });
+    const deleteSymbol = await Symbol.deleteOne({
+      token,
+      secret,
+    });
 
-    if (deleteToken.acknowledged) {
+    if (deleteSymbol.acknowledged) {
       return res.status(200).json({
         message: `Dear ${updatedUser.name}, your email is verified. You kan log in`,
       });
@@ -294,6 +316,7 @@ const deleteUserProfile = asyncHandler(async (req, res) => {
 
 export const userControllers = {
   registerUser,
+  verifyToken,
   verifyUser,
   loginUser,
   logoutUser,
