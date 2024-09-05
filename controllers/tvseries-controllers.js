@@ -17,6 +17,7 @@ const getAllTvSeries = asyncHandler(async (req, res) => {
   } else {
     res.status(200).json({
       message: `Unfortunately, [${req.user.name}], you have no tv series yet. Create them`,
+      body: [],
     });
   }
 });
