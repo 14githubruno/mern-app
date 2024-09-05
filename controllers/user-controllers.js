@@ -295,6 +295,7 @@ const deleteUserProfile = asyncHandler(async (req, res) => {
 
   const deletedUser = await User.deleteOne(userToDelete);
   if (deletedUser.acknowledged && userTvseries.length === 0) {
+    res.clearCookie("jwt");
     res.status(201).json({
       message: `User [${userToDelete.name}] deleted`,
     });
