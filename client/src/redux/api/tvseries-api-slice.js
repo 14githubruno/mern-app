@@ -7,6 +7,12 @@ export const tvseriesApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${API_TVSERIES}`,
       }),
+      transformResponse: (res) => {
+        const sortedItems = res.body
+          .slice()
+          .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+        return { ...res, body: sortedItems };
+      },
       providesTags: ["Tvseries"],
     }),
 
