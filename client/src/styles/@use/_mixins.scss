@@ -11,3 +11,11 @@
   align-items: center;
   z-index: $z-index-max;
 }
+
+@mixin inputWrapperStyle() {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
