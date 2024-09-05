@@ -27,13 +27,9 @@
   padding: 0.7rem 3rem 0.7rem 0.7rem;
   font-size: 1.4rem;
   outline: none;
-  border: none;
-  border-radius: 2rem;
-  box-shadow: 0 0 0.3rem var(--white-color);
-  transition: box-shadow 0.1s ease, padding 0.1s ease;
+  border: 0.1rem solid var(--grey-transparency);
   background: transparent;
   color: var(--grey-transparency);
-  transition: padding 0.2s linear;
 
   &::-webkit-search-cancel-button {
     -webkit-appearance: none;
@@ -48,8 +44,8 @@
 
   &:focus {
     color: var(--white-color);
-    box-shadow: 0 0 0.8rem var(--aqua-green-color);
-    padding-left: 1.5rem;
+    outline-offset: 0.2rem;
+    outline: solid 0.1rem var(--aqua-green-color);
   }
 
   &::placeholder {
@@ -76,7 +72,7 @@
 @media (min-width: $break-large-mobile) {
   .searchbarInput {
     height: 3.3rem;
-    padding: 1rem 4rem 1rem 1rem;
+    padding: 1.5rem 4rem 1.5rem 1rem;
     font-size: 1.455rem;
 
     &::-webkit-search-cancel-button {
