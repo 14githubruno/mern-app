@@ -20,7 +20,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
     verifyUser: builder.mutation({
       query: (symbol) => ({
         url: `${API_USERS}/verify/${symbol.token}`,
-        method: "POST",
+        method: "PATCH",
         body: symbol,
       }),
     }),
