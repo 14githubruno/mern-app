@@ -4,7 +4,8 @@
   width: 94%;
   margin: 2rem auto;
   padding: 0.8rem;
-  font-size: 1.555rem;
+  padding: 1.3rem;
+  font-size: 1.588rem;
   outline: none;
   border: none;
   background: var(--blue-color);
@@ -12,14 +13,9 @@
   cursor: pointer;
 }
 
-.formButton:hover,
-.formButton:active {
-  scale: 1.04;
-}
-
 @media (min-width: $break-tablet) {
   .formButton {
-    padding: 0.9rem;
+    padding: 1.4rem;
     font-size: 1.655rem;
   }
 }
