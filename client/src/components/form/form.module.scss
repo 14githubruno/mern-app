@@ -18,15 +18,15 @@
     background: transparent;
     outline: none;
     border: none;
-    border-bottom: 0.1rem solid var(--white-color);
+    border: 0.1rem solid var(--grey-transparency);
     color: var(--grey-transparency);
-    transition: padding 0.2s linear;
   }
 
-  & input:focus:not(input[type="file"]),
+  & input:focus,
   & textarea:focus {
     color: var(--white-color);
-    padding-left: 1.5rem;
+    outline-offset: 0.255rem;
+    outline: solid 0.185rem var(--white-color);
   }
   /**/
 }
