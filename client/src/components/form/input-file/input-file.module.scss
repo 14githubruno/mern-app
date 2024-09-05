@@ -4,9 +4,11 @@
   @include inputWrapperStyle;
 }
 
-.inputFile[type="file"] {
+.inputFile[type="file"],
+.inputFile[type="file"]:focus {
   color: transparent;
   cursor: pointer;
+  height: 7rem;
 
   &::-webkit-file-upload-button {
     opacity: 0;
@@ -17,8 +19,17 @@
     content: url("/svg/form-img-icon.svg");
     display: inline-block;
     position: absolute;
-    bottom: 20%;
+    bottom: 28%;
     width: 3rem;
     cursor: pointer;
   }
+}
+
+.uploadedImg {
+  object-fit: cover;
+  width: 9rem;
+  height: 6rem;
+  position: absolute;
+  top: 3.6rem;
+  right: 1.6rem;
 }

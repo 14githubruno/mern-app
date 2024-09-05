@@ -7,7 +7,7 @@ export default function InputFile({ typeOfFile, file, funcForInputFile }) {
 
   return (
     <div className={styles.inputFileWrapper}>
-      <Label htmlFor={typeOfFile} file={file} />
+      <Label htmlFor={typeOfFile} />
       <input
         className={styles.inputFile}
         type="file"
@@ -19,6 +19,9 @@ export default function InputFile({ typeOfFile, file, funcForInputFile }) {
           },
         })}
       />
+      {file && (
+        <img className={styles.uploadedImg} src={file} alt="uploaded image" />
+      )}
     </div>
   );
 }
