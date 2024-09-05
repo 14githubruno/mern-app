@@ -1,3 +1,9 @@
+@use "@/mixins" as *;
+
+.inputFileWrapper {
+  @include inputWrapperStyle;
+}
+
 .inputFile[type="file"] {
   color: transparent;
   cursor: pointer;
@@ -11,8 +17,7 @@
     content: url("/svg/form-img-icon.svg");
     display: inline-block;
     position: absolute;
-    left: 3.9rem;
-    bottom: 24.78rem;
+    bottom: 20%;
     width: 3rem;
     cursor: pointer;
   }
