@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  user: null,
-  tokenExpirationDate: null,
+  user: JSON.parse(localStorage.getItem("user")) || null,
+  tokenExpirationDate: JSON.parse(localStorage.getItem("exp")) || null,
 };
 
 export const authSlice = createSlice({
@@ -12,13 +12,19 @@ export const authSlice = createSlice({
     setCredentials: (state, action) => {
       state.user = action.payload.user;
       state.tokenExpirationDate = action.payload.tokenExpirationDate;
+      localStorage.setItem("user", JSON.stringify(state.user));
+      localStorage.setItem("exp", JSON.stringify(state.tokenExpirationDate));
     },
+
     setOnlyCredentialsUser: (state, action) => {
       state.user = action.payload.user;
+      localStorage.setItem("user", JSON.stringify(state.user));
     },
+
     clearCredentials: (state, action) => {
       state.user = null;
       state.tokenExpirationDate = null;
+      localStorage.clear();
     },
   },
 });
