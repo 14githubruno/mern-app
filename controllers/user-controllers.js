@@ -167,7 +167,7 @@ const loginUser = asyncHandler(async (req, res) => {
         body: {
           _id: user._id,
           name: user.name,
-          tokenExpirationDate: Date.now() + cookieMaxAge,
+          tokenExpDate: Date.now() + cookieMaxAge,
         },
       });
   } else {

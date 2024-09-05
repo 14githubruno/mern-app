@@ -20,18 +20,16 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const tokenExpirationDate = useSelector(
-    (state) => state.auth.tokenExpirationDate
-  );
+  const tokenExpDate = useSelector((state) => state.auth.tokenExpDate);
 
   const [loginUser, { isLoading }] = useLoginUserMutation();
 
   useEffect(() => {
-    if (user && tokenExpirationDate) {
+    if (user && tokenExpDate) {
       methods.reset();
       navigate("/", { replace: true });
     }
-  }, [user, tokenExpirationDate, navigate, methods.reset]);
+  }, [user, tokenExpDate, navigate, methods.reset]);
 
   // this below fires a useEffect
   useHeadTags("login");
@@ -49,7 +47,7 @@ export default function Login() {
       dispatch(
         setCredentials({
           user: res.body.name,
-          tokenExpirationDate: res.body.tokenExpirationDate,
+          tokenExpDate: res.body.tokenExpDate,
         })
       );
       toast.success(res.message);
