@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 export default function VerifyUser() {
   const navigate = useNavigate();
   const params = useParams();
-  const { error } = useVerifyTokenQuery(params.token);
+  const { error } = useVerifyTokenQuery(params.token, { skip: true });
   const [verifyUser, { isLoading, isSuccess }] = useVerifyUserMutation();
 
   const methods = useForm({
