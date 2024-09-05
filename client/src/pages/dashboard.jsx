@@ -26,7 +26,7 @@ export default function Dashboard() {
   const resetAll = useResetApiAndUser();
   const user = useSelector((state) => state.auth.user);
   const tvseries = useSelector((state) => state.tvseries.tvseries);
-  const { data, isLoading, isSuccess, error } = useGetAllTvseriesQuery();
+  const { data, isLoading, error } = useGetAllTvseriesQuery();
   const [deleteOneTvseries, { isLoading: isDeleting }] =
     useDeleteOneTvseriesMutation();
 
@@ -37,17 +37,11 @@ export default function Dashboard() {
   useEffect(() => {
     if (error) {
       resetAll();
-      navigate("/login", { replace: true });
-      toast.error("Token has expired. Log in again");
-    } else if (isSuccess && data.body) {
-      const sortedItems = data.body
-        .slice()
-        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-      dispatch(setTvseries([...sortedItems]));
-    } else {
-      dispatch(setTvseries([]));
+      navigate("/", { replace: true });
+    } else if (data) {
+      dispatch(setTvseries([...data.body]));
     }
-  }, [data, isSuccess, error]);
+  }, [data]);
 
   // this below fires a useEffect
   useHeadTags("dashboard", user);
