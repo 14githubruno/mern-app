@@ -6,7 +6,7 @@ export default function InputFile({ typeOfFile, file, funcForInputFile }) {
   const { register } = useFormContext();
 
   return (
-    <>
+    <div className={styles.inputFileWrapper}>
       <Label htmlFor={typeOfFile} file={file} />
       <input
         className={styles.inputFile}
@@ -19,6 +19,6 @@ export default function InputFile({ typeOfFile, file, funcForInputFile }) {
           },
         })}
       />
-    </>
+    </div>
   );
 }

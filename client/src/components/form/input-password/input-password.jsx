@@ -17,7 +17,7 @@ export default function InputPassword({
   }
 
   return (
-    <div className={styles.inputPassword}>
+    <div className={styles.inputPasswordWrapper}>
       <Label htmlFor={name} />
       <input
         type={inputType}
