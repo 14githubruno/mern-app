@@ -6,6 +6,9 @@ import Homepage from "../pages/homepage";
 import Register from "../pages/register";
 import VerifyUser from "../pages/verify-user";
 import Login from "../pages/login";
+import ForgotPassword from "../pages/forgot-password";
+import VerifyPasswordSecret from "../pages/verify-password-secret";
+import ResetPassword from "../pages/reset-password";
 import Dashboard from "../pages/dashboard";
 import UserProfile from "../pages/user-profile";
 import UpdateUserProfile from "../pages/update-user-profile";
@@ -33,6 +36,18 @@ const browserRouter = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "/verify-password-secret/:token",
+        element: <VerifyPasswordSecret />,
+      },
+      {
+        path: "/reset-password/:token",
+        element: <ResetPassword />,
       },
       {
         element: <PrivateRoute />,
