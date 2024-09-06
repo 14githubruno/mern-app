@@ -2,10 +2,7 @@ import { useHeadTags } from "../hooks/use-head-tags";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import { useEffect } from "react";
-import {
-  useResetPasswordMutation,
-  useVerifyTokenQuery,
-} from "../redux/api/users-api-slice";
+import { useResetPasswordMutation } from "../redux/api/users-api-slice";
 import { parseFormData, checkParsingError } from "../lib/parse-form-data";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
@@ -13,9 +10,6 @@ import toast from "react-hot-toast";
 export default function ResetPassword() {
   const navigate = useNavigate();
   const params = useParams();
-  const { error: tokenError } = useVerifyTokenQuery(params.token, {
-    skip: true,
-  });
   const [resetPassword, { error, isLoading, isSuccess }] =
     useResetPasswordMutation();
 
@@ -26,9 +20,8 @@ export default function ResetPassword() {
   });
 
   useEffect(() => {
-    if (error || tokenError) {
+    if (error) {
       navigate("/", { replace: true });
-      toast.error(error.data.message);
     } else if (isSuccess) {
       navigate("/login", { replace: true });
     }

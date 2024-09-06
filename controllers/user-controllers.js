@@ -65,18 +65,6 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Verify token
-// @route   GET /api/users/verify/:token  ||  GET /api/users/reset-password/:token  || GET /api/users/verify-password-secret/:token
-// @access  Public
-const verifyToken = asyncHandler(async (req, res) => {
-  const thereIsToken = await Symbol.findOne({ token: req.params.token });
-
-  if (!thereIsToken) {
-    res.status(400);
-    throw new Error("Token invalid or expired");
-  }
-});
-
 // @desc    verify symbol (verify user)
 // @route   PATCH /api/users/verify/:token
 // @access  Public
@@ -453,7 +441,6 @@ const deleteUserProfile = asyncHandler(async (req, res) => {
 
 export const userControllers = {
   registerUser,
-  verifyToken,
   verifyUser,
   loginUser,
   forgotPassword,

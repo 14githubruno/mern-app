@@ -11,12 +11,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
-    verifyToken: builder.query({
-      query: (token) => ({
-        url: `${API_USERS}/verify/${token}`,
-      }),
-    }),
-
     verifyUser: builder.mutation({
       query: (symbol) => ({
         url: `${API_USERS}/verify/${symbol.token}`,
@@ -92,7 +86,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useRegisterUserMutation,
-  useVerifyTokenQuery,
   useVerifyUserMutation,
   useLoginUserMutation,
   useForgotPasswordMutation,

@@ -2,10 +2,7 @@ import { useHeadTags } from "../hooks/use-head-tags";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import { useEffect } from "react";
-import {
-  useVerifyTokenQuery,
-  useVerifyPasswordSecretMutation,
-} from "../redux/api/users-api-slice";
+import { useVerifyPasswordSecretMutation } from "../redux/api/users-api-slice";
 import { parseFormData, checkParsingError } from "../lib/parse-form-data";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
@@ -13,8 +10,7 @@ import toast from "react-hot-toast";
 export default function VerifyPasswordSecret() {
   const navigate = useNavigate();
   const params = useParams();
-  const { error } = useVerifyTokenQuery(params.token, { skip: true });
-  const [verifyPasswordSecret, { isLoading, isSuccess }] =
+  const [verifyPasswordSecret, { isLoading, isSuccess, error }] =
     useVerifyPasswordSecretMutation();
 
   const methods = useForm({
@@ -26,7 +22,6 @@ export default function VerifyPasswordSecret() {
   useEffect(() => {
     if (error) {
       navigate("/", { replace: true });
-      toast.error(error.data.message);
     }
   }, [error, isSuccess, navigate]);
 
