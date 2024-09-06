@@ -66,16 +66,14 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 // @desc    Verify token
-// @route   GET /api/users/verify/:token
+// @route   GET /api/users/verify/:token  ||  GET /api/users/reset-password/:token  || GET /api/users/verify-password-secret/:token
 // @access  Public
 const verifyToken = asyncHandler(async (req, res) => {
   const thereIsToken = await Symbol.findOne({ token: req.params.token });
 
   if (!thereIsToken) {
     res.status(400);
-    throw new Error(
-      "Token invalid or expired, or you have already verified your email"
-    );
+    throw new Error("Token invalid or expired");
   }
 });
 
@@ -173,6 +171,144 @@ const loginUser = asyncHandler(async (req, res) => {
   } else {
     res.status(400);
     throw new Error("Credentials are not valid");
+  }
+});
+
+// @desc    send email to restore password
+// @route   POST /api/users/forgot-password
+// @access  Public
+const forgotPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    res.status(400);
+    throw new Error("Email is not provided");
+  }
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(400);
+    throw new Error("User does not exist");
+  }
+
+  let symbol;
+  if (user) {
+    symbol = await Symbol.create({
+      user: user._id,
+      token: generateToken(user._id, "1h"),
+      secret: generateSecret(),
+    });
+  }
+
+  if (user && symbol) {
+    res.status(201).json({
+      message: `Dear [${user.name}], check your mailbox to reset your password`,
+      body: {
+        _id: user._id,
+        name: user.name,
+        token: symbol.token,
+      },
+    });
+    sendEmail(
+      email,
+      `Reset your password, dear ${user.name}`,
+      `Hi, ${user.name}.\nSend back this code to reset your password: ${symbol.secret}`
+    );
+  } else {
+    res.status(400);
+    throw new Error("Data are not valid");
+  }
+});
+
+// @desc    verify code password
+// @route   PATCH /api/users/verify-password-secret/:token
+// @access  Public
+const verifyPasswordSecret = asyncHandler(async (req, res) => {
+  const { secret } = req.body;
+  const token = req.params.token;
+
+  const thereIsToken = await Symbol.findOne({
+    token,
+    secret,
+  });
+  if (!thereIsToken) {
+    res.status(400);
+    throw new Error("Secrets do not match or token invalid");
+  }
+
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const user = await User.findById(decoded._id);
+  if (!user) {
+    res.status(500);
+    throw new Error("Something went wrong. Try again");
+  }
+
+  user.verified = false;
+  const unverifiedUser = await user.save();
+
+  if (!unverifiedUser) {
+    res.status(500);
+    throw new Error("Something went wrong. Try again");
+  } else {
+    res.status(201).json({
+      message: `Dear [${unverifiedUser.name}], reset now your password to verify your akkount and log in`,
+      body: {
+        _id: unverifiedUser._id,
+        name: unverifiedUser.name,
+        token: thereIsToken.token,
+      },
+    });
+  }
+});
+
+// @desc    reset password
+// @route   PATCH /api/users/reset-password/:token
+// @access  Public
+const resetPassword = asyncHandler(async (req, res) => {
+  const { password } = req.body;
+  const token = req.params.token;
+
+  if (!password) {
+    res.status(400);
+    throw new Error("New password is not provided");
+  }
+
+  const thereIsToken = await Symbol.findOne({ token });
+  if (!thereIsToken) {
+    res.status(400);
+    throw new Error("Secrets do not match or token invalid");
+  }
+
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const userToUpdatePassword = await User.findById(decoded._id);
+  if (!userToUpdatePassword) {
+    res.status(500);
+    throw new Error("Something went wrong. Try again");
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  if (!hashedPassword) {
+    res.status(500);
+    throw new Error("Something went wrong. Try again");
+  }
+
+  userToUpdatePassword.verified = true;
+  userToUpdatePassword.password = hashedPassword;
+  const updatedUser = await userToUpdatePassword.save();
+
+  if (updatedUser) {
+    const deleteSymbol = await Symbol.deleteOne({ token });
+
+    if (deleteSymbol.acknowledged) {
+      return res.status(200).json({
+        message: `Dear ${updatedUser.name}, your password has been reset. You kan now log in`,
+      });
+    } else {
+      res.status(500);
+      throw new Error("Something went wrong with password reset. Try again");
+    }
+  } else {
+    res.status(500);
+    throw new Error("Something went wrong with password reset. Try again");
   }
 });
 
@@ -320,6 +456,9 @@ export const userControllers = {
   verifyToken,
   verifyUser,
   loginUser,
+  forgotPassword,
+  verifyPasswordSecret,
+  resetPassword,
   logoutUser,
   getUserProfile,
   updateUserProfile,
