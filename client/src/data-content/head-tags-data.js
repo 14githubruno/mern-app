@@ -26,6 +26,22 @@ const headTags = {
       "Log in into your Reakt Applikation's k-akkount and kollekt a lot of k-stories📜",
   },
 
+  forgotPassword: {
+    title: "Korean Reakt App | You forgot your password😭",
+    metaDescription: "Reset your password to rekover your wonderful akkount↩️",
+  },
+
+  verifyPasswordSecret: {
+    title: "Korean Reakt App | Verify your akkount📋",
+    metaDescription: "Verify your akkount to reset your password🖋️",
+  },
+
+  resetPassword: {
+    title: "Korean Reakt App | Reset your password😊",
+    metaDescription:
+      "It's time to reset your password to rekollekt your k-memories😄",
+  },
+
   dashboard: {
     title: "Korean Reakt App | Your Dashboard🎨",
     metaDescription:
