@@ -2,14 +2,28 @@ import { useHeadTags } from "../hooks/use-head-tags";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import { useEffect } from "react";
-import { useVerifyPasswordSecretMutation } from "../redux/api/users-api-slice";
+import {
+  useVerifyPasswordSecretMutation,
+  useVerifyTokenQuery,
+} from "../redux/api/users-api-slice";
 import { parseFormData, checkParsingError } from "../lib/parse-form-data";
+import { apiSlice } from "../redux/api/api-slice";
+import { useDispatch } from "react-redux";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
 export default function VerifyPasswordSecret() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
+  const { error: checkError } = useVerifyTokenQuery(params.token, {
+    selectFromResult: (result) => {
+      if (!result.status === "fulfilled") {
+        dispatch(apiSlice.util.resetApiState());
+      }
+      return result;
+    },
+  });
   const [verifyPasswordSecret, { isLoading, isSuccess, error }] =
     useVerifyPasswordSecretMutation();
 
@@ -22,8 +36,11 @@ export default function VerifyPasswordSecret() {
   useEffect(() => {
     if (error) {
       navigate("/", { replace: true });
+    } else if (checkError) {
+      toast.error(checkError.data.message);
+      navigate("/login", { replace: true });
     }
-  }, [error, isSuccess, navigate]);
+  }, [error, checkError, isSuccess, navigate]);
 
   // this below fires a useEffect
   useHeadTags("verifyPasswordSecret");

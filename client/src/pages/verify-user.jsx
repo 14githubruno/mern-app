@@ -2,14 +2,28 @@ import { useHeadTags } from "../hooks/use-head-tags";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import { useEffect } from "react";
-import { useVerifyUserMutation } from "../redux/api/users-api-slice";
+import {
+  useVerifyUserMutation,
+  useVerifyTokenQuery,
+} from "../redux/api/users-api-slice";
 import { parseFormData, checkParsingError } from "../lib/parse-form-data";
+import { apiSlice } from "../redux/api/api-slice";
+import { useDispatch } from "react-redux";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
 export default function VerifyUser() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
+  const { error: checkError } = useVerifyTokenQuery(params.token, {
+    selectFromResult: (result) => {
+      if (!result.status === "fulfilled") {
+        dispatch(apiSlice.util.resetApiState());
+      }
+      return result;
+    },
+  });
   const [verifyUser, { isLoading, isSuccess, error }] = useVerifyUserMutation();
 
   const methods = useForm({
@@ -19,12 +33,15 @@ export default function VerifyUser() {
   });
 
   useEffect(() => {
-    if (error) {
-      navigate("/", { replace: true });
-    } else if (isSuccess) {
+    if (isSuccess) {
       navigate("/login", { replace: true });
+    } else if (checkError) {
+      toast.error(checkError.data.message);
+      navigate("/login", { replace: true });
+    } else if (error) {
+      navigate("/", { replace: true });
     }
-  }, [error, isSuccess, navigate]);
+  }, [checkError, error, isSuccess, navigate]);
 
   // this below fires a useEffect
   useHeadTags("verify");

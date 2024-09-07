@@ -66,6 +66,23 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 // @desc    verify symbol (verify user)
+// @route   GET /api/users/verify/:token || GET /api/users/verify-password-secret/:token || GET /api/users/reset-password/:token || /api/users/profile/verify/:token
+// @access  Public
+const verifyToken = asyncHandler(async (req, res) => {
+  console.log("HIT");
+  const thereIsToken = await Symbol.findOne({ token: req.params.token });
+
+  if (!thereIsToken) {
+    res.status(400);
+    throw new Error("Token invalid or expired");
+  } else {
+    res.status(200).json({
+      message: "There is token",
+    });
+  }
+});
+
+// @desc    verify symbol (verify user)
 // @route   PATCH /api/users/verify/:token
 // @access  Public
 const verifyUser = asyncHandler(async (req, res) => {
@@ -518,6 +535,7 @@ const deleteUserProfile = asyncHandler(async (req, res) => {
 
 export const userControllers = {
   registerUser,
+  verifyToken,
   verifyUser,
   loginUser,
   forgotPassword,
