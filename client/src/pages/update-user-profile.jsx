@@ -1,5 +1,4 @@
 import { useHeadTags } from "../hooks/use-head-tags";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setOnlyCredentialsUser } from "../redux/features/auth/auth-slice";
 import {
@@ -20,8 +19,7 @@ export default function UpdateUserProfile() {
   const resetAll = useResetApiAndUser();
   const user = useSelector((state) => state.auth.user);
   const { data, isSuccess: dataIsAvailable } = useGetUserProfileQuery();
-  const [updateUserProfile, { isLoading, isSuccess }] =
-    useUpdateUserProfileMutation();
+  const [updateUserProfile, { isLoading }] = useUpdateUserProfileMutation();
 
   const methods = useForm({
     defaultValues: async () => {
@@ -32,12 +30,6 @@ export default function UpdateUserProfile() {
       return user;
     },
   });
-
-  useEffect(() => {
-    if (isSuccess) {
-      navigate("/profile", { replace: true });
-    }
-  }, [isSuccess, navigate]);
 
   // this below fires a useEffect
   useHeadTags("updateProfile", user);
@@ -53,12 +45,20 @@ export default function UpdateUserProfile() {
     try {
       const res = await updateUserProfile(parsedData).unwrap();
       if (res.body) {
-        toast.success(res.message);
         dispatch(
           setOnlyCredentialsUser({
             user: res.body.name,
           })
         );
+      }
+
+      if (!res.body.token) {
+        toast.success(res.message);
+        navigate("/profile", { replace: true });
+      } else {
+        navigate(`/profile/update-user/verify/${res.body.token}`, {
+          replace: true,
+        });
       }
     } catch (err) {
       if (err.data.type === "token") {

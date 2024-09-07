@@ -12,6 +12,7 @@ import ResetPassword from "../pages/reset-password";
 import Dashboard from "../pages/dashboard";
 import UserProfile from "../pages/user-profile";
 import UpdateUserProfile from "../pages/update-user-profile";
+import VerifyUpdateUserProfile from "../pages/verify-update-user-profile";
 import CreateTvseries from "../pages/create-tvseries";
 import UpdateTvseries from "../pages/update-tvseries";
 
@@ -71,6 +72,10 @@ const browserRouter = createBrowserRouter([
           {
             path: "/profile/update-user",
             element: <UpdateUserProfile />,
+          },
+          {
+            path: "/profile/update-user/verify/:token",
+            element: <VerifyUpdateUserProfile />,
           },
         ],
       },

@@ -69,6 +69,11 @@ const headTags = {
     metaDescription: "This is where you kan update✏️ your profile📄",
   },
 
+  verifyUpdateUserProfile: {
+    title: "Korean Reakt App | Confirm your updates🖋️",
+    metaDescription: "Update✏️ your profile📄 and seek k-joy😊",
+  },
+
   error: {
     title: "Korean Reak App | Error Page🚫😞",
     metaDescription:

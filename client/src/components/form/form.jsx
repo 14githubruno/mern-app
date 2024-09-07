@@ -111,6 +111,14 @@ export default function Form({
         </Fragment>
       );
       break;
+    case "verify user update":
+      formContent = (
+        <Fragment>
+          <InputText name={"secret"} />
+          <FormButton {...formButtonProps} />
+        </Fragment>
+      );
+      break;
     case "create tvseries":
       formContent = (
         <Fragment>
