@@ -53,4 +53,4 @@ app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
 
-cron.schedule("* * * * *", deleteUnveriedUsers);
+cron.schedule("0 0 * * *", deleteUnveriedUsers);
