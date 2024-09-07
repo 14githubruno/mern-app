@@ -254,14 +254,23 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
     res.status(500);
     throw new Error("Something went wrong. Try again");
   } else {
-    res.status(201).json({
-      message: `Dear [${unverifiedUser.name}], reset now your password to verify your akkount and log in`,
-      body: {
-        _id: unverifiedUser._id,
-        name: unverifiedUser.name,
-        token: thereIsToken.token,
-      },
-    });
+    thereIsToken.token = generateToken(user._id, "1h");
+    const updatedToken = await thereIsToken.save();
+
+    if(updatedToken) {
+      res.status(201).json({
+        message: `Dear [${unverifiedUser.name}], reset now your password to verify your akkount and log in`,
+        body: {
+          _id: unverifiedUser._id,
+          name: unverifiedUser.name,
+          token: updatedToken.token,
+        },
+      });
+    }  else {
+      res.status(500);
+      throw new Error("Something went wrong. Try again");
+    }
+  
   }
 });
 
