@@ -337,7 +337,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update user data
-// @route   PATCH /api/users/:id
+// @route   PATCH /api/users/profile/:id
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
   const currentUser = req.user;
@@ -357,48 +357,125 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     throw new Error("This email seems already taken");
   }
 
-  let userToUpdate = await User.findById(currentUser._id);
-
-  if (!userToUpdate) {
+  let user = await User.findById(currentUser._id);
+  if (!user) {
     res.status(404);
     throw new Error("User not found");
   }
 
-  if (userToUpdate) {
-    //first check if data have not changed
-    const passwordsMatch = await bcrypt.compare(
-      password,
-      userToUpdate.password
-    );
-    const namesMatch = name === userToUpdate.name;
-    const emailsMatch = email === userToUpdate.email;
-    if (passwordsMatch && namesMatch && emailsMatch) {
-      res.status(400);
-      throw new Error("You did not update any data");
-    }
+  //first check if data have not changed
+  const passwordsMatch = await bcrypt.compare(password, user.password);
+  const namesMatch = name === user.name;
+  const emailsMatch = email === user.email;
 
-    //create updated user
-    userToUpdate.name = name;
-    userToUpdate.email = email;
-    userToUpdate.password = await bcrypt.hash(password, 10);
+  if (passwordsMatch && namesMatch && emailsMatch) {
+    res.status(400);
+    throw new Error("You did not update any data");
+  }
 
-    const updatedUser = await userToUpdate.save();
-    if (updatedUser) {
-      res.status(200).json({
-        message: `User [${updatedUser.name}] updated`,
+  if (passwordsMatch && emailsMatch && !namesMatch) {
+    user.name = name;
+    const userIsUpdated = await user.save();
+
+    if (userIsUpdated) {
+      return res.status(201).json({
+        message: `Dear [${userIsUpdated.name}], your name has been updated`,
         body: {
-          name: updatedUser.name,
+          _id: userIsUpdated._id,
+          name: userIsUpdated.name,
         },
       });
     } else {
-      res.status(404);
+      res.status(500);
       throw new Error("Something went wrong. Try again");
     }
+  }
+
+  //create updated user
+  user.name = name;
+  user.email = email;
+  user.password = await bcrypt.hash(password, 10);
+  const updatedUser = await user.save();
+
+  let symbol;
+  if (updatedUser) {
+    symbol = await Symbol.create({
+      user: updatedUser._id,
+      token: generateToken(updatedUser._id, "1h"),
+      secret: generateSecret(),
+    });
+  }
+
+  if (updatedUser && symbol) {
+    res.status(201).json({
+      message: `Dear [${updatedUser.name}], check your mailbox to update your akkount`,
+      body: {
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        token: symbol.token,
+      },
+    });
+    sendEmail(
+      email,
+      `Verify your akkount, dear ${updatedUser.name}`,
+      `Hi, ${updatedUser.name}.\nSend back this code to verify your akkount and update your data: ${symbol.secret}`
+    );
+  } else {
+    res.status(400);
+    throw new Error("Data are not valid");
+  }
+});
+
+// @desc    verify symbol (verify user)
+// @route   PATCH /api/users/profile/verify/:token
+// @access  Private
+const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
+  const { secret } = req.body;
+  const token = req.params.token;
+
+  const thereIsToken = await Symbol.findOne({
+    token,
+    secret,
+  });
+  if (!thereIsToken) {
+    res.status(400);
+    throw new Error("Secrets do not match or token invalid");
+  }
+
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const userToVerify = await User.findById(decoded._id);
+  if (!userToVerify) {
+    res.status(500);
+    throw new Error("Something went wrong. Try again");
+  }
+
+  userToVerify.verified = true;
+  const updatedUser = await userToVerify.save();
+
+  if (updatedUser) {
+    const deleteSymbol = await Symbol.deleteOne({
+      token,
+      secret,
+    });
+
+    if (deleteSymbol.acknowledged) {
+      return res.status(200).json({
+        message: `Dear ${updatedUser.name}, your akkount is verified and your data are updated`,
+      });
+    } else {
+      res.status(500);
+      throw new Error(
+        "Something went wrong with email verification. Try again"
+      );
+    }
+  } else {
+    res.status(500);
+    throw new Error("Something went wrong with email verification. Try again");
   }
 });
 
 // @desc    Delete user's profile and tvseries
-// @route   DELETE /api/users/:id
+// @route   DELETE /api/users/profile/:id
 // @access  Private
 const deleteUserProfile = asyncHandler(async (req, res) => {
   const userToDelete = await User.findById(req.params.id);
@@ -449,5 +526,6 @@ export const userControllers = {
   logoutUser,
   getUserProfile,
   updateUserProfile,
+  verifyUpdateUserProfile,
   deleteUserProfile,
 };

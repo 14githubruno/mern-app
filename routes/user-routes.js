@@ -5,6 +5,7 @@ import { checkVerificationToken } from "../middlewares/check-verification-token.
 
 const router = express.Router();
 
+/* PUBLIC */
 router.route("/register").post(userControllers.registerUser);
 router
   .route("/verify/:token")
@@ -17,11 +18,20 @@ router
 router
   .route("/reset-password/:token")
   .patch(checkVerificationToken, userControllers.resetPassword);
+
+/* PRIVATE */
 router.route("/logout").post(protectRoute, userControllers.logoutUser);
 router.route("/profile").get(protectRoute, userControllers.getUserProfile);
 router
-  .route("/:id")
+  .route("/profile/:id")
   .patch(protectRoute, userControllers.updateUserProfile)
   .delete(protectRoute, userControllers.deleteUserProfile);
+router
+  .route("/profile/verify/:token")
+  .patch(
+    protectRoute,
+    checkVerificationToken,
+    userControllers.verifyUpdateUserProfile
+  );
 
 export default router;
