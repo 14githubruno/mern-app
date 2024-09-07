@@ -5,6 +5,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
+import cron from "node-cron";
 
 const __dirname = import.meta.dirname;
 const IS_DEV_MODE = process.env.NODE_ENV === "development";
@@ -14,6 +15,7 @@ const app = express();
 
 import { connectDB } from "./config/connect-db.js";
 import { errorHandler } from "./middlewares/error-handler.js";
+import { deleteUnveriedUsers } from "./middlewares/delete-unverified-users.js";
 
 import userRouter from "./routes/user-routes.js";
 import tvSeriesRouter from "./routes/tvseries-routes.js";
@@ -50,3 +52,5 @@ if (IS_DEV_MODE) {
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+
+cron.schedule("* * * * *", deleteUnveriedUsers);
