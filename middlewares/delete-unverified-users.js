@@ -1,20 +1,18 @@
-import asyncHandler from "express-async-handler";
 import User from "../models/user-model.js";
 
-const deleteUnveriedUsers = asyncHandler(async (req, res, next) => {
-  const expiredUsers = await User.find({
-    verified: false,
-  });
+const deleteUnveriedUsers = async (req, res, next) => {
+  try {
+    const deletedUsers = await User.deleteMany({ verified: false });
 
-  let names = [];
-  if (expiredUsers.length > 0) {
-    expiredUsers.map((user) => names.push(user.name));
-    console.log(expiredUsers.length);
-    console.log(names);
-    next();
-  } else {
-    console.log("All users are verified");
+    if (deletedUsers.acknowledged) {
+      console.log(`Unverified users deleted: ${deletedUsers.deletedCount}`);
+    } else {
+      console.log("All users are verified");
+    }
+  } catch (err) {
+    console.log("Error deleting unverified users:", err);
   }
-});
+  next();
+};
 
 export { deleteUnveriedUsers };
