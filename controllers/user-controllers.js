@@ -257,7 +257,7 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
     thereIsToken.token = generateToken(user._id, "1h");
     const updatedToken = await thereIsToken.save();
 
-    if(updatedToken) {
+    if (updatedToken) {
       res.status(201).json({
         message: `Dear [${unverifiedUser.name}], reset now your password to verify your akkount and log in`,
         body: {
@@ -266,11 +266,10 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
           token: updatedToken.token,
         },
       });
-    }  else {
+    } else {
       res.status(500);
       throw new Error("Something went wrong. Try again");
     }
-  
   }
 });
 
@@ -421,6 +420,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   user.name = name;
   user.email = email;
   user.password = await bcrypt.hash(password, 10);
+  user.verified = false;
   const updatedUser = await user.save();
 
   let symbol;
