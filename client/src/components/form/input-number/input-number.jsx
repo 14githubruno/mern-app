@@ -14,6 +14,7 @@ export default function InputNumber({ name, placeholder }) {
         id={name}
         placeholder={placeholder}
         autoComplete="off"
+        onDrop={(e) => e.preventDefault()}
         {...register(name, {
           valueAsNumber: true,
         })}

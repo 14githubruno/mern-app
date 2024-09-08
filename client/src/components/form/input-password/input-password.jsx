@@ -25,6 +25,7 @@ export default function InputPassword({
         placeholder={placeholder}
         autoComplete="off"
         maxLength={15}
+        onDrop={(e) => e.preventDefault()}
         {...register(name)}
       />
       {inputValue?.length > 0 && (
