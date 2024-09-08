@@ -37,8 +37,7 @@ export default function VerifyUpdateUserProfile() {
     if (isSuccess) {
       navigate("/profile", { replace: true });
     } else if (checkError) {
-      toast.error(checkError.data.message);
-      navigate("/profile", { replace: true });
+      navigate("/error", { replace: true });
     } else if (error) {
       navigate("/", { replace: true });
     }

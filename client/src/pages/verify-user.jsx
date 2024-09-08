@@ -36,8 +36,7 @@ export default function VerifyUser() {
     if (isSuccess) {
       navigate("/login", { replace: true });
     } else if (checkError) {
-      toast.error(checkError.data.message);
-      navigate("/login", { replace: true });
+      navigate("/error", { replace: true });
     } else if (error) {
       navigate("/", { replace: true });
     }

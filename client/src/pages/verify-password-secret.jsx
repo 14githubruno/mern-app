@@ -37,8 +37,7 @@ export default function VerifyPasswordSecret() {
     if (error) {
       navigate("/", { replace: true });
     } else if (checkError) {
-      toast.error(checkError.data.message);
-      navigate("/login", { replace: true });
+      navigate("/error", { replace: true });
     }
   }, [error, checkError, isSuccess, navigate]);
 
