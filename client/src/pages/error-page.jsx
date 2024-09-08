@@ -8,7 +8,7 @@ export default function ErrorPage() {
 
   return (
     <main>
-      <Header />
+      <Header replace={true} />
       <section style={{ color: "var(--white-color)" }}>
         <header>
           <h1
