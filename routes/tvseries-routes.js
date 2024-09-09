@@ -4,6 +4,7 @@ import { protectRoute } from "../middlewares/protect-route.js";
 
 const router = express.Router();
 
+/* PRIVATE */
 router
   .route("/")
   .get(protectRoute, tvSeriesControllers.getAllTvSeries)
