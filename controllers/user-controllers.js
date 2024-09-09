@@ -71,7 +71,9 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/verify/:token || GET /api/users/verify-password-secret/:token || GET /api/users/reset-password/:token || /api/users/profile/verify/:token
 // @access  Public
 const verifyToken = asyncHandler(async (req, res) => {
-  const thereIsToken = await Symbol.findOne({ token: req.params.token });
+  const token = req.params.token;
+
+  const thereIsToken = await Symbol.findOne({ token });
 
   if (!thereIsToken) {
     res.status(400);
@@ -321,14 +323,16 @@ const resetPassword = asyncHandler(async (req, res) => {
 // @route   POST /api/users/logout
 // @access  Private
 const logoutUser = asyncHandler(async (req, res) => {
+  const currentUser = req.user;
+
   try {
     res.clearCookie("jwt");
     res.status(200).json({
-      message: `User [${req.user.name}] successfully logged out`,
+      message: `User [${currentUser.name}] successfully logged out`,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error logging out user" });
+    res.status(500);
+    throw new Error("Error logging out");
   }
 });
 
@@ -336,9 +340,9 @@ const logoutUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
-  const userLoggedIn = req.user;
+  const currentUser = req.user;
 
-  const thereIsUser = await User.findById(userLoggedIn._id);
+  const thereIsUser = await User.findById(currentUser._id);
   if (!thereIsUser) {
     res.status(401);
     throw new Error("User not found");
@@ -346,9 +350,9 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     body: {
-      _id: userLoggedIn._id,
-      name: userLoggedIn.name,
-      email: userLoggedIn.email,
+      _id: currentUser._id,
+      name: currentUser.name,
+      email: currentUser.email,
     },
   });
 });
@@ -493,14 +497,17 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
 // @route   DELETE /api/users/profile/:id
 // @access  Private
 const deleteUserProfile = asyncHandler(async (req, res) => {
-  const userToDelete = await User.findById(req.params.id);
+  const currentUser = req.user;
+  const id = req.params.id;
+
+  const userToDelete = await User.findById(id);
 
   if (!userToDelete) {
     res.status(401);
     throw new Error("User not found");
   }
 
-  if (userToDelete._id.toString() !== req.user._id.toString()) {
+  if (userToDelete._id.toString() !== currentUser._id.toString()) {
     res.status(401);
     throw new Error("User not authorized");
   }
