@@ -98,14 +98,11 @@ const verifyUser = asyncHandler(async (req, res) => {
   }
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  const userToVerify = await User.findById(decoded._id);
-  if (!userToVerify) {
-    res.status(500);
-    throw new Error("Something went wrong. Try again");
-  }
-
-  userToVerify.verified = true;
-  const updatedUser = await userToVerify.save();
+  const updatedUser = await User.findOneAndUpdate(
+    { _id: decoded._id },
+    { $set: { verified: true } },
+    { new: true }
+  );
 
   if (updatedUser) {
     const deleteSymbol = await Symbol.deleteOne({
@@ -240,20 +237,17 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
   }
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  const user = await User.findById(decoded._id);
-  if (!user) {
-    res.status(500);
-    throw new Error("Something went wrong. Try again");
-  }
-
-  user.verified = false;
-  const unverifiedUser = await user.save();
+  const unverifiedUser = await User.findOneAndUpdate(
+    { _id: decoded._id },
+    { $set: { verified: false } },
+    { new: true }
+  );
 
   if (!unverifiedUser) {
     res.status(500);
     throw new Error("Something went wrong. Try again");
   } else {
-    thereIsToken.token = generateToken(user._id, "1h");
+    thereIsToken.token = generateToken(unverifiedUser._id, "1h");
     const updatedToken = await thereIsToken.save();
 
     if (updatedToken) {
@@ -291,21 +285,18 @@ const resetPassword = asyncHandler(async (req, res) => {
   }
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  const userToUpdatePassword = await User.findById(decoded._id);
-  if (!userToUpdatePassword) {
-    res.status(500);
-    throw new Error("Something went wrong. Try again");
-  }
-
   const hashedPassword = await bcrypt.hash(password, Number(process.env.SALT));
+
   if (!hashedPassword) {
     res.status(500);
     throw new Error("Something went wrong. Try again");
   }
 
-  userToUpdatePassword.verified = true;
-  userToUpdatePassword.password = hashedPassword;
-  const updatedUser = await userToUpdatePassword.save();
+  const updatedUser = await User.findOneAndUpdate(
+    { _id: decoded._id },
+    { $set: { verified: true, password: hashedPassword } },
+    { new: true }
+  );
 
   if (updatedUser) {
     const deleteSymbol = await Symbol.deleteOne({ token });
@@ -468,14 +459,11 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
   }
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  const userToVerify = await User.findById(decoded._id);
-  if (!userToVerify) {
-    res.status(500);
-    throw new Error("Something went wrong. Try again");
-  }
-
-  userToVerify.verified = true;
-  const updatedUser = await userToVerify.save();
+  const updatedUser = await User.findOneAndUpdate(
+    { _id: decoded._id },
+    { $set: { verified: true } },
+    { new: true }
+  );
 
   if (updatedUser) {
     const deleteSymbol = await Symbol.deleteOne({
