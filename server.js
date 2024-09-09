@@ -1,17 +1,9 @@
 import dotenv from "dotenv";
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
-
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
 import cron from "node-cron";
-
-const __dirname = import.meta.dirname;
-const IS_DEV_MODE = process.env.NODE_ENV === "development";
-const PORT = process.env.PORT;
-const BASE_URL = process.env.BASE_URL;
-const app = express();
 
 import { connectDB } from "./config/connect-db.js";
 import { errorHandler } from "./middlewares/error-handler.js";
@@ -19,6 +11,15 @@ import { deleteUnveriedUsers } from "./middlewares/delete-unverified-users.js";
 
 import userRouter from "./routes/user-routes.js";
 import tvSeriesRouter from "./routes/tvseries-routes.js";
+
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+
+const { NODE_ENV, PORT, BASE_URL } = process.env;
+const IS_DEV_MODE = NODE_ENV === "development";
+
+const __dirname = import.meta.dirname;
+
+const app = express();
 
 app.use(
   cors({
