@@ -538,7 +538,7 @@ const deleteUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export const userControllers = {
+export const userCtrl = {
   registerUser,
   verifyToken,
   verifyUser,

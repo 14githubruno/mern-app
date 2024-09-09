@@ -157,7 +157,7 @@ const deleteOneTvSeries = asyncHandler(async (req, res) => {
   }
 });
 
-export const tvSeriesControllers = {
+export const tvSeriesCtrl = {
   getAllTvSeries,
   createOneTvSeries,
   updateOneTvSeries,

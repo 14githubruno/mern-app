@@ -1,36 +1,36 @@
 import express from "express";
-import { userControllers } from "../controllers/user-controllers.js";
+import { userCtrl } from "../controllers/user-controllers.js";
 import { protectRoute } from "../middlewares/protect-route.js";
 
 const router = express.Router();
 
 /* PUBLIC */
-router.route("/register").post(userControllers.registerUser);
+router.route("/register").post(userCtrl.registerUser);
 router
   .route("/verify/:token")
-  .get(userControllers.verifyToken)
-  .patch(userControllers.verifyUser);
-router.route("/login").post(userControllers.loginUser);
-router.route("/forgot-password").post(userControllers.forgotPassword);
+  .get(userCtrl.verifyToken)
+  .patch(userCtrl.verifyUser);
+router.route("/login").post(userCtrl.loginUser);
+router.route("/forgot-password").post(userCtrl.forgotPassword);
 router
   .route("/verify-password-secret/:token")
-  .get(userControllers.verifyToken)
-  .patch(userControllers.verifyPasswordSecret);
+  .get(userCtrl.verifyToken)
+  .patch(userCtrl.verifyPasswordSecret);
 router
   .route("/reset-password/:token")
-  .get(userControllers.verifyToken)
-  .patch(userControllers.resetPassword);
+  .get(userCtrl.verifyToken)
+  .patch(userCtrl.resetPassword);
 
 /* PRIVATE */
-router.route("/logout").post(protectRoute, userControllers.logoutUser);
-router.route("/profile").get(protectRoute, userControllers.getUserProfile);
+router.route("/logout").post(protectRoute, userCtrl.logoutUser);
+router.route("/profile").get(protectRoute, userCtrl.getUserProfile);
 router
   .route("/profile/:id")
-  .patch(protectRoute, userControllers.updateUserProfile)
-  .delete(protectRoute, userControllers.deleteUserProfile);
+  .patch(protectRoute, userCtrl.updateUserProfile)
+  .delete(protectRoute, userCtrl.deleteUserProfile);
 router
   .route("/profile/verify/:token")
-  .get(userControllers.verifyToken)
-  .patch(protectRoute, userControllers.verifyUpdateUserProfile);
+  .get(userCtrl.verifyToken)
+  .patch(protectRoute, userCtrl.verifyUpdateUserProfile);
 
 export default router;
