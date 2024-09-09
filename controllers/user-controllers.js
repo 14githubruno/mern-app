@@ -4,6 +4,7 @@ import Tvseries from "../models/tvseries-model.js";
 import Symbol from "../models/symbol-model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { isEmpty } from "../lib/check-empty-values.js";
 import { generateToken } from "../lib/generate-token.js";
 import { generateSecret } from "../lib/generate-secret.js";
 import { sendEmail } from "../config/email/send-email.js";
@@ -13,7 +14,8 @@ import { sendEmail } from "../config/email/send-email.js";
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
-  if (!name || !email || !password) {
+
+  if (isEmpty(req.body)) {
     res.status(400);
     throw new Error("All fields are required");
   }
@@ -131,7 +133,7 @@ const verifyUser = asyncHandler(async (req, res) => {
 // @access  Public
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) {
+  if (isEmpty(req.body)) {
     res.status(400);
     throw new Error("All fields are required");
   }
@@ -180,9 +182,9 @@ const loginUser = asyncHandler(async (req, res) => {
 // @access  Public
 const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
-  if (!email) {
+  if (isEmpty(req.body)) {
     res.status(400);
-    throw new Error("Email is not provided");
+    throw new Error("All fields are required");
   }
 
   const user = await User.findOne({ email });
@@ -273,9 +275,9 @@ const resetPassword = asyncHandler(async (req, res) => {
   const { password } = req.body;
   const token = req.params.token;
 
-  if (!password) {
+  if (isEmpty(req.body)) {
     res.status(400);
-    throw new Error("New password is not provided");
+    throw new Error("All fields are required");
   }
 
   const thereIsToken = await Symbol.findOne({ token });
@@ -356,9 +358,9 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
   const currentUser = req.user;
-
   const { name, email, password } = req.body;
-  if (!name || !email || !password) {
+
+  if (isEmpty(req.body)) {
     res.status(400);
     throw new Error("All fields are required");
   }

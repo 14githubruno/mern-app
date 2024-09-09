@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
+import { isEmpty } from "../lib/check-empty-values.js";
 
 // @desc    Get all tv series
 // @route   GET /api/tvseries
@@ -27,7 +28,8 @@ const getAllTvSeries = asyncHandler(async (req, res) => {
 // @access  Private
 const createOneTvSeries = asyncHandler(async (req, res) => {
   const { title, stars, image, note } = req.body;
-  if (!title || !stars || !image || !note) {
+
+  if (isEmpty(req.body)) {
     res.status(400);
     throw new Error("All fields are required");
   }
@@ -75,7 +77,8 @@ const createOneTvSeries = asyncHandler(async (req, res) => {
 // @access  Private
 const updateOneTvSeries = asyncHandler(async (req, res) => {
   const { title, stars, image, note } = req.body;
-  if (!title || !stars || !image || !note) {
+
+  if (isEmpty(req.body)) {
     res.status(400);
     throw new Error("All fields are required");
   }
