@@ -1,0 +1,17 @@
+# Build output directories
+dist/
+build/
+
+# Test files
+test/
+spec/
+
+# Generated files
+coverage/
+docs/
+
+# Ignore all HTML files:
+**/*.html
+
+# Ignore express routes
+*-routes.js
