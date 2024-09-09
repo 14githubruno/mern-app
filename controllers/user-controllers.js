@@ -24,7 +24,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, Number(process.env.SALT));
   if (!hashedPassword) {
     res.status(400);
     throw new Error("Something went wrong. Try again");
@@ -298,7 +298,7 @@ const resetPassword = asyncHandler(async (req, res) => {
     throw new Error("Something went wrong. Try again");
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, Number(process.env.SALT));
   if (!hashedPassword) {
     res.status(500);
     throw new Error("Something went wrong. Try again");
@@ -419,7 +419,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   //create updated user
   user.name = name;
   user.email = email;
-  user.password = await bcrypt.hash(password, 10);
+  user.password = await bcrypt.hash(password, Number(process.env.SALT));
   user.verified = false;
   const updatedUser = await user.save();
 
