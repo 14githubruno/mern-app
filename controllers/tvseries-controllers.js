@@ -7,17 +7,19 @@ import { isEmpty } from "../lib/check-empty-values.js";
 // @route   GET /api/tvseries
 // @access  Private
 const getAllTvSeries = asyncHandler(async (req, res) => {
-  const tvSeries = await Tvseries.find({ user: req?.user?._id });
+  const currentUser = req.user;
+
+  const tvSeries = await Tvseries.find({ user: currentUser._id });
   const thereAreTvSeries = tvSeries.length > 0;
 
   if (thereAreTvSeries) {
     res.status(200).json({
-      message: `These are your tv series, [${req.user.name}]`,
+      message: `These are your tv series, [${currentUser.name}]`,
       body: tvSeries,
     });
   } else {
     res.status(200).json({
-      message: `Unfortunately, [${req.user.name}], you have no tv series yet. Create them`,
+      message: `Unfortunately, [${currentUser.name}], you have no tv series yet. Create them`,
       body: [],
     });
   }
@@ -27,6 +29,7 @@ const getAllTvSeries = asyncHandler(async (req, res) => {
 // @route   POST /api/tvseries
 // @access  Private
 const createOneTvSeries = asyncHandler(async (req, res) => {
+  const currentUser = req.user;
   const { title, stars, image, note } = req.body;
 
   if (isEmpty(req.body)) {
@@ -39,7 +42,7 @@ const createOneTvSeries = asyncHandler(async (req, res) => {
     throw new Error("Number of stars must be between 1 and 5");
   }
 
-  const authorizedUser = await User.findById(req?.user?._id);
+  const authorizedUser = await User.findById(currentUser._id);
   if (!authorizedUser) {
     res.status(401);
     throw new Error("User not found");
@@ -57,7 +60,7 @@ const createOneTvSeries = asyncHandler(async (req, res) => {
     );
   } else {
     const newTvSeries = await Tvseries.create({
-      user: req?.user?._id,
+      user: currentUser._id,
       title,
       stars,
       image,
@@ -76,6 +79,8 @@ const createOneTvSeries = asyncHandler(async (req, res) => {
 // @route   PATCH /api/tvseries/:id
 // @access  Private
 const updateOneTvSeries = asyncHandler(async (req, res) => {
+  const currentUser = req.user;
+  const id = req.params.id;
   const { title, stars, image, note } = req.body;
 
   if (isEmpty(req.body)) {
@@ -88,13 +93,13 @@ const updateOneTvSeries = asyncHandler(async (req, res) => {
     throw new Error("Number of stars must be between 1 and 5");
   }
 
-  const tvSeriesToUpdate = await Tvseries.findById(req.params.id);
+  const tvSeriesToUpdate = await Tvseries.findById(id);
   if (!tvSeriesToUpdate) {
     res.status(400);
-    throw new Error(`Tv series with id [${req.params.id}] not found`);
+    throw new Error(`Tv series with ID [${id}] not found`);
   }
 
-  const authorizedUser = await User.findById(req?.user?._id);
+  const authorizedUser = await User.findById(currentUser._id);
   if (!authorizedUser) {
     res.status(401);
     throw new Error("User not found");
@@ -113,7 +118,7 @@ const updateOneTvSeries = asyncHandler(async (req, res) => {
   const updatedTvSeries = await tvSeriesToUpdate.save();
   if (updatedTvSeries) {
     res.status(200).json({
-      message: `Tv series with ID ${req.params.id} updated`,
+      message: `Tv series with title [${updatedTvSeries.title}] updated`,
       body: updatedTvSeries,
     });
   }
@@ -123,14 +128,16 @@ const updateOneTvSeries = asyncHandler(async (req, res) => {
 // @route   DELETE /api/tvseries/:id
 // @access  Private
 const deleteOneTvSeries = asyncHandler(async (req, res) => {
-  const tvSeriesToDelete = await Tvseries.findById(req.params.id);
+  const currentUser = req.user;
+  const id = req.params.id;
 
+  const tvSeriesToDelete = await Tvseries.findById(id);
   if (!tvSeriesToDelete) {
     res.status(400);
-    throw new Error(`Tv series with id [${req.params.id}] not found`);
+    throw new Error(`Tv series with ID [${id}] not found`);
   }
 
-  const authorizedUser = await User.findById(req?.user?.id);
+  const authorizedUser = await User.findById(currentUser.id);
   if (!authorizedUser) {
     res.status(401);
     throw new Error("User not found");
@@ -144,7 +151,7 @@ const deleteOneTvSeries = asyncHandler(async (req, res) => {
   const deleteTvSeries = await Tvseries.deleteOne(tvSeriesToDelete);
   if (deleteTvSeries.acknowledged) {
     res.status(201).json({
-      message: `Tv series with ID ${req.params.id} deleted`,
+      message: `Tv series with title [${tvSeriesToDelete.title}] deleted`,
       body: tvSeriesToDelete,
     });
   }
