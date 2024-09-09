@@ -11,22 +11,22 @@
   & input,
   & textarea {
     width: 94%;
-    margin: 1rem auto 1.7rem auto;
-    padding: 1rem;
+    margin: 1rem auto 1.5rem auto;
+    padding: 1.2rem 1rem 1.2rem 1.5rem;
     font-size: 1.45rem;
     display: block;
     background: transparent;
     outline: none;
     border: none;
-    border-bottom: 0.1rem solid var(--white-color);
+    border: 0.1rem solid var(--grey-transparency);
     color: var(--grey-transparency);
-    transition: padding 0.2s linear;
   }
 
-  & input:focus:not(input[type="file"]),
+  & input:focus,
   & textarea:focus {
     color: var(--white-color);
-    padding-left: 1.5rem;
+    outline-offset: 0.255rem;
+    outline: solid 0.185rem var(--white-color);
   }
   /**/
 }

@@ -15,10 +15,31 @@ const headTags = {
       "Kreate your akkount and use the ultimate Reakt Applikation to feed your k-drama-love💞",
   },
 
+  verifyUser: {
+    title: "Korean Reakt App | Verify Akkount🚧",
+    metaDescription: "Verify your akkount to start kreating k-memories✨",
+  },
+
   login: {
     title: "Korean Reakt App | Login🔑",
     metaDescription:
       "Log in into your Reakt Applikation's k-akkount and kollekt a lot of k-stories📜",
+  },
+
+  forgotPassword: {
+    title: "Korean Reakt App | You forgot your password😭",
+    metaDescription: "Reset your password to rekover your wonderful akkount↩️",
+  },
+
+  verifyPasswordSecret: {
+    title: "Korean Reakt App | Verify your akkount📋",
+    metaDescription: "Verify your akkount to reset your password🖋️",
+  },
+
+  resetPassword: {
+    title: "Korean Reakt App | Reset your password😊",
+    metaDescription:
+      "It's time to reset your password to rekollekt your k-memories😄",
   },
 
   dashboard: {
@@ -37,18 +58,23 @@ const headTags = {
     metaDescription: "This is where you kan edit your k-tvseries📺",
   },
 
-  profile: {
+  userProfile: {
     title: "Korean Reakt App | Your Profile👤",
     metaDescription:
       "This is your Reakt Applikation's Profile, where you kan see👀, update✏️ or delete😭 your k-data📄",
   },
 
-  updateProfile: {
+  updateUserProfile: {
     title: "Korean Reakt App | Update Your Profile🖋️",
     metaDescription: "This is where you kan update✏️ your profile📄",
   },
 
-  error: {
+  verifyUpdateUserProfile: {
+    title: "Korean Reakt App | Confirm your updates🖋️",
+    metaDescription: "Update✏️ your profile📄 and seek k-joy😊",
+  },
+
+  errorPage: {
     title: "Korean Reak App | Error Page🚫😞",
     metaDescription:
       "❌Ops! This resource kannot be found in the Reakt Applikation",

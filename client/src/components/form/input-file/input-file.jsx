@@ -6,8 +6,8 @@ export default function InputFile({ typeOfFile, file, funcForInputFile }) {
   const { register } = useFormContext();
 
   return (
-    <>
-      <Label htmlFor={typeOfFile} file={file} />
+    <div className={styles.inputFileWrapper}>
+      <Label htmlFor={typeOfFile} />
       <input
         className={styles.inputFile}
         type="file"
@@ -19,6 +19,9 @@ export default function InputFile({ typeOfFile, file, funcForInputFile }) {
           },
         })}
       />
-    </>
+      {file && (
+        <img className={styles.uploadedImg} src={file} alt="uploaded image" />
+      )}
+    </div>
   );
 }

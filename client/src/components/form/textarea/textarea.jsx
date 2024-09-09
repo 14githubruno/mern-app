@@ -15,9 +15,8 @@ export default function Textarea() {
         placeholder="Enter note"
         autoComplete="off"
         maxLength={200}
-        {...register("note", {
-          onDrop: (e) => e.preventDefault(),
-        })}
+        onDrop={(e) => e.preventDefault()}
+        {...register("note")}
       />
       <TextareaChars name={"note"} />
     </>

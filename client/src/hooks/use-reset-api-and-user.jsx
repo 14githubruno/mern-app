@@ -10,6 +10,7 @@ const useResetApiAndUser = () => {
     dispatch(clearCredentials());
     dispatch(resetTvseries());
     dispatch(apiSlice.util.resetApiState());
+    localStorage.clear();
   };
 
   return resetAll;

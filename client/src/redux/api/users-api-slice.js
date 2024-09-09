@@ -11,11 +11,49 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    verifyToken: builder.query({
+      query: (token) => ({
+        url: `${API_USERS}/verify/${token}`,
+      }),
+    }),
+
+    verifyUser: builder.mutation({
+      query: (symbol) => ({
+        url: `${API_USERS}/verify/${symbol.token}`,
+        method: "PATCH",
+        body: symbol,
+      }),
+    }),
+
     loginUser: builder.mutation({
       query: (credentials) => ({
         url: `${API_USERS}/login`,
         method: "POST",
         body: credentials,
+      }),
+    }),
+
+    forgotPassword: builder.mutation({
+      query: (data) => ({
+        url: `${API_USERS}/forgot-password`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    verifyPasswordSecret: builder.mutation({
+      query: (data) => ({
+        url: `${API_USERS}/verify-password-secret/${data.token}`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
+
+    resetPassword: builder.mutation({
+      query: (data) => ({
+        url: `${API_USERS}/reset-password/${data.token}`,
+        method: "PATCH",
+        body: data,
       }),
     }),
 
@@ -35,16 +73,25 @@ export const userApiSlice = apiSlice.injectEndpoints({
 
     updateUserProfile: builder.mutation({
       query: (userToUpdate) => ({
-        url: `${API_USERS}/${userToUpdate._id}`,
+        url: `${API_USERS}/profile/${userToUpdate._id}`,
         method: "PATCH",
         body: userToUpdate,
       }),
       invalidatesTags: ["User"],
     }),
 
+    verifyUpdateUserProfile: builder.mutation({
+      query: (symbol) => ({
+        url: `${API_USERS}/profile/verify/${symbol.token}`,
+        method: "PATCH",
+        body: symbol,
+      }),
+      invalidatesTags: ["User"],
+    }),
+
     deleteUserProfile: builder.mutation({
       query: (userToDelete) => ({
-        url: `${API_USERS}/${userToDelete._id}`,
+        url: `${API_USERS}/profile/${userToDelete._id}`,
         method: "DELETE",
         body: userToDelete,
       }),
@@ -54,9 +101,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useRegisterUserMutation,
+  useVerifyTokenQuery,
+  useVerifyUserMutation,
   useLoginUserMutation,
+  useForgotPasswordMutation,
+  useVerifyPasswordSecretMutation,
+  useResetPasswordMutation,
   useLogoutUserMutation,
   useGetUserProfileQuery,
   useUpdateUserProfileMutation,
+  useVerifyUpdateUserProfileMutation,
   useDeleteUserProfileMutation,
 } = userApiSlice;

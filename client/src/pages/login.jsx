@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLoginUserMutation } from "../redux/api/users-api-slice";
 import { setCredentials } from "../redux/features/auth/auth-slice";
 import { useNavigate } from "react-router-dom";
-import { parseFormData } from "../lib/parse-form-data";
+import { parseFormData, checkParsingError } from "../lib/parse-form-data";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
@@ -20,26 +20,25 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const tokenExpirationDate = useSelector(
-    (state) => state.auth.tokenExpirationDate
-  );
+  const tokenExpDate = useSelector((state) => state.auth.tokenExpDate);
 
   const [loginUser, { isLoading }] = useLoginUserMutation();
 
   useEffect(() => {
-    if (user && tokenExpirationDate) {
+    if (user && tokenExpDate) {
       methods.reset();
       navigate("/", { replace: true });
     }
-  }, [user, tokenExpirationDate, navigate, methods.reset]);
+  }, [user, tokenExpDate, navigate, methods.reset]);
 
   // this below fires a useEffect
   useHeadTags("login");
 
   const handleUserLogin = async (data) => {
     const parsedData = parseFormData(data);
-    if (parsedData === false) {
-      toast.error("Data structure is not valid");
+    const error = checkParsingError(parsedData);
+    if (error) {
+      toast.error(error);
       return;
     }
 
@@ -48,7 +47,7 @@ export default function Login() {
       dispatch(
         setCredentials({
           user: res.body.name,
-          tokenExpirationDate: res.body.tokenExpirationDate,
+          tokenExpDate: res.body.tokenExpDate,
         })
       );
       toast.success(res.message);

@@ -17,7 +17,7 @@ export default function InputPassword({
   }
 
   return (
-    <>
+    <div className={styles.inputPasswordWrapper}>
       <Label htmlFor={name} />
       <input
         type={inputType}
@@ -25,6 +25,7 @@ export default function InputPassword({
         placeholder={placeholder}
         autoComplete="off"
         maxLength={15}
+        onDrop={(e) => e.preventDefault()}
         {...register(name)}
       />
       {inputValue?.length > 0 && (
@@ -36,6 +37,6 @@ export default function InputPassword({
           {inputType === name ? <RxEyeOpen /> : <RxEyeNone />}
         </span>
       )}
-    </>
+    </div>
   );
 }

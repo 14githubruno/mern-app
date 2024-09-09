@@ -2,7 +2,8 @@
 
 .label {
   width: 94%;
-  margin: 1rem auto 0.2rem auto;
+  padding: 0.3rem 0;
+  margin: 0 auto;
   font-size: 1.355rem;
   color: var(--white-color);
   position: relative;
@@ -48,31 +49,8 @@ if label password
 /*
 */
 
-/*
-if label is image
-*/
-.uploadedImg {
-  object-fit: cover;
-  width: 9rem;
-  height: 6rem;
-  position: absolute;
-  top: 0.7rem;
-  right: 0;
-}
-/*
-*/
-
 @media (min-width: $break-tablet) {
   .label {
     font-size: 1.455rem;
   }
-
-  /*
- if label is image
-*/
-  .uploadedImg {
-    top: 1rem;
-  }
-  /*
-*/
 }

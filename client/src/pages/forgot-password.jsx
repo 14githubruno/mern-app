@@ -1,37 +1,33 @@
 import { useHeadTags } from "../hooks/use-head-tags";
-import { useForm, FormProvider } from "react-hook-form";
-import { useRegisterUserMutation } from "../redux/api/users-api-slice";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useForm, FormProvider } from "react-hook-form";
+import { useForgotPasswordMutation } from "../redux/api/users-api-slice";
 import { parseFormData, checkParsingError } from "../lib/parse-form-data";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
-export default function Register() {
+export default function ForgotPassword() {
+  const navigate = useNavigate();
+  const [forgotPassword, { isLoading, error }] = useForgotPasswordMutation();
+
   const methods = useForm({
     defaultValues: {
-      name: "",
       email: "",
-      password: "",
     },
   });
 
-  const user = useSelector((state) => state.auth.user);
-  const navigate = useNavigate();
-  const [registerUser, { isLoading }] = useRegisterUserMutation();
-
   useEffect(() => {
-    if (user !== null) {
-      toast.error("You are currently logged in. To Register new user, log out");
+    if (error) {
       navigate("/", { replace: true });
+      toast.error(error.data.message);
     }
-  }, [user, navigate]);
+  }, [error, navigate]);
 
   // this below fires a useEffect
-  useHeadTags("register");
+  useHeadTags("forgotPassword");
 
-  const handleUserRegistration = async (data) => {
+  const handleForgotPassword = async (data) => {
     const parsedData = parseFormData(data);
     const error = checkParsingError(parsedData);
     if (error) {
@@ -40,10 +36,13 @@ export default function Register() {
     }
 
     try {
-      const res = await registerUser(parsedData).unwrap();
+      const res = await forgotPassword(parsedData).unwrap();
+      console.log(res);
       if (res.body) {
         toast.success(res.message);
-        navigate(`/verify/${res.body.token}`, { replace: true });
+        navigate(`/verify-password-secret/${res.body.token}`, {
+          replace: true,
+        });
       }
     } catch (err) {
       toast.error(err?.data?.message);
@@ -54,12 +53,12 @@ export default function Register() {
     <section>
       <FormProvider {...methods}>
         <Form
-          typeOfForm={"register user"}
-          onSubmit={handleUserRegistration}
+          typeOfForm={"forgot password"}
+          onSubmit={handleForgotPassword}
           formButtonProps={{
             isLoading,
-            textOnLoading: "Registering...",
-            text: "Register",
+            textOnLoading: "Sending...",
+            text: "Send",
           }}
         />
       </FormProvider>

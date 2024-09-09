@@ -12,6 +12,7 @@ export default function InputEmail({ name }) {
         id={name}
         placeholder={`Enter ${name}`}
         autoComplete="off"
+        onDrop={(e) => e.preventDefault()}
         {...register(name)}
       />
     </>

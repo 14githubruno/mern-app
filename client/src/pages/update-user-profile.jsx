@@ -1,5 +1,4 @@
 import { useHeadTags } from "../hooks/use-head-tags";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setOnlyCredentialsUser } from "../redux/features/auth/auth-slice";
 import {
@@ -10,7 +9,7 @@ import { useSelector } from "react-redux";
 import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { parseFormData } from "../lib/parse-form-data";
+import { parseFormData, checkParsingError } from "../lib/parse-form-data";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
@@ -20,8 +19,7 @@ export default function UpdateUserProfile() {
   const resetAll = useResetApiAndUser();
   const user = useSelector((state) => state.auth.user);
   const { data, isSuccess: dataIsAvailable } = useGetUserProfileQuery();
-  const [updateUserProfile, { isLoading, isSuccess }] =
-    useUpdateUserProfileMutation();
+  const [updateUserProfile, { isLoading }] = useUpdateUserProfileMutation();
 
   const methods = useForm({
     defaultValues: async () => {
@@ -33,31 +31,34 @@ export default function UpdateUserProfile() {
     },
   });
 
-  useEffect(() => {
-    if (isSuccess) {
-      navigate("/profile", { replace: true });
-    }
-  }, [isSuccess, navigate]);
-
   // this below fires a useEffect
-  useHeadTags("updateProfile", user);
+  useHeadTags("updateUserProfile", user);
 
   const handleUpdateUserData = async (data) => {
     const parsedData = parseFormData(data);
-    if (parsedData === false) {
-      toast.error("Data structure is not valid");
+    const error = checkParsingError(parsedData);
+    if (error) {
+      toast.error(error);
       return;
     }
 
     try {
       const res = await updateUserProfile(parsedData).unwrap();
       if (res.body) {
-        toast.success(res.message);
         dispatch(
           setOnlyCredentialsUser({
             user: res.body.name,
           })
         );
+      }
+
+      if (!res.body.token) {
+        toast.success(res.message);
+        navigate("/profile", { replace: true });
+      } else {
+        navigate(`/profile/update-user/verify/${res.body.token}`, {
+          replace: true,
+        });
       }
     } catch (err) {
       if (err.data.type === "token") {

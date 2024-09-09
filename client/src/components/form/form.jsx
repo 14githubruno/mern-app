@@ -36,6 +36,14 @@ export default function Form({
         </Fragment>
       );
       break;
+    case "verify user":
+      formContent = (
+        <Fragment>
+          <InputText name={"secret"} />
+          <FormButton {...formButtonProps} />
+        </Fragment>
+      );
+      break;
     case "login user":
       formContent = (
         <Fragment>
@@ -47,6 +55,45 @@ export default function Form({
             linkText="Register one"
             linkHref="/register"
           />
+          <FormParagraph
+            paragraphText="Forgot your password?"
+            linkText="Rekover it"
+            linkHref="/forgot-password"
+          />
+        </Fragment>
+      );
+      break;
+    case "forgot password":
+      formContent = (
+        <Fragment>
+          <InputEmail name={"email"} />
+          <FormButton {...formButtonProps} />
+          <FormParagraph
+            paragraphText="Remember your password?"
+            linkText="Log in"
+            linkHref="/login"
+          />
+        </Fragment>
+      );
+      break;
+    case "verify password secret":
+      formContent = (
+        <Fragment>
+          <InputText name={"secret"} />
+          <FormButton {...formButtonProps} />
+          <FormParagraph
+            paragraphText="Remember your password?"
+            linkText="Log in"
+            linkHref="/login"
+          />
+        </Fragment>
+      );
+      break;
+    case "reset password":
+      formContent = (
+        <Fragment>
+          <InputPassword name={"password"} placeholder={"Enter new password"} />
+          <FormButton {...formButtonProps} />
         </Fragment>
       );
       break;
@@ -61,6 +108,14 @@ export default function Form({
           />
           <FormButton {...formButtonProps} />
           <FormLinkBack linkHref={"/profile"} />
+        </Fragment>
+      );
+      break;
+    case "verify user update":
+      formContent = (
+        <Fragment>
+          <InputText name={"secret"} />
+          <FormButton {...formButtonProps} />
         </Fragment>
       );
       break;

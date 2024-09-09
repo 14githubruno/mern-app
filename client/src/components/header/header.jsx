@@ -11,7 +11,7 @@ import { useLogoutUserMutation } from "../../redux/api/users-api-slice";
 import { useResetApiAndUser } from "../../hooks/use-reset-api-and-user";
 import toast from "react-hot-toast";
 
-export default function Header() {
+export default function Header({ replace = false }) {
   const dropdownRef = useRef(null);
   const secondDropdownRef = useRef(null);
   const location = useLocation();
@@ -109,6 +109,7 @@ export default function Header() {
                   : ""
               }`}
               to={"/dashboard"}
+              replace={replace}
               onClick={(e) => {
                 hideDropdownContent();
                 e.stopPropagation();
@@ -128,6 +129,7 @@ export default function Header() {
                   : ""
               }`}
               to={"/profile"}
+              replace={replace}
               onClick={(e) => {
                 hideDropdownContent();
                 e.stopPropagation();
@@ -166,6 +168,7 @@ export default function Header() {
           `${styles.navLink}  ${isActive ? styles.navLinkIsActive : ""}`
         }
         to="/login"
+        replace={replace}
       >
         Log in
       </NavLink>
@@ -174,6 +177,7 @@ export default function Header() {
           `${styles.navLink}  ${isActive ? styles.navLinkIsActive : ""}`
         }
         to="/register"
+        replace={replace}
       >
         Register
       </NavLink>
@@ -188,6 +192,7 @@ export default function Header() {
           `${isActive ? styles.linkToHomeIsActive : ""}`
         }
         to={"/"}
+        replace={replace}
       >
         <GiSouthKorea
           aria-label="south korea icon"

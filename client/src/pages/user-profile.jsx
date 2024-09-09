@@ -35,7 +35,7 @@ export default function UserProfile() {
     toast.error("Token has expired. Log in again");
   }
 
-  useHeadTags("profile", user);
+  useHeadTags("userProfile", user);
 
   /* modal delete starts */
   const modalDeleteRef = useRef(null);
