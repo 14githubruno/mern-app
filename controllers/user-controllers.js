@@ -69,7 +69,6 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/verify/:token || GET /api/users/verify-password-secret/:token || GET /api/users/reset-password/:token || /api/users/profile/verify/:token
 // @access  Public
 const verifyToken = asyncHandler(async (req, res) => {
-  console.log("HIT");
   const thereIsToken = await Symbol.findOne({ token: req.params.token });
 
   if (!thereIsToken) {
