@@ -43,7 +43,7 @@ export default function VerifyUser() {
   }, [checkError, error, isSuccess, navigate]);
 
   // this below fires a useEffect
-  useHeadTags("verify");
+  useHeadTags("verifyUser");
 
   const handleUserVerification = async (data) => {
     const parsedData = parseFormData(data);

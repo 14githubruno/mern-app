@@ -32,7 +32,7 @@ export default function UpdateUserProfile() {
   });
 
   // this below fires a useEffect
-  useHeadTags("updateProfile", user);
+  useHeadTags("updateUserProfile", user);
 
   const handleUpdateUserData = async (data) => {
     const parsedData = parseFormData(data);

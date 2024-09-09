@@ -15,7 +15,7 @@ const headTags = {
       "Kreate your akkount and use the ultimate Reakt Applikation to feed your k-drama-love💞",
   },
 
-  verify: {
+  verifyUser: {
     title: "Korean Reakt App | Verify Akkount🚧",
     metaDescription: "Verify your akkount to start kreating k-memories✨",
   },
@@ -58,13 +58,13 @@ const headTags = {
     metaDescription: "This is where you kan edit your k-tvseries📺",
   },
 
-  profile: {
+  userProfile: {
     title: "Korean Reakt App | Your Profile👤",
     metaDescription:
       "This is your Reakt Applikation's Profile, where you kan see👀, update✏️ or delete😭 your k-data📄",
   },
 
-  updateProfile: {
+  updateUserProfile: {
     title: "Korean Reakt App | Update Your Profile🖋️",
     metaDescription: "This is where you kan update✏️ your profile📄",
   },
@@ -74,7 +74,7 @@ const headTags = {
     metaDescription: "Update✏️ your profile📄 and seek k-joy😊",
   },
 
-  error: {
+  errorPage: {
     title: "Korean Reak App | Error Page🚫😞",
     metaDescription:
       "❌Ops! This resource kannot be found in the Reakt Applikation",

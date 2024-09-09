@@ -4,7 +4,7 @@ import Footer from "../components/footer/footer";
 
 export default function ErrorPage() {
   // this below fires a useEffect
-  useHeadTags("error");
+  useHeadTags("errorPage");
 
   return (
     <main>
