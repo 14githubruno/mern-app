@@ -1,6 +1,6 @@
 import express from "express";
 import { userCtrl } from "../controllers/user-controllers.js";
-import { protectRoute } from "../middlewares/protect-route.js";
+import { protect } from "../middlewares/protect.js";
 
 const router = express.Router();
 
@@ -22,15 +22,15 @@ router
   .patch(userCtrl.resetPassword);
 
 /* PRIVATE */
-router.route("/logout").post(protectRoute, userCtrl.logoutUser);
-router.route("/profile").get(protectRoute, userCtrl.getUserProfile);
+router.route("/logout").post(protect, userCtrl.logoutUser);
+router.route("/profile").get(protect, userCtrl.getUserProfile);
 router
   .route("/profile/:id")
-  .patch(protectRoute, userCtrl.updateUserProfile)
-  .delete(protectRoute, userCtrl.deleteUserProfile);
+  .patch(protect, userCtrl.updateUserProfile)
+  .delete(protect, userCtrl.deleteUserProfile);
 router
   .route("/profile/verify/:token")
   .get(userCtrl.verifyToken)
-  .patch(protectRoute, userCtrl.verifyUpdateUserProfile);
+  .patch(protect, userCtrl.verifyUpdateUserProfile);
 
 export default router;
