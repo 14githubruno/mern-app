@@ -48,6 +48,7 @@ const registerUser = asyncHandler(async (req, res) => {
       },
     });
     sendEmail(
+      true,
       res,
       email,
       `Verify your email, dear ${user.name}`,
