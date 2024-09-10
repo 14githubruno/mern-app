@@ -13,7 +13,7 @@ import Loader from "../components/loader/loader";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
-export default function Update() {
+export default function UpdateTvseries() {
   const [img, setImg] = useState("");
 
   const params = useParams();
