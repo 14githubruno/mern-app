@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { isEmpty } from "../lib/check-empty-values.js";
 import { generateToken } from "../lib/generate-token.js";
+import { decodeToken } from "../lib/decode-token.js";
 import { generateSecret } from "../lib/generate-secret.js";
 import { sendEmail } from "../config/email/send-email.js";
 
@@ -101,7 +102,7 @@ const verifyUser = asyncHandler(async (req, res) => {
     throw new Error("Secrets do not match or token invalid");
   }
 
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const decoded = decodeToken(token);
   const updatedUser = await User.findOneAndUpdate(
     { _id: decoded._id },
     { $set: { verified: true } },
@@ -240,7 +241,7 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
     throw new Error("Secrets do not match or token invalid");
   }
 
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const decoded = decodeToken(token);
   const unverifiedUser = await User.findOneAndUpdate(
     { _id: decoded._id },
     { $set: { verified: false } },
@@ -288,7 +289,7 @@ const resetPassword = asyncHandler(async (req, res) => {
     throw new Error("Secrets do not match or token invalid");
   }
 
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const decoded = decodeToken(token);
   const hashedPassword = await bcrypt.hash(password, Number(process.env.SALT));
 
   if (!hashedPassword) {
@@ -464,7 +465,7 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
     throw new Error("Secrets do not match or token invalid");
   }
 
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const decoded = decodeToken(token);
   const updatedUser = await User.findOneAndUpdate(
     { _id: decoded._id },
     { $set: { verified: true } },
