@@ -3,7 +3,7 @@ import { setEmailTransporterConfig } from "./set-email-transporter-config.js";
 import { throwError } from "../../lib/throw-error.js";
 import User from "../../models/user-model.js";
 
-const sendEmail = async (forRegistration = false, res, to, subject, text) => {
+const sendEmail = async (forRegistration, res, to, subject, text) => {
   console.log(to);
   const mailOptions = {
     from: process.env.MAIL_USER,
