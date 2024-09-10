@@ -5,12 +5,14 @@ import {
   useUpdateUserProfileMutation,
   useGetUserProfileQuery,
 } from "../redux/api/users-api-slice";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { parseFormData, checkParsingError } from "../lib/parse-form-data";
 import Form from "../components/form/form";
+import Loader from "../components/loader/loader";
 import toast from "react-hot-toast";
 
 export default function UpdateUserProfile() {
@@ -18,18 +20,16 @@ export default function UpdateUserProfile() {
   const navigate = useNavigate();
   const resetAll = useResetApiAndUser();
   const user = useSelector((state) => state.auth.user);
-  const { data, isSuccess: dataIsAvailable } = useGetUserProfileQuery();
+  const { data } = useGetUserProfileQuery();
   const [updateUserProfile, { isLoading }] = useUpdateUserProfileMutation();
 
-  const methods = useForm({
-    defaultValues: async () => {
-      let user;
-      if (dataIsAvailable) {
-        user = { ...data.body };
-      }
-      return user;
-    },
-  });
+  const methods = useForm();
+
+  useEffect(() => {
+    if (data) {
+      methods.reset({ ...data.body });
+    }
+  }, [data, methods]);
 
   // this below fires a useEffect
   useHeadTags("updateUserProfile", user);
@@ -72,17 +72,21 @@ export default function UpdateUserProfile() {
 
   return (
     <section>
-      <FormProvider {...methods}>
-        <Form
-          typeOfForm={"update user"}
-          onSubmit={handleUpdateUserData}
-          formButtonProps={{
-            isLoading,
-            textOnLoading: "Updating...",
-            text: "Update",
-          }}
-        />
-      </FormProvider>
+      {data ? (
+        <FormProvider {...methods}>
+          <Form
+            typeOfForm={"update user"}
+            onSubmit={handleUpdateUserData}
+            formButtonProps={{
+              isLoading,
+              textOnLoading: "Updating...",
+              text: "Update",
+            }}
+          />
+        </FormProvider>
+      ) : (
+        <Loader />
+      )}
     </section>
   );
 }
