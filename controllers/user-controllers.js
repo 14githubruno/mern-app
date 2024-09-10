@@ -22,7 +22,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const userExists = await User.findOne({ email });
   if (userExists) return throwError(res, 400, "User already exists");
 
-  const hashed = await hashPassword(password);
+  const hashed = await hashPassword(res, password);
   const user = await User.create({
     name,
     email,
@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (user) {
     symbol = await Symbol.create({
       user: user._id,
-      token: generateToken(user._id, "1h"),
+      token: generateToken(res, user._id, "1h"),
       secret: generateSecret(),
     });
   }
@@ -48,6 +48,7 @@ const registerUser = asyncHandler(async (req, res) => {
       },
     });
     sendEmail(
+      res,
       email,
       `Verify your email, dear ${user.name}`,
       `Hi, ${user.name}, we need to verify your email.\nSend back this code to verify it: ${symbol.secret}`
@@ -88,7 +89,7 @@ const verifyUser = asyncHandler(async (req, res) => {
   if (!thereIsToken)
     return throwError(res, 400, "Secrets do not match or token invalid");
 
-  const decoded = decodeToken(token);
+  const decoded = decodeToken(res, token);
   const updatedUser = await User.findOneAndUpdate(
     { _id: decoded._id },
     { $set: { verified: true } },
@@ -137,10 +138,10 @@ const loginUser = asyncHandler(async (req, res) => {
       `Dear [${user.name}], your email is not verified. Check your email`
     );
 
-  const match = await comparePassword(password, user.password);
+  const match = await comparePassword(res, password, user.password);
 
   if (user && match) {
-    const token = generateToken(user._id, "3d");
+    const token = generateToken(res, user._id, "3d");
     const cookieMaxAge = 3 * 24 * 60 * 60 * 1000 - 5 * 60 * 1000;
 
     res
@@ -178,7 +179,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
   if (user) {
     symbol = await Symbol.create({
       user: user._id,
-      token: generateToken(user._id, "1h"),
+      token: generateToken(res, user._id, "1h"),
       secret: generateSecret(),
     });
   }
@@ -193,6 +194,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
       },
     });
     sendEmail(
+      res,
       email,
       `Reset your password, dear ${user.name}`,
       `Hi, ${user.name}.\nSend back this code to reset your password: ${symbol.secret}`
@@ -216,7 +218,7 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
   if (!thereIsToken)
     return throwError(res, 400, "Secrets do not match or token invalid");
 
-  const decoded = decodeToken(token);
+  const decoded = decodeToken(res, token);
   const unverifiedUser = await User.findOneAndUpdate(
     { _id: decoded._id },
     { $set: { verified: false } },
@@ -226,7 +228,7 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
   if (!unverifiedUser) {
     return throwError(res, "Something went wrong. Try again");
   } else {
-    thereIsToken.token = generateToken(unverifiedUser._id, "1h");
+    thereIsToken.token = generateToken(res, unverifiedUser._id, "1h");
     const updatedToken = await thereIsToken.save();
 
     if (updatedToken) {
@@ -257,8 +259,8 @@ const resetPassword = asyncHandler(async (req, res) => {
   if (!thereIsToken)
     return throwError(res, 400, "Secrets do not match or token invalid");
 
-  const decoded = decodeToken(token);
-  const hashed = await hashPassword(password);
+  const decoded = decodeToken(res, token);
+  const hashed = await hashPassword(res, password);
   const updatedUser = await User.findOneAndUpdate(
     { _id: decoded._id },
     { $set: { verified: true, password: hashed } },
@@ -342,7 +344,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   if (!user) return throwError(res, 404, "User not found");
 
   //first check if data have not changed
-  const match = await comparePassword(password, user.password);
+  const match = await comparePassword(res, password, user.password);
   const dataMatch = match && name === user.name && email === user.email;
 
   if (dataMatch) return throwError(res, 400, "You did not update any data");
@@ -350,7 +352,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   // update user
   user.name = name;
   user.email = email;
-  user.password = await hashPassword(password);
+  user.password = await hashPassword(res, password);
   user.verified = false;
   const updatedUser = await user.save();
 
@@ -358,7 +360,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   if (updatedUser) {
     symbol = await Symbol.create({
       user: updatedUser._id,
-      token: generateToken(updatedUser._id, "1h"),
+      token: generateToken(res, updatedUser._id, "1h"),
       secret: generateSecret(),
     });
   }
@@ -373,6 +375,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       },
     });
     sendEmail(
+      res,
       email,
       `Verify your akkount, dear ${updatedUser.name}`,
       `Hi, ${updatedUser.name}.\nSend back this code to verify your akkount and update your data: ${symbol.secret}`
@@ -396,7 +399,7 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
   if (!thereIsToken)
     return throwError(res, 400, "Secrets do not match or token invalid");
 
-  const decoded = decodeToken(token);
+  const decoded = decodeToken(res, token);
   const updatedUser = await User.findOneAndUpdate(
     { _id: decoded._id },
     { $set: { verified: true } },
