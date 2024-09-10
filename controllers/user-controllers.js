@@ -2,12 +2,12 @@ import asyncHandler from "express-async-handler";
 import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
 import Symbol from "../models/symbol-model.js";
-import bcrypt from "bcrypt";
 import { isEmpty } from "../lib/check-empty-values.js";
 import { generateToken } from "../lib/generate-token.js";
 import { decodeToken } from "../lib/decode-token.js";
 import { generateSecret } from "../lib/generate-secret.js";
 import { hashPassword } from "../lib/hash-password.js";
+import { comparePassword } from "../lib/compare-password.js";
 import { sendEmail } from "../config/email/send-email.js";
 
 // @desc    Register new user
@@ -149,8 +149,8 @@ const loginUser = asyncHandler(async (req, res) => {
     );
   }
 
-  const passwordsMatch = await bcrypt.compare(password, user.password);
-  if (user && passwordsMatch) {
+  const match = await comparePassword(password, user.password);
+  if (user && match) {
     const token = generateToken(user._id, "3d");
     const cookieMaxAge = 3 * 24 * 60 * 60 * 1000 - 5 * 60 * 1000;
 
@@ -375,34 +375,15 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 
   //first check if data have not changed
-  const passwordsMatch = await bcrypt.compare(password, user.password);
-  const namesMatch = name === user.name;
-  const emailsMatch = email === user.email;
+  const match = await comparePassword(password, user.password);
+  const dataMatch = match && name === user.name && email === user.email;
 
-  if (passwordsMatch && namesMatch && emailsMatch) {
+  if (dataMatch) {
     res.status(400);
     throw new Error("You did not update any data");
   }
 
-  if (passwordsMatch && emailsMatch && !namesMatch) {
-    user.name = name;
-    const userIsUpdated = await user.save();
-
-    if (userIsUpdated) {
-      return res.status(201).json({
-        message: `Dear [${userIsUpdated.name}], your name has been updated`,
-        body: {
-          _id: userIsUpdated._id,
-          name: userIsUpdated.name,
-        },
-      });
-    } else {
-      res.status(500);
-      throw new Error("Something went wrong. Try again");
-    }
-  }
-
-  //create updated user
+  // update user
   user.name = name;
   user.email = email;
   user.password = await hashPassword(password);
