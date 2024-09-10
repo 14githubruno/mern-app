@@ -9,6 +9,7 @@ import { isEmpty } from "../lib/check-empty-values.js";
 // @access  Private
 const getAllTvSeries = asyncHandler(async (req, res) => {
   const currentUser = req.user;
+  console.log(currentUser);
 
   const tvSeries = await Tvseries.find({ user: currentUser._id });
   const thereAreTvSeries = tvSeries.length > 0;
@@ -37,7 +38,8 @@ const getOneTvseries = asyncHandler(async (req, res) => {
   if (!tvseries)
     return throwError(res, 404, `Tv series with ID [${id}] not found`);
 
-  const authorizedUser = await User.findById(currentUser.id);
+  const authorizedUser = await User.findById(currentUser._id);
+  console.log(authorizedUser);
   if (!authorizedUser) return throwError(res, 401, "User not authorized");
 
   if (tvseries.user.toString() !== authorizedUser._id.toString()) {
@@ -142,7 +144,7 @@ const deleteOneTvSeries = asyncHandler(async (req, res) => {
   if (!tvSeriesToDelete)
     return throwError(res, 400, `Tv series with ID [${id}] not found`);
 
-  const authorizedUser = await User.findById(currentUser.id);
+  const authorizedUser = await User.findById(currentUser._id);
   if (!authorizedUser) return throwError(res, 401, "User not authorized");
 
   if (tvSeriesToDelete.user.toString() !== authorizedUser._id.toString()) {
