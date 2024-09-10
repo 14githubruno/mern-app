@@ -7,18 +7,22 @@ const tvSeriesSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
+
     title: {
       type: String,
       required: true,
     },
+
     stars: {
       type: Number,
       required: true,
     },
+
     image: {
       type: String,
       required: true,
     },
+
     note: {
       type: String,
       required: true,
