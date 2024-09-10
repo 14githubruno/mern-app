@@ -110,12 +110,14 @@ const verifyUser = asyncHandler(async (req, res) => {
     } else {
       return throwError(
         res,
+        500,
         "Something went wrong with email verification. Try again"
       );
     }
   } else {
     return throwError(
       res,
+      500,
       "Something went wrong with email verification. Try again"
     );
   }
@@ -228,7 +230,7 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
   );
 
   if (!unverifiedUser) {
-    return throwError(res, "Something went wrong. Try again");
+    return throwError(res, 500, "Something went wrong. Try again");
   } else {
     thereIsToken.token = generateToken(res, unverifiedUser._id);
     const updatedToken = await thereIsToken.save();
@@ -243,7 +245,7 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
         },
       });
     } else {
-      return throwError(res, "Something went wrong. Try again");
+      return throwError(res, 500, "Something went wrong. Try again");
     }
   }
 });
@@ -279,14 +281,14 @@ const resetPassword = asyncHandler(async (req, res) => {
     } else {
       return throwError(
         res,
-        400,
+        500,
         "Something went wrong with password reset. Try again"
       );
     }
   } else {
     return throwError(
       res,
-      400,
+      500,
       "Something went wrong with password reset. Try again"
     );
   }
@@ -304,7 +306,7 @@ const logoutUser = asyncHandler(async (req, res) => {
       message: `User [${currentUser.name}] successfully logged out`,
     });
   } catch (error) {
-    return throwError(res, "Error logging out");
+    return throwError(res, 500, "Error logging out");
   }
 });
 
@@ -422,12 +424,14 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
     } else {
       return throwError(
         res,
+        500,
         "Something went wrong with email verification. Try again"
       );
     }
   } else {
     return throwError(
       res,
+      500,
       "Something went wrong with email verification. Try again"
     );
   }
