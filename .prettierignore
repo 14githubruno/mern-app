@@ -1,14 +1,14 @@
 # Build output directories
-dist/
-build/
+/dist/
+/build/
 
 # Test files
-test/
-spec/
+/test/
+/spec/
 
 # Generated files
-coverage/
-docs/
+/coverage/
+/docs/
 
 # Ignore all HTML files:
 **/*.html
