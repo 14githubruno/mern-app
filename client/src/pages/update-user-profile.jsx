@@ -29,7 +29,7 @@ export default function UpdateUserProfile() {
     if (data) {
       methods.reset({ ...data.body });
     }
-  }, [data, methods]);
+  }, [data, methods.reset]);
 
   // this below fires a useEffect
   useHeadTags("updateUserProfile", user);
