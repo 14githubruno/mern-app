@@ -8,7 +8,12 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@/fonts": path.join(__dirname, "public", "fonts", "Inter"),
+      "@/fonts": path.join(
+        __dirname,
+        "public",
+        "fonts",
+        "Inter"
+      ),
       "@/breakpoints": path.join(
         __dirname,
         "src",
@@ -23,7 +28,13 @@ export default defineConfig({
         "@use",
         "_z-index.scss"
       ),
-      "@/mixins": path.join(__dirname, "src", "styles", "@use", "_mixins.scss"),
+      "@/mixins": path.join(
+        __dirname, 
+        "src",
+        "styles",
+        "@use", 
+        "_mixins.scss"
+      ),
     },
   },
 });
