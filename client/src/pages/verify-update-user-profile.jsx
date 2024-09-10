@@ -24,7 +24,7 @@ export default function VerifyUpdateUserProfile() {
       return result;
     },
   });
-  const [verifyUpdateUserProfile, { isLoading, isSuccess, error }] =
+  const [verifyUpdateUserProfile, { isLoading, isSuccess }] =
     useVerifyUpdateUserProfileMutation();
 
   const methods = useForm({
@@ -38,10 +38,8 @@ export default function VerifyUpdateUserProfile() {
       navigate("/profile", { replace: true });
     } else if (checkError) {
       navigate("/error", { replace: true });
-    } else if (error) {
-      navigate("/", { replace: true });
     }
-  }, [checkError, error, isSuccess, navigate]);
+  }, [checkError, isSuccess, navigate]);
 
   // this below fires a useEffect
   useHeadTags("verifyUpdateUserProfile");

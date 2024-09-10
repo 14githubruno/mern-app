@@ -24,7 +24,7 @@ export default function VerifyUser() {
       return result;
     },
   });
-  const [verifyUser, { isLoading, isSuccess, error }] = useVerifyUserMutation();
+  const [verifyUser, { isLoading, isSuccess }] = useVerifyUserMutation();
 
   const methods = useForm({
     defaultValues: {
@@ -37,10 +37,8 @@ export default function VerifyUser() {
       navigate("/login", { replace: true });
     } else if (checkError) {
       navigate("/error", { replace: true });
-    } else if (error) {
-      navigate("/", { replace: true });
     }
-  }, [checkError, error, isSuccess, navigate]);
+  }, [checkError, isSuccess, navigate]);
 
   // this below fires a useEffect
   useHeadTags("verifyUser");

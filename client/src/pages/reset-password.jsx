@@ -24,8 +24,7 @@ export default function ResetPassword() {
       return result;
     },
   });
-  const [resetPassword, { error, isLoading, isSuccess }] =
-    useResetPasswordMutation();
+  const [resetPassword, { isLoading, isSuccess }] = useResetPasswordMutation();
 
   const methods = useForm({
     defaultValues: {
@@ -39,10 +38,8 @@ export default function ResetPassword() {
     } else if (checkError) {
       toast.error(checkError.data.message);
       navigate("/login", { replace: true });
-    } else if (error) {
-      navigate("/", { replace: true });
     }
-  }, [checkError, error, isSuccess, navigate]);
+  }, [checkError, isSuccess, navigate]);
 
   // this below fires a useEffect
   useHeadTags("resetPassword");

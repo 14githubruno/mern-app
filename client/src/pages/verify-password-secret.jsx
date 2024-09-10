@@ -24,7 +24,7 @@ export default function VerifyPasswordSecret() {
       return result;
     },
   });
-  const [verifyPasswordSecret, { isLoading, isSuccess, error }] =
+  const [verifyPasswordSecret, { isLoading }] =
     useVerifyPasswordSecretMutation();
 
   const methods = useForm({
@@ -34,12 +34,10 @@ export default function VerifyPasswordSecret() {
   });
 
   useEffect(() => {
-    if (error) {
-      navigate("/", { replace: true });
-    } else if (checkError) {
+    if (checkError) {
       navigate("/error", { replace: true });
     }
-  }, [error, checkError, isSuccess, navigate]);
+  }, [checkError, navigate]);
 
   // this below fires a useEffect
   useHeadTags("verifyPasswordSecret");
