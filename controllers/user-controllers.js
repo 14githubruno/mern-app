@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (user) {
     symbol = await Symbol.create({
       user: user._id,
-      token: generateToken(res, user._id, "1h"),
+      token: generateToken(res, user._id),
       secret: generateSecret(),
     });
   }
@@ -180,7 +180,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
   if (user) {
     symbol = await Symbol.create({
       user: user._id,
-      token: generateToken(res, user._id, "1h"),
+      token: generateToken(res, user._id),
       secret: generateSecret(),
     });
   }
@@ -229,7 +229,7 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
   if (!unverifiedUser) {
     return throwError(res, "Something went wrong. Try again");
   } else {
-    thereIsToken.token = generateToken(res, unverifiedUser._id, "1h");
+    thereIsToken.token = generateToken(res, unverifiedUser._id);
     const updatedToken = await thereIsToken.save();
 
     if (updatedToken) {
@@ -361,7 +361,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   if (updatedUser) {
     symbol = await Symbol.create({
       user: updatedUser._id,
-      token: generateToken(res, updatedUser._id, "1h"),
+      token: generateToken(res, updatedUser._id),
       secret: generateSecret(),
     });
   }
