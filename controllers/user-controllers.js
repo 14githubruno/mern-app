@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
 import Symbol from "../models/symbol-model.js";
+import { throwError } from "../lib/throw-error.js";
 import { isEmpty } from "../lib/check-empty-values.js";
 import { generateToken } from "../lib/generate-token.js";
 import { decodeToken } from "../lib/decode-token.js";
@@ -16,16 +17,10 @@ import { sendEmail } from "../config/email/send-email.js";
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
-  if (isEmpty(req.body)) {
-    res.status(400);
-    throw new Error("All fields are required");
-  }
+  if (isEmpty(req.body)) return throwError(res, 400, "All fiels are required");
 
   const userExists = await User.findOne({ email });
-  if (userExists) {
-    res.status(400);
-    throw new Error("User already exists");
-  }
+  if (userExists) return throwError(res, 400, "User already exists");
 
   const hashed = await hashPassword(password);
   const user = await User.create({
@@ -58,8 +53,7 @@ const registerUser = asyncHandler(async (req, res) => {
       `Hi, ${user.name}, we need to verify your email.\nSend back this code to verify it: ${symbol.secret}`
     );
   } else {
-    res.status(400);
-    throw new Error("Data are not valid");
+    return throwError(res, 400, "Dara are not valid");
   }
 });
 
@@ -72,8 +66,7 @@ const verifyToken = asyncHandler(async (req, res) => {
   const thereIsToken = await Symbol.findOne({ token });
 
   if (!thereIsToken) {
-    res.status(400);
-    throw new Error("Token invalid or expired");
+    return throwError(res, 400, "Token invalid or expired");
   } else {
     res.status(200).json({
       message: "There is token",
@@ -92,10 +85,8 @@ const verifyUser = asyncHandler(async (req, res) => {
     token,
     secret,
   });
-  if (!thereIsToken) {
-    res.status(400);
-    throw new Error("Secrets do not match or token invalid");
-  }
+  if (!thereIsToken)
+    return throwError(res, 400, "Secrets do not match or token invalid");
 
   const decoded = decodeToken(token);
   const updatedUser = await User.findOneAndUpdate(
@@ -115,14 +106,16 @@ const verifyUser = asyncHandler(async (req, res) => {
         message: `Dear ${updatedUser.name}, your email is verified. You kan log in`,
       });
     } else {
-      res.status(500);
-      throw new Error(
+      return throwError(
+        res,
         "Something went wrong with email verification. Try again"
       );
     }
   } else {
-    res.status(500);
-    throw new Error("Something went wrong with email verification. Try again");
+    return throwError(
+      res,
+      "Something went wrong with email verification. Try again"
+    );
   }
 });
 
@@ -131,25 +124,21 @@ const verifyUser = asyncHandler(async (req, res) => {
 // @access  Public
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  if (isEmpty(req.body)) {
-    res.status(400);
-    throw new Error("All fields are required");
-  }
+
+  if (isEmpty(req.body)) return throwError(res, 400, "All fiels are required");
 
   const user = await User.findOne({ email });
-  if (!user) {
-    res.status(400);
-    throw new Error("Credentials are not valid");
-  }
 
-  if (!user.verified) {
-    res.status(400);
-    throw new Error(
-      `Dear ${user.name}, your email is not verified. Check your email`
+  if (!user) return throwError(res, 400, "Credentials are not valid");
+  if (!user.verified)
+    return throwError(
+      res,
+      400,
+      `Dear [${user.name}], your email is not verified. Check your email`
     );
-  }
 
   const match = await comparePassword(password, user.password);
+
   if (user && match) {
     const token = generateToken(user._id, "3d");
     const cookieMaxAge = 3 * 24 * 60 * 60 * 1000 - 5 * 60 * 1000;
@@ -170,8 +159,7 @@ const loginUser = asyncHandler(async (req, res) => {
         },
       });
   } else {
-    res.status(400);
-    throw new Error("Credentials are not valid");
+    return throwError(res, 400, "Credentials are not valid");
   }
 });
 
@@ -180,16 +168,11 @@ const loginUser = asyncHandler(async (req, res) => {
 // @access  Public
 const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
-  if (isEmpty(req.body)) {
-    res.status(400);
-    throw new Error("All fields are required");
-  }
+
+  if (isEmpty(req.body)) return throwError(res, 400, "All fiels are required");
 
   const user = await User.findOne({ email });
-  if (!user) {
-    res.status(400);
-    throw new Error("User does not exist");
-  }
+  if (!user) return throwError(res, 400, "User does not exist");
 
   let symbol;
   if (user) {
@@ -215,8 +198,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
       `Hi, ${user.name}.\nSend back this code to reset your password: ${symbol.secret}`
     );
   } else {
-    res.status(400);
-    throw new Error("Data are not valid");
+    return throwError(res, 400, "Data are not valid");
   }
 });
 
@@ -231,10 +213,8 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
     token,
     secret,
   });
-  if (!thereIsToken) {
-    res.status(400);
-    throw new Error("Secrets do not match or token invalid");
-  }
+  if (!thereIsToken)
+    return throwError(res, 400, "Secrets do not match or token invalid");
 
   const decoded = decodeToken(token);
   const unverifiedUser = await User.findOneAndUpdate(
@@ -244,8 +224,7 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
   );
 
   if (!unverifiedUser) {
-    res.status(500);
-    throw new Error("Something went wrong. Try again");
+    return throwError(res, "Something went wrong. Try again");
   } else {
     thereIsToken.token = generateToken(unverifiedUser._id, "1h");
     const updatedToken = await thereIsToken.save();
@@ -260,8 +239,7 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
         },
       });
     } else {
-      res.status(500);
-      throw new Error("Something went wrong. Try again");
+      return throwError(res, "Something went wrong. Try again");
     }
   }
 });
@@ -273,16 +251,11 @@ const resetPassword = asyncHandler(async (req, res) => {
   const { password } = req.body;
   const token = req.params.token;
 
-  if (isEmpty(req.body)) {
-    res.status(400);
-    throw new Error("All fields are required");
-  }
+  if (isEmpty(req.body)) return throwError(res, 400, "All fiels are required");
 
   const thereIsToken = await Symbol.findOne({ token });
-  if (!thereIsToken) {
-    res.status(400);
-    throw new Error("Secrets do not match or token invalid");
-  }
+  if (!thereIsToken)
+    return throwError(res, 400, "Secrets do not match or token invalid");
 
   const decoded = decodeToken(token);
   const hashed = await hashPassword(password);
@@ -300,12 +273,18 @@ const resetPassword = asyncHandler(async (req, res) => {
         message: `Dear ${updatedUser.name}, your password has been reset. You kan now log in`,
       });
     } else {
-      res.status(500);
-      throw new Error("Something went wrong with password reset. Try again");
+      return throwError(
+        res,
+        400,
+        "Something went wrong with password reset. Try again"
+      );
     }
   } else {
-    res.status(500);
-    throw new Error("Something went wrong with password reset. Try again");
+    return throwError(
+      res,
+      400,
+      "Something went wrong with password reset. Try again"
+    );
   }
 });
 
@@ -321,8 +300,7 @@ const logoutUser = asyncHandler(async (req, res) => {
       message: `User [${currentUser.name}] successfully logged out`,
     });
   } catch (error) {
-    res.status(500);
-    throw new Error("Error logging out");
+    return throwError(res, "Error logging out");
   }
 });
 
@@ -333,10 +311,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
   const currentUser = req.user;
 
   const thereIsUser = await User.findById(currentUser._id);
-  if (!thereIsUser) {
-    res.status(401);
-    throw new Error("User not found");
-  }
+  if (!thereIsUser) return throwError(res, 401, "User not found");
 
   res.status(200).json({
     body: {
@@ -354,34 +329,23 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   const currentUser = req.user;
   const { name, email, password } = req.body;
 
-  if (isEmpty(req.body)) {
-    res.status(400);
-    throw new Error("All fields are required");
-  }
+  if (isEmpty(req.body)) return throwError(res, 400, "All fiels are required");
 
   const emailAlreadyTaken = await User.findOne({
     email,
     _id: { $ne: currentUser._id },
   });
-  if (emailAlreadyTaken) {
-    res.status(400);
-    throw new Error("This email seems already taken");
-  }
+  if (emailAlreadyTaken)
+    return throwError(res, 400, "This email seems already taken");
 
   let user = await User.findById(currentUser._id);
-  if (!user) {
-    res.status(404);
-    throw new Error("User not found");
-  }
+  if (!user) return throwError(res, 404, "User not found");
 
   //first check if data have not changed
   const match = await comparePassword(password, user.password);
   const dataMatch = match && name === user.name && email === user.email;
 
-  if (dataMatch) {
-    res.status(400);
-    throw new Error("You did not update any data");
-  }
+  if (dataMatch) return throwError(res, 400, "You did not update any data");
 
   // update user
   user.name = name;
@@ -414,8 +378,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       `Hi, ${updatedUser.name}.\nSend back this code to verify your akkount and update your data: ${symbol.secret}`
     );
   } else {
-    res.status(400);
-    throw new Error("Data are not valid");
+    return throwError(res, 400, "Data are not valid");
   }
 });
 
@@ -430,10 +393,8 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
     token,
     secret,
   });
-  if (!thereIsToken) {
-    res.status(400);
-    throw new Error("Secrets do not match or token invalid");
-  }
+  if (!thereIsToken)
+    return throwError(res, 400, "Secrets do not match or token invalid");
 
   const decoded = decodeToken(token);
   const updatedUser = await User.findOneAndUpdate(
@@ -453,14 +414,16 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
         message: `Dear ${updatedUser.name}, your akkount is verified and your data are updated`,
       });
     } else {
-      res.status(500);
-      throw new Error(
+      return throwError(
+        res,
         "Something went wrong with email verification. Try again"
       );
     }
   } else {
-    res.status(500);
-    throw new Error("Something went wrong with email verification. Try again");
+    return throwError(
+      res,
+      "Something went wrong with email verification. Try again"
+    );
   }
 });
 
@@ -473,14 +436,10 @@ const deleteUserProfile = asyncHandler(async (req, res) => {
 
   const userToDelete = await User.findById(id);
 
-  if (!userToDelete) {
-    res.status(401);
-    throw new Error("User not found");
-  }
+  if (!userToDelete) return throwError(res, 401, "User not found");
 
   if (userToDelete._id.toString() !== currentUser._id.toString()) {
-    res.status(401);
-    throw new Error("User not authorized");
+    return throwError(res, 401, "User not authorized");
   }
 
   const userTvseries = await Tvseries.find({
