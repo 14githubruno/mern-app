@@ -3,11 +3,11 @@ import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
 import Symbol from "../models/symbol-model.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { isEmpty } from "../lib/check-empty-values.js";
 import { generateToken } from "../lib/generate-token.js";
 import { decodeToken } from "../lib/decode-token.js";
 import { generateSecret } from "../lib/generate-secret.js";
+import { hashPassword } from "../lib/hash-password.js";
 import { sendEmail } from "../config/email/send-email.js";
 
 // @desc    Register new user
@@ -27,16 +27,11 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 
-  const hashedPassword = await bcrypt.hash(password, Number(process.env.SALT));
-  if (!hashedPassword) {
-    res.status(400);
-    throw new Error("Something went wrong. Try again");
-  }
-
+  const hashed = await hashPassword(password);
   const user = await User.create({
     name,
     email,
-    password: hashedPassword,
+    password: hashed,
   });
 
   let symbol;
@@ -290,16 +285,10 @@ const resetPassword = asyncHandler(async (req, res) => {
   }
 
   const decoded = decodeToken(token);
-  const hashedPassword = await bcrypt.hash(password, Number(process.env.SALT));
-
-  if (!hashedPassword) {
-    res.status(500);
-    throw new Error("Something went wrong. Try again");
-  }
-
+  const hashed = await hashPassword(password);
   const updatedUser = await User.findOneAndUpdate(
     { _id: decoded._id },
-    { $set: { verified: true, password: hashedPassword } },
+    { $set: { verified: true, password: hashed } },
     { new: true }
   );
 
@@ -416,7 +405,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   //create updated user
   user.name = name;
   user.email = email;
-  user.password = await bcrypt.hash(password, Number(process.env.SALT));
+  user.password = await hashPassword(password);
   user.verified = false;
   const updatedUser = await user.save();
 
