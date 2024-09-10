@@ -17,7 +17,7 @@ import { sendEmail } from "../config/email/send-email.js";
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
-  if (isEmpty(req.body)) return throwError(res, 400, "All fiels are required");
+  if (isEmpty(req.body)) return throwError(res, 400, "All fields are required");
 
   const userExists = await User.findOne({ email });
   if (userExists) return throwError(res, 400, "User already exists");
@@ -52,7 +52,7 @@ const registerUser = asyncHandler(async (req, res) => {
       res,
       email,
       `Verify your email, dear ${user.name}`,
-      `Hi, ${user.name}, we need to verify your email.\nSend back this code to verify it: ${symbol.secret}`
+      `Hi, ${user.name}, we need to verify your email.\nSend back this kode to verify it: ${symbol.secret}`
     );
   } else {
     return throwError(res, 400, "Dara are not valid");
@@ -88,7 +88,7 @@ const verifyUser = asyncHandler(async (req, res) => {
     secret,
   });
   if (!thereIsToken)
-    return throwError(res, 400, "Secrets do not match or token invalid");
+    return throwError(res, 400, "Sekrets do not match or token invalid");
 
   const decoded = decodeToken(res, token);
   const updatedUser = await User.findOneAndUpdate(
@@ -111,14 +111,14 @@ const verifyUser = asyncHandler(async (req, res) => {
       return throwError(
         res,
         500,
-        "Something went wrong with email verification. Try again"
+        "Something went wrong with email verifikation. Try again"
       );
     }
   } else {
     return throwError(
       res,
       500,
-      "Something went wrong with email verification. Try again"
+      "Something went wrong with email verifikation. Try again"
     );
   }
 });
@@ -129,11 +129,11 @@ const verifyUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  if (isEmpty(req.body)) return throwError(res, 400, "All fiels are required");
+  if (isEmpty(req.body)) return throwError(res, 400, "All fields are required");
 
   const user = await User.findOne({ email });
 
-  if (!user) return throwError(res, 400, "Credentials are not valid");
+  if (!user) return throwError(res, 400, "Kredentials are not valid");
   if (!user.verified)
     return throwError(
       res,
@@ -163,7 +163,7 @@ const loginUser = asyncHandler(async (req, res) => {
         },
       });
   } else {
-    return throwError(res, 400, "Credentials are not valid");
+    return throwError(res, 400, "Kredentials are not valid");
   }
 });
 
@@ -173,7 +173,7 @@ const loginUser = asyncHandler(async (req, res) => {
 const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
 
-  if (isEmpty(req.body)) return throwError(res, 400, "All fiels are required");
+  if (isEmpty(req.body)) return throwError(res, 400, "All fields are required");
 
   const user = await User.findOne({ email });
   if (!user) return throwError(res, 400, "User does not exist");
@@ -201,7 +201,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
       res,
       email,
       `Reset your password, dear ${user.name}`,
-      `Hi, ${user.name}.\nSend back this code to reset your password: ${symbol.secret}`
+      `Hi, ${user.name}.\nSend back this kode to reset your password: ${symbol.secret}`
     );
   } else {
     return throwError(res, 400, "Data are not valid");
@@ -220,7 +220,7 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
     secret,
   });
   if (!thereIsToken)
-    return throwError(res, 400, "Secrets do not match or token invalid");
+    return throwError(res, 400, "Sekrets do not match or token invalid");
 
   const decoded = decodeToken(res, token);
   const unverifiedUser = await User.findOneAndUpdate(
@@ -257,11 +257,11 @@ const resetPassword = asyncHandler(async (req, res) => {
   const { password } = req.body;
   const token = req.params.token;
 
-  if (isEmpty(req.body)) return throwError(res, 400, "All fiels are required");
+  if (isEmpty(req.body)) return throwError(res, 400, "All fields are required");
 
   const thereIsToken = await Symbol.findOne({ token });
   if (!thereIsToken)
-    return throwError(res, 400, "Secrets do not match or token invalid");
+    return throwError(res, 400, "Sekrets do not match or token invalid");
 
   const decoded = decodeToken(res, token);
   const hashed = await hashPassword(res, password);
@@ -317,7 +317,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
   const currentUser = req.user;
 
   const thereIsUser = await User.findById(currentUser._id);
-  if (!thereIsUser) return throwError(res, 401, "User not found");
+  if (!thereIsUser) return throwError(res, 404, "User not found");
 
   res.status(200).json({
     body: {
@@ -335,7 +335,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   const currentUser = req.user;
   const { name, email, password } = req.body;
 
-  if (isEmpty(req.body)) return throwError(res, 400, "All fiels are required");
+  if (isEmpty(req.body)) return throwError(res, 400, "All fields are required");
 
   const emailAlreadyTaken = await User.findOne({
     email,
@@ -383,7 +383,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       res,
       email,
       `Verify your akkount, dear ${updatedUser.name}`,
-      `Hi, ${updatedUser.name}.\nSend back this code to verify your akkount and update your data: ${symbol.secret}`
+      `Hi, ${updatedUser.name}.\nSend back this kode to verify your akkount and update your data: ${symbol.secret}`
     );
   } else {
     return throwError(res, 400, "Data are not valid");
@@ -402,7 +402,7 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
     secret,
   });
   if (!thereIsToken)
-    return throwError(res, 400, "Secrets do not match or token invalid");
+    return throwError(res, 400, "Sekrets do not match or token invalid");
 
   const decoded = decodeToken(res, token);
   const updatedUser = await User.findOneAndUpdate(
@@ -425,14 +425,14 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
       return throwError(
         res,
         500,
-        "Something went wrong with email verification. Try again"
+        "Something went wrong with email verifikation. Try again"
       );
     }
   } else {
     return throwError(
       res,
       500,
-      "Something went wrong with email verification. Try again"
+      "Something went wrong with email verifikation. Try again"
     );
   }
 });

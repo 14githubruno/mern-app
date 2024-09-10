@@ -21,7 +21,7 @@ const getAllTvSeries = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(200).json({
-      message: `Unfortunately, [${currentUser.name}], you have no tv series yet. Create them`,
+      message: `Unfortunately, [${currentUser.name}], you have no tv series yet. Kreate them`,
       body: [],
     });
   }
@@ -59,7 +59,7 @@ const createOneTvSeries = asyncHandler(async (req, res) => {
   const currentUser = req.user;
   const { title, stars, image, note } = req.body;
 
-  if (isEmpty(req.body)) return throwError(res, 400, "All fiels are required");
+  if (isEmpty(req.body)) return throwError(res, 400, "All fields are required");
 
   if (stars > 5 || stars < 1)
     return throwError(res, 400, "Number of stars must be between 1 and 5");
@@ -103,7 +103,7 @@ const updateOneTvSeries = asyncHandler(async (req, res) => {
   const id = req.params.id;
   const { title, stars, image, note } = req.body;
 
-  if (isEmpty(req.body)) return throwError(res, 400, "All fiels are required");
+  if (isEmpty(req.body)) return throwError(res, 400, "All fields are required");
 
   if (stars > 5 || stars < 1)
     return throwError(res, 400, "Number of stars must be between 1 and 5");
