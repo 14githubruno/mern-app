@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import path from "path";
 import cron from "node-cron";
 
-import { connectDB } from "./config/connect-db.js";
+import { connectDB } from "./config/db/connect-db.js";
 import { errorHandler } from "./middlewares/error-handler.js";
 import { deleteUnveriedUsers } from "./middlewares/delete-unverified-users.js";
 
