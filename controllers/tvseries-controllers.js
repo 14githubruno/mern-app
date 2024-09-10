@@ -26,6 +26,30 @@ const getAllTvSeries = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    get one tv series
+// @route   GET /api/tvseries/:id
+// @access  Private
+const getOneTvseries = asyncHandler(async (req, res) => {
+  const currentUser = req.user;
+  const id = req.params.id;
+
+  const tvseries = await Tvseries.findById(id);
+  if (!tvseries)
+    return throwError(res, 404, `Tv series with ID [${id}] not found`);
+
+  const authorizedUser = await User.findById(currentUser.id);
+  if (!authorizedUser) return throwError(res, 401, "User not authorized");
+
+  if (tvseries.user.toString() !== authorizedUser._id.toString()) {
+    return throwError(res, 401, "User not authorized");
+  }
+
+  return res.status(200).json({
+    message: `Tv series with title [${tvseries.title}] sent`,
+    body: tvseries,
+  });
+});
+
 // @desc    Create a tv series
 // @route   POST /api/tvseries
 // @access  Private
@@ -136,6 +160,7 @@ const deleteOneTvSeries = asyncHandler(async (req, res) => {
 
 export const tvSeriesCtrl = {
   getAllTvSeries,
+  getOneTvseries,
   createOneTvSeries,
   updateOneTvSeries,
   deleteOneTvSeries,

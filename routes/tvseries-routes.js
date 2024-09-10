@@ -11,6 +11,7 @@ router
   .post(protect, tvSeriesCtrl.createOneTvSeries);
 router
   .route("/:id")
+  .get(protect, tvSeriesCtrl.getOneTvseries)
   .patch(protect, tvSeriesCtrl.updateOneTvSeries)
   .delete(protect, tvSeriesCtrl.deleteOneTvSeries);
 
