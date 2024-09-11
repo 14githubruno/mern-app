@@ -1,8 +1,4 @@
-/* 
-*****************************************************
-OBJ TO SPECIFY PARSING ERRORS (used in FUNC TO PARSE DATA and in FUNC TO CHECK PARSING ERRORS)
-*****************************************************
-*/
+// obj to specify parsing errors (used in FUNC TO PARSE DATA and FUNC TO CHECK PARSING ERRORS)
 const error = {
   wrong: {
     type: false,
@@ -13,15 +9,8 @@ const error = {
     msg: "All fields are required",
   },
 };
-/*
- *****************************************************
- */
 
-/* 
-*****************************************************
-FUNC TO VALIDATE PASSWORD
-*****************************************************
-*/
+// validate password fn
 const validatePassword = (pw) => {
   const whitespace = /\s/;
   const pattern = /^(?=.*?[A-Z])(?=.*?\d)(?=.*?[!#$%&?"]).{10,15}$/;
@@ -29,15 +18,8 @@ const validatePassword = (pw) => {
   let isValid = !whitespace.test(pw) && pattern.test(pw);
   return isValid;
 };
-/*
- *****************************************************
- */
 
-/* 
-*****************************************************
-FUNC TO PARSE DATA
-*****************************************************
-*/
+// func to parse data
 const parseFormData = (data) => {
   let trimmedData = {};
   let finalData = {};
@@ -72,15 +54,8 @@ const parseFormData = (data) => {
   }
   return finalData;
 };
-/*
- *****************************************************
- */
 
-/* 
-*****************************************************
-FUNC TO CHECK PARSING DATA ERRORS
-*****************************************************
-*/
+// func to check parsing data errors
 const checkParsingError = (err) => {
   let msgToToast;
 
@@ -95,8 +70,5 @@ const checkParsingError = (err) => {
 
   return msgToToast;
 };
-/*
- *****************************************************
- */
 
 export { parseFormData, checkParsingError };
