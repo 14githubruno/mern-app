@@ -48,13 +48,10 @@ export default function Dashboard() {
 
   /* modal delete starts */
   const modalDeleteRef = useRef(null);
+
   const toggleModalToDelete = useCallback(() => {
-    const modal_classes = modalDeleteRef?.current.classList;
-    if (modal_classes.contains("modalDeleteHidden")) {
-      modal_classes.remove("modalDeleteHidden");
-    } else {
-      modal_classes.add("modalDeleteHidden");
-    }
+    const modalClasses = modalDeleteRef?.current.classList;
+    modalClasses.toggle("modalDeleteHidden");
   }, [modalDeleteRef]);
 
   const selectTableRowToDelete = useCallback(
