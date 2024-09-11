@@ -26,11 +26,10 @@ const sendEmail = async (forRegistration, res, to, subject, text) => {
           { email: to },
           { new: true }
         );
-        if (deletedUser)
-          return throwError(res, 500, "Email sending error. Try again");
+        if (deletedUser) throwError(res, 500, "Email sending error. Try again");
       } catch (error) {
         console.error(error);
-        return throwError(res, 500, "Try again with another email");
+        throwError(res, 500, "Try again with another email");
       }
     }
   }

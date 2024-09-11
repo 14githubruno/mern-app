@@ -35,15 +35,14 @@ const getOneTvseries = asyncHandler(async (req, res) => {
   const id = req.params.id;
 
   const tvseries = await Tvseries.findById(id);
-  if (!tvseries)
-    return throwError(res, 404, `Tv series with ID [${id}] not found`);
+  if (!tvseries) throwError(res, 404, `Tv series with ID [${id}] not found`);
 
   const authorizedUser = await User.findById(currentUser._id);
   console.log(authorizedUser);
-  if (!authorizedUser) return throwError(res, 401, "User not authorized");
+  if (!authorizedUser) throwError(res, 401, "User not authorized");
 
   if (tvseries.user.toString() !== authorizedUser._id.toString()) {
-    return throwError(res, 401, "User not authorized");
+    throwError(res, 401, "User not authorized");
   }
 
   return res.status(200).json({
@@ -59,13 +58,13 @@ const createOneTvSeries = asyncHandler(async (req, res) => {
   const currentUser = req.user;
   const { title, stars, image, note } = req.body;
 
-  if (isEmpty(req.body)) return throwError(res, 400, "All fields are required");
+  if (isEmpty(req.body)) throwError(res, 400, "All fields are required");
 
   if (stars > 5 || stars < 1)
-    return throwError(res, 400, "Number of stars must be between 1 and 5");
+    throwError(res, 400, "Number of stars must be between 1 and 5");
 
   const authorizedUser = await User.findById(currentUser._id);
-  if (!authorizedUser) return throwError(res, 401, "User not authorized");
+  if (!authorizedUser) throwError(res, 401, "User not authorized");
 
   const tvSeriesExists = await Tvseries.find({
     title: title,
@@ -73,7 +72,7 @@ const createOneTvSeries = asyncHandler(async (req, res) => {
   });
 
   if (tvSeriesExists.length === 1) {
-    return throwError(
+    throwError(
       res,
       400,
       `Tv series with title [${title}] already exists, dear [${authorizedUser.name}]`
@@ -103,20 +102,20 @@ const updateOneTvSeries = asyncHandler(async (req, res) => {
   const id = req.params.id;
   const { title, stars, image, note } = req.body;
 
-  if (isEmpty(req.body)) return throwError(res, 400, "All fields are required");
+  if (isEmpty(req.body)) throwError(res, 400, "All fields are required");
 
   if (stars > 5 || stars < 1)
-    return throwError(res, 400, "Number of stars must be between 1 and 5");
+    throwError(res, 400, "Number of stars must be between 1 and 5");
 
   const tvSeriesToUpdate = await Tvseries.findById(id);
   if (!tvSeriesToUpdate)
-    return throwError(res, 400, `Tv series with ID [${id}] not found`);
+    throwError(res, 400, `Tv series with ID [${id}] not found`);
 
   const authorizedUser = await User.findById(currentUser._id);
-  if (!authorizedUser) return throwError(res, 401, "User not authorized");
+  if (!authorizedUser) throwError(res, 401, "User not authorized");
 
   if (tvSeriesToUpdate.user.toString() !== authorizedUser._id.toString()) {
-    return throwError(res, 401, "User not authorized");
+    throwError(res, 401, "User not authorized");
   }
 
   tvSeriesToUpdate.title = title || tvSeriesToUpdate.title;
@@ -142,13 +141,13 @@ const deleteOneTvSeries = asyncHandler(async (req, res) => {
 
   const tvSeriesToDelete = await Tvseries.findById(id);
   if (!tvSeriesToDelete)
-    return throwError(res, 400, `Tv series with ID [${id}] not found`);
+    throwError(res, 400, `Tv series with ID [${id}] not found`);
 
   const authorizedUser = await User.findById(currentUser._id);
-  if (!authorizedUser) return throwError(res, 401, "User not authorized");
+  if (!authorizedUser) throwError(res, 401, "User not authorized");
 
   if (tvSeriesToDelete.user.toString() !== authorizedUser._id.toString()) {
-    return throwError(res, 401, "User not authorized");
+    throwError(res, 401, "User not authorized");
   }
 
   const deleteTvSeries = await Tvseries.deleteOne(tvSeriesToDelete);
