@@ -10,6 +10,9 @@ import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
 export default function CreateTvseries() {
+  const [img, setImg] = useState("");
+
+  const navigate = useNavigate();
   const methods = useForm({
     defaultValues: {
       title: "",
@@ -18,9 +21,6 @@ export default function CreateTvseries() {
       note: "",
     },
   });
-
-  const [img, setImg] = useState("");
-  const navigate = useNavigate();
 
   const resetAll = useResetApiAndUser();
   const [createOneTvseries, { isLoading, isSuccess }] =
