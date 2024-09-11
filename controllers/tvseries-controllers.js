@@ -9,7 +9,6 @@ import { isEmpty } from "../lib/check-empty-values.js";
 // @access  Private
 const getAllTvSeries = asyncHandler(async (req, res) => {
   const currentUser = req.user;
-  console.log(currentUser);
 
   const tvSeries = await Tvseries.find({ user: currentUser._id });
   const thereAreTvSeries = tvSeries.length > 0;
