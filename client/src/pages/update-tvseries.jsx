@@ -21,7 +21,7 @@ export default function UpdateTvseries() {
   const methods = useForm();
 
   const resetAll = useResetApiAndUser();
-  const { data: singleTvseries } = useGetOneTvseriesQuery(params.id);
+  const { data: singleTvseries, error } = useGetOneTvseriesQuery(params);
   const [updateOneTvseries, { isLoading, isSuccess }] =
     useUpdateOneTvseriesMutation();
 
@@ -35,8 +35,11 @@ export default function UpdateTvseries() {
   useEffect(() => {
     if (isSuccess) {
       navigate("/dashboard", { replace: true });
+    } else if (error) {
+      navigate("/dashboard", { replace: true });
+      toast.error(error.data.message);
     }
-  }, [isSuccess, navigate]);
+  }, [isSuccess, navigate, error]);
 
   // this below fires a useEffect
   useHeadTags("updateTvseries", params.title);

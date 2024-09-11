@@ -17,8 +17,8 @@ export const tvseriesApiSlice = apiSlice.injectEndpoints({
     }),
 
     getOneTvseries: builder.query({
-      query: (id) => ({
-        url: `${API_TVSERIES}/${id}`,
+      query: (params) => ({
+        url: `${API_TVSERIES}/${params.id}/${params.title}`,
       }),
       providesTags: ["Tvseries"],
     }),
