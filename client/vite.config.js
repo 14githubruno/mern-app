@@ -35,6 +35,13 @@ export default defineConfig({
         "@use", 
         "_mixins.scss"
       ),
+      "@/keyframes": path.join(
+        __dirname, 
+        "src",
+        "styles",
+        "@use", 
+        "_keyframes.scss"
+      ),
     },
   },
 });
