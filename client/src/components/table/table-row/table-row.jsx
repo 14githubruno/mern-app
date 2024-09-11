@@ -31,7 +31,7 @@ function TableRow({
           .map((sliceOfTitle, indexSlice) => {
             if (sliceOfTitle === "*") {
               return (
-                <span className={styles.coloredLettersWrapper}>
+                <span key={indexSlice} className={styles.coloredLettersWrapper}>
                   {filter.split("").map((letter, indexLetter) => {
                     return <span key={indexLetter}>{letter}</span>;
                   })}
