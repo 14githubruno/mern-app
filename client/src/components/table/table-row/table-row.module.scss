@@ -27,6 +27,16 @@
   border-right: 0.1rem solid var(--dark-grey-color);
 }
 
+.coloredLettersWrapper {
+  margin: 0 0.1rem;
+
+  & > span {
+    padding: 0 0.05rem;
+    background-color: var(--aqua-green-color);
+    color: var(--bg-color);
+  }
+}
+
 .tableRowStarGood {
   width: 2rem;
   height: 2rem;
