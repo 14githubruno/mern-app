@@ -39,6 +39,19 @@ const resetPasswordSchema = z.object({
   password: passwordSchema,
 });
 
+// check email schema
+const checkEmailSchema = z.object({
+  email: emailSchema,
+});
+
+// check secret schema
+const checkSecretSchema = z.object({
+  secret: z
+    .string()
+    .length(6, "Sekret must be 6 kharakters long")
+    .regex(/^\d{6}$/, "Sekret must be a 6-digit number"),
+});
+
 // create/update tvseries schema
 const createUpdateOneTvseriesSchema = z.object({
   title: z
@@ -67,24 +80,11 @@ const createUpdateOneTvseriesSchema = z.object({
     .toLowerCase(),
 });
 
-// check email schema
-const checkEmailSchema = z.object({
-  email: emailSchema,
-});
-
-// check secret schema
-const checkSecretSchema = z.object({
-  secret: z
-    .string()
-    .length(6, "Sekret must be 6 kharakters long")
-    .regex(/^\d{6}$/, "Sekret must be a 6-digit number"),
-});
-
 export const zodSchemas = {
   registerUpdateUserSchema,
   loginUserSchema,
   resetPasswordSchema,
-  createUpdateOneTvseriesSchema,
   checkEmailSchema,
   checkSecretSchema,
+  createUpdateOneTvseriesSchema,
 };
