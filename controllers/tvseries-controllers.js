@@ -27,21 +27,24 @@ const getAllTvSeries = asyncHandler(async (req, res) => {
 });
 
 // @desc    get one tv series
-// @route   GET /api/tvseries/:id
+// @route   GET /api/tvseries/:id/:title
 // @access  Private
 const getOneTvseries = asyncHandler(async (req, res) => {
   const currentUser = req.user;
   const { id, title } = req.params;
 
-  const tvseries = await Tvseries.findOne({
-    _id: id,
-    title,
-    user: currentUser._id,
-  });
+  const tvseries = await Tvseries.findOne({ _id: id, title });
   if (!tvseries)
     throwError(res, 404, `Tv series with title [${title}] not found`);
 
-  return res.status(200).json({
+  const authorizedUser = await User.findById(currentUser._id);
+  if (!authorizedUser) throwError(res, 401, "User not authorized");
+
+  if (tvseries.user.toString() !== authorizedUser._id.toString()) {
+    throwError(res, 401, "User not authorized");
+  }
+
+  res.status(200).json({
     message: `Tv series with title [${tvseries.title}] sent`,
     body: tvseries,
   });
