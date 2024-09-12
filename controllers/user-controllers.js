@@ -462,6 +462,7 @@ const deleteUserProfile = asyncHandler(async (req, res) => {
     });
   }
 
+  // if user has tvseries, delete them too
   let deleteTvseries;
   if (deletedUser.acknowledged && userTvseries.length > 0) {
     deleteTvseries = await Tvseries.deleteMany({
