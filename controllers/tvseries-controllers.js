@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
 import { throwError } from "../lib/throw-error.js";
-import { isEmpty } from "../lib/check-empty-values.js";
+import { validate } from "../lib/validate-req-body.js";
 
 // @desc    Get all tv series
 // @route   GET /api/tvseries
@@ -55,12 +55,9 @@ const getOneTvseries = asyncHandler(async (req, res) => {
 // @access  Private
 const createOneTvSeries = asyncHandler(async (req, res) => {
   const currentUser = req.user;
-  const { title, stars, image, note } = req.body;
 
-  if (isEmpty(req.body)) throwError(res, 400, "All fields are required");
-
-  if (stars > 5 || stars < 1)
-    throwError(res, 400, "Number of stars must be between 1 and 5");
+  const parsedData = await validate(res, "create-tvseries", req.body);
+  const { title, stars, image, note } = parsedData;
 
   const authorizedUser = await User.findById(currentUser._id);
   if (!authorizedUser) throwError(res, 401, "User not authorized");
@@ -99,12 +96,9 @@ const createOneTvSeries = asyncHandler(async (req, res) => {
 const updateOneTvSeries = asyncHandler(async (req, res) => {
   const currentUser = req.user;
   const id = req.params.id;
-  const { title, stars, image, note } = req.body;
 
-  if (isEmpty(req.body)) throwError(res, 400, "All fields are required");
-
-  if (stars > 5 || stars < 1)
-    throwError(res, 400, "Number of stars must be between 1 and 5");
+  const parsedData = await validate(res, "update-tvseries", req.body);
+  const { title, stars, image, note } = parsedData;
 
   const tvSeriesToUpdate = await Tvseries.findById(id);
   if (!tvSeriesToUpdate)

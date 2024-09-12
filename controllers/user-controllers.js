@@ -3,7 +3,7 @@ import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
 import Symbol from "../models/symbol-model.js";
 import { throwError } from "../lib/throw-error.js";
-import { isEmpty } from "../lib/check-empty-values.js";
+import { validate } from "../lib/validate-req-body.js";
 import { generateToken } from "../lib/generate-token.js";
 import { decodeToken } from "../lib/decode-token.js";
 import { generateSecret } from "../lib/generate-secret.js";
@@ -15,9 +15,8 @@ import { sendEmail } from "../config/email/send-email.js";
 // @route   POST /api/users/register
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
-
-  if (isEmpty(req.body)) throwError(res, 400, "All fields are required");
+  const parsedData = await validate(res, "register-user", req.body);
+  const { name, email, password } = parsedData;
 
   const userExists = await User.findOne({ email });
   if (userExists) throwError(res, 400, "User already exists");
@@ -80,8 +79,10 @@ const verifyToken = asyncHandler(async (req, res) => {
 // @route   PATCH /api/users/verify/:token
 // @access  Public
 const verifyUser = asyncHandler(async (req, res) => {
-  const { secret } = req.body;
   const token = req.params.token;
+
+  const parsedData = await validate(res, "check-secret", req.body);
+  const { secret } = parsedData;
 
   const thereIsToken = await Symbol.findOne({
     token,
@@ -127,9 +128,8 @@ const verifyUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users/login
 // @access  Public
 const loginUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-
-  if (isEmpty(req.body)) throwError(res, 400, "All fields are required");
+  const parsedData = await validate(res, "login-user", req.body);
+  const { email, password } = parsedData;
 
   const user = await User.findOne({ email });
 
@@ -171,9 +171,8 @@ const loginUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users/forgot-password
 // @access  Public
 const forgotPassword = asyncHandler(async (req, res) => {
-  const { email } = req.body;
-
-  if (isEmpty(req.body)) throwError(res, 400, "All fields are required");
+  const parsedData = await validate(res, "check-email", req.body);
+  const { email } = parsedData;
 
   const user = await User.findOne({ email });
   if (!user) throwError(res, 400, "User does not exist");
@@ -212,8 +211,10 @@ const forgotPassword = asyncHandler(async (req, res) => {
 // @route   PATCH /api/users/verify-password-secret/:token
 // @access  Public
 const verifyPasswordSecret = asyncHandler(async (req, res) => {
-  const { secret } = req.body;
   const token = req.params.token;
+
+  const parsedData = await validate(res, "check-secret", req.body);
+  const { secret } = parsedData;
 
   const thereIsToken = await Symbol.findOne({
     token,
@@ -254,10 +255,10 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
 // @route   PATCH /api/users/reset-password/:token
 // @access  Public
 const resetPassword = asyncHandler(async (req, res) => {
-  const { password } = req.body;
   const token = req.params.token;
 
-  if (isEmpty(req.body)) throwError(res, 400, "All fields are required");
+  const parsedData = await validate(res, "reset-password", req.body);
+  const { password } = parsedData;
 
   const thereIsToken = await Symbol.findOne({ token });
   if (!thereIsToken)
@@ -329,9 +330,9 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
   const currentUser = req.user;
-  const { name, email, password } = req.body;
 
-  if (isEmpty(req.body)) throwError(res, 400, "All fields are required");
+  const parsedData = await validate(res, "update-user", req.body);
+  const { name, email, password } = parsedData;
 
   const emailAlreadyTaken = await User.findOne({
     email,
@@ -389,8 +390,10 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 // @route   PATCH /api/users/profile/verify/:token
 // @access  Private
 const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
-  const { secret } = req.body;
   const token = req.params.token;
+
+  const parsedData = await validate(res, "check-secret", req.body);
+  const { secret } = parsedData;
 
   const thereIsToken = await Symbol.findOne({
     token,
