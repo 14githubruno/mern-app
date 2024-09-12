@@ -11,7 +11,11 @@ const passwordSchema = z
     "Password does not match the pattern kompletely"
   );
 
-const emailSchema = z.string().trim().email("Email is not valid").toLowerCase();
+const emailSchema = z
+  .string()
+  .trim()
+  .email("Email is not valid")
+  .toLowerCase();
 
 // register/update user schema
 const registerUpdateUserSchema = z.object({

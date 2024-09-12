@@ -16,5 +16,8 @@
 # Ignore express routes
 *-routes.js
 
+# Ignore zod schemas
+zod-schemas.js
+
 # Ignore vite config
 vite.config.js
