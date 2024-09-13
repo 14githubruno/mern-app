@@ -3,6 +3,7 @@ import { AiFillStar } from "react-icons/ai";
 import { RxPencil1, RxMagnifyingGlass, RxTrash } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import { memo } from "react";
+import { useFormContext, useWatch } from "react-hook-form";
 
 function TableRow({
   num,
@@ -15,13 +16,35 @@ function TableRow({
   selectTableRowToDelete,
   showTableRowInModalView,
 }) {
+  const { control } = useFormContext();
+  const filter = useWatch({ control, name: "searchbar" });
   const arrayOfStars = new Array(Number(stars)).fill("*");
   const restOfStars = new Array(5 - arrayOfStars.length).fill("*");
 
   return (
     <div className={styles.tableRow} key={id}>
       <div className={styles.num}>{num}</div>
-      <div className={styles.title}>{title}</div>
+      <div className={styles.title}>
+        {title
+          .replace(filter.toLowerCase(), "*")
+          .split("")
+          .map((sliceOfTitle, indexSlice) => {
+            if (sliceOfTitle === "*") {
+              return (
+                <span key={indexSlice} className={styles.coloredLettersWrapper}>
+                  {filter
+                    .toLowerCase()
+                    .split("")
+                    .map((letter, indexLetter) => {
+                      return <span key={indexLetter}>{letter}</span>;
+                    })}
+                </span>
+              );
+            } else {
+              return <span key={indexSlice}>{sliceOfTitle}</span>;
+            }
+          })}
+      </div>
       <div className={styles.starsWrapper}>
         {arrayOfStars.map((star, index) => {
           return (

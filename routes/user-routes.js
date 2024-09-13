@@ -1,36 +1,47 @@
 import express from "express";
-import { userControllers } from "../controllers/user-controllers.js";
-import { protectRoute } from "../middlewares/protect-route.js";
+import { userCtrl } from "../controllers/user-controllers.js";
+import { protect } from "../middlewares/protect.js";
+import { limiter } from "../middlewares/limiter.js";
 
 const router = express.Router();
 
 /* PUBLIC */
-router.route("/register").post(userControllers.registerUser);
+router
+  .route("/register")
+  .post(limiter, userCtrl.registerUser);
 router
   .route("/verify/:token")
-  .get(userControllers.verifyToken)
-  .patch(userControllers.verifyUser);
-router.route("/login").post(userControllers.loginUser);
-router.route("/forgot-password").post(userControllers.forgotPassword);
+  .get(userCtrl.verifyToken)
+  .patch(limiter, userCtrl.verifyUser);
+router
+  .route("/login")
+  .post(limiter, userCtrl.loginUser);
+router
+  .route("/forgot-password")
+  .post(limiter, userCtrl.forgotPassword);
 router
   .route("/verify-password-secret/:token")
-  .get(userControllers.verifyToken)
-  .patch(userControllers.verifyPasswordSecret);
+  .get(userCtrl.verifyToken)
+  .patch(limiter, userCtrl.verifyPasswordSecret);
 router
   .route("/reset-password/:token")
-  .get(userControllers.verifyToken)
-  .patch(userControllers.resetPassword);
+  .get(userCtrl.verifyToken)
+  .patch(limiter, userCtrl.resetPassword);
 
 /* PRIVATE */
-router.route("/logout").post(protectRoute, userControllers.logoutUser);
-router.route("/profile").get(protectRoute, userControllers.getUserProfile);
+router
+  .route("/logout")
+  .post(protect, limiter, userCtrl.logoutUser);
+router
+  .route("/profile")
+  .get(protect, userCtrl.getUserProfile);
 router
   .route("/profile/:id")
-  .patch(protectRoute, userControllers.updateUserProfile)
-  .delete(protectRoute, userControllers.deleteUserProfile);
+  .patch(protect, limiter, userCtrl.updateUserProfile)
+  .delete(protect, limiter, userCtrl.deleteUserProfile);
 router
   .route("/profile/verify/:token")
-  .get(userControllers.verifyToken)
-  .patch(protectRoute, userControllers.verifyUpdateUserProfile);
+  .get(userCtrl.verifyToken)
+  .patch(protect, limiter, userCtrl.verifyUpdateUserProfile);
 
 export default router;

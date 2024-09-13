@@ -1,5 +1,10 @@
 import { useHeadTags } from "../hooks/use-head-tags";
 
+import HomeContentWrapper from "../components/home-content-wrapper/home-content-wrapper";
+import HomeHeadingOne from "../components/home-heading-one/home-heading-one";
+import HomeParagraph from "../components/home-paragraph/home-paragraph";
+import HomeTelevision from "../components/home-television/home-television";
+
 import imageOne from "/public/images/image-one.jpg";
 import imageTwo from "/public/images/image-two.jpg";
 import imageThree from "/public/images/image-three.jpg";
@@ -55,23 +60,19 @@ const images = [
   },
 ];
 
-import HomeHeadingOne from "../components/home-heading-one/home-heading-one";
-import HomeParagraph from "../components/home-paragraph/home-paragraph";
-import HomeTelevision from "../components/home-television/home-television";
-
 export default function Homepage() {
   // this below fires a useEffect
   useHeadTags("homepage");
 
   return (
     <section>
-      <div className="home-text-content--home-tv">
+      <HomeContentWrapper>
         <div>
           <HomeHeadingOne />
           <HomeParagraph />
         </div>
         <HomeTelevision carouselImages={images} />
-      </div>
+      </HomeContentWrapper>
     </section>
   );
 }

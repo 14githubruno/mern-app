@@ -1,0 +1,23 @@
+# Build output directories
+/dist/
+/build/
+
+# Test files
+/test/
+/spec/
+
+# Generated files
+/coverage/
+/docs/
+
+# Ignore all HTML files:
+**/*.html
+
+# Ignore express routes
+*-routes.js
+
+# Ignore zod schemas
+zod-schemas.js
+
+# Ignore vite config
+vite.config.js

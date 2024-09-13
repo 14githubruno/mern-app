@@ -6,14 +6,17 @@ const symbolSchema = mongoose.Schema({
     required: true,
     ref: "User",
   },
+
   token: {
     type: String,
     required: true,
   },
+
   secret: {
     type: String,
     required: true,
   },
+
   createdAt: {
     type: Date,
     default: Date.now,

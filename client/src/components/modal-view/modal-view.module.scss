@@ -1,4 +1,5 @@
 @use "@/mixins" as *;
+@use "@/keyframes" as *;
 
 .modalView {
   @include coverViewport;
@@ -70,34 +71,4 @@
 
 .closeBtn:hover {
   filter: brightness(200%);
-}
-
-@keyframes open-smoothly {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes move-right-and-left {
-  0%,
-  20%,
-  40%,
-  60%,
-  80%,
-  100% {
-    transform: rotate(0);
-  }
-  10%,
-  30%,
-  50%,
-  70%,
-  90% {
-    transform: rotate(360deg);
-  }
 }

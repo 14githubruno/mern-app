@@ -16,6 +16,13 @@ export const tvseriesApiSlice = apiSlice.injectEndpoints({
       providesTags: ["Tvseries"],
     }),
 
+    getOneTvseries: builder.query({
+      query: (params) => ({
+        url: `${API_TVSERIES}/${params.id}/${params.title}`,
+      }),
+      providesTags: ["Tvseries"],
+    }),
+
     createOneTvseries: builder.mutation({
       query: (tvseriesToCreate) => ({
         url: `${API_TVSERIES}`,
@@ -47,6 +54,7 @@ export const tvseriesApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetAllTvseriesQuery,
+  useGetOneTvseriesQuery,
   useCreateOneTvseriesMutation,
   useUpdateOneTvseriesMutation,
   useDeleteOneTvseriesMutation,

@@ -26,7 +26,7 @@ export default function Dashboard() {
   const resetAll = useResetApiAndUser();
   const user = useSelector((state) => state.auth.user);
   const tvseries = useSelector((state) => state.tvseries.tvseries);
-  const { data, isLoading, error } = useGetAllTvseriesQuery();
+  const { data, isLoading, isFetching, error } = useGetAllTvseriesQuery();
   const [deleteOneTvseries, { isLoading: isDeleting }] =
     useDeleteOneTvseriesMutation();
 
@@ -48,13 +48,10 @@ export default function Dashboard() {
 
   /* modal delete starts */
   const modalDeleteRef = useRef(null);
+
   const toggleModalToDelete = useCallback(() => {
-    const modal_classes = modalDeleteRef?.current.classList;
-    if (modal_classes.contains("modalDeleteHidden")) {
-      modal_classes.remove("modalDeleteHidden");
-    } else {
-      modal_classes.add("modalDeleteHidden");
-    }
+    const modalClasses = modalDeleteRef?.current.classList;
+    modalClasses.toggle("modalDeleteHidden");
   }, [modalDeleteRef]);
 
   const selectTableRowToDelete = useCallback(
@@ -118,7 +115,7 @@ export default function Dashboard() {
         <ModalView closeModalView={closeModalView} {...tableRowToView} />
       )}
       <FormProvider {...methods}>
-        <Searchbar contentIsLoading={isLoading} />
+        <Searchbar contentIsLoading={isLoading || isFetching} />
       </FormProvider>
       <WelcomeGuideUserParagraphs
         userLoggedIn={user}
@@ -126,7 +123,7 @@ export default function Dashboard() {
       />
       <FormProvider {...methods}>
         <Table
-          contentIsLoading={isLoading}
+          contentIsLoading={isLoading || isFetching}
           contentIsBeingDeleted={isDeleting}
           toggleModalToDelete={toggleModalToDelete}
           selectTableRowToDelete={selectTableRowToDelete}

@@ -1,5 +1,6 @@
 @use "@/breakpoints" as *;
 @use "@/mixins" as *;
+@use "@/keyframes" as *;
 
 .modalDelete {
   @include coverViewport;
@@ -71,18 +72,6 @@
   background-color: var(--grey-color);
   border: 0.1rem solid var(--dark-grey-color);
   color: var(--bg-color);
-}
-
-@keyframes open-smoothly {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 // breakpoints

@@ -1,5 +1,7 @@
 import User from "../models/user-model.js";
 
+// Note: this middleware will run periodically as a cron job (see server.js)
+
 const deleteUnveriedUsers = async (req, res, next) => {
   try {
     const deletedUsers = await User.deleteMany({ verified: false });

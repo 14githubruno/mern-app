@@ -1,47 +1,66 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
+import { throwError } from "../lib/throw-error.js";
+import { validate } from "../lib/validate-req-body.js";
 
 // @desc    Get all tv series
 // @route   GET /api/tvseries
 // @access  Private
 const getAllTvSeries = asyncHandler(async (req, res) => {
-  const tvSeries = await Tvseries.find({ user: req?.user?._id });
+  const currentUser = req.user;
+
+  const tvSeries = await Tvseries.find({ user: currentUser._id });
   const thereAreTvSeries = tvSeries.length > 0;
 
   if (thereAreTvSeries) {
     res.status(200).json({
-      message: `These are your tv series, [${req.user.name}]`,
+      message: `These are your tv series, [${currentUser.name}]`,
       body: tvSeries,
     });
   } else {
     res.status(200).json({
-      message: `Unfortunately, [${req.user.name}], you have no tv series yet. Create them`,
+      message: `Unfortunately, [${currentUser.name}], you have no tv series yet. Kreate them`,
       body: [],
     });
   }
+});
+
+// @desc    get one tv series
+// @route   GET /api/tvseries/:id/:title
+// @access  Private
+const getOneTvseries = asyncHandler(async (req, res) => {
+  const currentUser = req.user;
+  const { id, title } = req.params;
+
+  const tvseries = await Tvseries.findOne({ _id: id, title });
+  if (!tvseries)
+    throwError(res, 404, `Tv series with title [${title}] not found`);
+
+  const authorizedUser = await User.findById(currentUser._id);
+  if (!authorizedUser) throwError(res, 401, "User not authorized");
+
+  if (tvseries.user.toString() !== authorizedUser._id.toString()) {
+    throwError(res, 401, "User not authorized");
+  }
+
+  res.status(200).json({
+    message: `Tv series with title [${tvseries.title}] sent`,
+    body: tvseries,
+  });
 });
 
 // @desc    Create a tv series
 // @route   POST /api/tvseries
 // @access  Private
 const createOneTvSeries = asyncHandler(async (req, res) => {
-  const { title, stars, image, note } = req.body;
-  if (!title || !stars || !image || !note) {
-    res.status(400);
-    throw new Error("All fields are required");
-  }
+  const currentUser = req.user;
 
-  if (stars > 5 || stars < 1) {
-    res.status(400);
-    throw new Error("Number of stars must be between 1 and 5");
-  }
+  const parsedData = await validate(res, "create-tvseries", req.body);
+  const { title, stars, image, note } = parsedData;
 
-  const authorizedUser = await User.findById(req?.user?._id);
-  if (!authorizedUser) {
-    res.status(401);
-    throw new Error("User not found");
-  }
+  const authorizedUser = await User.findById(currentUser._id);
+  if (!authorizedUser) throwError(res, 401, "User not authorized");
 
   const tvSeriesExists = await Tvseries.find({
     title: title,
@@ -49,13 +68,14 @@ const createOneTvSeries = asyncHandler(async (req, res) => {
   });
 
   if (tvSeriesExists.length === 1) {
-    res.status(400);
-    throw new Error(
+    throwError(
+      res,
+      400,
       `Tv series with title [${title}] already exists, dear [${authorizedUser.name}]`
     );
   } else {
     const newTvSeries = await Tvseries.create({
-      user: req?.user?._id,
+      user: currentUser._id,
       title,
       stars,
       image,
@@ -74,32 +94,21 @@ const createOneTvSeries = asyncHandler(async (req, res) => {
 // @route   PATCH /api/tvseries/:id
 // @access  Private
 const updateOneTvSeries = asyncHandler(async (req, res) => {
-  const { title, stars, image, note } = req.body;
-  if (!title || !stars || !image || !note) {
-    res.status(400);
-    throw new Error("All fields are required");
-  }
+  const currentUser = req.user;
+  const id = req.params.id;
 
-  if (stars > 5 || stars < 1) {
-    res.status(400);
-    throw new Error("Number of stars must be between 1 and 5");
-  }
+  const parsedData = await validate(res, "update-tvseries", req.body);
+  const { title, stars, image, note } = parsedData;
 
-  const tvSeriesToUpdate = await Tvseries.findById(req.params.id);
-  if (!tvSeriesToUpdate) {
-    res.status(400);
-    throw new Error(`Tv series with id [${req.params.id}] not found`);
-  }
+  const tvSeriesToUpdate = await Tvseries.findById(id);
+  if (!tvSeriesToUpdate)
+    throwError(res, 400, `Tv series with ID [${id}] not found`);
 
-  const authorizedUser = await User.findById(req?.user?._id);
-  if (!authorizedUser) {
-    res.status(401);
-    throw new Error("User not found");
-  }
+  const authorizedUser = await User.findById(currentUser._id);
+  if (!authorizedUser) throwError(res, 401, "User not authorized");
 
   if (tvSeriesToUpdate.user.toString() !== authorizedUser._id.toString()) {
-    res.status(401);
-    throw new Error("User not authorized");
+    throwError(res, 401, "User not authorized");
   }
 
   tvSeriesToUpdate.title = title || tvSeriesToUpdate.title;
@@ -110,7 +119,7 @@ const updateOneTvSeries = asyncHandler(async (req, res) => {
   const updatedTvSeries = await tvSeriesToUpdate.save();
   if (updatedTvSeries) {
     res.status(200).json({
-      message: `Tv series with ID ${req.params.id} updated`,
+      message: `Tv series with title [${updatedTvSeries.title}] updated`,
       body: updatedTvSeries,
     });
   }
@@ -120,35 +129,32 @@ const updateOneTvSeries = asyncHandler(async (req, res) => {
 // @route   DELETE /api/tvseries/:id
 // @access  Private
 const deleteOneTvSeries = asyncHandler(async (req, res) => {
-  const tvSeriesToDelete = await Tvseries.findById(req.params.id);
+  const currentUser = req.user;
+  const id = req.params.id;
 
-  if (!tvSeriesToDelete) {
-    res.status(400);
-    throw new Error(`Tv series with id [${req.params.id}] not found`);
-  }
+  const tvSeriesToDelete = await Tvseries.findById(id);
+  if (!tvSeriesToDelete)
+    throwError(res, 400, `Tv series with ID [${id}] not found`);
 
-  const authorizedUser = await User.findById(req?.user?.id);
-  if (!authorizedUser) {
-    res.status(401);
-    throw new Error("User not found");
-  }
+  const authorizedUser = await User.findById(currentUser._id);
+  if (!authorizedUser) throwError(res, 401, "User not authorized");
 
   if (tvSeriesToDelete.user.toString() !== authorizedUser._id.toString()) {
-    res.status(401);
-    throw new Error("User not authorized");
+    throwError(res, 401, "User not authorized");
   }
 
   const deleteTvSeries = await Tvseries.deleteOne(tvSeriesToDelete);
   if (deleteTvSeries.acknowledged) {
     res.status(201).json({
-      message: `Tv series with ID ${req.params.id} deleted`,
+      message: `Tv series with title [${tvSeriesToDelete.title}] deleted`,
       body: tvSeriesToDelete,
     });
   }
 });
 
-export const tvSeriesControllers = {
+export const tvSeriesCtrl = {
   getAllTvSeries,
+  getOneTvseries,
   createOneTvSeries,
   updateOneTvSeries,
   deleteOneTvSeries,
