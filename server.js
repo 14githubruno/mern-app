@@ -23,13 +23,13 @@ const __dirname = import.meta.dirname;
 const app = express();
 // app.set('trust proxy', 1) // to check in prod
 
-app.use(helmet());
 app.use(
   cors({
     origin: BASE_URL,
     credentials: true,
   })
 );
+app.use(helmet());
 
 connectDB();
 
