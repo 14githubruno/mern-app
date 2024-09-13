@@ -24,14 +24,14 @@ const limiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   handler: (req, res) => {
+    console.log(req.ip);
     if (req.rateLimit) {
       const { rateLimit } = req;
-      console.log(rateLimit);
-      console.log(rateLimit.resetTime.toLocaleTimeString());
+      const localDate = new Date(rateLimit.resetTime);
       throwError(
         res,
         429,
-        `Too many requests. Please, try again later, after ${rateLimit.resetTime.toLocaleTimeString()}`
+        `Too many requests. Please, try again later, after ${localDate.toLocaleTimeString()}`
       );
     }
   },
