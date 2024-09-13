@@ -21,11 +21,12 @@ const limiter = rateLimit({
     if (isRouteHavingToDoWithPassword) return 5;
     else return 50;
   },
-  standardHeaders: "draft-6",
+  standardHeaders: "draft-7",
   legacyHeaders: false,
   handler: (req, res) => {
     if (req.rateLimit) {
       const { rateLimit } = req;
+      console.log(rateLimit);
       throwError(
         res,
         429,
