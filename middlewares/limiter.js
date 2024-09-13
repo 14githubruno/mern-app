@@ -25,16 +25,7 @@ const limiter = rateLimit({
   legacyHeaders: false,
   keyGenerator: (req) => req.headers["cf-connecting-ip"] || req.ip,
   handler: (req, res) => {
-    console.log(req.ip);
-    if (req.rateLimit) {
-      const { rateLimit } = req;
-      const localDate = new Date(rateLimit.resetTime);
-      throwError(
-        res,
-        429,
-        `Too many requests. Please, try again later, after ${localDate.toLocaleTimeString()}`
-      );
-    }
+    throwError(res, 429, "Too many request. Try again later.");
   },
 });
 
