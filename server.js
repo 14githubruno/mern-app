@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
 import cron from "node-cron";
+import helmet from "helmet";
 
 import { connectDB } from "./config/db/connect-db.js";
 import { errorHandler } from "./middlewares/error-handler.js";
@@ -22,6 +23,7 @@ const __dirname = import.meta.dirname;
 const app = express();
 // app.set('trust proxy', 1) // to check in prod
 
+app.use(helmet());
 app.use(
   cors({
     origin: BASE_URL,
