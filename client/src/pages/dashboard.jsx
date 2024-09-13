@@ -26,7 +26,7 @@ export default function Dashboard() {
   const resetAll = useResetApiAndUser();
   const user = useSelector((state) => state.auth.user);
   const tvseries = useSelector((state) => state.tvseries.tvseries);
-  const { data, isLoading, error } = useGetAllTvseriesQuery();
+  const { data, isLoading, isFetching, error } = useGetAllTvseriesQuery();
   const [deleteOneTvseries, { isLoading: isDeleting }] =
     useDeleteOneTvseriesMutation();
 
@@ -115,7 +115,7 @@ export default function Dashboard() {
         <ModalView closeModalView={closeModalView} {...tableRowToView} />
       )}
       <FormProvider {...methods}>
-        <Searchbar contentIsLoading={isLoading} />
+        <Searchbar contentIsLoading={isLoading || isFetching} />
       </FormProvider>
       <WelcomeGuideUserParagraphs
         userLoggedIn={user}
@@ -123,7 +123,7 @@ export default function Dashboard() {
       />
       <FormProvider {...methods}>
         <Table
-          contentIsLoading={isLoading}
+          contentIsLoading={isLoading || isFetching}
           contentIsBeingDeleted={isDeleting}
           toggleModalToDelete={toggleModalToDelete}
           selectTableRowToDelete={selectTableRowToDelete}
