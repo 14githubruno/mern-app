@@ -26,15 +26,18 @@ function TableRow({
       <div className={styles.num}>{num}</div>
       <div className={styles.title}>
         {title
-          .replace(filter, "*")
+          .replace(filter.toLowerCase(), "*")
           .split("")
           .map((sliceOfTitle, indexSlice) => {
             if (sliceOfTitle === "*") {
               return (
                 <span key={indexSlice} className={styles.coloredLettersWrapper}>
-                  {filter.split("").map((letter, indexLetter) => {
-                    return <span key={indexLetter}>{letter}</span>;
-                  })}
+                  {filter
+                    .toLowerCase()
+                    .split("")
+                    .map((letter, indexLetter) => {
+                      return <span key={indexLetter}>{letter}</span>;
+                    })}
                 </span>
               );
             } else {
