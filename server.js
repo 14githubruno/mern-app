@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import path from "path";
 import cron from "node-cron";
 import helmet from "helmet";
+import compression from "compression";
 
 import { connectDB } from "./config/db/connect-db.js";
 import { errorHandler } from "./middlewares/error-handler.js";
@@ -30,6 +31,7 @@ app.use(
   })
 );
 app.use(helmet());
+app.use(compression());
 
 connectDB();
 
