@@ -23,15 +23,12 @@ const limiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  // keyGenerator(req, res) {
-  //   if (!req.ip) {
-  //     console.error("no ip");
-  //     return req.socket.remoteAddress;
-  //   }
-
-  //   return req.ip.replace(/:\d+[^:]*$/, "");
-  // },
-
+  keyGenerator: (req, res) => {
+    console.log("IP", req.ip);
+    console.log(req.hostname);
+    console.log(req.protocol);
+    return req.ip;
+  },
   handler: (req, res) => {
     console.log(req.ip);
     if (req.rateLimit) {

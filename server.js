@@ -22,7 +22,9 @@ const IS_DEV_MODE = NODE_ENV === "development";
 const __dirname = import.meta.dirname;
 
 const app = express();
-app.set("trust proxy", true);
+app.set("trust proxy", 1 /* number of proxies between user and server */);
+
+app.get("/ip", (req, res) => console.log("GET IP", req.ip));
 
 app.use(
   cors({
