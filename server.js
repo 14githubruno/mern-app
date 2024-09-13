@@ -4,7 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
 import cron from "node-cron";
-// import helmet from "helmet";
+import helmet from "helmet";
 import compression from "compression";
 
 import { connectDB } from "./config/db/connect-db.js";
@@ -30,7 +30,7 @@ app.use(
     credentials: true,
   })
 );
-// app.use(helmet());
+app.use(helmet());
 app.use(compression());
 
 connectDB();
