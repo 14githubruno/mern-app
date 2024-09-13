@@ -22,7 +22,7 @@ const IS_DEV_MODE = NODE_ENV === "development";
 const __dirname = import.meta.dirname;
 
 const app = express();
-app.set("trust proxy", 1 /* number of proxies between user and server */);
+app.set("trust proxy", 2 /* number of proxies between user and server */);
 
 app.use(
   cors({
