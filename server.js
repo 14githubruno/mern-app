@@ -24,8 +24,6 @@ const __dirname = import.meta.dirname;
 const app = express();
 app.set("trust proxy", 1 /* number of proxies between user and server */);
 
-app.get("/ip", (req, res) => console.log("GET IP", req.ip));
-
 app.use(
   cors({
     origin: BASE_URL,
@@ -52,6 +50,7 @@ if (IS_DEV_MODE) {
 } else {
   console.log("production mode");
   app.use(express.static(path.join(__dirname, "client", "dist")));
+  app.get("/ip", (req, res) => console.log("GET IP", req.ip));
   app.get("*", (req, res) =>
     res.sendFile(path.join(__dirname, "client", "dist", "index.html"))
   );
