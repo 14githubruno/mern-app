@@ -27,6 +27,7 @@ const limiter = rateLimit({
     if (req.rateLimit) {
       const { rateLimit } = req;
       console.log(rateLimit);
+      console.log(rateLimit.resetTime.toLocaleTimeString());
       throwError(
         res,
         429,
