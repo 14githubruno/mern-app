@@ -37,7 +37,6 @@ export default function ForgotPassword() {
 
     try {
       const res = await forgotPassword(parsedData).unwrap();
-      console.log(res);
       if (res.body) {
         toast.success(res.message);
         navigate(`/verify-password-secret/${res.body.token}`, {
