@@ -23,12 +23,7 @@ const limiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  // keyGenerator: (req, res) => {
-  //   console.log("IP", req.ip);
-  //   console.log(req.hostname);
-  //   console.log(req.protocol);
-  //   return req.ip;
-  // },
+  keyGenerator: (req) => req.headers["cf-connecting-ip"] || req.ip,
   handler: (req, res) => {
     console.log(req.ip);
     if (req.rateLimit) {
