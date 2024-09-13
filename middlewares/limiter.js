@@ -23,14 +23,14 @@ const limiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator(req, res) {
-    if (!req.ip) {
-      console.error("no ip");
-      return req.socket.remoteAddress;
-    }
+  // keyGenerator(req, res) {
+  //   if (!req.ip) {
+  //     console.error("no ip");
+  //     return req.socket.remoteAddress;
+  //   }
 
-    return req.ip.replace(/:\d+[^:]*$/, "");
-  },
+  //   return req.ip.replace(/:\d+[^:]*$/, "");
+  // },
 
   handler: (req, res) => {
     console.log(req.ip);
