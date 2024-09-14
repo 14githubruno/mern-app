@@ -1,6 +1,17 @@
 import styles from "./label.module.scss";
 import { TbTool } from "react-icons/tb";
 
+/**
+ * Label component.
+ * It renders the label of the input.
+ *
+ * (It renders an optional tooltip if the label is for the input password)
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.htmlFor - The htmlFor/for attribute of the label.
+ *
+ * @returns {JSX.Element} The rendered Label component.
+ */
 export default function Label({ htmlFor }) {
   const isLabelForPassword = htmlFor === "password";
 
