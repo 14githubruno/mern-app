@@ -2,6 +2,12 @@ import styles from "./home-heading-one.module.scss";
 import { GiNoodles } from "react-icons/gi";
 import { RiKnifeBloodLine } from "react-icons/ri";
 
+/**
+ * HomeHeadingOne component.
+ * It renders the heading one title of the homepage.
+ *
+ * @returns {JSX.Element} The rendered HomeHeadingOne component.
+ */
 export default function HomeHeadingOne() {
   const headingOne = "Reakt Applikation";
 
