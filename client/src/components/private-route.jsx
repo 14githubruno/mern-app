@@ -4,6 +4,14 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import toast from "react-hot-toast";
 
+/**
+ * PrivateRoute component.
+ * It intercepts logged in user and it renders through Outlet component whatever resource the authorized user asks for: if user is not authorized, it redirects the user to login page.
+ *
+ * (It restricts access to specific routes based on user authentication, acting as a "middleware" component)
+ *
+ * @returns {JSX.Element} - The rendered component/page authorized user wants to access.
+ */
 export default function PrivateRoute() {
   console.log("private route hit");
   const location = useLocation();
