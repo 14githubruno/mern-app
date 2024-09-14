@@ -3,6 +3,17 @@ import { BsFillSearchHeartFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useFormContext } from "react-hook-form";
 
+/**
+ * Searchbar component.
+ * It renders the searchbar of the user dashboard.
+ *
+ * (The searchbar is used to filter tvseries in the dashboard table)
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.contentIsLoading - Indicates if a fetching request is being made on tvseries.
+ *
+ * @returns {JSX.Element} The rendered Searchbar component.
+ */
 export default function Searchbar({ contentIsLoading }) {
   const { register } = useFormContext();
   const tvseries = useSelector((state) => state.tvseries.tvseries);
@@ -28,8 +39,8 @@ export default function Searchbar({ contentIsLoading }) {
             contentIsLoading
               ? "..."
               : noTvseries
-              ? "No rows..."
-              : "Searkh by title..."
+                ? "No rows..."
+                : "Searkh by title..."
           }
           {...register("searchbar")}
         />
