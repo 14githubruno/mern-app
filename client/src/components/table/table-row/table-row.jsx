@@ -7,7 +7,9 @@ import { useFormContext, useWatch } from "react-hook-form";
 
 /**
  * TableRow component.
- * It renders a single row in the dashboard table, displaying details of a single tvseries and allowing actions on it (read, update and delete).
+ * It renders a single row in the dashboard table, displaying details of a single tvseries.
+ *
+ * (It also allows read, update and delete a single tvseries)
  *
  * @param {Object} props - The properties passed to the component.
  * @param {number} props.num - The row number.
