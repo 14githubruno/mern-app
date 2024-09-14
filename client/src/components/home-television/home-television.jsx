@@ -2,6 +2,17 @@ import styles from "./home-television.module.scss";
 import "./home-television.scss";
 import Carousel from "../carousel/carousel";
 
+/**
+ * HomeTelevision component.
+ * It renders a television figure with a carousel displaying images on the "screen".
+ *
+ * (It renders the Carousel component)
+ *
+ * @param {Object} props - Properties passed to the component.
+ * @param {Array<Object>} props.carouselImages - An array of image objects to be passed to Carousel component. Each object has URL and alt text.
+ *
+ * @returns {JSX.Element} The rendered HomeTelevision component.
+ */
 export default function HomeTelevision({ carouselImages }) {
   return (
     <div role="figure" className={styles.homeTelevision}>
