@@ -5,6 +5,23 @@ import { Link } from "react-router-dom";
 import { memo } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 
+/**
+ * TableRow component.
+ * It renders a single row in the dashboard table, displaying details of a single tvseries and allowing actions on it (read, update and delete).
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {number} props.num - The row number.
+ * @param {string} props.id - The unique ID of the single tvseries.
+ * @param {string} props.title - The title of the single tvseries.
+ * @param {number} props.stars - The star rating of the single tvseries.
+ * @param {string} props.image - The URL of the single tvseries image.
+ * @param {string} props.note - The note on the single tvseries.
+ * @param {function} props.toggleModalToDelete - A function to toggle the modal delete visibility.
+ * @param {function} props.selectTableRowToDelete - A function to select the single tvseries to be deleted.
+ * @param {function} props.showTableRowInModalView - A function to select and display the single tvseries' details in a modal.
+ *
+ * @returns {JSX.Element} The rendered TableRow component.
+ */
 function TableRow({
   num,
   id,
