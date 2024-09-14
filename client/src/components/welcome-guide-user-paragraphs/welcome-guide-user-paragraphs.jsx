@@ -6,11 +6,13 @@ import { memo } from "react";
  * WelcomeGuideUserParagraphs component.
  * It renders two paragraphs above the table and below the searchbar, in the dashboard page.
  *
- * (The first paragraph is a welcoming message to the logged in user; the second one provides a link to the page where user can create a tvseries)
+ * (The first is a welcome message to the logged in user; the second one provides a link to the create tvseries page)
+ *
+ * (Each tvseries created will be a TableRow in the Table)
  *
  * @param {Object} props - The properties passed to the component.
  * @param {string} props.userLoggedIn - The name of the logged in user.
- * @param {string} props.kreateTvseriesRoute - A paragraph displaying a link to the page where user can create a tvseries (that is a future TableRow).
+ * @param {string} props.kreateTvseriesRoute - A paragraph displaying a link to the create tvseries page.
  *
  * @returns {JSX.Element} The rendered WelcomeGuideUserParagraphs component.
  */
