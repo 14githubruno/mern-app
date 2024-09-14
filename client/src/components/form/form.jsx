@@ -11,6 +11,20 @@ import FormParagraph from "./form-paragraph/form-paragraph";
 import { useFormContext } from "react-hook-form";
 import { Fragment } from "react";
 
+/**
+ * Form component.
+ * It renders all the forms of the web app.
+ *
+ * (It renders all the child components needed to create the form, i.e. InputEmail, InputPassword and FormButton for a login form)
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.typeOfForm - The type of form to be rendered (i.e. login form, create tvseries form etc).
+ * @param {function} props.onSubmit - The function to be called on form submit.
+ * @param {object} [props.inputFileProps=null] - The props to be passed to InputFile component is provided. Defaults to null.
+ * @param {object} props.formButtonProps - The props to be passed to FormButton component.
+ *
+ * @returns {JSX.Element} The rendered Form component.
+ */
 export default function Form({
   typeOfForm,
   onSubmit,
