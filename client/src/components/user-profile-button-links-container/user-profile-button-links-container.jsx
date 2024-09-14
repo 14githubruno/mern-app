@@ -4,7 +4,9 @@ import { memo } from "react";
 
 /**
  * UserProfileButtonLinksContainer component.
- * It renders two links and a button to be displayed in the user profile page: one link to the dashboard, one link to update user page and one button to open modal to delete user acccount.
+ * It renders two links and a button to be displayed in the user profile page.
+ *
+ * (One link to the dashboard, one link to update user page and one button to open modal to delete user acccount)
  *
  * @param {Object} props - The properties passed to the component.
  * @param {function} props.toggleModalToDelete - A function to toggle the modal delete visibility.
