@@ -3,6 +3,12 @@ import { memo } from "react";
 
 const tableHeadTitles = ["N°", "Title", "Stars", "Image", "Note", "Actions"];
 
+/**
+ * TableHead component.
+ * It renders the table head of the dashboard table, displaying table's columns' titles.
+ *
+ * @returns {JSX.Element} The rendered TableHead component.
+ */
 function TableHead() {
   return (
     <div className={styles.tableHead}>
