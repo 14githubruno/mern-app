@@ -4,6 +4,15 @@ import { useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
+/**
+ * Carousel component.
+ * It displays a carousel of images with prev/next buttons.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {Array<Object>} props.images - An array of image objects. Each object has URL and alt text, and will be destructured during mapping.
+ *
+ * @returns {JSX.Element} The rendered Carousel component.
+ */
 export default function Carousel({ images }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()]);
 
