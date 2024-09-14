@@ -7,13 +7,13 @@ import { memo } from "react";
  * It renders a modal for confirming deletion of user account or tvseries.
  *
  * @param {Object} props - The properties passed to the component.
- * @param {boolean} [props.isUser=false] - Check if item to delete is a user. Defaults to false.
- * @param {number} [props.numberOfTvseriesOfUser=0] - The number of tvseries associated with the user (if it's user to be deleted). Defaults to 0.
- * @param {string} props.nameOfItemToDelete - The name of what's to be deleted.
- * @param {function} props.confirm - The function to be called when the user confirms the deletion.
- * @param {function} [props.doNotConfirm=()=>{}] - The function to be called when the user cancels the deletion. Defaults to empty function.
- * @param {React.RefObject} props.modalDeleteRef - A reference to the modal delete component.
- * @param {function} props.toggleModalToDelete - A function to toggle the modal delete visibility. This function is called both on confirming and not confirming deletion.
+ * @param {boolean} [props.isUser=false] - Check if item to delete is user. Defaults to false.
+ * @param {number} [props.numberOfTvseriesOfUser=0] - Number of tvseries associated with the userS. Defaults to 0.
+ * @param {string} props.nameOfItemToDelete - Name of what's to be deleted.
+ * @param {function} props.confirm - Function to be called when user confirms the deletion.
+ * @param {function} [props.doNotConfirm=()=>{}] - Function to be called when user cancels the deletion. Defaults to empty function.
+ * @param {React.RefObject} props.modalDeleteRef - Reference to ModalDelete component.
+ * @param {function} props.toggleModalToDelete - Function to toggle ModalDelete visibility, called both on confirming and not confirming deletion.
  *
  * @returns {JSX.Element} The rendered ModalDelete component.
  */
