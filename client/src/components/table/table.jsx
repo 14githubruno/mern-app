@@ -8,6 +8,25 @@ import TableHead from "./table-head/table-head";
 import TableRow from "./table-row/table-row";
 import Loader from "../loader/loader";
 
+/**
+ * Table component.
+ * It renders the dashboard table of tvseries.
+ *
+ * (It renders the TableRow component for each tvseries)
+ *
+ * (It renders the Loader component if needed)
+ *
+ * (Instead of TableRow component, it renders a certain icon with a message if user does not have any tvseries, and another icon with another message if user has tvseries but none of their titles matches what's typed in Searchbar component)
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.contentIsLoading - Indicates if the content (table row of tvseries) is loading.
+ * @param {boolean} props.contentIsBeingDeleted - Indicates if a deletion of a tvseries is in progress.
+ * @param {function} props.toggleModalToDelete - A function to toggle the modal delete visibility (this func is passed to TableRow component).
+ * @param {function} props.selectTableRowToDelete - A function to select the single tvseries to be deleted (this func is passed to TableRow component).
+ * @param {function} props.showTableRowInModalView - A function to select and display the single tvseries' details in a modal (this func is passed to TableRow component).
+ *
+ * @returns {JSX.Element} The rendered Table component.
+ */
 export default function Table({
   contentIsLoading,
   contentIsBeingDeleted,
