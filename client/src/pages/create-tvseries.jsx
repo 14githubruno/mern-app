@@ -9,6 +9,12 @@ import { parseFormData, checkParsingError } from "../lib/parse-form-data";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
+/**
+ * Create new tveries page component.
+ * Allow user to create new tvseries.
+ *
+ * @returns {JSX.Element} The rendered CreateTvseries page component.
+ */
 export default function CreateTvseries() {
   const [img, setImg] = useState("");
 
