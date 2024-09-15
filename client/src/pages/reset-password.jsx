@@ -12,6 +12,12 @@ import { useDispatch } from "react-redux";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
+/**
+ * ResetPassword page component.
+ * This page contains the form to allow user to complete password reset.
+ *
+ * @returns {JSX.Element} The rendered ResetPassword page component.
+ */
 export default function ResetPassword() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
