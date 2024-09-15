@@ -12,6 +12,16 @@ import { useDispatch } from "react-redux";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
+/**
+ * VerifyUser page component.
+ * This page allows user to confirm and verify the personal account after registration.
+ *
+ * (User can register a new account through Register page, and after registration would receive a secret code
+ * to the email provided. The code needs to be sent back to verify the account: only then, the user could
+ * log in the web app. In this page user can perform the account verification)
+ *
+ * @returns {JSX.Element} The rendered VerifyUser page component.
+ */
 export default function VerifyUser() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
