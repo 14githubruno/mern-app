@@ -1,7 +1,11 @@
-// obj to specify parsing errors (used in FUNC TO PARSE DATA and FUNC TO CHECK PARSING ERRORS)
+/**
+ * Error object containing predefined error messages.
+ *
+ * @type {{ wrong: { type: string; msg: string; }, empty: { type: string; msg: string; } }}
+ */
 const error = {
   wrong: {
-    type: false,
+    type: "wrong",
     msg: "Some data structure is not valid",
   },
   empty: {
@@ -10,7 +14,13 @@ const error = {
   },
 };
 
-// validate password fn
+/**
+ * Function to validate a password pattern.
+ *
+ * @param {string} pw - The password to validate.
+ *
+ * @returns {boolean} - True if password is valid, false otherwise.
+ */
 const validatePassword = (pw) => {
   const whitespace = /\s/;
   const pattern = /^(?=.*?[A-Z])(?=.*?\d)(?=.*?[!#$%&?"]).{10,15}$/;
@@ -19,7 +29,16 @@ const validatePassword = (pw) => {
   return isValid;
 };
 
-// func to parse data
+/**
+ * Function to parse form data on the client.
+ *
+ * (This function uses the custom error object of this file.
+ * If parsing is successful, the function returns the data, otherwise the error type)
+ *
+ * @param {Object} data - The form data to parse.
+ *
+ * @returns {Object|string} Parsed data or, if parsing fails, the error type.
+ */
 const parseFormData = (data) => {
   let trimmedData = {};
   let finalData = {};
@@ -55,7 +74,19 @@ const parseFormData = (data) => {
   return finalData;
 };
 
-// func to check parsing data errors
+/**
+ * Function to check which error message to display, if any error.
+ *
+ * (This function uses the custom error object of this file.
+ * If any error type is found, the function returns the relative error message)
+ *
+ * (The argument to pass to this function comes, eventually,
+ * from the parseFormData result)
+ *
+ * @param {string|undefined} err - The error type string.
+ *
+ * @returns {string|undefined} The error message if found, undefined otherwise.
+ */
 const checkParsingError = (err) => {
   let msgToToast;
 
