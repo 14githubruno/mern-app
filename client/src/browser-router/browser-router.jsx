@@ -17,6 +17,7 @@ import CreateTvseries from "../pages/create-tvseries";
 import UpdateTvseries from "../pages/update-tvseries";
 
 /**
+ * @constant
  * browserRouter configuration object.
  * It defines the routes of the web app.
  *
