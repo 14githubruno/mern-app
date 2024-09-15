@@ -20,7 +20,7 @@ import Loader from "../loader/loader";
  *
  * @param {Object} props - The properties passed to the component.
  * @param {boolean} props.contentIsLoading - Indicates if the content (table row of tvseries) is loading and not ready to be displayed.
- * @param {object.<function>} props.tableRowActions - Object of functions to read, update and delete tvseries (these funcions will be passed to TableRow component).
+ * @param {object.<function>} props.tableRowActions - Object of functions to read, update and delete tvseries (these functions will be passed to TableRow component).
  *
  * @returns {JSX.Element} The rendered Table component.
  */
