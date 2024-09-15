@@ -9,7 +9,7 @@ import compression from "compression";
 
 import { connectDB } from "./config/db/connect-db.js";
 import { errorHandler } from "./middlewares/error-handler.js";
-import { deleteUnveriedUsers } from "./middlewares/delete-unverified-users.js";
+import { deleteUnveriedUsers } from "./lib/delete-unverified-users.js";
 
 import userRouter from "./routes/user-routes.js";
 import tvSeriesRouter from "./routes/tvseries-routes.js";
