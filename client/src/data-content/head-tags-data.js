@@ -1,4 +1,5 @@
 /**
+ * @constant
  * Object containing title and meta description of each page of the app.
  *
  * (homepage tags are set as default in index.html file)
