@@ -9,6 +9,12 @@ import { parseFormData, checkParsingError } from "../lib/parse-form-data";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
+/**
+ * Login page component.
+ * This page contains the form to log in user in the web app.
+ *
+ * @returns {JSX.Element} The rendered Login page component.
+ */
 export default function Login() {
   const methods = useForm({
     defaultValues: {
