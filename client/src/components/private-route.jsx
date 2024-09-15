@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
  *
  * (It restricts access to specific routes based on user authentication, acting as a "middleware" component)
  *
- * @returns {JSX.Element} - The rendered component/page authorized user wants to access.
+ * @returns {JSX.Element} The rendered component/page authorized user wants to access.
  */
 export default function PrivateRoute() {
   console.log("private route hit");
