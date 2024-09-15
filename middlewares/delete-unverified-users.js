@@ -1,8 +1,19 @@
 import User from "../models/user-model.js";
 
-// Note: this middleware will run periodically as a cron job (see server.js)
-
-const deleteUnveriedUsers = async (req, res, next) => {
+/**
+ * @typedef {Function} ExpressNextFunction
+ *
+ * @async
+ * @function
+ * Middleware to be run as cron job to delete unverified users.
+ *
+ * (See {@link server.js})
+ *
+ * @param {ExpressNextFunction} next - Function to call the next middleware.
+ *
+ * @returns {void}
+ */
+const deleteUnveriedUsers = async (next) => {
   try {
     const deletedUsers = await User.deleteMany({ verified: false });
 
