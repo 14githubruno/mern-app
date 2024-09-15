@@ -73,6 +73,18 @@ export default function Login() {
             textOnLoading: "Logging in...",
             text: "Log in",
           }}
+          formParagraphArrayProps={[
+            {
+              paragraphText: "Don't have an akkount?",
+              linkText: "Register one",
+              linkHref: "/register",
+            },
+            {
+              paragraphText: "Forgot your password?",
+              linkText: "Rekover it",
+              linkHref: "/forgot-password",
+            },
+          ]}
         />
       </FormProvider>
     </section>

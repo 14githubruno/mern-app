@@ -20,16 +20,18 @@ import { Fragment } from "react";
  * @param {Object} props - The properties passed to the component.
  * @param {string} props.typeOfForm - The type of form to be rendered (i.e. login form, create tvseries form etc).
  * @param {function} props.onSubmit - The function to be called on form submit.
- * @param {object} [props.inputFileProps=null] - The props to be passed to InputFile component is provided. Defaults to null.
  * @param {object} props.formButtonProps - The props to be passed to FormButton component.
+ * @param {object} [props.inputFileProps=null] - The props to be passed to InputFile component is provided. Defaults to null.
+ * @param {Array<object>} [props.formParagraphArrayProps=[]] - Array of objects with props. Each obj has the props to be passed to a FormParagraph component instance. Defaults to empty array.
  *
  * @returns {JSX.Element} The rendered Form component.
  */
 export default function Form({
   typeOfForm,
   onSubmit,
-  inputFileProps = null,
   formButtonProps,
+  inputFileProps = null,
+  formParagraphArrayProps = [],
 }) {
   const { handleSubmit } = useFormContext();
 
@@ -42,11 +44,10 @@ export default function Form({
           <InputEmail name={"email"} />
           <InputPassword name={"password"} />
           <FormButton {...formButtonProps} />
-          <FormParagraph
-            paragraphText="Already have an akkount?"
-            linkText="Log in"
-            linkHref="/login"
-          />
+          {formParagraphArrayProps &&
+            formParagraphArrayProps.map((objWithProps) => {
+              return <FormParagraph {...objWithProps} />;
+            })}
         </Fragment>
       );
       break;
@@ -64,16 +65,10 @@ export default function Form({
           <InputEmail name={"email"} />
           <InputPassword name={"password"} />
           <FormButton {...formButtonProps} />
-          <FormParagraph
-            paragraphText="Don't have an akkount?"
-            linkText="Register one"
-            linkHref="/register"
-          />
-          <FormParagraph
-            paragraphText="Forgot your password?"
-            linkText="Rekover it"
-            linkHref="/forgot-password"
-          />
+          {formParagraphArrayProps &&
+            formParagraphArrayProps.map((objWithProps) => {
+              return <FormParagraph {...objWithProps} />;
+            })}
         </Fragment>
       );
       break;
@@ -82,11 +77,10 @@ export default function Form({
         <Fragment>
           <InputEmail name={"email"} />
           <FormButton {...formButtonProps} />
-          <FormParagraph
-            paragraphText="Remember your password?"
-            linkText="Log in"
-            linkHref="/login"
-          />
+          {formParagraphArrayProps &&
+            formParagraphArrayProps.map((objWithProps) => {
+              return <FormParagraph {...objWithProps} />;
+            })}
         </Fragment>
       );
       break;
@@ -95,11 +89,10 @@ export default function Form({
         <Fragment>
           <InputText name={"secret"} />
           <FormButton {...formButtonProps} />
-          <FormParagraph
-            paragraphText="Remember your password?"
-            linkText="Log in"
-            linkHref="/login"
-          />
+          {formParagraphArrayProps &&
+            formParagraphArrayProps.map((objWithProps) => {
+              return <FormParagraph {...objWithProps} />;
+            })}
         </Fragment>
       );
       break;

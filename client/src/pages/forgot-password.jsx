@@ -57,6 +57,13 @@ export default function ForgotPassword() {
             textOnLoading: "Sending...",
             text: "Send",
           }}
+          formParagraphArrayProps={[
+            {
+              paragraphText: "Remember your password?",
+              linkText: "Log in",
+              linkHref: "/login",
+            },
+          ]}
         />
       </FormProvider>
     </section>

@@ -81,6 +81,13 @@ export default function VerifyPasswordSecret() {
             textOnLoading: "Verifying...",
             text: "Verify",
           }}
+          formParagraphArrayProps={[
+            {
+              paragraphText: "Remember your password?",
+              linkText: "Log in",
+              linkHref: "/login",
+            },
+          ]}
         />
       </FormProvider>
     </section>

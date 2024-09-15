@@ -67,6 +67,13 @@ export default function Register() {
             textOnLoading: "Registering...",
             text: "Register",
           }}
+          formParagraphArrayProps={[
+            {
+              paragraphText: "Already have an akkount?",
+              linkText: "Log in",
+              linkHref: "/login",
+            },
+          ]}
         />
       </FormProvider>
     </section>
