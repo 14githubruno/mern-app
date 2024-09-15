@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 
 /**
  * VerifyUser page component.
+ *
  * This page allows user to confirm and verify the personal account after registration.
  *
  * (User can register a new account through Register page, and after registration would receive a secret code

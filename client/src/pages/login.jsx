@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 
 /**
  * Login page component.
+ *
  * This page contains the form to log in user in the web app.
  *
  * @returns {JSX.Element} The rendered Login page component.

@@ -47,6 +47,7 @@ function ModalView({ title, stars, image, note, closeModalView }) {
 
 /**
  * ModalView component.
+ *
  * It renders a modal view.
  *
  * (The component is used to display a single tvseries in a modal)

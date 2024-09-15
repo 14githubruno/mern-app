@@ -3,6 +3,7 @@ import { useFormContext, useWatch } from "react-hook-form";
 
 /**
  * TextareaChars component.
+ *
  * It renders the number of characters of Textarea component.
  *
  * @param {Object} props - The properties passed to the component.

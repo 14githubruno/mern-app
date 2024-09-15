@@ -4,6 +4,7 @@ import { RiKnifeBloodLine } from "react-icons/ri";
 
 /**
  * HomeHeadingOne component.
+ *
  * It renders the heading one title of the homepage.
  *
  * @returns {JSX.Element} The rendered HomeHeadingOne component.

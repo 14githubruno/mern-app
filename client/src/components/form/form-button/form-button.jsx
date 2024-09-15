@@ -2,6 +2,7 @@ import styles from "./form-button.module.scss";
 
 /**
  * FormButton component.
+ *
  * It renders the button of the form.
  *
  * (The button has different text content depending on whether a fetching request is being made.

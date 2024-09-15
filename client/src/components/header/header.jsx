@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 
 /**
  * Header component.
+ *
  * It renders the navigation bar of the web app.
  *
  * (The content of Header component changes depending on whether there is a logged in user)

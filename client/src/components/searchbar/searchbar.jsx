@@ -5,6 +5,7 @@ import { useFormContext } from "react-hook-form";
 
 /**
  * Searchbar component.
+ *
  * It renders the searchbar of the user dashboard.
  *
  * (The searchbar is used to filter tvseries in the dashboard table)

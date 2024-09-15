@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 
 /**
  * VerifyPasswordSecret page component.
+ *
  * This page contains the form to allow user to send back the secret code sent by the web app.
  *
  * (After having sent the email through ForgotPassword page form, user receives

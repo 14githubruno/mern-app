@@ -13,6 +13,7 @@ import { Fragment } from "react";
 
 /**
  * Form component.
+ *
  * It renders all the forms of the web app.
  *
  * (It renders all the child components needed to create the form, i.e. InputEmail, InputPassword and FormButton for a login form)

@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 
 /**
  * UpdateTvseries page component.
+ *
  * In this page user can modify details of one tvseries.
  *
  * @returns {JSX.Element} The rendered UpdateTvseries page component.

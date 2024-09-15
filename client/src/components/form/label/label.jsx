@@ -3,6 +3,7 @@ import { TbTool } from "react-icons/tb";
 
 /**
  * Label component.
+ *
  * It renders the label of the input.
  *
  * (It renders an optional tooltip if the label is for the input password)

@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 
 /**
  * ResetPassword page component.
+ *
  * This page contains the form to allow user to complete password reset.
  *
  * @returns {JSX.Element} The rendered ResetPassword page component.

@@ -2,6 +2,7 @@ import styles from "./home-content-wrapper.module.scss";
 
 /**
  * HomeContentWrapper component.
+ *
  * It renders a wrapper for the homepage content.
  *
  * @param {Object} props - The properties passed to the component.

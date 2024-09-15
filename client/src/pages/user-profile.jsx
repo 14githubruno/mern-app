@@ -17,6 +17,7 @@ import UserProfileButtonLinksContainer from "../components/user-profile-button-l
 
 /**
  * UserProfile page component.
+ *
  * This page displays an overview table containing user data.
  *
  * (Only name, email and number of associated tvseries is displayed.

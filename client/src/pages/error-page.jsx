@@ -5,6 +5,7 @@ import Footer from "../components/footer/footer";
 
 /**
  * ErrorPage page component.
+ *
  * Error page to which user is redirected if tries to access a non-existing or expired resource.
  *
  * (Header and Footer are here imported, whereas in the other/real web app pages are both handled by App component)

@@ -5,6 +5,7 @@ import TextareaChars from "../textarea-chars/textarea-chars";
 
 /**
  * Textarea component.
+ *
  * It renders a textarea field.
  *
  * (It renders the Label and the TextareaChars components)

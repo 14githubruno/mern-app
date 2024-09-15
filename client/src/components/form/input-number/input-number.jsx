@@ -4,6 +4,7 @@ import Label from "../label/label";
 
 /**
  * InputNumber component.
+ *
  * It renders an input field for numbers.
  *
  * (It renders the Label component too)

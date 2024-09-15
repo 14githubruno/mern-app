@@ -6,6 +6,7 @@ import Autoplay from "embla-carousel-autoplay";
 
 /**
  * Carousel component.
+ *
  * It displays a carousel of images with prev/next buttons.
  *
  * @param {Object} props - The properties passed to the component.

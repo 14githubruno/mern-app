@@ -4,6 +4,7 @@ import Label from "../label/label";
 
 /**
  * InputFile component.
+ *
  * It renders an input field for uploading files.
  *
  * (It renders the Label component too)

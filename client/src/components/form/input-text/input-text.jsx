@@ -3,6 +3,7 @@ import Label from "../label/label";
 
 /**
  * InputText component.
+ *
  * It renders an input field for text.
  *
  * (It renders the Label component too)

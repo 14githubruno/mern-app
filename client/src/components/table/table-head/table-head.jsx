@@ -25,6 +25,7 @@ function TableHead() {
 
 /**
  * TableHead component.
+ *
  * It renders the table head of the dashboard table, displaying table's columns' titles.
  *
  * @returns {JSX.Element} The rendered TableHead component.

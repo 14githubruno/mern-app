@@ -17,7 +17,9 @@ import toast from "react-hot-toast";
 
 /**
  * UpdateUserProfile page component.
+ *
  * Here user can modify personal data such as name and email.
+ *
  * User can also modify the password.
  *
  * @returns {JSX.Element} The rendered UpdateUserProfile page component.

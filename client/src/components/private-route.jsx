@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 
 /**
  * PrivateRoute component.
+ *
  * It intercepts logged in user and it renders through Outlet component whatever resource the authorized user asks for.
  * If user is not authorized, the latter is redirected to login page.
  *

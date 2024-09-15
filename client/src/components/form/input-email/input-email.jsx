@@ -3,6 +3,7 @@ import Label from "../label/label";
 
 /**
  * InputEmail component.
+ *
  * It renders an input field for email addresses.
  *
  * (It renders the Label component too)

@@ -12,6 +12,7 @@ import { RouterProvider } from "react-router-dom";
 
 /**
  * App entry point.
+ *
  * It uses RouterProvider to allow user to access app's routes.
  * Also uses Provider to provide redux store the entire app.
  *

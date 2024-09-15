@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 
 /**
  * Dashboard page component.
+ *
  * This is the user dashboard, where tvseries are displayed in the table as table rows.
  * From here user can perform CRUD operations on tvseries.
  *

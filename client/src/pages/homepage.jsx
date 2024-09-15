@@ -62,6 +62,7 @@ const images = [
 
 /**
  * Home page component.
+ *
  * Web app home.
  *
  * @returns {JSX.Element} The rendered Home page component.

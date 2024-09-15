@@ -21,6 +21,7 @@ function WelcomeGuideUserParagraphs({ userLoggedIn, kreateTvseriesRoute }) {
 
 /**
  * WelcomeGuideUserParagraphs component.
+ *
  * It renders two paragraphs above the table and below the searchbar, in the dashboard page.
  *
  * (The first is a welcome message to the logged in user; the second one provides a link to the create tvseries page)

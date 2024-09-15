@@ -66,6 +66,7 @@ function ModalDelete({
 
 /**
  * ModalDelete component.
+ *
  * It renders a modal for confirming deletion of user account or tvseries.
  *
  * @param {Object} props - The properties passed to the component.

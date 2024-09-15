@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 
 /**
  * VerifyUpdateUserProfile page component.
+ *
  * This page allows user to confirm personal data update performed through the UpdateUserProfile page.
  *
  * (After having updated personal data through UpdateUserProfile page form, user receives a secret code

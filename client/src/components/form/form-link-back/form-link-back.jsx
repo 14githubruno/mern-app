@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 /**
  * FormLinkBack component.
+ *
  * It renders a link that redirects the user back to the previous page.
  *
  * (This component is not used in register or login forms)

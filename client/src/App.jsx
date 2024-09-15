@@ -5,6 +5,7 @@ import Footer from "./components/footer/footer";
 
 /**
  * App root component.
+ *
  * It renders/wraps all the content (pages) of the web app, through the Outlet component.
  * Also, for each page, renders the Header and Footer components.
  *

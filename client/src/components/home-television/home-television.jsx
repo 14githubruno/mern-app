@@ -4,6 +4,7 @@ import Carousel from "../carousel/carousel";
 
 /**
  * HomeTelevision component.
+ *
  * It renders a television figure with a carousel displaying images on the "screen".
  *
  * (It renders the Carousel component)

@@ -26,6 +26,7 @@ function UserProfileButtonLinksContainer({ toggleModalToDelete }) {
 
 /**
  * UserProfileButtonLinksContainer component.
+ *
  * It renders two links and a button to be displayed in the user profile page.
  *
  * (One link to the dashboard, one link to update user page and one button to open modal to delete user acccount)

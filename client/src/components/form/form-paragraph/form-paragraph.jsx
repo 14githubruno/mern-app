@@ -3,6 +3,7 @@ import styles from "./form-paragraph.module.scss";
 
 /**
  * FormParagraph component.
+ *
  * It renders a paragraph below the form. The paragraph contains a link to allow user an easier navigation to the desired page.
  *
  * (This component is rendered below register, login, forgot password and verify password secret forms)

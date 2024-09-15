@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 /**
  * useHeadTags custom hook.
+ *
  * It sets the appropriate document title and meta description to each page.
  *
  * (A config object is used to retrieve data to be used in each page.

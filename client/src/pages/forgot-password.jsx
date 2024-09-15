@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 
 /**
  * ForgotPassword page component.
+ *
  * This page contains the form to allow user send email to reset password.
  *
  * @returns {JSX.Element} The rendered ForgotPassword page component.

@@ -14,6 +14,7 @@ function UserProfileParagraph() {
 
 /**
  * UserProfileParagraph component.
+ *
  * It renders the paragraph displayed below the user table, in the user profile page.
  *
  * @returns {JSX.Element} The rendered UserProfileParagraph component.

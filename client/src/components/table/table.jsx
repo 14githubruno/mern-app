@@ -10,6 +10,7 @@ import Loader from "../loader/loader";
 
 /**
  * Table component.
+ *
  * It renders the dashboard table of tvseries.
  *
  * (It renders the TableRow component for each tvseries)

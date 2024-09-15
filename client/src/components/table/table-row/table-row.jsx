@@ -108,6 +108,7 @@ function TableRow({
 
 /**
  * TableRow component.
+ *
  * It renders a single row in the dashboard table, displaying details of a single tvseries.
  *
  * (It also allows read, update and delete a single tvseries)

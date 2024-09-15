@@ -28,6 +28,7 @@ function UserProfileTable({ userData }) {
 
 /**
  * UserProfileTable component.
+ *
  * It renders a table in user profile page containing name, email and number of tvseries of user.
  *
  * @param {Object} props - The properties passed to the component.

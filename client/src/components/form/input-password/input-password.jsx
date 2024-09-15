@@ -6,6 +6,7 @@ import Label from "../label/label";
 
 /**
  * InputPassword component.
+ *
  * It renders an input field for the password.
  *
  * (The type of the input is toggled between "password" and "text" to toggle password visibility)
