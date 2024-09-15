@@ -89,6 +89,7 @@ export default function UpdateUserProfile() {
               textOnLoading: "Updating...",
               text: "Update",
             }}
+            formLinkHrefToGoBack="/profile"
           />
         </FormProvider>
       ) : (

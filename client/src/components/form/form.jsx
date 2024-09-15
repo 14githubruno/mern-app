@@ -23,6 +23,7 @@ import { Fragment } from "react";
  * @param {object} props.formButtonProps - The props to be passed to FormButton component.
  * @param {object} [props.inputFileProps=null] - The props to be passed to InputFile component is provided. Defaults to null.
  * @param {Array<object>} [props.formParagraphArrayProps=[]] - Array of objects with props. Each obj has the props to be passed to a FormParagraph component instance. Defaults to empty array.
+ * @param {string} [props.formLinkHrefToGoBack=""] - The link href to allow user to go back to previous page. Defaults to empty string.
  *
  * @returns {JSX.Element} The rendered Form component.
  */
@@ -32,6 +33,7 @@ export default function Form({
   formButtonProps,
   inputFileProps = null,
   formParagraphArrayProps = [],
+  formLinkHrefToGoBack = "",
 }) {
   const { handleSubmit } = useFormContext();
 
@@ -114,7 +116,9 @@ export default function Form({
             placeholder={"Enter current or new password"}
           />
           <FormButton {...formButtonProps} />
-          <FormLinkBack linkHref={"/profile"} />
+          {formLinkHrefToGoBack && (
+            <FormLinkBack linkHref={formLinkHrefToGoBack} />
+          )}
         </Fragment>
       );
       break;
@@ -134,7 +138,9 @@ export default function Form({
           <InputFile {...inputFileProps} />
           <Textarea />
           <FormButton {...formButtonProps} />
-          <FormLinkBack linkHref={"/dashboard"} />
+          {formLinkHrefToGoBack && (
+            <FormLinkBack linkHref={formLinkHrefToGoBack} />
+          )}
         </Fragment>
       );
     case "update tvseries":
@@ -145,7 +151,9 @@ export default function Form({
           <InputFile {...inputFileProps} />
           <Textarea />
           <FormButton {...formButtonProps} />
-          <FormLinkBack linkHref={"/dashboard"} />
+          {formLinkHrefToGoBack && (
+            <FormLinkBack linkHref={formLinkHrefToGoBack} />
+          )}
         </Fragment>
       );
   }

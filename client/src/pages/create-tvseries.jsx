@@ -89,6 +89,7 @@ export default function CreateTvseries() {
             textOnLoading: "Kreating...",
             text: "Kreate",
           }}
+          formLinkHrefToGoBack="/dashboard"
         />
       </FormProvider>
     </section>

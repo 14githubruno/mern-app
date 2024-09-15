@@ -103,6 +103,7 @@ export default function UpdateTvseries() {
               textOnLoading: "Updating...",
               text: "Update",
             }}
+            formLinkHrefToGoBack="/dashboard"
           />
         </FormProvider>
       ) : (
