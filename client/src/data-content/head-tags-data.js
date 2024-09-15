@@ -1,13 +1,16 @@
+/**
+ * Object containing title and meta description of each page of the app.
+ *
+ * (homepage tags are set as default in index.html file)
+ *
+ * @type {{ homepage: { title: string; metaDescription: string; }; register: { title: string; metaDescription: string; }; verifyUser: { title: string; metaDescription: string; }; login: { title: string; metaDescription: string; }; forgotPassword: { title: string; metaDescription: string; }; verifyPasswordSecret: { title: string; metaDescription: string; }; resetPassword: { title: string; metaDescription: string; }; dashboard: { title: string; metaDescription: string; }; createTvseries: { title: string; metaDescription: string; }; updateTvseries: { title: string; metaDescription: string; }; userProfile: { title: string; metaDescription: string; }; updateUserProfile: { title: string; metaDescription: string; }; verifyUpdateUserProfile: { title: string; metaDescription: string; }; errorPage: { title: string; metaDescription: string; }; }}
+ */
 const headTags = {
-  /*  homepage tags are the default (see index.html)
-   */
   homepage: {
     title: "Korean Reakt App | K-emotions😂🥰😭🤬😨🤢😑",
     metaDescription:
       "The ultimate Reakt Applikation where you kan entrust your personal k-love💘 Kreate your akkount and save from forgetfulness every k-drama📺",
   },
-  /*
-   */
 
   register: {
     title: "Korean Reakt App | Kreate Akkount✍️",
