@@ -123,11 +123,12 @@ export default function Dashboard() {
       />
       <FormProvider {...methods}>
         <Table
-          contentIsLoading={isLoading || isFetching}
-          contentIsBeingDeleted={isDeleting}
-          toggleModalToDelete={toggleModalToDelete}
-          selectTableRowToDelete={selectTableRowToDelete}
-          showTableRowInModalView={showTableRowInModalView}
+          contentIsLoading={isLoading || isFetching || isDeleting}
+          tableRowActions={{
+            toggleModalToDelete,
+            selectTableRowToDelete,
+            showTableRowInModalView,
+          }}
         />
       </FormProvider>
     </section>

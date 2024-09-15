@@ -97,7 +97,7 @@ function TableRow({
         <span
           role="button"
           className={styles.iconView}
-          onClick={showTableRowInModalView}
+          onClick={() => showTableRowInModalView(id)}
         >
           <RxMagnifyingGlass
             aria-label="magnifying glass icon"
@@ -115,7 +115,7 @@ function TableRow({
           className={styles.iconTrash}
           onClick={() => {
             toggleModalToDelete();
-            selectTableRowToDelete();
+            selectTableRowToDelete(id);
           }}
         >
           <RxTrash aria-label="trash delete icon" className={styles.icon} />
