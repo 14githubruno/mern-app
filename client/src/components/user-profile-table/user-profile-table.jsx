@@ -1,15 +1,6 @@
 import styles from "./user-profile-table.module.scss";
 import { memo } from "react";
 
-/**
- * UserProfileTable component.
- * It renders a table in user profile page containing name, email and number of tvseries of user.
- *
- * @param {Object} props - The properties passed to the component.
- * @param {object} props.userData - User data as name, email and number of owned tvseries.
- *
- * @returns {JSX.Element} The rendered UserProfileTable component.
- */
 function UserProfileTable({ userData }) {
   return (
     <div className={styles.userProfileTable}>
@@ -35,4 +26,13 @@ function UserProfileTable({ userData }) {
   );
 }
 
+/**
+ * UserProfileTable component.
+ * It renders a table in user profile page containing name, email and number of tvseries of user.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {object} props.userData - User data as name, email and number of owned tvseries.
+ *
+ * @returns {JSX.Element} The rendered UserProfileTable component.
+ */
 export default memo(UserProfileTable);
