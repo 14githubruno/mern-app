@@ -16,6 +16,13 @@ import ModalDelete from "../components/modal-delete/modal-delete";
 import ModalView from "../components/modal-view/modal-view";
 import toast from "react-hot-toast";
 
+/**
+ * Dashboard page component.
+ * This is the user dashboard, where tvseries are displayed in the table as table rows.
+ * From here user can perform CRUD operations on tvseries.
+ *
+ * @returns {JSX.Element} The rendered Dashboard page component.
+ */
 export default function Dashboard() {
   const [tableRowToDelete, setTableRowToDelete] = useState(null);
   const [modalViewIsOpen, setModalViewIsOpen] = useState(false);
