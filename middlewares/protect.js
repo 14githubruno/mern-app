@@ -3,6 +3,21 @@ import asyncHandler from "express-async-handler";
 import User from "../models/user-model.js";
 import { throwError } from "../lib/throw-error.js";
 
+/**
+ * @typedef {Object} ExpressRequest
+ * @typedef {Object} ExpressResponse
+ * @typedef {Function} ExpressNextFunction
+ *
+ * @async
+ * @function
+ * Middleware to check if user is authenticated and thus protect private routes.
+ *
+ * @param {ExpressRequest} req - The Express request object.
+ * @param {ExpressResponse} res - The Express response object.
+ * @param {ExpressNextFunction} next - Function to call the next middleware.
+ *
+ * @throws Error if authentication fails or an unexpected error occurs.
+ */
 const protect = asyncHandler(async (req, res, next) => {
   if (!req.cookies || !req.cookies.jwt) {
     throwError(res, 401, "No token, user is not authorized");
