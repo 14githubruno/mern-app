@@ -15,6 +15,13 @@ import Form from "../components/form/form";
 import Loader from "../components/loader/loader";
 import toast from "react-hot-toast";
 
+/**
+ * UpdateUserProfile page component.
+ * Here user can modify personal data such as name and email.
+ * User can also modify the password.
+ *
+ * @returns {JSX.Element} The rendered UpdateUserProfile page component.
+ */
 export default function UpdateUserProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
