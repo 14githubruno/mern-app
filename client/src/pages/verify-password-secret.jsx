@@ -12,6 +12,16 @@ import { useDispatch } from "react-redux";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
+/**
+ * VerifyPasswordSecret page component.
+ * This page contains the form to allow user to send back the secret code sent by the web app.
+ *
+ * (After having sent the email through ForgotPassword page form, user receives
+ * a secret code to that email, if valid, to be sent back. In this page user can perform the latter: then, if there is a match between codes [and tokens, handled through params],
+ * user is redirected to ResetPassword page to complete the password reset.
+ *
+ * @returns {JSX.Element} The rendered VerifyPasswordSecret page component.
+ */
 export default function VerifyPasswordSecret() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
