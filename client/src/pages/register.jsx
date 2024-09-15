@@ -8,6 +8,12 @@ import { parseFormData, checkParsingError } from "../lib/parse-form-data";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
+/**
+ * Register page component.
+ * This page contains the form to allow user to create a personal account.
+ *
+ * @returns {JSX.Element} The rendered Register page component.
+ */
 export default function Register() {
   const methods = useForm({
     defaultValues: {
