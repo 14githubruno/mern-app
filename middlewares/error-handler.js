@@ -1,17 +1,12 @@
 /**
- * @typedef {Error} ExpressError
- * @typedef {Object} ExpressRequest
- * @typedef {Object} ExpressResponse
- * @typedef {Function} ExpressNextFunction
- *
  * @async
  * @function
  * Middleware to handle app errors.
  *
- * @param {ExpressError} err - Error caught
- * @param {ExpressRequest} req - Express request.
- * @param {ExpressResponse} res - Express response.
- * @param {ExpressNextFunction} next - Function to call the next middleware.
+ * @param {Error} err - Error caught
+ * @param {Request} req - Express request.
+ * @param {Response} res - Express response.
+ * @param {NextFunction} next - Function to call the next middleware.
  *
  * @throws Returns error thrown by throwError function. See {@link throwError} lib fn for more details.
  */

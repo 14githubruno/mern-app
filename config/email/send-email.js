@@ -4,8 +4,6 @@ import { throwError } from "../../lib/throw-error.js";
 import User from "../../models/user-model.js";
 
 /**
- * @typedef {Object} ExpressResponse
- *
  * @async
  * @function
  * To send emails.
@@ -15,7 +13,7 @@ import User from "../../models/user-model.js";
  * (If email does not get sent, delete from db unverified user data)
  *
  * @param {boolean} forRegistration - Indicates if email is being used to register a new account
- * @param {ExpressResponse} res - The Express response object.
+ * @param {Response} res - The Express response object.
  * @param {string} to - The user email address to which send the email.
  * @param {string} subject - The email subject.
  * @param {string} text - The email body text.

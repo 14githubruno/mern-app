@@ -16,16 +16,13 @@ const routesWithPassword = {
 };
 
 /**
- * @typedef {Object} ExpressRequest
- * @typedef {Object} ExpressResponse
- *
  * @function
  * Express rate limit middleware to restrict requests to routes.
  *
  * (Uses express-rate-limit pkg)
  *
- * @param {ExpressRequest} req - The Express request object.
- * @param {ExpressResponse} res - The Express response object.
+ * @param {Request} req - The Express request object.
+ * @param {Response} res - The Express response object.
  *
  * @throws Error if the rate limit is exceeded.
  */
