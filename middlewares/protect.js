@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import asyncHandler from "express-async-handler";
 import User from "../models/user-model.js";
 import { throwError } from "../lib/throw-error.js";
 
@@ -18,7 +17,7 @@ import { throwError } from "../lib/throw-error.js";
  *
  * @throws Error if authentication fails or an unexpected error occurs.
  */
-const protect = asyncHandler(async (req, res, next) => {
+const protect = async (req, res, next) => {
   if (!req.cookies || !req.cookies.jwt) {
     throwError(res, 401, "No token, user is not authorized");
   }
@@ -31,6 +30,6 @@ const protect = asyncHandler(async (req, res, next) => {
   } catch (err) {
     throwError(res, 401, "User is not authorized");
   }
-});
+};
 
 export { protect };
