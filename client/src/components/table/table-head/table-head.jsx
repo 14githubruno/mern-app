@@ -1,6 +1,12 @@
 import styles from "./table-head.module.scss";
 import { memo } from "react";
 
+/**
+ * @constant
+ * Array of strings representing the table's columns' titles.
+ *
+ * @type {string[]}
+ */
 const tableHeadTitles = ["N°", "Title", "Stars", "Image", "Note", "Actions"];
 
 /**
