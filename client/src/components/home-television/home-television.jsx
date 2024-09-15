@@ -9,7 +9,7 @@ import Carousel from "../carousel/carousel";
  * (It renders the Carousel component)
  *
  * @param {Object} props - Properties passed to the component.
- * @param {Array<Object>} props.carouselImages - An array of image objects to be passed to Carousel component. Each object has URL and alt text.
+ * @param {Array<object>} props.carouselImages - An array of image objects to be passed to Carousel component. Each object has URL and alt text.
  *
  * @returns {JSX.Element} The rendered HomeTelevision component.
  */
