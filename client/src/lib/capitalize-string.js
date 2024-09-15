@@ -1,5 +1,12 @@
-// Note: this function is only used in useHeadTags hook
-
+/**
+ * Function to capitalize the first letter of each word of a given string.
+ *
+ * (This function is only used in the custom hook useHeadTags)
+ *
+ * @param {string} string - The string to capitalize.
+ *
+ * @returns {string} The capitalized string.
+ */
 const capitalize = (string) => {
   let capitalizedString = string
     .split(" ")
