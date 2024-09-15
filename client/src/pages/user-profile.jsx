@@ -15,6 +15,15 @@ import UserProfileTable from "../components/user-profile-table/user-profile-tabl
 import UserProfileParagraph from "../components/user-profile-paragraph/user-profile-paragraph";
 import UserProfileButtonLinksContainer from "../components/user-profile-button-links-container/user-profile-button-links-container";
 
+/**
+ * UserProfile page component.
+ * This page displays an overview table containing user data.
+ *
+ * (Only name, email and number of associated tvseries is displayed.
+ * Password, then, is not shown.)
+ *
+ * @returns {JSX.Element} The rendered UserProfile page component.
+ */
 export default function UserProfile() {
   const navigate = useNavigate();
   const resetAll = useResetApiAndUser();
