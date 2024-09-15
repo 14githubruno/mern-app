@@ -6,7 +6,7 @@
  *
  * @async
  * @function
- * Middleware to check if user is authenticated and thus protect private routes.
+ * Middleware to handle app errors.
  *
  * @param {ExpressError} err - Error caught
  * @param {ExpressRequest} req - Express request.
