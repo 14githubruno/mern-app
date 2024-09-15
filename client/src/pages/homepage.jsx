@@ -60,6 +60,12 @@ const images = [
   },
 ];
 
+/**
+ * Home page component.
+ * Web app home.
+ *
+ * @returns {JSX.Element} The rendered Home page component.
+ */
 export default function Homepage() {
   // this below fires a useEffect
   useHeadTags("homepage");
