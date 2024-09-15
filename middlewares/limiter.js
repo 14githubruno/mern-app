@@ -1,6 +1,12 @@
 import { rateLimit } from "express-rate-limit";
 import { throwError } from "../lib/throw-error.js";
 
+/**
+ * @constant
+ * Object containing password related routes.
+ *
+ * @type {{ register: string; login: string; forgotPassword: string; resetPassword: string; updateProfile: string; }}
+ */
 const routesWithPassword = {
   register: "/register",
   login: "/login",
@@ -9,6 +15,20 @@ const routesWithPassword = {
   updateProfile: "/profile",
 };
 
+/**
+ * @typedef {Object} ExpressRequest
+ * @typedef {Object} ExpressResponse
+ *
+ * @function
+ * Express rate limit middleware to restrict requests to routes.
+ *
+ * (Uses express-rate-limit pkg)
+ *
+ * @param {ExpressRequest} req - The Express request object.
+ * @param {ExpressResponse} res - The Express response object.
+ *
+ * @throws Error if the rate limit is exceeded.
+ */
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: (req, res) => {
