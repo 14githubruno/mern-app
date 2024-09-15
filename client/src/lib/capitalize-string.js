@@ -1,7 +1,8 @@
 /**
- * Function to capitalize the first letter of each word of a given string.
+ * @function
+ * Capitalize the first letter of each word of a given string.
  *
- * (This function is only used in the custom hook useHeadTags)
+ * (Used in the custom hook useHeadTags)
  *
  * @param {string} string - The string to capitalize.
  *

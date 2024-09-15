@@ -1,4 +1,5 @@
 /**
+ * @constant
  * Error object containing predefined error messages.
  *
  * @type {{ wrong: { type: string; msg: string; }, empty: { type: string; msg: string; } }}
@@ -15,7 +16,8 @@ const error = {
 };
 
 /**
- * Function to validate a password pattern.
+ * @function
+ * Validate password against pattern.
  *
  * @param {string} pw - The password to validate.
  *
@@ -30,10 +32,11 @@ const validatePassword = (pw) => {
 };
 
 /**
- * Function to parse form data on the client.
+ * @function
+ * Parse form data on the client.
  *
- * (This function uses the custom error object of this file.
- * If parsing is successful, the function returns the data, otherwise the error type)
+ * (Uses the custom error object of this file.
+ * If parsing is successful, it returns the data, otherwise the error type)
  *
  * @param {Object} data - The form data to parse.
  *
@@ -75,10 +78,11 @@ const parseFormData = (data) => {
 };
 
 /**
- * Function to check which error message to display, if any error.
+ * @function
+ * Check which error message to display, if any error.
  *
- * (This function uses the custom error object of this file.
- * If any error type is found, the function returns the relative error message)
+ * (Uses the custom error object of this file.
+ * If any error type is found, it returns the relative error message)
  *
  * (The argument to pass to this function comes, eventually,
  * from the parseFormData result)

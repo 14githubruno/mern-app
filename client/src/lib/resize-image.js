@@ -2,6 +2,7 @@ import Resizer from "react-image-file-resizer";
 import toast from "react-hot-toast";
 
 /**
+ * @constant
  * Object containing image file extensions.
  *
  * @type {{ JPEG: string; JPG: string; PNG: string; WEBP: string; }}
@@ -14,7 +15,9 @@ const imgExt = {
 };
 
 /**
- * Function to resize uploaded image.
+ * @async
+ * @function
+ * Resize uploaded image.
  *
  * @param {File} img - The image file to resize.
  *
