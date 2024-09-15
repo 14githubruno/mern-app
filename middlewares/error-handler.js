@@ -1,3 +1,20 @@
+/**
+ * @typedef {Error} ExpressError
+ * @typedef {Object} ExpressRequest
+ * @typedef {Object} ExpressResponse
+ * @typedef {Function} ExpressNextFunction
+ *
+ * @async
+ * @function
+ * Middleware to check if user is authenticated and thus protect private routes.
+ *
+ * @param {ExpressError} err - Error caught
+ * @param {ExpressRequest} req - Express request.
+ * @param {ExpressResponse} res - Express response.
+ * @param {ExpressNextFunction} next - Function to call the next middleware.
+ *
+ * @throws Returns error thrown by throwError function. See {@link throwError} lib fn for more details.
+ */
 const errorHandler = (err, req, res, next) => {
   let statusCode = res.statusCode ? res.statusCode : 500;
   let message = err.message;
