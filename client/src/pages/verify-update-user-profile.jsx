@@ -12,6 +12,16 @@ import { useDispatch } from "react-redux";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
+/**
+ * VerifyUpdateUserProfile page component.
+ * This page allows user to confirm personal data update performed through the UpdateUserProfile page.
+ *
+ * (After having updated personal data through UpdateUserProfile page form, user receives a secret code
+ * to the new/same email of the account. The code needs to be sent back to confirm the update: here user can
+ * perform the latter. Also param token will be used to confirm the update.)
+ *
+ * @returns {JSX.Element} The rendered VerifyUpdateUserProfile page component.
+ */
 export default function VerifyUpdateUserProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
