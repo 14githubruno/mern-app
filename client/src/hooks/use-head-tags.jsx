@@ -24,7 +24,7 @@ const useHeadTags = (page, string = "") => {
         ? `${metaDescription} [${capitalize(string)}]`
         : metaDescription;
     }
-  }, []);
+  }, [page, string]);
 };
 
 export { useHeadTags };
