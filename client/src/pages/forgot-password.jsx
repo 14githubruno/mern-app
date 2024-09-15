@@ -6,6 +6,12 @@ import { parseFormData, checkParsingError } from "../lib/parse-form-data";
 import Form from "../components/form/form";
 import toast from "react-hot-toast";
 
+/**
+ * ForgotPassword page component.
+ * This page contains the form to allow user send email to reset password.
+ *
+ * @returns {JSX.Element} The rendered ForgotPassword page component.
+ */
 export default function ForgotPassword() {
   const navigate = useNavigate();
   const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
