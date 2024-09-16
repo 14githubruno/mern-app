@@ -19,6 +19,7 @@ import User from "../../models/user-model.js";
  * @param {string} text - The email body text.
  *
  * @returns {Promise<void>} Resolves when the email is sent successfully, or rejects with an error.
+ * @throws Error if sending email fails
  */
 const sendEmail = async (forRegistration, res, to, subject, text) => {
   console.log(to);
