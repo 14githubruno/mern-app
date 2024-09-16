@@ -98,10 +98,7 @@ const createUpdateOneTvseriesSchema = z.object({
 });
 
 /**
- * 
- * @exports
  * Object storing all zod schemas.
- * 
  */
 export const zodSchemas = {
   registerUpdateUserSchema,
