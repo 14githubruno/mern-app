@@ -98,7 +98,19 @@ const createUpdateOneTvseriesSchema = z.object({
 });
 
 /**
+ * @typedef {Object} ZodSchemasObject
+ * @property {Object} registerUpdateUserSchema - {@link registerUpdateUserSchema}
+ * @property {Object} loginUserSchema - {@link loginUserSchema}
+ * @property {Object} resetPasswordSchema - {@link resetPasswordSchema}
+ * @property {Object} checkEmailSchema - {@link checkEmailSchema}
+ * @property {Object} checkSecretSchema - {@link checkSecretSchema}
+ * @property {Object} createUpdateOneTvseriesSchema - {@link createUpdateOneTvseriesSchema}
+ */
+/**
+ * @constant
  * Object storing all zod schemas.
+ * 
+ * @type {ZodSchemasObject}
  */
 export const zodSchemas = {
   registerUpdateUserSchema,
