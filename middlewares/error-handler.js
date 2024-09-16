@@ -8,7 +8,7 @@
  * @param {Response} res - Express response.
  * @param {NextFunction} next - Function to call the next middleware.
  *
- * @throws Returns error thrown by throwError function. See {@link throwError} lib fn for more details.
+ * @throws Returns error thrown by throwError function. See throwError lib fn for more details.
  */
 const errorHandler = (err, req, res, next) => {
   let statusCode = res.statusCode ? res.statusCode : 500;
