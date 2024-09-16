@@ -55,6 +55,8 @@ export const authSlice = createSlice({
      *
      * (Clear local storage)
      *
+     * (No payload will be provided as dispatching this action will automatically reset auth state and clear local storage)
+     *
      * @param {CurrentStateObject} state - Current auth state (logged in user)
      *
      * @returns {void}
