@@ -6,7 +6,7 @@ import { apiSlice } from "../redux/api/api-slice";
 /**
  * useResetApiAndUser custom hook.
  *
- * It returns a function that clears local storage, resets app redux store and APIs.
+ * It returns a function that clears local storage, resets app redux store and clears rtk cache.
  *
  * @returns {function} The function to reset the app state.
  */
