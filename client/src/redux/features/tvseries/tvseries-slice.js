@@ -30,7 +30,7 @@ export const tvseriesSlice = createSlice({
     },
 
     /**
-     * Reducer to set tvseries slice back to empty array.
+     * Reducer to set tvseries state back to empty array.
      *
      * (This reducer is dispatched when user deletes the account or logs out)
      *
