@@ -4,9 +4,23 @@ import Tvseries from "../models/tvseries-model.js";
 import { throwError } from "../lib/throw-error.js";
 import { validate } from "../lib/validate-req-body.js";
 
-// @desc    Get all tv series
-// @route   GET /api/tvseries
-// @access  Private
+/**
+ * @async
+ * @function
+ * Controller to get all tvseries from db
+ *
+ * GET /api/tvseries
+ *
+ * Private route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const getAllTvSeries = asyncHandler(async (req, res) => {
   const currentUser = req.user;
 
@@ -26,9 +40,23 @@ const getAllTvSeries = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    get one tv series
-// @route   GET /api/tvseries/:id/:title
-// @access  Private
+/**
+ * @async
+ * @function
+ * Controller to get one tv series from db
+ *
+ * GET /api/tvseries/:id/:title
+ *
+ * Private route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const getOneTvseries = asyncHandler(async (req, res) => {
   const currentUser = req.user;
   const { id, title } = req.params;
@@ -50,9 +78,23 @@ const getOneTvseries = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc    Create a tv series
-// @route   POST /api/tvseries
-// @access  Private
+/**
+ * @async
+ * @function
+ * Controller to create a tv series
+ *
+ * POST /api/tvseries
+ *
+ * Private route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const createOneTvSeries = asyncHandler(async (req, res) => {
   const currentUser = req.user;
 
@@ -90,9 +132,23 @@ const createOneTvSeries = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Update a tv series
-// @route   PATCH /api/tvseries/:id
-// @access  Private
+/**
+ * @async
+ * @function
+ * Controller to update a tv series
+ *
+ * PATCH /api/tvseries/:id
+ *
+ * Private route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const updateOneTvSeries = asyncHandler(async (req, res) => {
   const currentUser = req.user;
   const id = req.params.id;
@@ -125,9 +181,23 @@ const updateOneTvSeries = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Delete a tv series
-// @route   DELETE /api/tvseries/:id
-// @access  Private
+/**
+ * @async
+ * @function
+ * Controller to delete a tv series
+ *
+ * DELETE /api/tvseries/:id
+ *
+ * Private route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const deleteOneTvSeries = asyncHandler(async (req, res) => {
   const currentUser = req.user;
   const id = req.params.id;
@@ -152,6 +222,21 @@ const deleteOneTvSeries = asyncHandler(async (req, res) => {
   }
 });
 
+/**
+ * @typedef {Object} TvseriesController
+ * @property {Function} getAllTvSeries - {@link getAllTvSeries}
+ * @property {Function} getOneTvseries - {@link getOneTvseries}
+ * @property {Function} createOneTvSeries - {@link createOneTvSeries}
+ * @property {Function} updateOneTvSeries - {@link updateOneTvSeries}
+ * @property {Function} deleteOneTvSeries - {@link deleteOneTvSeries}
+ */
+
+/**
+ * @constant
+ * Tvseries object storing tvseries-related controllers.
+ *
+ * @type {TvseriesController}
+ */
 export const tvSeriesCtrl = {
   getAllTvSeries,
   getOneTvseries,
