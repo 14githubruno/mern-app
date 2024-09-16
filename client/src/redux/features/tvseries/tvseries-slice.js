@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+/**
+ * @constant
+ * Initial state of tvseries slice
+ *
+ * @type {{ tvseries: Array<object>|[]; }}
+ */
 const initialState = {
   tvseries: [],
 };

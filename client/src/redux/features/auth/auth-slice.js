@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+/**
+ * @constant
+ * Initial state of auth slice
+ *
+ * @type {{ user: string|null; tokenExpDate: string|null; }}
+ */
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")) || null,
   tokenExpDate: JSON.parse(localStorage.getItem("exp")) || null,
