@@ -6,6 +6,11 @@ const baseQuery = fetchBaseQuery({
   credentials: "include",
 });
 
+/**
+ * RTK Query API slice for making API requests.
+ *
+ * Endpoints will be injected by respective api slices (i.e. usersApiSlice, tvseriesApiSlice)
+ */
 const apiSlice = createApi({
   reducerPath: "api",
   baseQuery,

@@ -1,4 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+/**
+ * @typedef {Object} CurrentStateObject
+ * @typedef {Object} ActionWithPayload
+ */
 
 /**
  * @constant
@@ -15,6 +19,16 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    /**
+     * Reducer to set logged in user and token exp date.
+     *
+     * (Set state to local storage)
+     *
+     * @param {CurrentStateObject} state - Current auth state (null)
+     * @param {ActionWithPayload} action - Contains payload with data to update auth state (allow user to be logged in).
+     *
+     * @returns {void}
+     */
     setCredentials: (state, action) => {
       state.user = action.payload.user;
       state.tokenExpDate = action.payload.tokenExpDate;
@@ -22,12 +36,30 @@ export const authSlice = createSlice({
       localStorage.setItem("exp", JSON.stringify(state.tokenExpDate));
     },
 
+    /**
+     * Reducer to reset user name (no tokenExp).
+     *
+     * (Set state to local storage)
+     *
+     * @param {CurrentStateObject} state - Current auth state (logged in user)
+     * @param {ActionWithPayload} action - Contains payload with new user name (in case user updates the name).
+     *
+     * @returns {void}
+     */
     setOnlyCredentialsUser: (state, action) => {
       state.user = action.payload.user;
       localStorage.setItem("user", JSON.stringify(state.user));
     },
-
-    clearCredentials: (state, action) => {
+    /**
+     * Reducer to clear state and set it back to null.
+     *
+     * (Clear local storage)
+     *
+     * @param {CurrentStateObject} state - Current auth state (logged in user)
+     *
+     * @returns {void}
+     */
+    clearCredentials: (state) => {
       state.user = null;
       state.tokenExpDate = null;
       localStorage.clear();
