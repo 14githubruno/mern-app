@@ -13,6 +13,8 @@ import { useEffect } from "react";
  * @param {string} page - The path url of the current page.
  * @param {string} string - Optional string to append to the title and/or meta description.
  *
+ * @returns {void}
+ *
  */
 const useHeadTags = (page, string = "") => {
   useEffect(() => {
