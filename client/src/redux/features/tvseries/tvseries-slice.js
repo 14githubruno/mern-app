@@ -20,6 +20,7 @@ export const tvseriesSlice = createSlice({
   reducers: {
     /**
      * Reducer to populate tvseries state with logged in user's tvseries.
+     *
      * @param {CurrentStateObject} state - Current auth state ([])
      * @param {ActionWithPayload} action - Contains payload with data (tvseries coming from db).
      *
