@@ -7,9 +7,6 @@ import { useEffect } from "react";
  *
  * It sets the appropriate document title and meta description to each page.
  *
- * (A config object is used to retrieve data to be used in each page.
- * When component mounts, a useEffect will set the two head tags and populate them)
- *
  * @param {string} page - The path url of the current page.
  * @param {string} string - Optional string to append to the title and/or meta description.
  *
