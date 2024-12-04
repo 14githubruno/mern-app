@@ -9,7 +9,7 @@ import ReactDOM from "react-dom/client";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
 
-// browser router for react-router-dom config
+// browser router config with react-router-dom
 import { browserRouter } from "./browser-router/browser-router";
 import { RouterProvider } from "react-router-dom";
 
