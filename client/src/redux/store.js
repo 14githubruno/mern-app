@@ -1,4 +1,4 @@
-// redux toolkit lib and slices
+// redux toolkit lib
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
