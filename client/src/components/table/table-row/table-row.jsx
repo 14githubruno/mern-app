@@ -1,8 +1,17 @@
+// styles
 import styles from "./table-row.module.scss";
+
+// icons
 import { AiFillStar } from "react-icons/ai";
 import { RxPencil1, RxMagnifyingGlass, RxTrash } from "react-icons/rx";
-import { Link } from "react-router-dom";
+
+// react lib
 import { memo } from "react";
+
+// react-router-dom lib
+import { Link } from "react-router-dom";
+
+// react-hook-form lib
 import { useFormContext, useWatch } from "react-hook-form";
 
 function TableRow({

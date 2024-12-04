@@ -1,7 +1,12 @@
-import { Outlet } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+// components
 import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
+
+// react-router-dom components
+import { Outlet } from "react-router-dom";
+
+// other pkgs
+import { Toaster } from "react-hot-toast";
 
 /**
  * App root component.

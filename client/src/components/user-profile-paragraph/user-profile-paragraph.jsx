@@ -1,4 +1,7 @@
+// styles
 import styles from "./user-profile-paragraph.module.scss";
+
+// react lib
 import { memo } from "react";
 
 function UserProfileParagraph() {

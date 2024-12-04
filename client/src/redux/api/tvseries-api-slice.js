@@ -1,4 +1,7 @@
+// redux lib
 import { apiSlice } from "./api-slice";
+
+// glob vars
 import { API_TVSERIES } from "../constants";
 
 /**

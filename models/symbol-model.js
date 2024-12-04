@@ -1,3 +1,4 @@
+// pkgs
 import mongoose from "mongoose";
 
 const symbolSchema = mongoose.Schema({

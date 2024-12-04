@@ -1,16 +1,29 @@
-import { useHeadTags } from "../hooks/use-head-tags";
+// components
+import Form from "../components/form/form";
+import Loader from "../components/loader/loader";
+
+// react hooks
 import { useEffect, useState } from "react";
+
+// redux
 import {
   useUpdateOneTvseriesMutation,
   useGetOneTvseriesQuery,
 } from "../redux/api/tvseries-api-slice";
-import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
-import { useForm, FormProvider } from "react-hook-form";
+
+// react-router-dom lib
 import { useNavigate, useParams } from "react-router-dom";
+
+// react-hook-form lib
+import { useForm, FormProvider } from "react-hook-form";
+
+// lib/hooks
+import { useHeadTags } from "../hooks/use-head-tags";
+import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { resizeImage } from "../lib/resize-image";
 import { parseFormData, checkParsingError } from "../lib/parse-form-data";
-import Loader from "../components/loader/loader";
-import Form from "../components/form/form";
+
+// pkgs
 import toast from "react-hot-toast";
 
 /**

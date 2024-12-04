@@ -1,4 +1,7 @@
+// styles
 import styles from "./home-heading-one.module.scss";
+
+// icons
 import { GiNoodles } from "react-icons/gi";
 import { RiKnifeBloodLine } from "react-icons/ri";
 

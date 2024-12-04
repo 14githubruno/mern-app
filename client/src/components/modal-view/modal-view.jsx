@@ -1,6 +1,11 @@
+// styles
 import styles from "./modal-view.module.scss";
+
+// icons
 import { AiFillStar } from "react-icons/ai";
 import { LiaTimesSolid } from "react-icons/lia";
+
+// react lib
 import { memo } from "react";
 
 function ModalView({ title, stars, image, note, closeModalView }) {

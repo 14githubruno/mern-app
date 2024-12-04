@@ -1,12 +1,25 @@
-import { useHeadTags } from "../hooks/use-head-tags";
+// components
+import Form from "../components/form/form";
+
+// react lib
 import { useEffect } from "react";
-import { useForm, FormProvider } from "react-hook-form";
+
+// redux lib
 import { useSelector, useDispatch } from "react-redux";
 import { useLoginUserMutation } from "../redux/api/users-api-slice";
 import { setCredentials } from "../redux/features/auth/auth-slice";
+
+// react-router-dom lib
 import { useNavigate } from "react-router-dom";
+
+// react-hook-form lib
+import { useForm, FormProvider } from "react-hook-form";
+
+// lib
+import { useHeadTags } from "../hooks/use-head-tags";
 import { parseFormData, checkParsingError } from "../lib/parse-form-data";
-import Form from "../components/form/form";
+
+// pkgs
 import toast from "react-hot-toast";
 
 /**

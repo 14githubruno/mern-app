@@ -1,9 +1,20 @@
-import { useHeadTags } from "../hooks/use-head-tags";
-import { useNavigate } from "react-router-dom";
-import { useForm, FormProvider } from "react-hook-form";
-import { useForgotPasswordMutation } from "../redux/api/users-api-slice";
-import { parseFormData, checkParsingError } from "../lib/parse-form-data";
+// components
 import Form from "../components/form/form";
+
+// redux
+import { useForgotPasswordMutation } from "../redux/api/users-api-slice";
+
+// react-hook-form lib
+import { useForm, FormProvider } from "react-hook-form";
+
+// react-router-dom lib
+import { useNavigate } from "react-router-dom";
+
+// lib
+import { useHeadTags } from "../hooks/use-head-tags";
+import { parseFormData, checkParsingError } from "../lib/parse-form-data";
+
+// pkgs
 import toast from "react-hot-toast";
 
 /**

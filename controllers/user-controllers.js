@@ -1,8 +1,12 @@
+// pkgs
 import asyncHandler from "express-async-handler";
+
+// db models
 import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
 import Symbol from "../models/symbol-model.js";
-import { throwError } from "../lib/throw-error.js";
+
+// lib
 import { validate } from "../lib/validate-req-body.js";
 import { generateToken } from "../lib/generate-token.js";
 import { decodeToken } from "../lib/decode-token.js";
@@ -10,6 +14,7 @@ import { generateSecret } from "../lib/generate-secret.js";
 import { hashPassword } from "../lib/hash-password.js";
 import { comparePassword } from "../lib/compare-password.js";
 import { sendEmail } from "../config/email/send-email.js";
+import { throwError } from "../lib/throw-error.js";
 
 /**
  * @async

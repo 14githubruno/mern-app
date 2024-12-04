@@ -1,5 +1,8 @@
-import { Link } from "react-router-dom";
+// styles
 import styles from "./form-paragraph.module.scss";
+
+// react-router-dom components
+import { Link } from "react-router-dom";
 
 /**
  * FormParagraph component.

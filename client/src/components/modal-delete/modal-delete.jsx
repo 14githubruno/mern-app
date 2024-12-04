@@ -1,5 +1,8 @@
+// styles
 import styles from "./modal-delete.module.scss";
 import "./modal-delete.scss";
+
+// react lib
 import { memo } from "react";
 
 function ModalDelete({

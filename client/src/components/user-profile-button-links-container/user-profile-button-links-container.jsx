@@ -1,5 +1,10 @@
+// styles
 import styles from "./user-profile-button-links-container.module.scss";
+
+// react-router-dom lib
 import { Link } from "react-router-dom";
+
+// react lib
 import { memo } from "react";
 
 function UserProfileButtonLinksContainer({ toggleModalToDelete }) {

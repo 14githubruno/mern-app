@@ -1,5 +1,10 @@
+// pkgs
 import jwt from "jsonwebtoken";
+
+// db models
 import User from "../models/user-model.js";
+
+// lib
 import { throwError } from "../lib/throw-error.js";
 
 /**

@@ -1,3 +1,4 @@
+// pkgs
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
@@ -7,10 +8,12 @@ import cron from "node-cron";
 import helmet from "helmet";
 import compression from "compression";
 
+// lib
 import { connectDB } from "./config/db/connect-db.js";
 import { errorHandler } from "./middlewares/error-handler.js";
 import { deleteUnveriedUsers } from "./lib/delete-unverified-users.js";
 
+// routes
 import userRouter from "./routes/user-routes.js";
 import tvSeriesRouter from "./routes/tvseries-routes.js";
 

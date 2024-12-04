@@ -1,7 +1,12 @@
+// pkgs
 import nodemailer from "nodemailer";
+
+// db models
+import User from "../../models/user-model.js";
+
+// lib
 import { setEmailTransporterConfig } from "./set-email-transporter-config.js";
 import { throwError } from "../../lib/throw-error.js";
-import User from "../../models/user-model.js";
 
 /**
  * @async

@@ -1,5 +1,8 @@
+// styles
 import styles from "./home-television.module.scss";
 import "./home-television.scss";
+
+// components
 import Carousel from "../carousel/carousel";
 
 /**

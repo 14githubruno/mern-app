@@ -1,5 +1,10 @@
+// styles
 import styles from "./footer.module.scss";
+
+// icons
 import { PiGithubLogo } from "react-icons/pi";
+
+// react-router-dom components
 import { Link } from "react-router-dom";
 
 /**

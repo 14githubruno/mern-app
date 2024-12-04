@@ -1,6 +1,13 @@
+// styles
 import styles from "./searchbar.module.scss";
+
+// icons
 import { BsFillSearchHeartFill } from "react-icons/bs";
+
+// redux lib
 import { useSelector } from "react-redux";
+
+// react-hook-form lib
 import { useFormContext } from "react-hook-form";
 
 /**

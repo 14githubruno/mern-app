@@ -1,14 +1,27 @@
+// styles
 import styles from "./header.module.scss";
+
+// icons
 import { GiSouthKorea } from "react-icons/gi";
 import { BiUser } from "react-icons/bi";
 import { RxDashboard } from "react-icons/rx";
 import { RiProfileLine } from "react-icons/ri";
 import { IoIosLogOut } from "react-icons/io";
+
+// react lib
 import { useEffect, useRef } from "react";
+
+// react-router-dom lib
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
+
+// redux
 import { useSelector } from "react-redux";
 import { useLogoutUserMutation } from "../../redux/api/users-api-slice";
+
+// lib
 import { useResetApiAndUser } from "../../hooks/use-reset-api-and-user";
+
+// pkgs
 import toast from "react-hot-toast";
 
 /**

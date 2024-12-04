@@ -1,7 +1,16 @@
+// react lib
 import { useEffect } from "react";
+
+// redux lib
 import { useSelector } from "react-redux";
+
+// react-router-dom lib
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+
+// lib
 import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
+
+// pkgs
 import toast from "react-hot-toast";
 
 /**

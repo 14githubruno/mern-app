@@ -1,3 +1,4 @@
+// styles
 import styles from "./error-page-content.module.scss";
 
 /**

@@ -1,4 +1,7 @@
+// redux
 import { apiSlice } from "./api-slice";
+
+// glob vars
 import { API_USERS } from "../constants";
 
 /**

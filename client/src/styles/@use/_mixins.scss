@@ -1,5 +1,6 @@
 @use "@/z-index" as *;
 
+// mixins
 @mixin coverViewport() {
   width: 100vw;
   height: 100vh;

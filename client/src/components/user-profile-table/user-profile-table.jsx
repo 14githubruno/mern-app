@@ -1,4 +1,7 @@
+// styles
 import styles from "./user-profile-table.module.scss";
+
+// react lib
 import { memo } from "react";
 
 function UserProfileTable({ userData }) {

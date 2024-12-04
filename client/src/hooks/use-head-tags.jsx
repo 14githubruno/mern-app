@@ -1,6 +1,11 @@
-import { headTags } from "../data-content/head-tags-data";
-import { capitalize } from "../lib/capitalize-string";
+// react lib
 import { useEffect } from "react";
+
+// lib
+import { capitalize } from "../lib/capitalize-string";
+
+// content
+import { headTags } from "../data-content/head-tags-data";
 
 /**
  * useHeadTags custom hook.

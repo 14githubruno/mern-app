@@ -1,7 +1,10 @@
-import { useHeadTags } from "../hooks/use-head-tags";
-import ErrorPageContent from "../components/error-page-content/error-page-content";
+// components
 import Header from "../components/header/header";
+import ErrorPageContent from "../components/error-page-content/error-page-content";
 import Footer from "../components/footer/footer";
+
+// lib
+import { useHeadTags } from "../hooks/use-head-tags";
 
 /**
  * ErrorPage page component.

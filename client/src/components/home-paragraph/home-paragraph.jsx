@@ -1,4 +1,7 @@
+// styles
 import styles from "./home-paragraph.module.scss";
+
+// icons
 import { BsFillSuitHeartFill } from "react-icons/bs";
 
 /**

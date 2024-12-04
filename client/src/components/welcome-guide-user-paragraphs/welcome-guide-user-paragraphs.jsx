@@ -1,5 +1,10 @@
+// styles
 import styles from "./welcome-guide-user-paragraphs.module.scss";
+
+// react-router-dom lib
 import { Link } from "react-router-dom";
+
+// react lib
 import { memo } from "react";
 
 function WelcomeGuideUserParagraphs({ userLoggedIn, kreateTvseriesRoute }) {

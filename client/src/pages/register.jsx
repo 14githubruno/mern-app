@@ -1,11 +1,24 @@
-import { useHeadTags } from "../hooks/use-head-tags";
-import { useForm, FormProvider } from "react-hook-form";
-import { useRegisterUserMutation } from "../redux/api/users-api-slice";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { parseFormData, checkParsingError } from "../lib/parse-form-data";
+// components
 import Form from "../components/form/form";
+
+// react hooks
+import { useEffect } from "react";
+
+// redux
+import { useSelector } from "react-redux";
+import { useRegisterUserMutation } from "../redux/api/users-api-slice";
+
+// react-router-dom lib
+import { useNavigate } from "react-router-dom";
+
+// react-hook-form lib
+import { useForm, FormProvider } from "react-hook-form";
+
+// lib
+import { useHeadTags } from "../hooks/use-head-tags";
+import { parseFormData, checkParsingError } from "../lib/parse-form-data";
+
+// pkgs
 import toast from "react-hot-toast";
 
 /**

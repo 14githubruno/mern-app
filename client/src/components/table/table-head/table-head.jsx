@@ -1,4 +1,7 @@
+// styles
 import styles from "./table-head.module.scss";
+
+// react lib
 import { memo } from "react";
 
 /**

@@ -1,4 +1,6 @@
+// redux lib
 import { createSlice } from "@reduxjs/toolkit";
+
 /**
  * @typedef {Object} CurrentStateObject
  * @typedef {Object} ActionWithPayload

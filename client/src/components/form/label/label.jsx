@@ -1,4 +1,7 @@
+// styles
 import styles from "./label.module.scss";
+
+// icons
 import { TbTool } from "react-icons/tb";
 
 /**

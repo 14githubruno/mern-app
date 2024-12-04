@@ -1,4 +1,7 @@
+// styles
 import styles from "./textarea-chars.module.scss";
+
+// react-hook-form lib
 import { useFormContext, useWatch } from "react-hook-form";
 
 /**

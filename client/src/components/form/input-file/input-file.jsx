@@ -1,6 +1,11 @@
+// styles
 import styles from "./input-file.module.scss";
-import { useFormContext } from "react-hook-form";
+
+// components
 import Label from "../label/label";
+
+// react-hook-form lib
+import { useFormContext } from "react-hook-form";
 
 /**
  * InputFile component.

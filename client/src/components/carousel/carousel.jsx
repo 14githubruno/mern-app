@@ -1,6 +1,13 @@
+// styles
 import "./carousel.scss";
+
+// icons
 import { TfiControlForward, TfiControlBackward } from "react-icons/tfi";
+
+// react lib
 import { useCallback } from "react";
+
+// pkgs
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 

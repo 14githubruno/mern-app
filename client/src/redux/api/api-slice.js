@@ -1,4 +1,7 @@
+// redux toolkit lib
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+// glob vars
 import { BASE_URL } from "../constants";
 
 /**

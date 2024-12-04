@@ -1,6 +1,11 @@
+// pkgs
 import asyncHandler from "express-async-handler";
+
+// db models
 import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
+
+// lib
 import { throwError } from "../lib/throw-error.js";
 import { validate } from "../lib/validate-req-body.js";
 

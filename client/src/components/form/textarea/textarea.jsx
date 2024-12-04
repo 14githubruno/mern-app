@@ -1,7 +1,12 @@
+// styles
 import styles from "./textarea.module.scss";
-import { useFormContext } from "react-hook-form";
+
+// components
 import Label from "../label/label";
 import TextareaChars from "../textarea-chars/textarea-chars";
+
+// react-hook-form lib
+import { useFormContext } from "react-hook-form";
 
 /**
  * Textarea component.

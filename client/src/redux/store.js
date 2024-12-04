@@ -1,5 +1,8 @@
+// redux toolkit lib and slices
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
+
+// redux api slice and reducers
 import { apiSlice } from "./api/api-slice";
 import authReducer from "./features/auth/auth-slice";
 import tvseriesReducer from "./features/tvseries/tvseries-slice";

@@ -1,8 +1,17 @@
+// styles
 import styles from "./input-password.module.scss";
-import { RxEyeOpen, RxEyeNone } from "react-icons/rx";
-import { useState } from "react";
-import { useFormContext } from "react-hook-form";
+
+// components
 import Label from "../label/label";
+
+// icons
+import { RxEyeOpen, RxEyeNone } from "react-icons/rx";
+
+// react lib
+import { useState } from "react";
+
+// react-hook-form lib
+import { useFormContext } from "react-hook-form";
 
 /**
  * InputPassword component.

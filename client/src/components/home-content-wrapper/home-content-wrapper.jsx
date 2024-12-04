@@ -1,3 +1,4 @@
+// styles
 import styles from "./home-content-wrapper.module.scss";
 
 /**

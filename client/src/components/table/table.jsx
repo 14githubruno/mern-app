@@ -1,12 +1,23 @@
+// styles
 import styles from "./table.module.scss";
-import { PiMaskSadThin } from "react-icons/pi";
-import { RxEyeNone } from "react-icons/rx";
-import { useMemo } from "react";
-import { useSelector } from "react-redux";
-import { useFormContext, useWatch } from "react-hook-form";
+
+// components
 import TableHead from "./table-head/table-head";
 import TableRow from "./table-row/table-row";
 import Loader from "../loader/loader";
+
+// icons
+import { PiMaskSadThin } from "react-icons/pi";
+import { RxEyeNone } from "react-icons/rx";
+
+// react lib
+import { useMemo } from "react";
+
+// redux lib
+import { useSelector } from "react-redux";
+
+// react-hook-form lib
+import { useFormContext, useWatch } from "react-hook-form";
 
 /**
  * Table component.

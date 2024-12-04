@@ -1,4 +1,7 @@
+// styles
 import styles from "./form.module.scss";
+
+// components
 import InputText from "./input-text/input-text";
 import InputEmail from "./input-email/input-email";
 import InputPassword from "./input-password/input-password";
@@ -8,7 +11,11 @@ import Textarea from "./textarea/textarea";
 import FormButton from "./form-button/form-button";
 import FormLinkBack from "./form-link-back/form-link-back";
 import FormParagraph from "./form-paragraph/form-paragraph";
+
+// react-hook-form lib
 import { useFormContext } from "react-hook-form";
+
+// React lib
 import { Fragment } from "react";
 
 /**

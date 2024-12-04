@@ -1,3 +1,4 @@
+// styles
 import styles from "./loader.module.scss";
 
 /**
