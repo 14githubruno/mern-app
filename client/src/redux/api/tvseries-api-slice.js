@@ -22,7 +22,7 @@ import { API_TVSERIES } from "../constants";
  *   })
  * })
  *
- * // Export rtk hook base on endpoint from slice
+ * // Export rtk hook based on endpoint from slice
  * export const { useGetAllTvseriesQuery } = tvseriesApiSlice;
  *
  * @see {@link https://redux-toolkit.js.org/tutorials/rtk-query} for more info.
