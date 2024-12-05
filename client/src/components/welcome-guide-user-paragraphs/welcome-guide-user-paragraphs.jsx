@@ -27,11 +27,7 @@ function WelcomeGuideUserParagraphs({ userLoggedIn, kreateTvseriesRoute }) {
 /**
  * WelcomeGuideUserParagraphs component.
  *
- * It renders two paragraphs above the table and below the searchbar, in the dashboard page.
- *
- * (The first is a welcome message to the logged in user; the second one provides a link to the create tvseries page)
- *
- * (Each tvseries created will be a TableRow in the Table)
+ * It renders two paragraphs above Table and below Searchbar components, in the Dashboard page.
  *
  * @param {Object} props - The properties passed to the component.
  * @param {string} props.userLoggedIn - The name of the logged in user.
