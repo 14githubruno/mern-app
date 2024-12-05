@@ -1,21 +1,42 @@
-import { useHeadTags } from "../hooks/use-head-tags";
-import { useEffect, useState, useRef, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useForm, FormProvider } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import {
-  useGetAllTvseriesQuery,
-  useDeleteOneTvseriesMutation,
-} from "../redux/api/tvseries-api-slice";
-import { setTvseries } from "../redux/features/tvseries/tvseries-slice";
-import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
+// components
 import Searchbar from "../components/searchbar/searchbar";
 import WelcomeGuideUserParagraphs from "../components/welcome-guide-user-paragraphs/welcome-guide-user-paragraphs";
 import Table from "../components/table/table";
 import ModalDelete from "../components/modal-delete/modal-delete";
 import ModalView from "../components/modal-view/modal-view";
+
+// react lib
+import { useEffect, useState, useRef, useCallback } from "react";
+
+// react-hook-form lib
+import { useForm, FormProvider } from "react-hook-form";
+
+// react-router-dom lib
+import { useNavigate } from "react-router-dom";
+
+// redux lib
+import { useSelector, useDispatch } from "react-redux";
+import {
+  useGetAllTvseriesQuery,
+  useDeleteOneTvseriesMutation,
+} from "../redux/api/tvseries-api-slice";
+import { setTvseries } from "../redux/features/tvseries/tvseries-slice";
+
+// custom lib
+import { useHeadTags } from "../hooks/use-head-tags";
+import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
+
+// pkgs
 import toast from "react-hot-toast";
 
+/**
+ * Dashboard page component.
+ *
+ * This is the user dashboard, where tvseries are displayed in the table as table rows.
+ * From here user can perform CRUD operations on tvseries.
+ *
+ * @returns {JSX.Element} The rendered Dashboard page component.
+ */
 export default function Dashboard() {
   const [tableRowToDelete, setTableRowToDelete] = useState(null);
   const [modalViewIsOpen, setModalViewIsOpen] = useState(false);
@@ -123,11 +144,12 @@ export default function Dashboard() {
       />
       <FormProvider {...methods}>
         <Table
-          contentIsLoading={isLoading || isFetching}
-          contentIsBeingDeleted={isDeleting}
-          toggleModalToDelete={toggleModalToDelete}
-          selectTableRowToDelete={selectTableRowToDelete}
-          showTableRowInModalView={showTableRowInModalView}
+          contentIsLoading={isLoading || isFetching || isDeleting}
+          tableRowActions={{
+            toggleModalToDelete,
+            selectTableRowToDelete,
+            showTableRowInModalView,
+          }}
         />
       </FormProvider>
     </section>

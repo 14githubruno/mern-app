@@ -1,11 +1,29 @@
-import { useHeadTags } from "../hooks/use-head-tags";
-import { useNavigate } from "react-router-dom";
-import { useForm, FormProvider } from "react-hook-form";
-import { useForgotPasswordMutation } from "../redux/api/users-api-slice";
-import { parseFormData, checkParsingError } from "../lib/parse-form-data";
+// components
 import Form from "../components/form/form";
+
+// redux
+import { useForgotPasswordMutation } from "../redux/api/users-api-slice";
+
+// react-hook-form lib
+import { useForm, FormProvider } from "react-hook-form";
+
+// react-router-dom lib
+import { useNavigate } from "react-router-dom";
+
+// lib
+import { useHeadTags } from "../hooks/use-head-tags";
+import { parseFormData, checkParsingError } from "../lib/parse-form-data";
+
+// pkgs
 import toast from "react-hot-toast";
 
+/**
+ * ForgotPassword page component.
+ *
+ * This page contains the form to allow user send email to reset password.
+ *
+ * @returns {JSX.Element} The rendered ForgotPassword page component.
+ */
 export default function ForgotPassword() {
   const navigate = useNavigate();
   const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
@@ -51,6 +69,13 @@ export default function ForgotPassword() {
             textOnLoading: "Sending...",
             text: "Send",
           }}
+          formParagraphArrayProps={[
+            {
+              paragraphText: "Remember your password?",
+              linkText: "Log in",
+              linkHref: "/login",
+            },
+          ]}
         />
       </FormProvider>
     </section>

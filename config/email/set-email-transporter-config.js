@@ -1,3 +1,9 @@
+/**
+ * @function
+ * Set Nodemailer transporter config.
+ *
+ * @returns {Object} Nodemailer transporter config object.
+ */
 const setEmailTransporterConfig = () => {
   const transporterConfig = {
     service: process.env.MAIL_SERVICE,

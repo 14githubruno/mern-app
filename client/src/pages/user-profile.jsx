@@ -1,20 +1,41 @@
-import { useHeadTags } from "../hooks/use-head-tags";
-import { useNavigate } from "react-router-dom";
-import {
-  useGetUserProfileQuery,
-  useDeleteUserProfileMutation,
-} from "../redux/api/users-api-slice";
-import { useSelector } from "react-redux";
-import { useGetAllTvseriesQuery } from "../redux/api/tvseries-api-slice";
-import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
-import { useCallback, useRef } from "react";
-import toast from "react-hot-toast";
+// components
 import Loader from "../components/loader/loader";
 import ModalDelete from "../components/modal-delete/modal-delete";
 import UserProfileTable from "../components/user-profile-table/user-profile-table";
 import UserProfileParagraph from "../components/user-profile-paragraph/user-profile-paragraph";
 import UserProfileButtonLinksContainer from "../components/user-profile-button-links-container/user-profile-button-links-container";
 
+// react
+import { useCallback, useRef } from "react";
+
+// redux
+import { useSelector } from "react-redux";
+import { useGetAllTvseriesQuery } from "../redux/api/tvseries-api-slice";
+import {
+  useGetUserProfileQuery,
+  useDeleteUserProfileMutation,
+} from "../redux/api/users-api-slice";
+
+// react-router-dom
+import { useNavigate } from "react-router-dom";
+
+// lib/hooks
+import { useHeadTags } from "../hooks/use-head-tags";
+import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
+
+// other pkgs
+import toast from "react-hot-toast";
+
+/**
+ * UserProfile page component.
+ *
+ * This page displays an overview table containing user data.
+ *
+ * (Only name, email and number of associated tvseries is displayed.
+ * Password, then, is not shown.)
+ *
+ * @returns {JSX.Element} The rendered UserProfile page component.
+ */
 export default function UserProfile() {
   const navigate = useNavigate();
   const resetAll = useResetApiAndUser();

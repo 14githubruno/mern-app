@@ -1,5 +1,10 @@
+// pkgs
 import express from "express";
+
+// controllers obj
 import { userCtrl } from "../controllers/user-controllers.js";
+
+// middlewares
 import { protect } from "../middlewares/protect.js";
 import { limiter } from "../middlewares/limiter.js";
 

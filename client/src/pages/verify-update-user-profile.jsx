@@ -1,17 +1,41 @@
-import { useHeadTags } from "../hooks/use-head-tags";
-import { useParams, useNavigate } from "react-router-dom";
-import { useForm, FormProvider } from "react-hook-form";
+// components
+import Form from "../components/form/form";
+
+// react
 import { useEffect } from "react";
+
+// redux
+import { useDispatch } from "react-redux";
+import { apiSlice } from "../redux/api/api-slice";
 import {
   useVerifyUpdateUserProfileMutation,
   useVerifyTokenQuery,
 } from "../redux/api/users-api-slice";
+
+// react-router-dom
+import { useParams, useNavigate } from "react-router-dom";
+
+// react-hook-form
+import { useForm, FormProvider } from "react-hook-form";
+
+// lib
+import { useHeadTags } from "../hooks/use-head-tags";
 import { parseFormData, checkParsingError } from "../lib/parse-form-data";
-import { apiSlice } from "../redux/api/api-slice";
-import { useDispatch } from "react-redux";
-import Form from "../components/form/form";
+
+// other pkgs
 import toast from "react-hot-toast";
 
+/**
+ * VerifyUpdateUserProfile page component.
+ *
+ * This page allows user to confirm personal data update performed through the UpdateUserProfile page.
+ *
+ * (After having updated personal data through UpdateUserProfile page form, user receives a secret code
+ * to the new/same email of the account. The code needs to be sent back to confirm the update: here user can
+ * perform the latter. Also param token will be used to confirm the update.)
+ *
+ * @returns {JSX.Element} The rendered VerifyUpdateUserProfile page component.
+ */
 export default function VerifyUpdateUserProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();

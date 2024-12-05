@@ -1,9 +1,26 @@
+// styles
 import "./carousel.scss";
+
+// icons
 import { TfiControlForward, TfiControlBackward } from "react-icons/tfi";
+
+// react lib
 import { useCallback } from "react";
+
+// pkgs
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
+/**
+ * Carousel component.
+ *
+ * It displays a carousel of images with prev/next buttons.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {Array<object>} props.images - An array of image objects. Each object has URL and alt text.
+ *
+ * @returns {JSX.Element} The rendered Carousel component.
+ */
 export default function Carousel({ images }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()]);
 

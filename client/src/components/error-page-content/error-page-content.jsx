@@ -1,11 +1,16 @@
+// styles
 import styles from "./error-page-content.module.scss";
-import Header from "../header/header";
-import Footer from "../footer/footer";
 
+/**
+ * ErrorPageContent component.
+ *
+ * It renders the main content of the error page, with an error message.
+ *
+ * @returns {JSX.Element} The rendered ErrorPageContent component.
+ */
 export default function ErrorPageContent() {
   return (
     <main>
-      <Header replace={true} />
       <section>
         <header>
           <h1 className={styles.headingOne}>
@@ -13,7 +18,6 @@ export default function ErrorPageContent() {
           </h1>
         </header>
       </section>
-      <Footer />
     </main>
   );
 }

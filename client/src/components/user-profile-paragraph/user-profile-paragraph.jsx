@@ -1,6 +1,16 @@
+// styles
 import styles from "./user-profile-paragraph.module.scss";
+
+// react lib
 import { memo } from "react";
 
+/**
+ * UserProfileParagraph component.
+ *
+ * It renders the paragraph displayed below the user table, in the user profile page.
+ *
+ * @returns {JSX.Element} The rendered UserProfileParagraph component.
+ */
 function UserProfileParagraph() {
   return (
     <p className={styles.userProfileParagraph}>

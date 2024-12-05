@@ -1,14 +1,34 @@
-import { useHeadTags } from "../hooks/use-head-tags";
+// components
+import Form from "../components/form/form";
+
+// react lib
 import { useEffect } from "react";
-import { useForm, FormProvider } from "react-hook-form";
+
+// redux lib
 import { useSelector, useDispatch } from "react-redux";
 import { useLoginUserMutation } from "../redux/api/users-api-slice";
 import { setCredentials } from "../redux/features/auth/auth-slice";
+
+// react-router-dom lib
 import { useNavigate } from "react-router-dom";
+
+// react-hook-form lib
+import { useForm, FormProvider } from "react-hook-form";
+
+// lib
+import { useHeadTags } from "../hooks/use-head-tags";
 import { parseFormData, checkParsingError } from "../lib/parse-form-data";
-import Form from "../components/form/form";
+
+// pkgs
 import toast from "react-hot-toast";
 
+/**
+ * Login page component.
+ *
+ * This page contains the form to log in user in the web app.
+ *
+ * @returns {JSX.Element} The rendered Login page component.
+ */
 export default function Login() {
   const methods = useForm({
     defaultValues: {
@@ -67,6 +87,18 @@ export default function Login() {
             textOnLoading: "Logging in...",
             text: "Log in",
           }}
+          formParagraphArrayProps={[
+            {
+              paragraphText: "Don't have an akkount?",
+              linkText: "Register one",
+              linkHref: "/register",
+            },
+            {
+              paragraphText: "Forgot your password?",
+              linkText: "Rekover it",
+              linkHref: "/forgot-password",
+            },
+          ]}
         />
       </FormProvider>
     </section>

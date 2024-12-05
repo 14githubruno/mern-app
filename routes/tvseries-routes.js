@@ -1,5 +1,10 @@
+// pkgs
 import express from "express";
+
+// controllers obj
 import { tvSeriesCtrl } from "../controllers/tvseries-controllers.js";
+
+// middlewares
 import { protect } from "../middlewares/protect.js";
 import { limiter } from "../middlewares/limiter.js";
 

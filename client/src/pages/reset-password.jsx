@@ -1,17 +1,37 @@
-import { useHeadTags } from "../hooks/use-head-tags";
-import { useParams, useNavigate } from "react-router-dom";
-import { useForm, FormProvider } from "react-hook-form";
+// components
+import Form from "../components/form/form";
+
+// react lib
 import { useEffect } from "react";
+
+// redux
+import { useDispatch } from "react-redux";
+import { apiSlice } from "../redux/api/api-slice";
 import {
   useResetPasswordMutation,
   useVerifyTokenQuery,
 } from "../redux/api/users-api-slice";
+
+// react-router-dom lib
+import { useParams, useNavigate } from "react-router-dom";
+
+// react-hook-form lib
+import { useForm, FormProvider } from "react-hook-form";
+
+// lib
+import { useHeadTags } from "../hooks/use-head-tags";
 import { parseFormData, checkParsingError } from "../lib/parse-form-data";
-import { apiSlice } from "../redux/api/api-slice";
-import { useDispatch } from "react-redux";
-import Form from "../components/form/form";
+
+// pkgs
 import toast from "react-hot-toast";
 
+/**
+ * ResetPassword page component.
+ *
+ * This page contains the form to allow user to complete password reset.
+ *
+ * @returns {JSX.Element} The rendered ResetPassword page component.
+ */
 export default function ResetPassword() {
   const dispatch = useDispatch();
   const navigate = useNavigate();

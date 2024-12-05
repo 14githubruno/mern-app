@@ -1,10 +1,39 @@
+// styles
 import styles from "./table-row.module.scss";
+
+// icons
 import { AiFillStar } from "react-icons/ai";
 import { RxPencil1, RxMagnifyingGlass, RxTrash } from "react-icons/rx";
-import { Link } from "react-router-dom";
+
+// react lib
 import { memo } from "react";
+
+// react-router-dom lib
+import { Link } from "react-router-dom";
+
+// react-hook-form lib
 import { useFormContext, useWatch } from "react-hook-form";
 
+/**
+ * TableRow component.
+ *
+ * It renders a single row in the dashboard table, displaying details of a single tvseries.
+ *
+ * (It also allows read, update and delete a single tvseries)
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {number} props.num - The row number.
+ * @param {string} props.id - The unique ID of the single tvseries.
+ * @param {string} props.title - The title of the single tvseries.
+ * @param {number} props.stars - The star rating of the single tvseries.
+ * @param {string} props.image - The URL of the single tvseries image.
+ * @param {string} props.note - The note on the single tvseries.
+ * @param {function} props.toggleModalToDelete - A function to toggle the modal delete visibility.
+ * @param {function} props.selectTableRowToDelete - A function to select the single tvseries to be deleted.
+ * @param {function} props.showTableRowInModalView - A function to select and display the single tvseries' details in a modal.
+ *
+ * @returns {JSX.Element} The rendered TableRow component.
+ */
 function TableRow({
   num,
   id,
@@ -78,7 +107,7 @@ function TableRow({
         <span
           role="button"
           className={styles.iconView}
-          onClick={showTableRowInModalView}
+          onClick={() => showTableRowInModalView(id)}
         >
           <RxMagnifyingGlass
             aria-label="magnifying glass icon"
@@ -96,7 +125,7 @@ function TableRow({
           className={styles.iconTrash}
           onClick={() => {
             toggleModalToDelete();
-            selectTableRowToDelete();
+            selectTableRowToDelete(id);
           }}
         >
           <RxTrash aria-label="trash delete icon" className={styles.icon} />

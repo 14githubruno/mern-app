@@ -1,17 +1,41 @@
-import { useHeadTags } from "../hooks/use-head-tags";
-import { useParams, useNavigate } from "react-router-dom";
-import { useForm, FormProvider } from "react-hook-form";
+// components
+import Form from "../components/form/form";
+
+// react
 import { useEffect } from "react";
+
+// redux
+import { useDispatch } from "react-redux";
+import { apiSlice } from "../redux/api/api-slice";
 import {
   useVerifyPasswordSecretMutation,
   useVerifyTokenQuery,
 } from "../redux/api/users-api-slice";
+
+// react-router-dom
+import { useParams, useNavigate } from "react-router-dom";
+
+// react-hook-form
+import { useForm, FormProvider } from "react-hook-form";
+
+// lib
+import { useHeadTags } from "../hooks/use-head-tags";
 import { parseFormData, checkParsingError } from "../lib/parse-form-data";
-import { apiSlice } from "../redux/api/api-slice";
-import { useDispatch } from "react-redux";
-import Form from "../components/form/form";
+
+// other pkgs
 import toast from "react-hot-toast";
 
+/**
+ * VerifyPasswordSecret page component.
+ *
+ * This page contains the form to allow user to send back the secret code sent by the web app.
+ *
+ * (After having sent the email through ForgotPassword page form, user receives
+ * a secret code to that email, if valid, to be sent back. In this page user can perform the latter: then, if there is a match between codes [and tokens, handled through params],
+ * user is redirected to ResetPassword page to complete the password reset.
+ *
+ * @returns {JSX.Element} The rendered VerifyPasswordSecret page component.
+ */
 export default function VerifyPasswordSecret() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -71,6 +95,13 @@ export default function VerifyPasswordSecret() {
             textOnLoading: "Verifying...",
             text: "Verify",
           }}
+          formParagraphArrayProps={[
+            {
+              paragraphText: "Remember your password?",
+              linkText: "Log in",
+              linkHref: "/login",
+            },
+          ]}
         />
       </FormProvider>
     </section>

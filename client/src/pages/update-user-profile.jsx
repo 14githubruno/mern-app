@@ -1,20 +1,41 @@
-import { useHeadTags } from "../hooks/use-head-tags";
-import { useDispatch } from "react-redux";
+// components
+import Form from "../components/form/form";
+import Loader from "../components/loader/loader";
+
+// react
+import { useEffect } from "react";
+
+// redux
+import { useSelector, useDispatch } from "react-redux";
 import { setOnlyCredentialsUser } from "../redux/features/auth/auth-slice";
 import {
   useUpdateUserProfileMutation,
   useGetUserProfileQuery,
 } from "../redux/api/users-api-slice";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
-import { useForm, FormProvider } from "react-hook-form";
+
+// react-router-dom lib
 import { useNavigate } from "react-router-dom";
+
+// react-hook-form lib
+import { useForm, FormProvider } from "react-hook-form";
+
+// lib/hooks
+import { useHeadTags } from "../hooks/use-head-tags";
+import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
 import { parseFormData, checkParsingError } from "../lib/parse-form-data";
-import Form from "../components/form/form";
-import Loader from "../components/loader/loader";
+
+// other pkgs
 import toast from "react-hot-toast";
 
+/**
+ * UpdateUserProfile page component.
+ *
+ * Here user can modify personal data such as name and email.
+ *
+ * User can also modify the password.
+ *
+ * @returns {JSX.Element} The rendered UpdateUserProfile page component.
+ */
 export default function UpdateUserProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -82,6 +103,7 @@ export default function UpdateUserProfile() {
               textOnLoading: "Updating...",
               text: "Update",
             }}
+            formLinkHrefToGoBack="/profile"
           />
         </FormProvider>
       ) : (

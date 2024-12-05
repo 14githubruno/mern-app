@@ -1,6 +1,16 @@
+// styles
 import styles from "./home-paragraph.module.scss";
+
+// icons
 import { BsFillSuitHeartFill } from "react-icons/bs";
 
+/**
+ * HomeParagraph component.
+ *
+ * It renders the paragraph of the homepage.
+ *
+ * @returns {JSX.Element} The rendered HomeParagraph component.
+ */
 export default function HomeParagraph() {
   return (
     <p className={styles.homeParagraph}>

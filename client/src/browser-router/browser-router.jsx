@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+// components
 import App from "../App";
 import PrivateRoute from "../components/private-route";
 import ErrorPage from "../pages/error-page";
@@ -16,6 +16,17 @@ import VerifyUpdateUserProfile from "../pages/verify-update-user-profile";
 import CreateTvseries from "../pages/create-tvseries";
 import UpdateTvseries from "../pages/update-tvseries";
 
+// react-router-dom lib
+import { createBrowserRouter } from "react-router-dom";
+
+/**
+ * @constant
+ * browserRouter configuration object.
+ *
+ * It defines the routes of the web app.
+ *
+ * @returns {Object} The browserRouter configuration object.
+ */
 const browserRouter = createBrowserRouter([
   {
     path: "/",

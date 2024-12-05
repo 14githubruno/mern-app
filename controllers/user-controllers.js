@@ -1,8 +1,12 @@
+// pkgs
 import asyncHandler from "express-async-handler";
+
+// db models
 import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
 import Symbol from "../models/symbol-model.js";
-import { throwError } from "../lib/throw-error.js";
+
+// lib
 import { validate } from "../lib/validate-req-body.js";
 import { generateToken } from "../lib/generate-token.js";
 import { decodeToken } from "../lib/decode-token.js";
@@ -10,10 +14,25 @@ import { generateSecret } from "../lib/generate-secret.js";
 import { hashPassword } from "../lib/hash-password.js";
 import { comparePassword } from "../lib/compare-password.js";
 import { sendEmail } from "../config/email/send-email.js";
+import { throwError } from "../lib/throw-error.js";
 
-// @desc    Register new user
-// @route   POST /api/users/register
-// @access  Public
+/**
+ * @async
+ * @function
+ * Controller to register a new user
+ *
+ * POST /api/users/register
+ *
+ * Public route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const registerUser = asyncHandler(async (req, res) => {
   const parsedData = await validate(res, "register-user", req.body);
   const { name, email, password } = parsedData;
@@ -58,9 +77,29 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    verify symbol (verify user)
-// @route   GET /api/users/verify/:token || GET /api/users/verify-password-secret/:token || GET /api/users/reset-password/:token || /api/users/profile/verify/:token
-// @access  Public
+/**
+ * @async
+ * @function
+ * Controller to verify if token exists or expired
+ *
+ * GET /api/users/verify/:token
+ *
+ * GET /api/users/verify-password-secret/:token
+ *
+ * GET /api/users/reset-password/:token
+ *
+ * GET /api/users/profile/verify/:token
+ *
+ * Public routes
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const verifyToken = asyncHandler(async (req, res) => {
   const token = req.params.token;
 
@@ -75,9 +114,23 @@ const verifyToken = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    verify symbol (verify user)
-// @route   PATCH /api/users/verify/:token
-// @access  Public
+/**
+ * @async
+ * @function
+ * Controller to verify user and confirm registration
+ *
+ * PATCH /api/users/verify/:token
+ *
+ * Public route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const verifyUser = asyncHandler(async (req, res) => {
   const token = req.params.token;
 
@@ -124,9 +177,23 @@ const verifyUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Auth the user and generate token
-// @route   POST /api/users/login
-// @access  Public
+/**
+ * @async
+ * @function
+ * Controller to log in and authorize user
+ *
+ * POST /api/users/login
+ *
+ * Public route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const loginUser = asyncHandler(async (req, res) => {
   const parsedData = await validate(res, "login-user", req.body);
   const { email, password } = parsedData;
@@ -167,9 +234,23 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    send email to restore password
-// @route   POST /api/users/forgot-password
-// @access  Public
+/**
+ * @async
+ * @function
+ * Controller to start password resetting
+ *
+ * POST /api/users/forgot-password
+ *
+ * Public route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const forgotPassword = asyncHandler(async (req, res) => {
   const parsedData = await validate(res, "check-email", req.body);
   const { email } = parsedData;
@@ -207,9 +288,23 @@ const forgotPassword = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    verify code password
-// @route   PATCH /api/users/verify-password-secret/:token
-// @access  Public
+/**
+ * @async
+ * @function
+ * Controller to verify password secret code
+ *
+ * PATCH /api/users/verify-password-secret/:token
+ *
+ * Public route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const verifyPasswordSecret = asyncHandler(async (req, res) => {
   const token = req.params.token;
 
@@ -251,9 +346,23 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    reset password
-// @route   PATCH /api/users/reset-password/:token
-// @access  Public
+/**
+ * @async
+ * @function
+ * Controller to complete password resetting
+ *
+ * PATCH /api/users/reset-password/:token
+ *
+ * Public route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const resetPassword = asyncHandler(async (req, res) => {
   const token = req.params.token;
 
@@ -291,9 +400,23 @@ const resetPassword = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    logout
-// @route   POST /api/users/logout
-// @access  Private
+/**
+ * @async
+ * @function
+ * Controller to logout user and clear authorization cookie
+ *
+ * POST /api/users/logout
+ *
+ * Private route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const logoutUser = asyncHandler(async (req, res) => {
   const currentUser = req.user;
 
@@ -307,9 +430,23 @@ const logoutUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Get user profile
-// @route   GET /api/users/profile
-// @access  Private
+/**
+ * @async
+ * @function
+ * Controller to get user data (no password)
+ *
+ * GET /api/users/profile
+ *
+ * Private route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const getUserProfile = asyncHandler(async (req, res) => {
   const currentUser = req.user;
 
@@ -325,9 +462,23 @@ const getUserProfile = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc    Update user data
-// @route   PATCH /api/users/profile/:id
-// @access  Private
+/**
+ * @async
+ * @function
+ * Controller to update user data
+ *
+ * PATCH /api/users/profile/:id
+ *
+ * Private route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const updateUserProfile = asyncHandler(async (req, res) => {
   const currentUser = req.user;
 
@@ -386,9 +537,23 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    verify symbol (verify user)
-// @route   PATCH /api/users/profile/verify/:token
-// @access  Private
+/**
+ * @async
+ * @function
+ * Controller to confirm user data updates
+ *
+ * PATCH /api/users/profile/verify/:token
+ *
+ * Private route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
   const token = req.params.token;
 
@@ -435,9 +600,25 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Delete user's profile and tvseries
-// @route   DELETE /api/users/profile/:id
-// @access  Private
+/**
+ * @async
+ * @function
+ * Controller to delete user account
+ *
+ * (if user has tvseries, delete them too)
+ *
+ * DELETE /api/users/profile/:id
+ *
+ * Private route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
+ */
 const deleteUserProfile = asyncHandler(async (req, res) => {
   const currentUser = req.user;
   const id = req.params.id;
@@ -477,6 +658,28 @@ const deleteUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+/**
+ * @typedef {Object} UserController
+ * @property {Function} registerUser - {@link registerUser}
+ * @property {Function} verifyToken - {@link verifyToken}
+ * @property {Function} verifyUser - {@link verifyUser}
+ * @property {Function} loginUser - {@link loginUser}
+ * @property {Function} forgotPassword - {@link forgotPassword}
+ * @property {Function} verifyPasswordSecret - {@link verifyPasswordSecret}
+ * @property {Function} resetPassword - {@link resetPassword}
+ * @property {Function} logoutUser - {@link logoutUser}
+ * @property {Function} getUserProfile - {@link getUserProfile}
+ * @property {Function} updateUserProfile - {@link updateUserProfile}
+ * @property {Function} verifyUpdateUserProfile - {@link verifyUpdateUserProfile}
+ * @property {Function} deleteUserProfile - {@link deleteUserProfile}
+ */
+
+/**
+ * @constant
+ * User object storing user-related controllers.
+ *
+ * @type {UserController}
+ */
 export const userCtrl = {
   registerUser,
   verifyToken,

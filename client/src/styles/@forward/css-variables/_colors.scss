@@ -1,4 +1,5 @@
 :root {
+  // base colors
   --white-color: #f5f5f5;
   --black-color: #0e0d0d;
   --dark-color: #07081f;
@@ -15,12 +16,14 @@
   --dark-purple-color: #3c114f;
   --light-purple-color: #61578d;
 
+  // color transparencies
   --white-transparency: #fcf8f8da;
   --grey-transparency: #f5f5f574;
   --dark-blue-transparency: #15243274;
   --pink-opaque-color: #d21ad57e;
   --purple-opaque-color: #e142d757;
 
+  // gradients
   --purple-gradient: linear-gradient(var(--pink-color), var(--dark-pink-color));
   --pink-blue-gradient: linear-gradient(
     to right,
@@ -38,6 +41,7 @@
     var(--white-color)
   );
 
+  // app bg color and gradient
   --bg-color: var(--darker-color);
   --bg-image: radial-gradient(
       400% 90% at -190% 120%,

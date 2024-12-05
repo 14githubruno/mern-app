@@ -1,4 +1,7 @@
+// styles
 import styles from "./form.module.scss";
+
+// components
 import InputText from "./input-text/input-text";
 import InputEmail from "./input-email/input-email";
 import InputPassword from "./input-password/input-password";
@@ -8,14 +11,37 @@ import Textarea from "./textarea/textarea";
 import FormButton from "./form-button/form-button";
 import FormLinkBack from "./form-link-back/form-link-back";
 import FormParagraph from "./form-paragraph/form-paragraph";
+
+// react-hook-form lib
 import { useFormContext } from "react-hook-form";
+
+// React lib
 import { Fragment } from "react";
 
+/**
+ * Form component.
+ *
+ * It renders all the forms of the web app.
+ *
+ * (It renders all the child components needed to create the form, i.e. InputEmail, InputPassword and FormButton for a login form)
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.typeOfForm - The type of form to be rendered (i.e. login form, create tvseries form etc).
+ * @param {function} props.onSubmit - The function to be called on form submit.
+ * @param {object} props.formButtonProps - The props to be passed to FormButton component.
+ * @param {object} [props.inputFileProps=null] - The props to be passed to InputFile component is provided. Defaults to null.
+ * @param {Array<object>} [props.formParagraphArrayProps=[]] - Array of objects with props. Each obj has the props to be passed to a FormParagraph component instance. Defaults to empty array.
+ * @param {string} [props.formLinkHrefToGoBack=""] - The link href to allow user to go back to previous page. Defaults to empty string.
+ *
+ * @returns {JSX.Element} The rendered Form component.
+ */
 export default function Form({
   typeOfForm,
   onSubmit,
-  inputFileProps = null,
   formButtonProps,
+  inputFileProps = null,
+  formParagraphArrayProps = [],
+  formLinkHrefToGoBack = "",
 }) {
   const { handleSubmit } = useFormContext();
 
@@ -28,11 +54,10 @@ export default function Form({
           <InputEmail name={"email"} />
           <InputPassword name={"password"} />
           <FormButton {...formButtonProps} />
-          <FormParagraph
-            paragraphText="Already have an akkount?"
-            linkText="Log in"
-            linkHref="/login"
-          />
+          {formParagraphArrayProps &&
+            formParagraphArrayProps.map((objWithProps) => {
+              return <FormParagraph {...objWithProps} />;
+            })}
         </Fragment>
       );
       break;
@@ -50,16 +75,10 @@ export default function Form({
           <InputEmail name={"email"} />
           <InputPassword name={"password"} />
           <FormButton {...formButtonProps} />
-          <FormParagraph
-            paragraphText="Don't have an akkount?"
-            linkText="Register one"
-            linkHref="/register"
-          />
-          <FormParagraph
-            paragraphText="Forgot your password?"
-            linkText="Rekover it"
-            linkHref="/forgot-password"
-          />
+          {formParagraphArrayProps &&
+            formParagraphArrayProps.map((objWithProps) => {
+              return <FormParagraph {...objWithProps} />;
+            })}
         </Fragment>
       );
       break;
@@ -68,11 +87,10 @@ export default function Form({
         <Fragment>
           <InputEmail name={"email"} />
           <FormButton {...formButtonProps} />
-          <FormParagraph
-            paragraphText="Remember your password?"
-            linkText="Log in"
-            linkHref="/login"
-          />
+          {formParagraphArrayProps &&
+            formParagraphArrayProps.map((objWithProps) => {
+              return <FormParagraph {...objWithProps} />;
+            })}
         </Fragment>
       );
       break;
@@ -81,11 +99,10 @@ export default function Form({
         <Fragment>
           <InputText name={"secret"} />
           <FormButton {...formButtonProps} />
-          <FormParagraph
-            paragraphText="Remember your password?"
-            linkText="Log in"
-            linkHref="/login"
-          />
+          {formParagraphArrayProps &&
+            formParagraphArrayProps.map((objWithProps) => {
+              return <FormParagraph {...objWithProps} />;
+            })}
         </Fragment>
       );
       break;
@@ -107,7 +124,9 @@ export default function Form({
             placeholder={"Enter current or new password"}
           />
           <FormButton {...formButtonProps} />
-          <FormLinkBack linkHref={"/profile"} />
+          {formLinkHrefToGoBack && (
+            <FormLinkBack linkHref={formLinkHrefToGoBack} />
+          )}
         </Fragment>
       );
       break;
@@ -127,7 +146,9 @@ export default function Form({
           <InputFile {...inputFileProps} />
           <Textarea />
           <FormButton {...formButtonProps} />
-          <FormLinkBack linkHref={"/dashboard"} />
+          {formLinkHrefToGoBack && (
+            <FormLinkBack linkHref={formLinkHrefToGoBack} />
+          )}
         </Fragment>
       );
     case "update tvseries":
@@ -138,7 +159,9 @@ export default function Form({
           <InputFile {...inputFileProps} />
           <Textarea />
           <FormButton {...formButtonProps} />
-          <FormLinkBack linkHref={"/dashboard"} />
+          {formLinkHrefToGoBack && (
+            <FormLinkBack linkHref={formLinkHrefToGoBack} />
+          )}
         </Fragment>
       );
   }

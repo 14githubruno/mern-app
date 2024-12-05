@@ -1,6 +1,13 @@
+// pkgs
 import Resizer from "react-image-file-resizer";
 import toast from "react-hot-toast";
 
+/**
+ * @constant
+ * Object containing image file extensions.
+ *
+ * @type {{ JPEG: string; JPG: string; PNG: string; WEBP: string; }}
+ */
 const imgExt = {
   JPEG: "JPEG",
   JPG: "JPG",
@@ -8,6 +15,15 @@ const imgExt = {
   WEBP: "WEBP",
 };
 
+/**
+ * @async
+ * @function
+ * Resize uploaded image.
+ *
+ * @param {File} img - The image file to resize.
+ *
+ * @returns {Promise<Base64>} A promise that resolves with a Base64-encoded string of the image.
+ */
 const resizeImage = (img) => {
   return new Promise((resolve, reject) => {
     const { JPEG, JPG, PNG, WEBP } = imgExt;

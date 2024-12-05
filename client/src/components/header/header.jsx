@@ -1,16 +1,41 @@
+// styles
 import styles from "./header.module.scss";
+
+// icons
 import { GiSouthKorea } from "react-icons/gi";
 import { BiUser } from "react-icons/bi";
 import { RxDashboard } from "react-icons/rx";
 import { RiProfileLine } from "react-icons/ri";
 import { IoIosLogOut } from "react-icons/io";
+
+// react lib
 import { useEffect, useRef } from "react";
+
+// react-router-dom lib
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
+
+// redux
 import { useSelector } from "react-redux";
 import { useLogoutUserMutation } from "../../redux/api/users-api-slice";
+
+// lib
 import { useResetApiAndUser } from "../../hooks/use-reset-api-and-user";
+
+// pkgs
 import toast from "react-hot-toast";
 
+/**
+ * Header component.
+ *
+ * It renders the navigation bar of the web app.
+ *
+ * (The content of Header component changes depending on whether there is a logged in user)
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} [props.replace=false] - Replace the current history state when navigating. Defaults to false.
+ *
+ * @returns {JSX.Element} The rendered Header component.
+ */
 export default function Header({ replace = false }) {
   const dropdownRef = useRef(null);
   const secondDropdownRef = useRef(null);

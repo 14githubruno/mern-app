@@ -1,6 +1,9 @@
+// pkgs
 import { z } from "zod";
 
-// reusable schemas (email and password schemas)
+/**
+ * Zod schema for password.
+ */
 const passwordSchema = z
   .string()
   .trim()
@@ -11,13 +14,18 @@ const passwordSchema = z
     "Password does not match the pattern kompletely"
   );
 
+/**
+ * Zod schema for validating email.
+ */
 const emailSchema = z
   .string()
   .trim()
   .email("Email is not valid")
   .toLowerCase();
 
-// register/update user schema
+/**
+ * Zod schema for registering or updating user.
+ */
 const registerUpdateUserSchema = z.object({
   name: z
     .string()
@@ -28,23 +36,31 @@ const registerUpdateUserSchema = z.object({
   password: passwordSchema,
 });
 
-// login user schema
+/**
+ * Zod schema for login user.
+ */
 const loginUserSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
 });
 
-// reset password schema
+/**
+ * Zod schema for resetting password.
+ */
 const resetPasswordSchema = z.object({
   password: passwordSchema,
 });
 
-// check email schema
+/**
+ * Zod schema for checking user email.
+ */
 const checkEmailSchema = z.object({
   email: emailSchema,
 });
 
-// check secret schema
+/**
+ * Zod schema for checking user secret.
+ */
 const checkSecretSchema = z.object({
   secret: z
     .string()
@@ -52,7 +68,9 @@ const checkSecretSchema = z.object({
     .regex(/^\d{6}$/, "Sekret must be a 6-digit number"),
 });
 
-// create/update tvseries schema
+/**
+ * Zod schema for creating or updating a tvseries.
+ */
 const createUpdateOneTvseriesSchema = z.object({
   title: z
     .string()
@@ -80,6 +98,21 @@ const createUpdateOneTvseriesSchema = z.object({
     .toLowerCase(),
 });
 
+/**
+ * @typedef {Object} ZodSchemasObject
+ * @property {Object} registerUpdateUserSchema - {@link registerUpdateUserSchema}
+ * @property {Object} loginUserSchema - {@link loginUserSchema}
+ * @property {Object} resetPasswordSchema - {@link resetPasswordSchema}
+ * @property {Object} checkEmailSchema - {@link checkEmailSchema}
+ * @property {Object} checkSecretSchema - {@link checkSecretSchema}
+ * @property {Object} createUpdateOneTvseriesSchema - {@link createUpdateOneTvseriesSchema}
+ */
+/**
+ * @constant
+ * Object storing all zod schemas.
+ * 
+ * @type {ZodSchemasObject}
+ */
 export const zodSchemas = {
   registerUpdateUserSchema,
   loginUserSchema,
