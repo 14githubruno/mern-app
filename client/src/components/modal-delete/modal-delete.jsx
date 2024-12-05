@@ -5,6 +5,22 @@ import "./modal-delete.scss";
 // react lib
 import { memo } from "react";
 
+/**
+ * ModalDelete component.
+ *
+ * It renders a modal for confirming deletion of user account or tvseries.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} [props.isUser=false] - Check if item to delete is user. Defaults to false.
+ * @param {number} [props.numberOfTvseriesOfUser=0] - Number of tvseries associated with the userS. Defaults to 0.
+ * @param {string} props.nameOfItemToDelete - Name of what's to be deleted.
+ * @param {function} props.confirm - Function to be called when user confirms the deletion.
+ * @param {function} [props.doNotConfirm=()=>{}] - Function to be called when user cancels the deletion. Defaults to empty function.
+ * @param {React.RefObject} props.modalDeleteRef - Reference to ModalDelete component.
+ * @param {function} props.toggleModalToDelete - Function to toggle ModalDelete visibility, called both on confirming and not confirming deletion.
+ *
+ * @returns {JSX.Element} The rendered ModalDelete component.
+ */
 function ModalDelete({
   isUser = false,
   numberOfTvseriesOfUser = 0,
@@ -67,20 +83,4 @@ function ModalDelete({
   );
 }
 
-/**
- * ModalDelete component.
- *
- * It renders a modal for confirming deletion of user account or tvseries.
- *
- * @param {Object} props - The properties passed to the component.
- * @param {boolean} [props.isUser=false] - Check if item to delete is user. Defaults to false.
- * @param {number} [props.numberOfTvseriesOfUser=0] - Number of tvseries associated with the userS. Defaults to 0.
- * @param {string} props.nameOfItemToDelete - Name of what's to be deleted.
- * @param {function} props.confirm - Function to be called when user confirms the deletion.
- * @param {function} [props.doNotConfirm=()=>{}] - Function to be called when user cancels the deletion. Defaults to empty function.
- * @param {React.RefObject} props.modalDeleteRef - Reference to ModalDelete component.
- * @param {function} props.toggleModalToDelete - Function to toggle ModalDelete visibility, called both on confirming and not confirming deletion.
- *
- * @returns {JSX.Element} The rendered ModalDelete component.
- */
 export default memo(ModalDelete);
