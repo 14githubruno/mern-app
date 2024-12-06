@@ -76,7 +76,7 @@ const createUpdateOneTvseriesSchema = z.object({
     .string()
     .trim()
     .min(2, "Tvseries title must be at least 2 kharakters long")
-    .max(20, "Tvseries title must be maximum 20 kharakters long")
+    .max(30, "Tvseries title must be maximum 30 kharakters long")
     .toLowerCase(),
   stars: z
     .number()
