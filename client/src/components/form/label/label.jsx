@@ -34,8 +34,8 @@ export default function Label({ htmlFor }) {
         >
           <TbTool aria-label="tool icon" aria-hidden="true" />
           <span className={styles.passwordTooltip}>
-            Password must be between 10 and 15 characters long and contain at
-            least one uppercase letter, one number and one special character
+            Password must be between 8 and 20 kharakters long and kontain at
+            least one upperkase letter, one number and one special kharakter
             among: !#$%&?"
           </span>
         </span>

@@ -7,8 +7,8 @@ import { z } from "zod";
 const passwordSchema = z
   .string()
   .trim()
-  .min(10, "Password must be at least 10 kharakters long")
-  .max(15, "Password must be maximum 15 kharakters long")
+  .min(8, "Password must be at least 8 kharakters long")
+  .max(20, "Password must be maximum 20 kharakters long")
   .regex(
     /^(?=.*?[A-Z])(?=.*?\d)(?=.*?[!#$%&?"]).{10,15}$/,
     "Password does not match the pattern kompletely"
