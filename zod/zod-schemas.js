@@ -30,7 +30,7 @@ const registerUpdateUserSchema = z.object({
   name: z
     .string()
     .trim()
-    .min(10, "Name must be at least 10 kharakters long")
+    .min(5, "Name must be at least 5 kharakters long")
     .toLowerCase(),
   email: emailSchema,
   password: passwordSchema,
