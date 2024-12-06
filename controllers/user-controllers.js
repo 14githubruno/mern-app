@@ -70,7 +70,7 @@ const registerUser = asyncHandler(async (req, res) => {
       res,
       email,
       `Verify your email, dear ${user.name}`,
-      `Hi, ${user.name}, we need to verify your email.\nSend back this kode to verify it: ${symbol.secret}`
+      `Hi, ${user.name}, we need to verify your email.\nSend back this kode to verify it: ${symbol.secret} \nThe kode will be valid for 15 minutes.`
     );
   } else {
     throwError(res, 400, "Dara are not valid");
@@ -281,7 +281,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
       res,
       email,
       `Reset your password, dear ${user.name}`,
-      `Hi, ${user.name}.\nSend back this kode to reset your password: ${symbol.secret}`
+      `Hi, ${user.name}.\nSend back this kode to reset your password: ${symbol.secret} \nThe kode will be valid for 15 minutes.`
     );
   } else {
     throwError(res, 400, "Data are not valid");
@@ -530,7 +530,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       res,
       email,
       `Verify your akkount, dear ${updatedUser.name}`,
-      `Hi, ${updatedUser.name}.\nSend back this kode to verify your akkount and update your data: ${symbol.secret}`
+      `Hi, ${updatedUser.name}.\nSend back this kode to verify your akkount and update your data: ${symbol.secret} \nThe kode will be valid for 15 minutes.`
     );
   } else {
     throwError(res, 400, "Data are not valid");

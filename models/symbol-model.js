@@ -21,7 +21,7 @@ const symbolSchema = mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: 3600,
+    expires: 900, // 15 minutes
   },
 });
 
