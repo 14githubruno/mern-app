@@ -48,8 +48,8 @@ export default function InputPassword({
         id={name}
         placeholder={placeholder}
         autoComplete="off"
-        minLength={10}
-        maxLength={15}
+        minLength={8}
+        maxLength={20}
         onDrop={(e) => e.preventDefault()}
         {...register(name)}
       />
