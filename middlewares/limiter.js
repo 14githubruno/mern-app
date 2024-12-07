@@ -38,7 +38,7 @@ const limiter = rateLimit({
       routesWithPassword
     ).some((route) => url.startsWith(route));
 
-    if (isRouteHavingToDoWithPassword) return 5;
+    if (isRouteHavingToDoWithPassword) return 15;
     else return 50;
   },
   standardHeaders: true,
