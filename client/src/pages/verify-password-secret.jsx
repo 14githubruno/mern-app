@@ -5,7 +5,7 @@ import Form from "../components/form/form";
 import { useEffect } from "react";
 
 // redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { apiSlice } from "../redux/api/api-slice";
 import {
   useVerifyPasswordSecretMutation,
@@ -39,6 +39,7 @@ import toast from "react-hot-toast";
 export default function VerifyPasswordSecret() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
   const params = useParams();
   const { error: checkError } = useVerifyTokenQuery(params.token, {
     selectFromResult: (result) => {
@@ -56,6 +57,13 @@ export default function VerifyPasswordSecret() {
       secret: "",
     },
   });
+
+  useEffect(() => {
+    if (user) {
+      navigate("/profile/update-user");
+      toast.error("You are already logged in. Reset your password from here");
+    }
+  }, [user]);
 
   useEffect(() => {
     if (checkError) {

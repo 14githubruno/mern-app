@@ -5,7 +5,7 @@ import Form from "../components/form/form";
 import { useEffect } from "react";
 
 // redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { apiSlice } from "../redux/api/api-slice";
 import {
   useVerifyUserMutation,
@@ -39,6 +39,7 @@ import toast from "react-hot-toast";
 export default function VerifyUser() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
   const params = useParams();
   const { error: checkError } = useVerifyTokenQuery(params.token, {
     selectFromResult: (result) => {
@@ -55,6 +56,13 @@ export default function VerifyUser() {
       secret: "",
     },
   });
+
+  useEffect(() => {
+    if (user) {
+      navigate("/profile");
+      toast.error("You are already logged in");
+    }
+  }, [user]);
 
   useEffect(() => {
     if (isSuccess) {
