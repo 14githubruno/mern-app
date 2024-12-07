@@ -10,7 +10,7 @@ const passwordSchema = z
   .min(8, "Password must be at least 8 kharakters long")
   .max(20, "Password must be maximum 20 kharakters long")
   .regex(
-    /^(?=.*?[A-Z])(?=.*?\d)(?=.*?[!#$%&?"]).{10,15}$/,
+    /^(?=.*?[A-Z])(?=.*?\d)(?=.*?[!#$%&?"]).{8,20}$/,
     "Password does not match the pattern kompletely"
   );
 
