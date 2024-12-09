@@ -67,7 +67,6 @@ const registerUser = asyncHandler(async (req, res) => {
       },
     });
     sendEmail(
-      true,
       res,
       email,
       `Verify your email, dear ${user.name}`,
@@ -274,7 +273,6 @@ const forgotPassword = asyncHandler(async (req, res) => {
       },
     });
     sendEmail(
-      false,
       res,
       email,
       `Reset your password, dear ${user.name}`,
@@ -511,7 +509,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       },
     });
     sendEmail(
-      false,
       res,
       email,
       `Verify your akkount, dear ${pseudoUser.name}`,
