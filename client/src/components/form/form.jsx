@@ -55,8 +55,8 @@ export default function Form({
           <InputPassword name={"password"} />
           <FormButton {...formButtonProps} />
           {formParagraphArrayProps &&
-            formParagraphArrayProps.map((objWithProps) => {
-              return <FormParagraph {...objWithProps} />;
+            formParagraphArrayProps.map((objWithProps, index) => {
+              return <FormParagraph key={index} {...objWithProps} />;
             })}
         </Fragment>
       );
@@ -76,8 +76,8 @@ export default function Form({
           <InputPassword name={"password"} />
           <FormButton {...formButtonProps} />
           {formParagraphArrayProps &&
-            formParagraphArrayProps.map((objWithProps) => {
-              return <FormParagraph {...objWithProps} />;
+            formParagraphArrayProps.map((objWithProps, index) => {
+              return <FormParagraph key={index} {...objWithProps} />;
             })}
         </Fragment>
       );
@@ -88,8 +88,8 @@ export default function Form({
           <InputEmail name={"email"} />
           <FormButton {...formButtonProps} />
           {formParagraphArrayProps &&
-            formParagraphArrayProps.map((objWithProps) => {
-              return <FormParagraph {...objWithProps} />;
+            formParagraphArrayProps.map((objWithProps, index) => {
+              return <FormParagraph key={index} {...objWithProps} />;
             })}
         </Fragment>
       );
@@ -100,8 +100,8 @@ export default function Form({
           <InputText name={"secret"} />
           <FormButton {...formButtonProps} />
           {formParagraphArrayProps &&
-            formParagraphArrayProps.map((objWithProps) => {
-              return <FormParagraph {...objWithProps} />;
+            formParagraphArrayProps.map((objWithProps, index) => {
+              return <FormParagraph key={index} {...objWithProps} />;
             })}
         </Fragment>
       );
@@ -111,6 +111,10 @@ export default function Form({
         <Fragment>
           <InputPassword name={"password"} placeholder={"Enter new password"} />
           <FormButton {...formButtonProps} />
+          {formParagraphArrayProps &&
+            formParagraphArrayProps.map((objWithProps, index) => {
+              return <FormParagraph key={index} {...objWithProps} />;
+            })}
         </Fragment>
       );
       break;
