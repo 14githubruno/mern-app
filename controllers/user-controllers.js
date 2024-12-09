@@ -158,7 +158,7 @@ const verifyUser = asyncHandler(async (req, res) => {
 
     if (deleteSymbol.acknowledged) {
       return res.status(200).json({
-        message: `Dear ${updatedUser.name}, your email is verified. You kan log in`,
+        message: `Dear [${updatedUser.name}], your email is verified. You kan log in`,
       });
     } else {
       throwError(
@@ -586,7 +586,7 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
 
     if (deleteSymbol.acknowledged && deletePseudoUser.acknowledged) {
       return res.status(200).json({
-        message: `Dear ${updatedUser.name}, your akkount is verified and your data are updated`,
+        message: `Dear [${updatedUser.name}], your akkount is verified and your data are updated`,
         body: {
           _id: updatedUser._id,
           name: updatedUser.name,
