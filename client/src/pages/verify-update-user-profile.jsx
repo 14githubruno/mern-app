@@ -6,6 +6,7 @@ import { useEffect } from "react";
 
 // redux
 import { useDispatch } from "react-redux";
+import { setOnlyCredentialsUser } from "../redux/features/auth/auth-slice";
 import { apiSlice } from "../redux/api/api-slice";
 import {
   useVerifyUpdateUserProfileMutation,
@@ -79,7 +80,14 @@ export default function VerifyUpdateUserProfile() {
     try {
       const symbol = { token: params.token, secret: parsedData.secret };
       const res = await verifyUpdateUserProfile(symbol).unwrap();
-      toast.success(res?.message);
+      if (res.body) {
+        dispatch(
+          setOnlyCredentialsUser({
+            user: res.body.name,
+          })
+        );
+      }
+      toast.success(res.message);
     } catch (err) {
       toast.error(err?.data?.message);
     }

@@ -86,10 +86,11 @@ export default function ResetPassword() {
         password: parsedData.password,
       };
       const res = await resetPassword(symbolAndPassword).unwrap();
-      console.log(res);
-      toast.success(res?.message);
+      if (res) {
+        toast.success(res.message);
+      }
     } catch (err) {
-      toast.error(err?.data?.message);
+      toast.error(err.data.message);
     }
   };
 
@@ -104,6 +105,13 @@ export default function ResetPassword() {
             textOnLoading: "Resetting...",
             text: "Reset",
           }}
+          formParagraphArrayProps={[
+            {
+              paragraphText: "Remember your password?",
+              linkText: "Log in",
+              linkHref: "/login",
+            },
+          ]}
         />
       </FormProvider>
     </section>

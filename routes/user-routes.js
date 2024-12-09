@@ -39,10 +39,10 @@ router
   .post(protect, limiter, userCtrl.logoutUser);
 router
   .route("/profile")
-  .get(protect, userCtrl.getUserProfile);
+  .get(protect, userCtrl.getUserProfile)
+  .post(protect, limiter, userCtrl.updateUserProfile)
 router
   .route("/profile/:id")
-  .patch(protect, limiter, userCtrl.updateUserProfile)
   .delete(protect, limiter, userCtrl.deleteUserProfile);
 router
   .route("/profile/verify/:token")

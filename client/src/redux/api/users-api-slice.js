@@ -145,14 +145,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
 
     /**
-     * PATCH /api/users/profile/:id
+     * POST /api/users/profile/:id
      *
      * Endpoint to update user profile.
+     *
      */
     updateUserProfile: builder.mutation({
       query: (userToUpdate) => ({
-        url: `${API_USERS}/profile/${userToUpdate._id}`,
-        method: "PATCH",
+        url: `${API_USERS}/profile`,
+        method: "POST",
         body: userToUpdate,
       }),
       invalidatesTags: ["User"],

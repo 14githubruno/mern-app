@@ -5,6 +5,7 @@ import asyncHandler from "express-async-handler";
 import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
 import Symbol from "../models/symbol-model.js";
+import PseudoUser from "../models/pseudo-user-model.js";
 
 // lib
 import { validate } from "../lib/validate-req-body.js";
@@ -258,16 +259,13 @@ const forgotPassword = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
   if (!user) throwError(res, 400, "User does not exist");
 
-  let symbol;
-  if (user) {
-    symbol = await Symbol.create({
-      user: user._id,
-      token: generateToken(res, user._id),
-      secret: generateSecret(),
-    });
-  }
+  const symbol = await Symbol.create({
+    user: user._id,
+    token: generateToken(res, user._id),
+    secret: generateSecret(),
+  });
 
-  if (user && symbol) {
+  if (symbol) {
     res.status(201).json({
       message: `Dear [${user.name}], check your mailbox to reset your password`,
       body: {
@@ -311,32 +309,28 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
   const parsedData = await validate(res, "check-secret", req.body);
   const { secret } = parsedData;
 
-  const thereIsToken = await Symbol.findOne({
+  const symbol = await Symbol.findOne({
     token,
     secret,
   });
-  if (!thereIsToken)
-    throwError(res, 400, "Sekrets do not match or token invalid");
 
-  const decoded = decodeToken(res, token);
-  const unverifiedUser = await User.findOneAndUpdate(
-    { _id: decoded._id },
-    { $set: { verified: false } },
-    { new: true }
-  );
+  if (!symbol) throwError(res, 400, "Sekrets do not match or token invalid");
 
-  if (!unverifiedUser) {
+  const decoded = decodeToken(res, symbol.token);
+  const user = await User.findById(decoded._id);
+
+  if (!user) {
     throwError(res, 500, "Something went wrong. Try again");
   } else {
-    thereIsToken.token = generateToken(res, unverifiedUser._id);
-    const updatedToken = await thereIsToken.save();
+    symbol.token = generateToken(res, user._id);
+    const updatedToken = await symbol.save();
 
     if (updatedToken) {
       res.status(201).json({
-        message: `Dear [${unverifiedUser.name}], reset now your password to verify your akkount and log in`,
+        message: `Dear [${user.name}], reset now your password to verify your akkount and log in`,
         body: {
-          _id: unverifiedUser._id,
-          name: unverifiedUser.name,
+          _id: user._id,
+          name: user.name,
           token: updatedToken.token,
         },
       });
@@ -369,15 +363,14 @@ const resetPassword = asyncHandler(async (req, res) => {
   const parsedData = await validate(res, "reset-password", req.body);
   const { password } = parsedData;
 
-  const thereIsToken = await Symbol.findOne({ token });
-  if (!thereIsToken)
-    throwError(res, 400, "Sekrets do not match or token invalid");
+  const symbol = await Symbol.findOne({ token });
+  if (!symbol) throwError(res, 400, "Sekrets do not match or token invalid");
 
-  const decoded = decodeToken(res, token);
+  const decoded = decodeToken(res, symbol.token);
   const hashed = await hashPassword(res, password);
   const updatedUser = await User.findOneAndUpdate(
     { _id: decoded._id },
-    { $set: { verified: true, password: hashed } },
+    { $set: { password: hashed } },
     { new: true }
   );
 
@@ -386,7 +379,7 @@ const resetPassword = asyncHandler(async (req, res) => {
 
     if (deleteSymbol.acknowledged) {
       return res.status(200).json({
-        message: `Dear ${updatedUser.name}, your password has been reset. You kan now log in`,
+        message: `Dear [${updatedUser.name}], your password has been reset. You kan now log in`,
       });
     } else {
       throwError(
@@ -467,7 +460,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
  * @function
  * Controller to update user data
  *
- * PATCH /api/users/profile/:id
+ * POST /api/users/profile
  *
  * Private route
  *
@@ -494,34 +487,27 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   let user = await User.findById(currentUser._id);
   if (!user) throwError(res, 404, "User not found");
 
-  //first check if data have not changed
   const match = await comparePassword(res, password, user.password);
   const dataMatch = match && name === user.name && email === user.email;
-
   if (dataMatch) throwError(res, 400, "You did not update any data");
 
-  // update user
-  user.name = name;
-  user.email = email;
-  user.password = await hashPassword(res, password);
-  user.verified = false;
-  const updatedUser = await user.save();
+  const pseudoUser = await PseudoUser.create({
+    user: currentUser._id,
+    name,
+    email,
+    password: await hashPassword(res, password),
+  });
 
-  let symbol;
-  if (updatedUser) {
-    symbol = await Symbol.create({
-      user: updatedUser._id,
-      token: generateToken(res, updatedUser._id),
-      secret: generateSecret(),
-    });
-  }
+  const symbol = await Symbol.create({
+    user: currentUser._id,
+    token: generateToken(res, currentUser._id),
+    secret: generateSecret(),
+  });
 
-  if (updatedUser && symbol) {
+  if (pseudoUser && symbol) {
     res.status(201).json({
-      message: `Dear [${updatedUser.name}], check your mailbox to update your akkount`,
+      message: `Dear [${pseudoUser.name}], check your mailbox to update your akkount`,
       body: {
-        _id: updatedUser._id,
-        name: updatedUser.name,
         token: symbol.token,
       },
     });
@@ -529,8 +515,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       false,
       res,
       email,
-      `Verify your akkount, dear ${updatedUser.name}`,
-      `Hi, ${updatedUser.name}.\nSend back this kode to verify your akkount and update your data: ${symbol.secret} \nThe kode will be valid for 15 minutes.`
+      `Verify your akkount, dear ${pseudoUser.name}`,
+      `Hi, ${pseudoUser.name}.\nSend back this kode to verify your akkount and update your data: ${symbol.secret} \nThe kode will be valid for 15 minutes.`
     );
   } else {
     throwError(res, 400, "Data are not valid");
@@ -555,22 +541,40 @@ const updateUserProfile = asyncHandler(async (req, res) => {
  * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
  */
 const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
+  const currentUser = req.user;
   const token = req.params.token;
 
   const parsedData = await validate(res, "check-secret", req.body);
   const { secret } = parsedData;
 
-  const thereIsToken = await Symbol.findOne({
+  const symbol = await Symbol.findOne({
     token,
     secret,
   });
-  if (!thereIsToken)
-    throwError(res, 400, "Sekrets do not match or token invalid");
+  if (!symbol) throwError(res, 400, "Sekrets do not match or token invalid");
+
+  const pseudoUsers = await PseudoUser.find({ user: currentUser._id })
+    .sort({ $natural: -1 })
+    .limit(1);
+
+  if (!pseudoUsers.length === 1)
+    throwError(
+      res,
+      400,
+      "You do not seem authorized or something went wrong. Try again"
+    );
 
   const decoded = decodeToken(res, token);
+  const pseudoUser = pseudoUsers[0];
   const updatedUser = await User.findOneAndUpdate(
     { _id: decoded._id },
-    { $set: { verified: true } },
+    {
+      $set: {
+        name: pseudoUser.name,
+        email: pseudoUser.email,
+        password: pseudoUser.password,
+      },
+    },
     { new: true }
   );
 
@@ -580,9 +584,18 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
       secret,
     });
 
-    if (deleteSymbol.acknowledged) {
+    const deletePseudoUser = await PseudoUser.deleteOne({
+      user: currentUser._id,
+    });
+
+    if (deleteSymbol.acknowledged && deletePseudoUser.acknowledged) {
       return res.status(200).json({
         message: `Dear ${updatedUser.name}, your akkount is verified and your data are updated`,
+        body: {
+          _id: updatedUser._id,
+          name: updatedUser.name,
+          token: symbol.token,
+        },
       });
     } else {
       throwError(

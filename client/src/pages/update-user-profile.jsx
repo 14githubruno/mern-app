@@ -6,8 +6,7 @@ import Loader from "../components/loader/loader";
 import { useEffect } from "react";
 
 // redux
-import { useSelector, useDispatch } from "react-redux";
-import { setOnlyCredentialsUser } from "../redux/features/auth/auth-slice";
+import { useSelector } from "react-redux";
 import {
   useUpdateUserProfileMutation,
   useGetUserProfileQuery,
@@ -30,14 +29,11 @@ import toast from "react-hot-toast";
 /**
  * UpdateUserProfile page component.
  *
- * Here user can modify personal data such as name and email.
- *
- * User can also modify the password.
+ * Here user can modify personal data such as name, email and password.
  *
  * @returns {JSX.Element} The rendered UpdateUserProfile page component.
  */
 export default function UpdateUserProfile() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const resetAll = useResetApiAndUser();
   const user = useSelector((state) => state.auth.user);
@@ -66,17 +62,7 @@ export default function UpdateUserProfile() {
     try {
       const res = await updateUserProfile(parsedData).unwrap();
       if (res.body) {
-        dispatch(
-          setOnlyCredentialsUser({
-            user: res.body.name,
-          })
-        );
-      }
-
-      if (!res.body.token) {
         toast.success(res.message);
-        navigate("/profile", { replace: true });
-      } else {
         navigate(`/profile/update-user/verify/${res.body.token}`, {
           replace: true,
         });
