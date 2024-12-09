@@ -104,9 +104,9 @@ const registerUser = asyncHandler(async (req, res) => {
 const verifyToken = asyncHandler(async (req, res) => {
   const token = req.params.token;
 
-  const thereIsToken = await Symbol.findOne({ token });
+  const symbol = await Symbol.findOne({ token });
 
-  if (!thereIsToken) {
+  if (!symbol) {
     throwError(res, 400, "Token invalid or expired");
   } else {
     res.status(200).json({
@@ -138,14 +138,13 @@ const verifyUser = asyncHandler(async (req, res) => {
   const parsedData = await validate(res, "check-secret", req.body);
   const { secret } = parsedData;
 
-  const thereIsToken = await Symbol.findOne({
+  const symbol = await Symbol.findOne({
     token,
     secret,
   });
-  if (!thereIsToken)
-    throwError(res, 400, "Sekrets do not match or token invalid");
+  if (!symbol) throwError(res, 400, "Sekrets do not match or token invalid");
 
-  const decoded = decodeToken(res, token);
+  const decoded = decodeToken(res, symbol.token);
   const updatedUser = await User.findOneAndUpdate(
     { _id: decoded._id },
     { $set: { verified: true } },
@@ -443,8 +442,8 @@ const logoutUser = asyncHandler(async (req, res) => {
 const getUserProfile = asyncHandler(async (req, res) => {
   const currentUser = req.user;
 
-  const thereIsUser = await User.findById(currentUser._id);
-  if (!thereIsUser) throwError(res, 404, "User not found");
+  const user = await User.findById(currentUser._id);
+  if (!user) throwError(res, 404, "User not found");
 
   res.status(200).json({
     body: {
@@ -478,11 +477,11 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   const parsedData = await validate(res, "update-user", req.body);
   const { name, email, password } = parsedData;
 
-  const emailAlreadyTaken = await User.findOne({
+  const takenEmail = await User.findOne({
     email,
     _id: { $ne: currentUser._id },
   });
-  if (emailAlreadyTaken) throwError(res, 400, "This email seems already taken");
+  if (takenEmail) throwError(res, 400, "This email seems already taken");
 
   let user = await User.findById(currentUser._id);
   if (!user) throwError(res, 404, "User not found");
