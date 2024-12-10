@@ -66,7 +66,7 @@ export default function Register() {
         navigate(`/verify/${res.body.token}`, { replace: true });
       }
     } catch (err) {
-      toast.error(err?.data?.message);
+      toast.error(err?.data?.message || err?.error);
     }
   };
 

@@ -38,42 +38,57 @@ const registerUser = asyncHandler(async (req, res) => {
   const parsedData = await validate(res, "register-user", req.body);
   const { name, email, password } = parsedData;
 
-  const userExists = await User.findOne({ email });
+  const userExists = await User.findOne({ email, verified: true });
   if (userExists) throwError(res, 400, "User already exists");
 
   const hashed = await hashPassword(res, password);
-  const user = await User.create({
+  const userExistsUnverified = await User.findOne({ email, verified: false });
+
+  const newPseudoUser = await PseudoUser.create({
     name,
     email,
     password: hashed,
   });
 
+  let newUserToVerify;
+  if (newPseudoUser && !userExistsUnverified) {
+    newUserToVerify = await User.create({
+      name,
+      email,
+      password: hashed,
+    });
+  }
+
   let symbol;
-  if (user) {
+  if (newPseudoUser) {
     symbol = await Symbol.create({
-      user: user._id,
-      token: generateToken(res, user._id),
+      user: newPseudoUser._id,
+      token: generateToken(res, newPseudoUser._id),
       secret: generateSecret(),
     });
   }
 
-  if (user && symbol) {
+  if (newPseudoUser && symbol) {
     res.status(201).json({
-      message: `Dear [${user.name}], check your mailbox to verify your akkount`,
+      message: `Dear [${newPseudoUser.name}], check your mailbox to verify your akkount`,
       body: {
-        _id: user._id,
-        name: user.name,
+        _id: newPseudoUser._id,
+        name: newPseudoUser.name,
         token: symbol.token,
       },
     });
     sendEmail(
       res,
       email,
-      `Verify your email, dear ${user.name}`,
-      `Hi, ${user.name}, we need to verify your email.\nSend back this kode to verify it: ${symbol.secret} \nThe kode will be valid for 15 minutes.`
+      `Verify your email, dear ${newPseudoUser.name}`,
+      `Hi, ${newPseudoUser.name}, we need to verify your email.\nSend back this kode to verify it: ${symbol.secret} \nThe kode will be valid for 15 minutes.`
     );
   } else {
-    throwError(res, 400, "Dara are not valid");
+    throwError(
+      res,
+      400,
+      "Dara are not valid or something went wrong. Try again"
+    );
   }
 });
 
@@ -141,32 +156,29 @@ const verifyUser = asyncHandler(async (req, res) => {
     token,
     secret,
   });
-  if (!symbol) throwError(res, 400, "Sekrets do not match or token invalid");
+  if (!symbol) throwError(res, 400, "Sekrets do not match or token is invalid");
 
   const decoded = decodeToken(res, symbol.token);
-  const updatedUser = await User.findOneAndUpdate(
-    { _id: decoded._id },
-    { $set: { verified: true } },
+  const pseudoUser = await PseudoUser.findById(decoded._id);
+  if (!pseudoUser)
+    throwError(res, 400, "Sekrets do not match or token invalid");
+
+  const finalUser = await User.findOneAndUpdate(
+    { email: pseudoUser.email, verified: false },
+    {
+      $set: {
+        name: pseudoUser.name,
+        password: pseudoUser.password,
+        verified: true,
+      },
+    },
     { new: true }
   );
 
-  if (updatedUser) {
-    const deleteSymbol = await Symbol.deleteOne({
-      token,
-      secret,
+  if (finalUser) {
+    res.status(200).json({
+      message: `Dear [${finalUser.name}], your email is verified. You kan log in`,
     });
-
-    if (deleteSymbol.acknowledged) {
-      return res.status(200).json({
-        message: `Dear [${updatedUser.name}], your email is verified. You kan log in`,
-      });
-    } else {
-      throwError(
-        res,
-        500,
-        "Something went wrong with email verifikation. Try again"
-      );
-    }
   } else {
     throwError(
       res,
@@ -198,8 +210,8 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = parsedData;
 
   const user = await User.findOne({ email });
-
-  if (!user) throwError(res, 400, "Kredentials are not valid");
+  if (!user)
+    throwError(res, 400, "Kredentials are not valid or user doesn't exists");
   if (!user.verified)
     throwError(
       res,
@@ -208,7 +220,6 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 
   const match = await comparePassword(res, password, user.password);
-
   if (user && match) {
     const token = generateToken(res, user._id, "3d");
     const cookieMaxAge = 3 * 24 * 60 * 60 * 1000 - 5 * 60 * 1000;

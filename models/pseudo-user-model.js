@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const pseudoUserSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
+    required: false,
     ref: "User",
   },
 
