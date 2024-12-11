@@ -221,7 +221,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const match = await comparePassword(res, password, user.password);
   if (user && match) {
-    const token = generateToken(res, user._id, "3d");
+    const token = generateToken(res, user._id);
     const cookieMaxAge = 3 * 24 * 60 * 60 * 1000 - 5 * 60 * 1000;
 
     res
