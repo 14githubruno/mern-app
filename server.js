@@ -1,6 +1,7 @@
 // pkgs
 import dotenv from "dotenv";
 import express from "express";
+import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
@@ -60,6 +61,9 @@ if (IS_DEV_MODE) {
 
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+mongoose.connection.once("open", () => {
+  console.log("MongoDB connected");
+  app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+});
 
 cron.schedule("0 0 * * *", deleteUnveriedUsers);
