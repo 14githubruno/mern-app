@@ -22,10 +22,10 @@ dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 const { NODE_ENV, PORT, BASE_URL, PROXIES } = process.env;
 const IS_DEV_MODE = NODE_ENV === "development";
-
 const __dirname = import.meta.dirname;
 
 const app = express();
+
 app.set("trust proxy", Number(PROXIES));
 
 app.use(
@@ -34,13 +34,17 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(helmet());
+
 app.use(compression());
 
 connectDB();
 
 app.use(cookieParser());
+
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/users", userRouter);
