@@ -159,7 +159,6 @@ const updateOneTvSeries = asyncHandler(async (req, res) => {
   const id = req.params.id;
 
   const parsedData = await validate(res, "update-tvseries", req.body);
-  const { title, stars, image, note } = parsedData;
 
   const tvSeriesToUpdate = await Tvseries.findById(id);
   if (!tvSeriesToUpdate)
@@ -172,12 +171,11 @@ const updateOneTvSeries = asyncHandler(async (req, res) => {
     throwError(res, 401, "User not authorized");
   }
 
-  tvSeriesToUpdate.title = title || tvSeriesToUpdate.title;
-  tvSeriesToUpdate.stars = stars || tvSeriesToUpdate.stars;
-  tvSeriesToUpdate.image = image || tvSeriesToUpdate.image;
-  tvSeriesToUpdate.note = note || tvSeriesToUpdate.note;
-
+  for (let prop in parsedData) {
+    tvSeriesToUpdate[prop] = parsedData[prop];
+  }
   const updatedTvSeries = await tvSeriesToUpdate.save();
+
   if (updatedTvSeries) {
     res.status(200).json({
       message: `Tv series with title [${updatedTvSeries.title}] updated`,
