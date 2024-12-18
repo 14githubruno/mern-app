@@ -4,6 +4,9 @@ import styles from "./user-profile-table.module.scss";
 // react lib
 import { memo } from "react";
 
+// custom lib
+import { parseDateAndTime } from "../../lib/parse-date-and-time";
+
 /**
  * UserProfileTable component.
  *
@@ -21,6 +24,7 @@ function UserProfileTable({ userData }) {
         {userData &&
           Object.entries(userData).map(([key, value]) => {
             const keyIsName = key === "name";
+            const keyIsDate = key.includes("at");
             return (
               <div key={key} className={styles.keyWithValue}>
                 <p className={styles.key}>{key}</p>
@@ -29,7 +33,7 @@ function UserProfileTable({ userData }) {
                     keyIsName ? styles.nameValue : ""
                   }`}
                 >
-                  {value}
+                  {keyIsDate ? parseDateAndTime(value) : value}
                 </p>
               </div>
             );

@@ -10,7 +10,16 @@ import { memo } from "react";
  *
  * @type {string[]}
  */
-const tableHeadTitles = ["N°", "Title", "Stars", "Image", "Note", "Actions"];
+const tableHeadTitles = [
+  "N°",
+  "Title",
+  "Stars",
+  "Image",
+  "Note",
+  "Kreated At",
+  "Last Updated At",
+  "Actions",
+];
 
 /**
  * TableHead component.

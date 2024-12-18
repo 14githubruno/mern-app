@@ -19,7 +19,9 @@
   border-left: 0.1rem solid var(--grey-transparency);
 
   &:first-of-type,
-  &:nth-child(2) {
+  &:nth-child(2),
+  &:nth-child(3),
+  &:nth-child(4) {
     border-bottom: 0.1rem solid var(--grey-transparency);
   }
 
@@ -30,9 +32,9 @@
 }
 
 .key {
-  padding: 2rem 2rem 2rem 1.7rem;
+  padding: 1.6rem 2rem 1.6rem 1.7rem;
   flex-basis: 30%;
-  font-size: 1.255rem;
+  font-size: 1.1rem;
   color: var(--white-color);
   background: var(--black-blue-gradient-to-bottom);
   border-right: 0.1rem solid var(--grey-transparency);
@@ -40,9 +42,9 @@
 }
 
 .value {
-  padding: 2rem 0 2rem 2rem;
+  padding: 1.6rem 0 1.6rem 2rem;
   flex: 1;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: var(--grey-transparency);
 }
 
@@ -56,13 +58,13 @@
 
 @media (min-width: $break-tablet) {
   .key {
-    padding: 3rem 5rem 3rem 2rem;
+    padding: 2.6rem 3rem 2.6rem 2rem;
     font-size: 1.5rem;
     flex-basis: 25%;
   }
 
   .value {
-    padding: 3rem 0 3rem 3rem;
+    padding: 2.6rem 0 2.6rem 3rem;
     font-size: 1.6rem;
   }
 }

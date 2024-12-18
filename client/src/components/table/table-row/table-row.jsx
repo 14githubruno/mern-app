@@ -14,6 +14,9 @@ import { Link } from "react-router-dom";
 // react-hook-form lib
 import { useFormContext, useWatch } from "react-hook-form";
 
+// custom lib
+import { parseDateAndTime } from "../../../lib/parse-date-and-time";
+
 /**
  * TableRow component.
  *
@@ -28,6 +31,8 @@ import { useFormContext, useWatch } from "react-hook-form";
  * @param {number} props.stars - The star rating of the single tvseries.
  * @param {string} props.image - The URL of the single tvseries image.
  * @param {string} props.note - The note on the single tvseries.
+ * @param {string} props.createdAt - The ISO date and time string of tvseries creation.
+ * @param {string} props.updatedAt - The ISO date and time string of tvseries update.
  * @param {function} props.toggleModalToDelete - A function to toggle the modal delete visibility.
  * @param {function} props.selectTableRowToDelete - A function to select the single tvseries to be deleted.
  * @param {function} props.showTableRowInModalView - A function to select and display the single tvseries' details in a modal.
@@ -41,6 +46,8 @@ function TableRow({
   stars,
   image,
   note,
+  createdAt,
+  updatedAt,
   toggleModalToDelete,
   selectTableRowToDelete,
   showTableRowInModalView,
@@ -102,7 +109,9 @@ function TableRow({
           backgroundImage: `url(${image})`,
         }}
       ></div>
-      <div className={styles.note}>{note}</div>
+      <div>{note}</div>
+      <div>{parseDateAndTime(createdAt)}</div>
+      <div>{parseDateAndTime(updatedAt)}</div>
       <div className={styles.iconsContainer}>
         <span
           role="button"

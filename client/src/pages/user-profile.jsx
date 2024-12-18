@@ -50,6 +50,8 @@ export default function UserProfile() {
   const [deleteUserProfile, { isLoading: isDeletingUser }] =
     useDeleteUserProfileMutation();
 
+  console.log(data);
+
   useEffect(() => {
     if (error) {
       if (error?.data?.type === "tokenInvalid") {
@@ -103,6 +105,8 @@ export default function UserProfile() {
             userData={{
               name: data?.body.name,
               email: data?.body.email,
+              ["kreated at"]: data?.body.createdAt,
+              ["last updated at"]: data?.body.updatedAt,
               tvseries: !tvseries?.body ? 0 : tvseries.body.length,
             }}
           />

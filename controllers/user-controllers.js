@@ -591,6 +591,8 @@ const getUserProfile = asyncHandler(async (req, res) => {
       _id: currentUser._id,
       name: currentUser.name,
       email: currentUser.email,
+      createdAt: currentUser.createdAt,
+      updatedAt: currentUser.updatedAt,
     },
   });
 });
