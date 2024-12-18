@@ -50,8 +50,6 @@ export default function UserProfile() {
   const [deleteUserProfile, { isLoading: isDeletingUser }] =
     useDeleteUserProfileMutation();
 
-  console.log(data);
-
   useEffect(() => {
     if (error) {
       if (error?.data?.type === "tokenInvalid") {
