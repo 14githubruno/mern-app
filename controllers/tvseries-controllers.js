@@ -50,7 +50,7 @@ const getAllTvSeries = asyncHandler(async (req, res) => {
  * @function
  * Controller to get one tv series from db
  *
- * GET /api/tvseries/:id/:title
+ * GET /api/tvseries/:id
  *
  * Private route
  *
@@ -64,9 +64,9 @@ const getAllTvSeries = asyncHandler(async (req, res) => {
  */
 const getOneTvseries = asyncHandler(async (req, res) => {
   const currentUser = req.user;
-  const { id, title } = req.params;
+  const { id } = req.params;
 
-  const tvseries = await Tvseries.findOne({ _id: id, title });
+  const tvseries = await Tvseries.findOne({ _id: id });
   if (!tvseries)
     throwError(res, 404, `Tv series with title [${title}] not found`);
 

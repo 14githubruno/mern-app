@@ -72,7 +72,7 @@ const browserRouter = createBrowserRouter([
             element: <CreateTvseries />,
           },
           {
-            path: "/dashboard/update-tvseries/:id/:title",
+            path: "/dashboard/update-tvseries/:id",
             element: <UpdateTvseries />,
           },
           {

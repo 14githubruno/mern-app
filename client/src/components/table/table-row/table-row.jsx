@@ -125,7 +125,7 @@ function TableRow({
         </span>
         <Link
           className={styles.iconEdit}
-          to={`/dashboard/update-tvseries/${id}/${title}`}
+          to={`/dashboard/update-tvseries/${id}`}
         >
           <RxPencil1 aria-label="pencil edit icon" className={styles.icon} />
         </Link>

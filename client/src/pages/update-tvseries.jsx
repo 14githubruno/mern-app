@@ -41,7 +41,7 @@ export default function UpdateTvseries() {
   const methods = useForm();
 
   const resetAll = useResetApiAndUser();
-  const { data: singleTvseries, error } = useGetOneTvseriesQuery(params);
+  const { data: singleTvseries, error } = useGetOneTvseriesQuery(params.id);
   const [updateOneTvseries, { isLoading, isSuccess }] =
     useUpdateOneTvseriesMutation();
 
