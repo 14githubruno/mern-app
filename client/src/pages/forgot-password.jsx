@@ -66,7 +66,7 @@ export default function ForgotPassword() {
         });
       }
     } catch (err) {
-      toast.error(err?.data?.message);
+      toast.error(err?.data?.message || err.error);
     }
   };
 

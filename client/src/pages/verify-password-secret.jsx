@@ -88,7 +88,7 @@ export default function VerifyPasswordSecret() {
       toast.success(res?.message);
       navigate(`/reset-password/${res.body.token}`, { replace: true });
     } catch (err) {
-      toast.error(err?.data?.message);
+      toast.error(err?.data?.message || err?.error);
     }
   };
 
