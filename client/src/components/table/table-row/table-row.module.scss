@@ -1,3 +1,4 @@
+@use "@/breakpoints" as *;
 @use "@/keyframes" as *;
 
 .tableRow {
@@ -21,6 +22,10 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media (min-width: $break-tablet) {
+    padding: 1.4rem 1rem 1rem 1rem;
+  }
 }
 
 .tableRow > div:last-of-type {
