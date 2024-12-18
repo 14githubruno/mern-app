@@ -57,12 +57,14 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (error) {
-      resetAll();
-      navigate("/", { replace: true });
+      if (error?.data?.type === "tokenInvalid") {
+        resetAll();
+      }
+      toast.error(error?.data?.message || error?.error);
     } else if (data) {
       dispatch(setTvseries([...data.body]));
     }
-  }, [data]);
+  }, [data, error, navigate]);
 
   // this below fires a useEffect
   useHeadTags("dashboard", user);
@@ -91,12 +93,10 @@ export default function Dashboard() {
         setTableRowToDelete(null);
       }
     } catch (err) {
-      if (err.data.type === "token") {
-        toast.error("Token has expired. Log in again");
+      if (err?.data?.type === "tokenInvalid") {
         resetAll();
-        return;
       }
-      toast.error(err.data.message);
+      toast.error(err?.data?.message || err?.error);
     }
   }, [tvseries, tableRowToDelete]);
 

@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 // react-router-dom lib
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 // lib
 import { useResetApiAndUser } from "../hooks/use-reset-api-and-user";
@@ -21,35 +21,19 @@ import toast from "react-hot-toast";
  * @returns {JSX.Element} The rendered component/page authorized user wants to access.
  */
 export default function PrivateRoute() {
-  console.log("private route hit");
-  const location = useLocation();
-  const resetAll = useResetApiAndUser();
   const user = useSelector((state) => state.auth.user);
-  const tokenExpirationDate = useSelector(
-    (state) => state.auth.tokenExpirationDate
-  );
+  const token = useSelector((state) => state.auth.token);
+  const refresh = useSelector((state) => state.auth.refresh);
+  const thereIsUser = user && token && refresh;
+
+  const resetAll = useResetApiAndUser();
 
   useEffect(() => {
-    if (user === null) {
+    if (!thereIsUser) {
       toast.error("Log in first or kreate an akkount");
-    }
-  }, [location]);
-
-  useEffect(() => {
-    if (user && tokenExpirationDate && tokenExpirationDate < Date.now()) {
-      toast.error("Token expired. Log in again");
       resetAll();
     }
-  }, [location]);
+  }, []);
 
-  let content;
-  if (user && tokenExpirationDate && tokenExpirationDate < Date.now()) {
-    content = <Navigate to={"/login"} replace />;
-  } else if (user === null) {
-    content = <Navigate to={"/"} replace />;
-  } else {
-    content = <Outlet />;
-  }
-
-  return content;
+  return thereIsUser ? <Outlet /> : <Navigate to={"/login"} replace />;
 }

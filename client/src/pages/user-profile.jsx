@@ -6,7 +6,7 @@ import UserProfileParagraph from "../components/user-profile-paragraph/user-prof
 import UserProfileButtonLinksContainer from "../components/user-profile-button-links-container/user-profile-button-links-container";
 
 // react
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useEffect } from "react";
 
 // redux
 import { useSelector } from "react-redux";
@@ -50,11 +50,14 @@ export default function UserProfile() {
   const [deleteUserProfile, { isLoading: isDeletingUser }] =
     useDeleteUserProfileMutation();
 
-  if (error) {
-    resetAll();
-    navigate("/login", { replace: true });
-    toast.error("Token has expired. Log in again");
-  }
+  useEffect(() => {
+    if (error) {
+      if (error?.data?.type === "tokenInvalid") {
+        resetAll();
+      }
+      toast.error(error?.data?.message || error?.error);
+    }
+  }, [error, navigate]);
 
   useHeadTags("userProfile", user);
 
@@ -74,11 +77,10 @@ export default function UserProfile() {
         resetAll();
       }
     } catch (err) {
-      if (err.data.type === "token") {
+      if (err?.data?.type === "tokenInvalid") {
         resetAll();
-        return;
       }
-      toast.error(err.data.message);
+      toast.error(err?.data?.message || err?.error);
     }
   }, []);
   /* modal delete ends */

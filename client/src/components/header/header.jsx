@@ -12,17 +12,13 @@ import { IoIosLogOut } from "react-icons/io";
 import { useEffect, useRef } from "react";
 
 // react-router-dom lib
-import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 // redux
 import { useSelector } from "react-redux";
-import { useLogoutUserMutation } from "../../redux/api/users-api-slice";
 
 // lib
 import { useResetApiAndUser } from "../../hooks/use-reset-api-and-user";
-
-// pkgs
-import toast from "react-hot-toast";
 
 /**
  * Header component.
@@ -40,11 +36,8 @@ export default function Header({ replace = false }) {
   const dropdownRef = useRef(null);
   const secondDropdownRef = useRef(null);
   const location = useLocation();
-  const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
-
   const resetAll = useResetApiAndUser();
-  const [logoutUser, { isSuccess }] = useLogoutUserMutation();
 
   const showDropdownContent = (e) => {
     const dropdownIsOpen = dropdownRef?.current?.checked;
@@ -74,27 +67,6 @@ export default function Header({ replace = false }) {
       }
     }
   };
-
-  const handleLogoutUser = async () => {
-    try {
-      const res = await logoutUser().unwrap();
-      toast.success(res.message);
-      resetAll();
-    } catch (err) {
-      if (err.data.type === "token") {
-        toast.error("Token has expired. Log in again");
-        resetAll();
-        return;
-      }
-      toast.error(err.data.message);
-    }
-  };
-
-  useEffect(() => {
-    if (isSuccess) {
-      navigate("/");
-    }
-  }, [navigate, isSuccess]);
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutsideDropdown);
@@ -170,7 +142,7 @@ export default function Header({ replace = false }) {
             <button
               className={`${styles.dropdownLink} ${styles.logoutButton}`}
               onClick={(e) => {
-                handleLogoutUser();
+                resetAll();
                 hideDropdownContent();
                 e.stopPropagation();
               }}
@@ -190,7 +162,7 @@ export default function Header({ replace = false }) {
     <nav className={styles.nav}>
       <NavLink
         className={({ isActive }) =>
-          `${styles.navLink}  ${isActive ? styles.navLinkIsActive : ""}`
+          `${styles.navLink} ${isActive ? styles.navLinkIsActive : ""}`
         }
         to="/login"
         replace={replace}
@@ -199,7 +171,7 @@ export default function Header({ replace = false }) {
       </NavLink>
       <NavLink
         className={({ isActive }) =>
-          `${styles.navLink}  ${isActive ? styles.navLinkIsActive : ""}`
+          `${styles.navLink} ${isActive ? styles.navLinkIsActive : ""}`
         }
         to="/register"
         replace={replace}

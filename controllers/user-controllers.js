@@ -63,7 +63,12 @@ const registerUser = asyncHandler(async (req, res) => {
   if (newPseudoUser) {
     symbol = await Symbol.create({
       user: newPseudoUser._id,
-      token: generateToken(res, newPseudoUser._id),
+      token: generateToken(
+        res,
+        newPseudoUser._id,
+        process.env.VERIFICATION_SECRET,
+        process.env.VERIFICATION_EXP
+      ),
       secret: generateSecret(),
     });
   }
@@ -158,8 +163,12 @@ const verifyUser = asyncHandler(async (req, res) => {
   });
   if (!symbol) throwError(res, 400, "Sekrets do not match or token is invalid");
 
-  const decoded = decodeToken(res, symbol.token);
-  const pseudoUser = await PseudoUser.findById(decoded._id);
+  const decoded = decodeToken(
+    res,
+    symbol.token,
+    process.env.VERIFICATION_SECRET
+  );
+  const pseudoUser = await PseudoUser.findById(decoded.key);
   if (!pseudoUser)
     throwError(res, 400, "Sekrets do not match or token invalid");
 
@@ -221,24 +230,45 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const match = await comparePassword(res, password, user.password);
   if (user && match) {
-    const token = generateToken(res, user._id);
-    const cookieMaxAge = 3 * 24 * 60 * 60 * 1000 - 5 * 60 * 1000;
+    const token = generateToken(
+      res,
+      user._id,
+      process.env.ACCESS_SECRET,
+      process.env.ACCESS_EXP
+    );
+    const refresh = generateToken(
+      res,
+      user._id,
+      process.env.REFRESH_SECRET,
+      process.env.REFRESH_EXP
+    );
+    const cookie = generateToken(
+      res,
+      user.email,
+      process.env.COOKIE_SECRET,
+      process.env.COOKIE_EXP
+    );
 
-    res
-      .cookie("jwt", token, {
-        httpOnly: process.env.NODE_ENV === "production",
-        secure: true,
-        maxAge: cookieMaxAge,
-      })
-      .status(200)
-      .json({
-        message: `User [${user.name}] is logged in`,
-        body: {
-          _id: user._id,
-          name: user.name,
-          tokenExpDate: Date.now() + cookieMaxAge,
-        },
-      });
+    try {
+      res
+        .cookie("jwt", cookie, {
+          httpOnly: process.env.NODE_ENV === "production",
+          secure: process.env.NODE_ENV === "production",
+          maxAge: Number(process.env.COOKIE_MAX_AGE),
+        })
+        .status(200)
+        .json({
+          message: `User [${user.name}] is logged in`,
+          body: {
+            _id: user._id,
+            name: user.name,
+            token,
+            refresh,
+          },
+        });
+    } catch (err) {
+      throwError(res, 400, "Kredentials are not valid");
+    }
   } else {
     throwError(res, 400, "Kredentials are not valid");
   }
@@ -270,7 +300,12 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   const symbol = await Symbol.create({
     user: user._id,
-    token: generateToken(res, user._id),
+    token: generateToken(
+      res,
+      user._id,
+      process.env.VERIFICATION_SECRET,
+      process.env.VERIFICATION_EXP
+    ),
     secret: generateSecret(),
   });
 
@@ -324,13 +359,22 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
 
   if (!symbol) throwError(res, 400, "Sekrets do not match or token invalid");
 
-  const decoded = decodeToken(res, symbol.token);
-  const user = await User.findById(decoded._id);
+  const decoded = decodeToken(
+    res,
+    symbol.token,
+    process.env.VERIFICATION_SECRET
+  );
+  const user = await User.findById(decoded.key);
 
   if (!user) {
     throwError(res, 500, "Something went wrong. Try again");
   } else {
-    symbol.token = generateToken(res, user._id);
+    symbol.token = generateToken(
+      res,
+      user._id,
+      process.env.VERIFICATION_SECRET,
+      process.env.VERIFICATION_EXP
+    );
     const updatedToken = await symbol.save();
 
     if (updatedToken) {
@@ -374,10 +418,14 @@ const resetPassword = asyncHandler(async (req, res) => {
   const symbol = await Symbol.findOne({ token });
   if (!symbol) throwError(res, 400, "Sekrets do not match or token invalid");
 
-  const decoded = decodeToken(res, symbol.token);
+  const decoded = decodeToken(
+    res,
+    symbol.token,
+    process.env.VERIFICATION_SECRET
+  );
   const hashed = await hashPassword(res, password);
   const updatedUser = await User.findOneAndUpdate(
-    { _id: decoded._id },
+    { _id: decoded.key },
     { $set: { password: hashed } },
     { new: true }
   );
@@ -404,11 +452,11 @@ const resetPassword = asyncHandler(async (req, res) => {
 /**
  * @async
  * @function
- * Controller to logout user and clear authorization cookie
+ * Controller to logout user and clear cookie
  *
  * POST /api/users/logout
  *
- * Private route
+ * Public route
  *
  * (Controller is wrapped by asyncHandler)
  *
@@ -419,15 +467,99 @@ const resetPassword = asyncHandler(async (req, res) => {
  * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
  */
 const logoutUser = asyncHandler(async (req, res) => {
-  const currentUser = req.user;
-
   try {
-    res.clearCookie("jwt");
-    res.status(200).json({
-      message: `User [${currentUser.name}] successfully logged out`,
-    });
+    res.clearCookie("jwt").status(200).json({ message: "Logged out" });
   } catch (error) {
     throwError(res, 500, "Error logging out");
+  }
+});
+
+/**
+ * @async
+ * @function
+ * Controller to send refresh token
+ *
+ * GET /api/users/refresh
+ *
+ * Public route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ */
+const refreshToken = asyncHandler(async (req, res) => {
+  const refreshToken = req.headers["refresh-token"];
+  if (!refreshToken) throwError(res, 401, "Not authorized");
+
+  const decodedRefresh = decodeToken(
+    res,
+    refreshToken,
+    process.env.REFRESH_SECRET
+  );
+  const user = await User.findById(decodedRefresh.key);
+  if (!user) throwError(res, 404, "Not found");
+
+  // check cookie if is there
+  const requestCookie = req.cookies.jwt;
+  let decodedRequestCookie;
+  if (requestCookie) {
+    decodedRequestCookie = decodeToken(
+      res,
+      requestCookie,
+      process.env.COOKIE_SECRET
+    );
+  }
+  if (decodedRequestCookie && decodedRequestCookie.key !== user.email) {
+    throwError(res, 401, "User not authorized");
+  }
+
+  // create new access token
+  const token = generateToken(
+    res,
+    user._id,
+    process.env.ACCESS_SECRET,
+    process.env.ACCESS_EXP
+  );
+
+  // create new refresh token
+  const refresh = generateToken(
+    res,
+    user._id,
+    process.env.REFRESH_SECRET,
+    process.env.REFRESH_EXP
+  );
+
+  // generate new cookie
+  const cookie = generateToken(
+    res,
+    user.email,
+    process.env.COOKIE_SECRET,
+    process.env.COOKIE_EXP
+  );
+
+  try {
+    res
+      .clearCookie("jwt")
+      .cookie("jwt", cookie, {
+        httpOnly: process.env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV === "production",
+        maxAge: Number(process.env.COOKIE_MAX_AGE),
+      })
+      .status(200)
+      .json({
+        message: `Dear [${user.name}], your tokens are refreshed`,
+        body: {
+          _id: user._id,
+          name: user.name,
+          token,
+          refresh,
+        },
+      });
+  } catch (err) {
+    throwError(res, 500, "Error sending cookie");
   }
 });
 
@@ -508,7 +640,12 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
   const symbol = await Symbol.create({
     user: currentUser._id,
-    token: generateToken(res, currentUser._id),
+    token: generateToken(
+      res,
+      currentUser._id,
+      process.env.VERIFICATION_SECRET,
+      process.env.VERIFICATION_EXP
+    ),
     secret: generateSecret(),
   });
 
@@ -571,10 +708,10 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
       "You do not seem authorized or something went wrong. Try again"
     );
 
-  const decoded = decodeToken(res, token);
+  const decoded = decodeToken(res, token, process.env.VERIFICATION_SECRET);
   const pseudoUser = pseudoUsers[0];
   const updatedUser = await User.findOneAndUpdate(
-    { _id: decoded._id },
+    { _id: decoded.key },
     {
       $set: {
         name: pseudoUser.name,
@@ -586,6 +723,31 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
   );
 
   if (updatedUser) {
+    const token = generateToken(
+      res,
+      updatedUser._id,
+      process.env.ACCESS_SECRET,
+      process.env.ACCESS_EXP
+    );
+    const refresh = generateToken(
+      res,
+      updatedUser._id,
+      process.env.REFRESH_SECRET,
+      process.env.REFRESH_EXP
+    );
+    const cookie = generateToken(
+      res,
+      updatedUser.email,
+      process.env.COOKIE_SECRET,
+      process.env.COOKIE_EXP
+    );
+
+    res.clearCookie("jwt").cookie("jwt", cookie, {
+      httpOnly: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: Number(process.env.COOKIE_MAX_AGE),
+    });
+
     const deleteSymbol = await Symbol.deleteOne({
       token,
       secret,
@@ -601,7 +763,8 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
         body: {
           _id: updatedUser._id,
           name: updatedUser.name,
-          token: symbol.token,
+          token,
+          refresh,
         },
       });
     } else {
@@ -709,6 +872,7 @@ export const userCtrl = {
   verifyPasswordSecret,
   resetPassword,
   logoutUser,
+  refreshToken,
   getUserProfile,
   updateUserProfile,
   verifyUpdateUserProfile,

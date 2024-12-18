@@ -56,8 +56,10 @@ export default function UpdateTvseries() {
     if (isSuccess) {
       navigate("/dashboard", { replace: true });
     } else if (error) {
-      navigate("/dashboard", { replace: true });
-      toast.error(error.data.message);
+      if (error?.data?.type === "tokenInvalid") {
+        resetAll();
+      }
+      toast.error(error?.data?.message || error?.error);
     }
   }, [isSuccess, navigate, error]);
 
@@ -91,12 +93,10 @@ export default function UpdateTvseries() {
       const res = await updateOneTvseries(parsedData).unwrap();
       toast.success(res.message);
     } catch (err) {
-      if (err.data.type === "token") {
-        toast.error("Token has expired. Log in again");
+      if (err?.data?.type === "tokenInvalid") {
         resetAll();
-        return;
       }
-      toast.error(err.data.message);
+      toast.error(err?.data?.message || err?.error);
     }
   };
 

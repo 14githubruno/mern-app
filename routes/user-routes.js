@@ -22,6 +22,9 @@ router
   .route("/login")
   .post(limiter, userCtrl.loginUser);
 router
+  .route("/logout")
+  .post(userCtrl.logoutUser);
+router
   .route("/forgot-password")
   .post(limiter, userCtrl.forgotPassword);
 router
@@ -32,11 +35,12 @@ router
   .route("/reset-password/:token")
   .get(userCtrl.verifyToken)
   .patch(limiter, userCtrl.resetPassword);
+router
+  .route("/refresh")
+  .get(userCtrl.refreshToken)
+
 
 /* PRIVATE */
-router
-  .route("/logout")
-  .post(protect, limiter, userCtrl.logoutUser);
 router
   .route("/profile")
   .get(protect, userCtrl.getUserProfile)

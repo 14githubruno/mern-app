@@ -37,7 +37,7 @@ export default function UpdateUserProfile() {
   const navigate = useNavigate();
   const resetAll = useResetApiAndUser();
   const user = useSelector((state) => state.auth.user);
-  const { data } = useGetUserProfileQuery();
+  const { data, error } = useGetUserProfileQuery();
   const [updateUserProfile, { isLoading }] = useUpdateUserProfileMutation();
 
   const methods = useForm();
@@ -45,8 +45,13 @@ export default function UpdateUserProfile() {
   useEffect(() => {
     if (data) {
       methods.reset({ ...data.body });
+    } else if (error) {
+      if (error?.data?.type === "tokenInvalid") {
+        resetAll();
+      }
+      toast.error(error?.data?.message || error?.error);
     }
-  }, [data, methods.reset]);
+  }, [data, methods.reset, error]);
 
   // this below fires a useEffect
   useHeadTags("updateUserProfile", user);
@@ -68,12 +73,10 @@ export default function UpdateUserProfile() {
         });
       }
     } catch (err) {
-      if (err.data.type === "token") {
-        toast.error("Token has expired. Log in again");
+      if (err?.data?.type === "tokenInvalid") {
         resetAll();
-        return;
       }
-      toast.error(err.data.message);
+      toast.error(err?.data?.message || err?.error);
     }
   };
 
