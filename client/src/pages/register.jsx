@@ -42,9 +42,9 @@ export default function Register() {
   const [registerUser, { isLoading }] = useRegisterUserMutation();
 
   useEffect(() => {
-    if (user !== null) {
+    if (user) {
       toast.error("You are currently logged in. To Register new user, log out");
-      navigate("/", { replace: true });
+      navigate("/dashboard", { replace: true });
     }
   }, [user, navigate]);
 
