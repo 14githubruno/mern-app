@@ -42,7 +42,7 @@ const resizeImage = (img) => {
       );
     } catch (err) {
       reject(err);
-      toast.error("It appears you did not select an image. Try again");
+      toast.error("Uploading error");
     }
   });
 };
