@@ -53,7 +53,7 @@ export default function VerifyUser() {
 
   const methods = useForm({
     defaultValues: {
-      secret: "",
+      sekret: "",
     },
   });
 
@@ -84,7 +84,7 @@ export default function VerifyUser() {
     }
 
     try {
-      const symbol = { token: params.token, secret: parsedData.secret };
+      const symbol = { token: params.token, secret: parsedData.sekret };
       const res = await verifyUser(symbol).unwrap();
       toast.success(res?.message);
     } catch (err) {

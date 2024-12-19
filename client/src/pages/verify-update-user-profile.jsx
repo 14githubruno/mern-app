@@ -54,7 +54,7 @@ export default function VerifyUpdateUserProfile() {
 
   const methods = useForm({
     defaultValues: {
-      secret: "",
+      sekret: "",
     },
   });
 
@@ -78,7 +78,7 @@ export default function VerifyUpdateUserProfile() {
     }
 
     try {
-      const symbol = { token: params.token, secret: parsedData.secret };
+      const symbol = { token: params.token, secret: parsedData.sekret };
       const res = await verifyUpdateUserProfile(symbol).unwrap();
       if (res.body) {
         dispatch(
@@ -106,6 +106,13 @@ export default function VerifyUpdateUserProfile() {
             textOnLoading: "Verifying...",
             text: "Verify",
           }}
+          formParagraphArrayProps={[
+            {
+              paragraphText: "Want to keep your kurrent data?",
+              linkText: "Go to profile",
+              linkHref: "/profile",
+            },
+          ]}
         />
       </FormProvider>
     </section>

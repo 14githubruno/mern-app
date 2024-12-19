@@ -64,7 +64,7 @@ export default function Form({
     case "verify user":
       formContent = (
         <Fragment>
-          <InputText name={"secret"} />
+          <InputText name={"sekret"} />
           <FormButton {...formButtonProps} />
         </Fragment>
       );
@@ -94,10 +94,10 @@ export default function Form({
         </Fragment>
       );
       break;
-    case "verify password secret":
+    case "verify password sekret":
       formContent = (
         <Fragment>
-          <InputText name={"secret"} />
+          <InputText name={"sekret"} />
           <FormButton {...formButtonProps} />
           {formParagraphArrayProps &&
             formParagraphArrayProps.map((objWithProps, index) => {
@@ -137,8 +137,12 @@ export default function Form({
     case "verify user update":
       formContent = (
         <Fragment>
-          <InputText name={"secret"} />
+          <InputText name={"sekret"} />
           <FormButton {...formButtonProps} />
+          {formParagraphArrayProps &&
+            formParagraphArrayProps.map((objWithProps, index) => {
+              return <FormParagraph key={index} {...objWithProps} />;
+            })}
         </Fragment>
       );
       break;

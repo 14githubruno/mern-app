@@ -53,7 +53,7 @@ const browserRouter = createBrowserRouter([
         element: <ForgotPassword />,
       },
       {
-        path: "/verify-password-secret/:token",
+        path: "/verify-password-sekret/:token",
         element: <VerifyPasswordSecret />,
       },
       {

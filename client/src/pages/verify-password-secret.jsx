@@ -54,7 +54,7 @@ export default function VerifyPasswordSecret() {
 
   const methods = useForm({
     defaultValues: {
-      secret: "",
+      sekret: "",
     },
   });
 
@@ -83,7 +83,7 @@ export default function VerifyPasswordSecret() {
     }
 
     try {
-      const symbol = { token: params.token, secret: parsedData.secret };
+      const symbol = { token: params.token, secret: parsedData.sekret };
       const res = await verifyPasswordSecret(symbol).unwrap();
       toast.success(res?.message);
       navigate(`/reset-password/${res.body.token}`, { replace: true });
@@ -96,7 +96,7 @@ export default function VerifyPasswordSecret() {
     <section>
       <FormProvider {...methods}>
         <Form
-          typeOfForm={"verify password secret"}
+          typeOfForm={"verify password sekret"}
           onSubmit={handlePasswordSecretVerification}
           formButtonProps={{
             isLoading,
