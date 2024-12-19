@@ -19,7 +19,7 @@ const months = [
  *
  * @param {string} ISOdateAndTime - The date and time string in ISO format.
  *
- * @returns {string} The parsed date and time string in the format: DD Month YYYY (HH.MM) UTC.
+ * @returns {string} The parsed date and time string in the format: DD Mon YYYY (HH.MM) UTC [i.e. 1 Jan 2000 (12.00) UTC]
  */
 const parseDateAndTime = (ISOdateAndTime) => {
   const dateAndTime = ISOdateAndTime.split("T");
@@ -27,7 +27,7 @@ const parseDateAndTime = (ISOdateAndTime) => {
   const time = dateAndTime[1];
 
   const d = new Date(date);
-  const parsedDate = `${d.getDay()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  const parsedDate = `${d.getDay()} ${months[d.getMonth()].slice(0, 3)} ${d.getFullYear()}`;
 
   const [hours, minutes] = time.split(":");
   const parsedTime = `${hours}.${minutes}`;
