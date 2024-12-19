@@ -38,6 +38,12 @@
   color: var(--pink-color);
 }
 
+.nothingLink {
+  text-decoration: underline;
+  text-underline-offset: 0.5rem;
+  cursor: pointer;
+}
+
 @media (min-width: $break-tablet) {
   .nothingContainer {
     top: 65%;

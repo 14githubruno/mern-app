@@ -150,6 +150,7 @@ export default function Dashboard() {
             selectTableRowToDelete,
             showTableRowInModalView,
           }}
+          kreateTvseriesRoute={"/dashboard/kreate-tvseries"}
         />
       </FormProvider>
     </section>

@@ -19,6 +19,9 @@ import { useSelector } from "react-redux";
 // react-hook-form lib
 import { useFormContext, useWatch } from "react-hook-form";
 
+// react-router-dom lib
+import { Link } from "react-router-dom";
+
 /**
  * Table component.
  *
@@ -33,10 +36,15 @@ import { useFormContext, useWatch } from "react-hook-form";
  * @param {Object} props - The properties passed to the component.
  * @param {boolean} props.contentIsLoading - Indicates if the content (table row of tvseries) is loading and not ready to be displayed.
  * @param {object.<function>} props.tableRowActions - Object of functions to read, update and delete tvseries (these functions will be passed to TableRow component).
+ * @param {string} props.kreateTvseriesRoute - A link to the create tvseries page.
  *
  * @returns {JSX.Element} The rendered Table component.
  */
-export default function Table({ contentIsLoading, tableRowActions }) {
+export default function Table({
+  contentIsLoading,
+  tableRowActions,
+  kreateTvseriesRoute,
+}) {
   const { control } = useFormContext();
   const filter = useWatch({ control, name: "searchbar" });
   const tvseries = useSelector((state) => state.tvseries.tvseries);
@@ -70,7 +78,10 @@ export default function Table({ contentIsLoading, tableRowActions }) {
         className={styles.nothingIcon}
       />
       <span className={styles.nothingParagraph}>
-        You have nothing to display. Start kreating your table rows.
+        You have nothing to display.{" "}
+        <Link className={styles.nothingLink} to={kreateTvseriesRoute}>
+          Start kreating your table rows &rarr;
+        </Link>
       </span>
     </div>
   );
@@ -85,8 +96,10 @@ export default function Table({ contentIsLoading, tableRowActions }) {
           className={styles.notFoundIcon}
         />
         <span className={styles.nothingParagraph}>
-          None of your table rows contains that title. Try another one or kreate
-          it.
+          None of your table rows contains that title. Try another one or{" "}
+          <Link className={styles.nothingLink} to={kreateTvseriesRoute}>
+            kreate it &rarr;
+          </Link>
         </span>
       </div>
     );

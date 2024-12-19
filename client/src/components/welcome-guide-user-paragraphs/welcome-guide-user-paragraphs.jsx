@@ -14,7 +14,7 @@ import { memo } from "react";
  *
  * @param {Object} props - The properties passed to the component.
  * @param {string} props.userLoggedIn - The name of the logged in user.
- * @param {string} props.kreateTvseriesRoute - A paragraph displaying a link to the create tvseries page.
+ * @param {string} props.kreateTvseriesRoute - A link to the create tvseries page.
  *
  * @returns {JSX.Element} The rendered WelcomeGuideUserParagraphs component.
  */
