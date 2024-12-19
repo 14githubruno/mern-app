@@ -19,7 +19,7 @@ const months = [
  *
  * @param {string} ISOdateAndTime - The date and time string in ISO format.
  *
- * @returns {string} The parsed date and time string in the format: DD Month YYYY (HH.MM).
+ * @returns {string} The parsed date and time string in the format: DD Month YYYY (HH.MM) UTC.
  */
 const parseDateAndTime = (ISOdateAndTime) => {
   const dateAndTime = ISOdateAndTime.split("T");
@@ -32,7 +32,7 @@ const parseDateAndTime = (ISOdateAndTime) => {
   const [hours, minutes] = time.split(":");
   const parsedTime = `${hours}.${minutes}`;
 
-  const parsedDateAndTime = `${parsedDate} (${parsedTime})`;
+  const parsedDateAndTime = `${parsedDate} (${parsedTime}) UTC`;
   return parsedDateAndTime;
 };
 
