@@ -163,11 +163,7 @@ const verifyUser = asyncHandler(async (req, res) => {
   });
   if (!symbol) throwError(res, 400, "Sekrets do not match or token is invalid");
 
-  const decoded = decodeToken(
-    res,
-    symbol.token,
-    process.env.VERIFICATION_SECRET
-  );
+  const decoded = decodeToken(symbol.token, process.env.VERIFICATION_SECRET);
   const pseudoUser = await PseudoUser.findById(decoded.key);
   if (!pseudoUser)
     throwError(res, 400, "Sekrets do not match or token invalid");
@@ -231,19 +227,16 @@ const loginUser = asyncHandler(async (req, res) => {
   const match = await comparePassword(res, password, user.password);
   if (user && match) {
     const token = generateToken(
-      res,
       user._id,
       process.env.ACCESS_SECRET,
       process.env.ACCESS_EXP
     );
     const refresh = generateToken(
-      res,
       user._id,
       process.env.REFRESH_SECRET,
       process.env.REFRESH_EXP
     );
     const cookie = generateToken(
-      res,
       user.email,
       process.env.COOKIE_SECRET,
       process.env.COOKIE_EXP
@@ -301,7 +294,6 @@ const forgotPassword = asyncHandler(async (req, res) => {
   const symbol = await Symbol.create({
     user: user._id,
     token: generateToken(
-      res,
       user._id,
       process.env.VERIFICATION_SECRET,
       process.env.VERIFICATION_EXP
@@ -359,18 +351,13 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
 
   if (!symbol) throwError(res, 400, "Sekrets do not match or token invalid");
 
-  const decoded = decodeToken(
-    res,
-    symbol.token,
-    process.env.VERIFICATION_SECRET
-  );
+  const decoded = decodeToken(symbol.token, process.env.VERIFICATION_SECRET);
   const user = await User.findById(decoded.key);
 
   if (!user) {
     throwError(res, 500, "Something went wrong. Try again");
   } else {
     symbol.token = generateToken(
-      res,
       user._id,
       process.env.VERIFICATION_SECRET,
       process.env.VERIFICATION_EXP
@@ -418,11 +405,7 @@ const resetPassword = asyncHandler(async (req, res) => {
   const symbol = await Symbol.findOne({ token });
   if (!symbol) throwError(res, 400, "Sekrets do not match or token invalid");
 
-  const decoded = decodeToken(
-    res,
-    symbol.token,
-    process.env.VERIFICATION_SECRET
-  );
+  const decoded = decodeToken(symbol.token, process.env.VERIFICATION_SECRET);
   const hashed = await hashPassword(res, password);
   const updatedUser = await User.findOneAndUpdate(
     { _id: decoded.key },
@@ -494,11 +477,7 @@ const refreshToken = asyncHandler(async (req, res) => {
   const refreshToken = req.headers["refresh-token"];
   if (!refreshToken) throwError(res, 401, "Not authorized");
 
-  const decodedRefresh = decodeToken(
-    res,
-    refreshToken,
-    process.env.REFRESH_SECRET
-  );
+  const decodedRefresh = decodeToken(refreshToken, process.env.REFRESH_SECRET);
   const user = await User.findById(decodedRefresh.key);
   if (!user) throwError(res, 404, "Not found");
 
@@ -643,7 +622,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   const symbol = await Symbol.create({
     user: currentUser._id,
     token: generateToken(
-      res,
       currentUser._id,
       process.env.VERIFICATION_SECRET,
       process.env.VERIFICATION_EXP
@@ -726,19 +704,16 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
 
   if (updatedUser) {
     const token = generateToken(
-      res,
       updatedUser._id,
       process.env.ACCESS_SECRET,
       process.env.ACCESS_EXP
     );
     const refresh = generateToken(
-      res,
       updatedUser._id,
       process.env.REFRESH_SECRET,
       process.env.REFRESH_EXP
     );
     const cookie = generateToken(
-      res,
       updatedUser.email,
       process.env.COOKIE_SECRET,
       process.env.COOKIE_EXP

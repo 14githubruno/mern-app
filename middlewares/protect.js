@@ -37,7 +37,6 @@ const protect = async (req, res, next) => {
 
   try {
     const decodedRefreshToken = decodeToken(
-      res,
       refreshToken,
       process.env.REFRESH_SECRET
     );
@@ -50,12 +49,10 @@ const protect = async (req, res, next) => {
 
   try {
     const decodedAccessToken = decodeToken(
-      res,
       accessToken,
       process.env.ACCESS_SECRET
     );
     const decodedCookieToken = decodeToken(
-      res,
       cookieToken,
       process.env.COOKIE_SECRET
     );
