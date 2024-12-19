@@ -25,12 +25,9 @@ function WelcomeGuideUserParagraphs({ userLoggedIn, kreateTvseriesRoute }) {
         This is your dashboard,{" "}
         <span className={styles.username}>{userLoggedIn}</span>
       </p>
-      <p className={styles.paragraph}>
-        If you want to kreate a table row,{" "}
-        <Link className={styles.link} to={kreateTvseriesRoute}>
-          klick here &rarr;
-        </Link>
-      </p>
+      <Link className={styles.link} to={kreateTvseriesRoute}>
+        Kreate a new table row &rarr;
+      </Link>
     </div>
   );
 }

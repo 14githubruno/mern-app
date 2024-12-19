@@ -9,10 +9,17 @@
   gap: 0.5rem;
 }
 
-.paragraph {
+.paragraph,
+.link {
   align-self: flex-start;
   font-size: 1.4rem;
   color: var(--white-color);
+}
+
+.link {
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+  cursor: pointer;
 }
 
 .username {
@@ -24,15 +31,9 @@
   background: var(--pink-blue-gradient) text;
 }
 
-.link {
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-  color: var(--white-color);
-  cursor: pointer;
-}
-
 @media (min-width: $break-large-mobile) {
-  .paragraph {
+  .paragraph,
+  .link {
     font-size: 1.455rem;
   }
   .username {
