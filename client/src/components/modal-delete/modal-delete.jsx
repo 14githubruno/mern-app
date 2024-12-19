@@ -61,21 +61,21 @@ function ModalDelete({
         <div className={styles.buttonsWrapper}>
           <button
             onClick={() => {
-              confirm();
-              toggleModalToDelete();
-            }}
-            className={`${styles.button} ${styles.buttonDeletion}`}
-          >
-            Delete
-          </button>
-          <button
-            onClick={() => {
               doNotConfirm();
               toggleModalToDelete();
             }}
             className={`${styles.button} ${styles.buttonNotDeletion}`}
           >
             Kancel
+          </button>
+          <button
+            onClick={() => {
+              confirm();
+              toggleModalToDelete();
+            }}
+            className={`${styles.button} ${styles.buttonDeletion}`}
+          >
+            Delete
           </button>
         </div>
       </div>
