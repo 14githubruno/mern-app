@@ -18,7 +18,7 @@ const tableHeadTitles = [
   "Note",
   "Kreated At",
   "Last Updated At",
-  "Actions",
+  "Aktions",
 ];
 
 /**
