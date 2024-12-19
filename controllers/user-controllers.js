@@ -64,7 +64,6 @@ const registerUser = asyncHandler(async (req, res) => {
     symbol = await Symbol.create({
       user: newPseudoUser._id,
       token: generateToken(
-        res,
         newPseudoUser._id,
         process.env.VERIFICATION_SECRET,
         process.env.VERIFICATION_EXP
@@ -486,7 +485,6 @@ const refreshToken = asyncHandler(async (req, res) => {
   let decodedRequestCookie;
   if (requestCookie) {
     decodedRequestCookie = decodeToken(
-      res,
       requestCookie,
       process.env.COOKIE_SECRET
     );
@@ -497,7 +495,6 @@ const refreshToken = asyncHandler(async (req, res) => {
 
   // create new access token
   const token = generateToken(
-    res,
     user._id,
     process.env.ACCESS_SECRET,
     process.env.ACCESS_EXP
@@ -505,7 +502,6 @@ const refreshToken = asyncHandler(async (req, res) => {
 
   // create new refresh token
   const refresh = generateToken(
-    res,
     user._id,
     process.env.REFRESH_SECRET,
     process.env.REFRESH_EXP
@@ -513,7 +509,6 @@ const refreshToken = asyncHandler(async (req, res) => {
 
   // generate new cookie
   const cookie = generateToken(
-    res,
     user.email,
     process.env.COOKIE_SECRET,
     process.env.COOKIE_EXP
@@ -688,7 +683,7 @@ const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
       "You do not seem authorized or something went wrong. Try again"
     );
 
-  const decoded = decodeToken(res, token, process.env.VERIFICATION_SECRET);
+  const decoded = decodeToken(token, process.env.VERIFICATION_SECRET);
   const pseudoUser = pseudoUsers[0];
   const updatedUser = await User.findOneAndUpdate(
     { _id: decoded.key },
