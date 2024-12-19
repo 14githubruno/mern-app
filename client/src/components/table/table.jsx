@@ -48,11 +48,11 @@ export default function Table({
   const { control } = useFormContext();
   const filter = useWatch({ control, name: "searchbar" });
   const tvseries = useSelector((state) => state.tvseries.tvseries);
-  const noTvseries = tvseries?.length > 0;
+  const thereAreTvseries = tvseries?.length > 0;
 
   const table_rows = useMemo(
     () =>
-      noTvseries &&
+      thereAreTvseries &&
       tvseries
         .filter((singleSeries) =>
           singleSeries.title.toLowerCase().includes(filter.toLowerCase())
@@ -68,10 +68,10 @@ export default function Table({
             />
           );
         }),
-    [noTvseries, tvseries, filter]
+    [thereAreTvseries, tvseries, filter]
   );
 
-  const there_are_no_rows_and_paragraph = !noTvseries && (
+  const there_are_no_rows_and_paragraph = !thereAreTvseries && (
     <div className={styles.nothingContainer}>
       <PiMaskSadThin
         aria-label="sad face icon"
@@ -86,7 +86,7 @@ export default function Table({
     </div>
   );
 
-  const table_row_not_found_and_paragraph = noTvseries &&
+  const table_row_not_found_and_paragraph = thereAreTvseries &&
     !tvseries.some((singleSeries) =>
       singleSeries.title.toLowerCase().includes(filter.toLowerCase())
     ) && (
@@ -117,7 +117,7 @@ export default function Table({
   return (
     <article
       className={`${styles.baseTable} ${
-        !noTvseries ||
+        !thereAreTvseries ||
         !tvseries?.some((singleSeries) =>
           singleSeries.title.toLowerCase().includes(filter.toLowerCase())
         )
