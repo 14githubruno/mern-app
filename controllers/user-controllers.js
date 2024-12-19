@@ -100,7 +100,7 @@ const registerUser = asyncHandler(async (req, res) => {
 /**
  * @async
  * @function
- * Controller to verify if token exists or expired
+ * Controller to verify if verification token exists or expired
  *
  * GET /api/users/verify/:token
  *
