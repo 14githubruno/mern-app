@@ -33,7 +33,7 @@ function UserProfileTable({ userData }) {
                     keyIsName ? styles.nameValue : ""
                   }`}
                 >
-                  {keyIsDate ? parseDateAndTime(value) : value}
+                  {value && keyIsDate ? parseDateAndTime(value) : value}
                 </p>
               </div>
             );
