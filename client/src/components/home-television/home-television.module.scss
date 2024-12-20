@@ -6,35 +6,15 @@
   margin: 7rem auto 0 auto;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-.aerials,
 .tv {
   width: 100%;
 }
 
-.aerials {
-  display: flex;
-  justify-content: center;
-  position: relative;
-}
-
-.aerial {
-  border: 0.155rem solid var(--white-color);
-  background-color: var(--white-color);
-  width: 8rem;
-  height: 0.1rem;
-  position: absolute;
-  top: 0;
-  transform: translateX(-50%);
-}
-
-.aerialLeft {
-  rotate: 45deg;
-}
-
-.aerialRight {
-  rotate: -225deg;
+.support {
+  display: none;
 }
 
 .tv {
@@ -64,14 +44,8 @@
 /* large mobile breakpoint */
 @media (min-width: $break-large-mobile) {
   .homeTelevision {
-    margin-top: 10rem;
     width: 41rem;
     max-width: none;
-  }
-
-  .aerial {
-    border: 0.225rem solid var(--white-color);
-    width: 12rem;
   }
 
   .tv {
@@ -87,19 +61,6 @@
 @media (min-width: $break-tablet) {
   .homeTelevision {
     width: 42rem;
-    margin-top: 11rem;
-  }
-
-  .aerial {
-    width: 14rem;
-  }
-
-  .tv {
-    border: 0.6rem solid var(--white-color);
-  }
-
-  .screen {
-    border-right: 0.6rem solid var(--white-color);
   }
 }
 
@@ -107,33 +68,58 @@
 @media (min-width: $break-large-desktop) {
   .homeTelevision {
     width: 60rem;
-    margin: 5rem 2rem 0 0;
+    margin: -1rem 0 0 2rem;
     perspective: 150rem;
     transform-style: preserve-3d;
+    position: relative;
+  }
+
+  .tv,
+  .support {
+    transform: rotateX(-10deg) rotateY(-25deg);
+  }
+
+  .support {
+    width: 110%;
+    height: 0.7rem;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 39.21rem;
+  }
+
+  .leg {
+    width: 0.6rem;
+    height: 6rem;
+    position: relative;
+  }
+
+  .support,
+  .leg {
+    background-color: var(--white-color);
+  }
+
+  .legLeft {
+    left: -10rem;
+  }
+
+  .legRight {
+    height: 6.2rem;
+    right: -10rem;
+  }
+
+  .tv {
+    border: 0.6rem solid transparent;
+    background-image: var(--tv-border-gradient);
+  }
+
+  .screen {
+    padding: 0 0.5rem 0 0.2rem;
+    border-right: 0.3rem solid transparent;
   }
 
   .carouselButtonsContainer {
     background-color: var(--bg-color);
     background-image: var(--bg-image);
-  }
-
-  .aerials,
-  .tv {
-    transform: rotateX(-10deg) rotateY(-25deg);
-  }
-
-  .aerial {
-    width: 18rem;
-    height: 0.355rem;
-  }
-
-  .tv {
-    border: 0.8rem solid transparent;
-    background-image: var(--tv-border-gradient);
-  }
-
-  .screen {
-    border-right: 0.5rem solid transparent;
-    padding: 0 0.5rem 0 0.2rem;
   }
 }
