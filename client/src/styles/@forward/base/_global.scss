@@ -12,12 +12,14 @@ body {
 }
 
 section {
-  min-height: 86vh;
+  min-height: 92vh;
   width: 100%;
+  padding-top: 8rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  gap: 1rem;
 }
 
 input[name="image"] {
