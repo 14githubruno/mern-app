@@ -1,4 +1,5 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Form from "../components/form/form";
 import Loader from "../components/loader/loader";
 
@@ -83,18 +84,21 @@ export default function UpdateUserProfile() {
   return (
     <section>
       {data ? (
-        <FormProvider {...methods}>
-          <Form
-            typeOfForm={"update user"}
-            onSubmit={handleUpdateUserData}
-            formButtonProps={{
-              isLoading,
-              textOnLoading: "Updating...",
-              text: "Update",
-            }}
-            formLinkHrefToGoBack="/profile"
-          />
-        </FormProvider>
+        <>
+          <PageTitle title={"Update your profile"} />
+          <FormProvider {...methods}>
+            <Form
+              typeOfForm={"update user"}
+              onSubmit={handleUpdateUserData}
+              formButtonProps={{
+                isLoading,
+                textOnLoading: "Updating...",
+                text: "Update",
+              }}
+              formLinkHrefToGoBack="/profile"
+            />
+          </FormProvider>
+        </>
       ) : (
         <Loader />
       )}

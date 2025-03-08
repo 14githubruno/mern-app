@@ -1,4 +1,5 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Form from "../components/form/form";
 
 // react
@@ -94,6 +95,7 @@ export default function VerifyPasswordSecret() {
 
   return (
     <section>
+      <PageTitle title={"Verify your akkount"} />
       <FormProvider {...methods}>
         <Form
           typeOfForm={"verify password sekret"}

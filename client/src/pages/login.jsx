@@ -1,4 +1,5 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Form from "../components/form/form";
 
 // react lib
@@ -45,7 +46,7 @@ export default function Login() {
 
   useEffect(() => {
     if (user) {
-      navigate("/dashboard");
+      navigate("/", { replace: true });
     }
   }, [user, navigate]);
 
@@ -77,6 +78,7 @@ export default function Login() {
 
   return (
     <section>
+      <PageTitle title={"Log in"} />
       <FormProvider {...methods}>
         <Form
           typeOfForm={"login user"}

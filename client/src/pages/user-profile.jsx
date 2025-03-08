@@ -1,4 +1,5 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Loader from "../components/loader/loader";
 import ModalDelete from "../components/modal-delete/modal-delete";
 import UserProfileTable from "../components/user-profile-table/user-profile-table";
@@ -91,6 +92,7 @@ export default function UserProfile() {
         <Loader />
       ) : (
         <>
+          <PageTitle title={"Profile"} pageHasForm={false} />
           <ModalDelete
             isUser={true}
             numberOfTvseriesOfUser={!tvseries?.body ? 0 : tvseries.body.length}

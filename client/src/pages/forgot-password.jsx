@@ -1,4 +1,5 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Form from "../components/form/form";
 
 // react
@@ -72,6 +73,7 @@ export default function ForgotPassword() {
 
   return (
     <section>
+      <PageTitle title={"Send your email to reset password"} />
       <FormProvider {...methods}>
         <Form
           typeOfForm={"forgot password"}

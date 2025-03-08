@@ -1,4 +1,5 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Form from "../components/form/form";
 
 // react
@@ -97,6 +98,7 @@ export default function VerifyUpdateUserProfile() {
 
   return (
     <section>
+      <PageTitle title={"Verify your akkount"} />
       <FormProvider {...methods}>
         <Form
           typeOfForm={"verify user update"}

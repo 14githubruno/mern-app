@@ -1,4 +1,5 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Form from "../components/form/form";
 
 // react lib
@@ -87,6 +88,7 @@ export default function CreateTvseries() {
 
   return (
     <section>
+      <PageTitle title={"Kreate a tvseries"} />
       <FormProvider {...methods}>
         <Form
           typeOfForm={"create tvseries"}

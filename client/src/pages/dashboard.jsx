@@ -1,4 +1,5 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Searchbar from "../components/searchbar/searchbar";
 import WelcomeGuideUserParagraphs from "../components/welcome-guide-user-paragraphs/welcome-guide-user-paragraphs";
 import Table from "../components/table/table";
@@ -125,6 +126,7 @@ export default function Dashboard() {
 
   return (
     <section>
+      <PageTitle title={"Dashboard"} pageHasForm={false} />
       <ModalDelete
         nameOfItemToDelete={tableRowToDelete?.title}
         modalDeleteRef={modalDeleteRef}

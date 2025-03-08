@@ -1,4 +1,5 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Form from "../components/form/form";
 
 // react hooks
@@ -72,6 +73,7 @@ export default function Register() {
 
   return (
     <section>
+      <PageTitle title={"Register a new akkount"} />
       <FormProvider {...methods}>
         <Form
           typeOfForm={"register user"}

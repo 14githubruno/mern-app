@@ -1,4 +1,5 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Form from "../components/form/form";
 import Loader from "../components/loader/loader";
 
@@ -103,23 +104,26 @@ export default function UpdateTvseries() {
   return (
     <section>
       {singleTvseries ? (
-        <FormProvider {...methods}>
-          <Form
-            typeOfForm={"update tvseries"}
-            onSubmit={handleUpdateOneTvseries}
-            inputFileProps={{
-              typeOfFile: "image",
-              file: img,
-              funcForInputFile: handleImageConversionAndResize,
-            }}
-            formButtonProps={{
-              isLoading,
-              textOnLoading: "Updating...",
-              text: "Update",
-            }}
-            formLinkHrefToGoBack="/dashboard"
-          />
-        </FormProvider>
+        <>
+          <PageTitle title={"Update a tv series"} />
+          <FormProvider {...methods}>
+            <Form
+              typeOfForm={"update tvseries"}
+              onSubmit={handleUpdateOneTvseries}
+              inputFileProps={{
+                typeOfFile: "image",
+                file: img,
+                funcForInputFile: handleImageConversionAndResize,
+              }}
+              formButtonProps={{
+                isLoading,
+                textOnLoading: "Updating...",
+                text: "Update",
+              }}
+              formLinkHrefToGoBack="/dashboard"
+            />
+          </FormProvider>
+        </>
       ) : (
         <Loader />
       )}
