@@ -59,8 +59,8 @@ function TableRow({
 
   return (
     <div className={styles.tableRow} key={id}>
-      <div className={styles.num}>{num}</div>
-      <div className={styles.title}>
+      <div>{num}</div>
+      <div>
         {title
           .replace(filter.toLowerCase(), "*")
           .split("")
@@ -81,8 +81,8 @@ function TableRow({
             }
           })}
       </div>
-      <div className={styles.starsWrapper}>
-        {arrayOfStars.map((star, index) => {
+      <div>
+        {arrayOfStars.map((_, index) => {
           return (
             <AiFillStar
               aria-label="star icon"
@@ -93,7 +93,7 @@ function TableRow({
         })}
         {restOfStars === 0
           ? null
-          : restOfStars.map((star, index) => {
+          : restOfStars.map((_, index) => {
               return (
                 <AiFillStar
                   aria-label="star icon"
@@ -110,9 +110,9 @@ function TableRow({
         }}
       ></div>
       <div>{note}</div>
-      <div>{parseDateAndTime(createdAt)}</div>
-      <div>{parseDateAndTime(updatedAt)}</div>
-      <div className={styles.iconsContainer}>
+      <div className={styles.date}>{parseDateAndTime(createdAt)}</div>
+      <div className={styles.date}>{parseDateAndTime(updatedAt)}</div>
+      <div>
         <span
           role="button"
           className={styles.iconView}

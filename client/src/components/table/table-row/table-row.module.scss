@@ -14,7 +14,7 @@
 
 .tableRow > div {
   padding: 1rem 0.6rem 0.6rem 0.6rem;
-  display: inline-block;
+  display: inline-flex;
   flex: 1;
   font-size: 1.4rem;
   border-bottom: 0.1rem solid var(--dark-grey-color);
@@ -26,12 +26,6 @@
   @media (min-width: $break-tablet) {
     padding: 1.4rem 1.4rem 1rem 1.4rem;
   }
-}
-
-.tableRow > div:last-of-type {
-  display: flex;
-  justify-content: space-evenly;
-  border-right: 0.1rem solid var(--dark-grey-color);
 }
 
 .coloredLettersWrapper {
@@ -61,6 +55,17 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
+}
+
+.date {
+  justify-content: center;
+}
+
+// actions icons container
+.tableRow > div:last-of-type {
+  display: flex;
+  justify-content: space-evenly;
+  border-right: 0.1rem solid var(--dark-grey-color);
 }
 
 .icon {
