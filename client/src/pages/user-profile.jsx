@@ -105,8 +105,8 @@ export default function UserProfile() {
             userData={{
               name: data?.body.name,
               email: data?.body.email,
-              ["kreated at"]: data?.body.createdAt,
-              ["last updated at"]: data?.body.updatedAt,
+              kreated: data?.body.createdAt,
+              updated: data?.body.updatedAt,
               tvseries: !tvseries?.body ? 0 : tvseries.body.length,
             }}
           />

@@ -71,11 +71,11 @@ function ModalView({
         <p className={styles.parag}>{note}</p>
         <div className={styles.dates}>
           <div className={styles.createdAt}>
-            <span className={styles.dateTitle}>Kreated At</span>
+            <span className={styles.dateTitle}>Kreated</span>
             <span className={styles.date}>{parseDateAndTime(createdAt)}</span>
           </div>
           <div className={styles.updatedAt}>
-            <span className={styles.dateTitle}>Last Updated At</span>
+            <span className={styles.dateTitle}>Updated</span>
             <span className={styles.date}>{parseDateAndTime(updatedAt)}</span>
           </div>
         </div>

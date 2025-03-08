@@ -7,6 +7,9 @@ import { memo } from "react";
 // custom lib
 import { parseDateAndTime } from "../../lib/parse-date-and-time";
 
+// set obj with time labels
+const timestampsLabels = ["kreated", "updated"];
+
 /**
  * UserProfileTable component.
  *
@@ -24,7 +27,7 @@ function UserProfileTable({ userData }) {
         {userData &&
           Object.entries(userData).map(([key, value]) => {
             const keyIsName = key === "name";
-            const keyIsDate = key.includes("at");
+            const keyIsDate = timestampsLabels.includes(key.toLowerCase());
             return (
               <div key={key} className={styles.keyWithValue}>
                 <p className={styles.key}>{key}</p>
