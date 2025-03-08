@@ -477,6 +477,8 @@ const refreshToken = asyncHandler(async (req, res) => {
   if (!refreshToken) throwError(res, 401, "Not authorized");
 
   const decodedRefresh = decodeToken(refreshToken, process.env.REFRESH_SECRET);
+  if (!decodedRefresh) throwError(res, 401, "Not authorized");
+
   const user = await User.findById(decodedRefresh.key);
   if (!user) throwError(res, 404, "Not found");
 
@@ -823,6 +825,7 @@ const deleteUserProfile = asyncHandler(async (req, res) => {
  * @property {Function} verifyPasswordSecret - {@link verifyPasswordSecret}
  * @property {Function} resetPassword - {@link resetPassword}
  * @property {Function} logoutUser - {@link logoutUser}
+ * @property {Function} refreshToken - {@link refreshToken}
  * @property {Function} getUserProfile - {@link getUserProfile}
  * @property {Function} updateUserProfile - {@link updateUserProfile}
  * @property {Function} verifyUpdateUserProfile - {@link verifyUpdateUserProfile}

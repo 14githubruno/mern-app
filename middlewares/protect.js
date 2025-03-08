@@ -35,12 +35,11 @@ const protect = async (req, res, next) => {
     });
   }
 
-  try {
-    const decodedRefreshToken = decodeToken(
-      refreshToken,
-      process.env.REFRESH_SECRET
-    );
-  } catch (err) {
+  const decodedRefreshToken = decodeToken(
+    refreshToken,
+    process.env.REFRESH_SECRET
+  );
+  if (!decodedRefreshToken) {
     return res.status(401).json({
       message: `Authentication failed: refresh token invalid`,
       type: "tokenInvalid",
