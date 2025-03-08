@@ -3,7 +3,6 @@ import styles from "./header.module.scss";
 
 // icons
 import { GiSouthKorea } from "react-icons/gi";
-import { BiUser } from "react-icons/bi";
 import { RxDashboard } from "react-icons/rx";
 import { RiProfileLine } from "react-icons/ri";
 import { IoIosLogOut } from "react-icons/io";
@@ -56,10 +55,10 @@ export default function Header({ replace = false }) {
 
   const handleClickOutsideDropdown = (e) => {
     const target = e.target;
-    const userIconIsTarget = secondDropdownRef?.current?.contains(target);
+    const userMenuIsTarget = secondDropdownRef?.current?.contains(target);
     const dropdownIsOpen = dropdownRef?.current?.checked;
 
-    if (user && !userIconIsTarget && !dropdownIsOpen) {
+    if (user && !userMenuIsTarget && !dropdownIsOpen) {
       return;
     } else {
       if (dropdownRef?.current) {
@@ -90,10 +89,10 @@ export default function Header({ replace = false }) {
         aria-haspopup="true"
         ref={secondDropdownRef}
         onClick={showDropdownContent}
-        className={styles.userIconDropdownWrapper}
+        className={styles.userMenuDropdownWrapper}
         id="user dropdown wrapper"
       >
-        <BiUser aria-label="user icon" className={styles.userIcon} />
+        <span className={styles.userFirstLetter}>{user?.slice(0, 1)}</span>
         <ul
           aria-labelledby="user dropdown wrapper"
           className={styles.dropdownContent}

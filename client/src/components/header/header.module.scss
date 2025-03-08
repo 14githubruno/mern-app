@@ -64,26 +64,30 @@
   opacity: 0;
 }
 
-.userIconDropdownWrapper {
+.userMenuDropdownWrapper,
+.userFirstLetter {
   width: 3.8rem;
   height: 3.8rem;
   display: flex;
   justify-content: center;
-  position: relative;
   align-items: center;
-  cursor: pointer;
   border-radius: 50%;
+}
+
+.userMenuDropdownWrapper {
+  position: relative;
+  cursor: pointer;
   background: var(--pink-blue-gradient);
 }
 
-.userIcon {
-  width: 2.3rem;
-  height: 2.3rem;
+.userFirstLetter {
+  font-size: 1.8rem;
+  text-transform: uppercase;
   color: var(--white-color);
 }
 
 .labelCheckbox:has(.checkbox:checked)
-  ~ .userIconDropdownWrapper
+  ~ .userMenuDropdownWrapper
   > .dropdownContent {
   height: auto;
   width: 15rem;
@@ -170,14 +174,14 @@
     font-size: 1.5rem;
   }
 
-  .userIconDropdownWrapper {
+  .userMenuDropdownWrapper,
+  .userFirstLetter {
     width: 4.5rem;
     height: 4.5rem;
   }
 
-  .userIcon {
-    width: 3rem;
-    height: 3rem;
+  .userFirstLetter {
+    font-size: 2rem;
   }
 
   .dropdownLink {
@@ -192,13 +196,13 @@
 }
 
 @media (min-width: $break-desktop) {
-  .userIconDropdownOuterWrapper {
+  .userMenuDropdownOuterWrapper {
     margin: 0;
     padding: 0 3rem;
   }
 
   .labelCheckbox:has(.checkbox:checked)
-    ~ .userIconDropdownWrapper
+    ~ .userMenuDropdownWrapper
     > .dropdownContent {
     width: 15rem;
     right: auto;
