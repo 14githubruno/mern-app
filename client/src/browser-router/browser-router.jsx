@@ -3,6 +3,7 @@ import App from "../App";
 import PrivateRoute from "../components/private-route";
 import ErrorPage from "../pages/error-page";
 import Homepage from "../pages/homepage";
+import PrivacyNotice from "../pages/privacy-notice";
 import Register from "../pages/register";
 import VerifyUser from "../pages/verify-user";
 import Login from "../pages/login";
@@ -35,6 +36,10 @@ const browserRouter = createBrowserRouter([
       {
         path: "/",
         element: <Homepage />,
+      },
+      {
+        path: "/privacy-notice",
+        element: <PrivacyNotice />,
       },
       {
         path: "/register",

@@ -13,6 +13,11 @@ const headTags = {
       "The ultimate Reakt Applikation where you kan entrust your personal k-love💘 Kreate your akkount and save from forgetfulness every k-drama📺",
   },
 
+  privacyNotice: {
+    title: "Korean Reakt App | Info and terms ℹ️💡",
+    metaDescription: "Reakt Applikation info and terms💡",
+  },
+
   register: {
     title: "Korean Reakt App | Kreate Akkount✍️",
     metaDescription:
