@@ -35,7 +35,7 @@ app.use(
   })
 );
 
-app.use(helmet());
+// app.use(helmet());
 
 app.use(compression());
 
