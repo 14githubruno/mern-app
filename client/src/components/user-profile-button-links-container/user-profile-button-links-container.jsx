@@ -4,9 +4,6 @@ import styles from "./user-profile-button-links-container.module.scss";
 // react-router-dom lib
 import { Link } from "react-router-dom";
 
-// react lib
-import { memo } from "react";
-
 /**
  * UserProfileButtonLinksContainer component.
  *
@@ -19,7 +16,9 @@ import { memo } from "react";
  *
  * @returns {JSX.Element} The rendered UserProfileButtonLinksContainer component.
  */
-function UserProfileButtonLinksContainer({ toggleModalToDelete }) {
+export default function UserProfileButtonLinksContainer({
+  toggleModalToDelete,
+}) {
   return (
     <div className={styles.userProfileButtonLinksContainer}>
       <div className={styles.links}>
@@ -44,5 +43,3 @@ function UserProfileButtonLinksContainer({ toggleModalToDelete }) {
     </div>
   );
 }
-
-export default memo(UserProfileButtonLinksContainer);

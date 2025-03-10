@@ -1,9 +1,6 @@
 // styles
 import styles from "./user-profile-paragraph.module.scss";
 
-// react lib
-import { memo } from "react";
-
 /**
  * UserProfileParagraph component.
  *
@@ -11,7 +8,7 @@ import { memo } from "react";
  *
  * @returns {JSX.Element} The rendered UserProfileParagraph component.
  */
-function UserProfileParagraph() {
+export default function UserProfileParagraph() {
   return (
     <p className={styles.userProfileParagraph}>
       The <span className={styles.differentColor}>password</span> is not shown
@@ -21,5 +18,3 @@ function UserProfileParagraph() {
     </p>
   );
 }
-
-export default memo(UserProfileParagraph);

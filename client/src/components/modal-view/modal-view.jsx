@@ -5,9 +5,6 @@ import styles from "./modal-view.module.scss";
 import { AiFillStar } from "react-icons/ai";
 import { LiaTimesSolid } from "react-icons/lia";
 
-// react lib
-import { memo } from "react";
-
 // custom lib
 import { parseDateAndTime } from "../../lib/parse-date-and-time";
 
@@ -29,7 +26,7 @@ import { parseDateAndTime } from "../../lib/parse-date-and-time";
  *
  * @returns {JSX.Element} The rendered ModalView component.
  */
-function ModalView({
+export default function ModalView({
   title,
   stars,
   image,
@@ -88,5 +85,3 @@ function ModalView({
     </article>
   );
 }
-
-export default memo(ModalView);

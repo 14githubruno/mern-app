@@ -1,9 +1,6 @@
 // styles
 import styles from "./user-profile-table.module.scss";
 
-// react lib
-import { memo } from "react";
-
 // custom lib
 import { parseDateAndTime } from "../../lib/parse-date-and-time";
 
@@ -20,7 +17,7 @@ const timestampsLabels = ["kreated", "updated"];
  *
  * @returns {JSX.Element} The rendered UserProfileTable component.
  */
-function UserProfileTable({ userData }) {
+export default function UserProfileTable({ userData }) {
   return (
     <div className={styles.userProfileTable}>
       <div className={styles.keysValuesContainer}>
@@ -45,5 +42,3 @@ function UserProfileTable({ userData }) {
     </div>
   );
 }
-
-export default memo(UserProfileTable);

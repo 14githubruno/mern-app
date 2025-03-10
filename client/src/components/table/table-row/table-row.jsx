@@ -5,9 +5,6 @@ import styles from "./table-row.module.scss";
 import { AiFillStar } from "react-icons/ai";
 import { RxPencil1, RxMagnifyingGlass, RxTrash } from "react-icons/rx";
 
-// react lib
-import { memo } from "react";
-
 // react-router-dom lib
 import { Link } from "react-router-dom";
 
@@ -39,7 +36,7 @@ import { parseDateAndTime } from "../../../lib/parse-date-and-time";
  *
  * @returns {JSX.Element} The rendered TableRow component.
  */
-function TableRow({
+export default function TableRow({
   num,
   id,
   title,
@@ -143,5 +140,3 @@ function TableRow({
     </div>
   );
 }
-
-export default memo(TableRow);

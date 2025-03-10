@@ -4,9 +4,6 @@ import styles from "./welcome-guide-user-paragraphs.module.scss";
 // react-router-dom lib
 import { Link } from "react-router-dom";
 
-// react lib
-import { memo } from "react";
-
 /**
  * WelcomeGuideUserParagraphs component.
  *
@@ -18,7 +15,10 @@ import { memo } from "react";
  *
  * @returns {JSX.Element} The rendered WelcomeGuideUserParagraphs component.
  */
-function WelcomeGuideUserParagraphs({ userLoggedIn, kreateTvseriesRoute }) {
+export default function WelcomeGuideUserParagraphs({
+  userLoggedIn,
+  kreateTvseriesRoute,
+}) {
   return (
     <div className={styles.welcomeGuideUserParagraphs}>
       <p className={styles.paragraph}>
@@ -31,5 +31,3 @@ function WelcomeGuideUserParagraphs({ userLoggedIn, kreateTvseriesRoute }) {
     </div>
   );
 }
-
-export default memo(WelcomeGuideUserParagraphs);

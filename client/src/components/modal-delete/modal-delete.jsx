@@ -2,9 +2,6 @@
 import styles from "./modal-delete.module.scss";
 import "./modal-delete.scss";
 
-// react lib
-import { memo } from "react";
-
 /**
  * ModalDelete component.
  *
@@ -21,7 +18,7 @@ import { memo } from "react";
  *
  * @returns {JSX.Element} The rendered ModalDelete component.
  */
-function ModalDelete({
+export default function ModalDelete({
   isUser = false,
   numberOfTvseriesOfUser = 0,
   nameOfItemToDelete,
@@ -82,5 +79,3 @@ function ModalDelete({
     </article>
   );
 }
-
-export default memo(ModalDelete);
