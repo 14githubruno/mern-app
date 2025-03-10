@@ -21,10 +21,9 @@ import { throwError } from "../../lib/throw-error.js";
  * @throws Error if sending email fails
  */
 const sendEmail = async (res, to, subject, text) => {
-  console.log(to);
   const mailOptions = {
     from: process.env.MAIL_USER,
-    to: process.env.TEST_MAIL, // will be replaced by to
+    to: process.env.NODE_ENV === "production" ? to : process.env.TEST_MAIL,
     subject,
     text,
   };
