@@ -26,7 +26,7 @@ const parseDateAndTime = (ISOdateAndTime) => {
   const date = dateAndTime[0];
 
   const d = new Date(date);
-  const parsedDate = `${d.getDay()} ${months[d.getMonth()].slice(0, 3)} ${d.getFullYear()}`;
+  const parsedDate = `${d.getDate()} ${months[d.getMonth()].slice(0, 3)} ${d.getFullYear()}`;
   return parsedDate;
 };
 
