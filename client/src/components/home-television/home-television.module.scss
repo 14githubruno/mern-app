@@ -7,18 +7,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  perspective: 150rem;
+  transform-style: preserve-3d;
+  position: relative;
 }
 
 .tv {
   width: 100%;
-}
-
-.support {
-  display: none;
-}
-
-.tv {
-  border: 0.3rem solid var(--white-color);
+  border: 0.3rem solid transparent;
+  background-image: var(--tv-border-gradient);
   display: flex;
   position: relative;
   overflow: hidden;
@@ -26,7 +23,42 @@
 
 .screen {
   flex-basis: 70%;
-  border-right: 0.3rem solid var(--white-color);
+  padding: 0 0.5rem 0 0.2rem;
+  border-right: 0.3rem solid transparent;
+}
+
+.tv,
+.support {
+  transform: rotateX(-10deg) rotateY(-25deg);
+}
+
+.support {
+  width: 110%;
+  height: 0.5rem;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 98%;
+}
+
+.leg {
+  width: 0.3rem;
+  height: 6rem;
+  position: relative;
+}
+
+.support,
+.leg {
+  background-color: var(--white-color);
+}
+
+.legLeft {
+  left: -10rem;
+}
+
+.legRight {
+  height: 6.2rem;
+  right: -10rem;
 }
 
 /*  
@@ -39,6 +71,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+  background-color: var(--bg-color);
+  background-image: var(--bg-image);
 }
 
 /* large mobile breakpoint */
@@ -46,14 +80,15 @@
   .homeTelevision {
     width: 41rem;
     max-width: none;
+    margin-top: 4rem;
   }
 
   .tv {
-    border: 0.455rem solid var(--white-color);
+    border-width: 0.455rem;
   }
 
   .screen {
-    border-right: 0.455rem solid var(--white-color);
+    border-right-width: 0.455rem;
   }
 }
 
@@ -61,6 +96,7 @@
 @media (min-width: $break-tablet) {
   .homeTelevision {
     width: 42rem;
+    margin-top: 5rem;
   }
 }
 
@@ -69,57 +105,25 @@
   .homeTelevision {
     width: 60rem;
     margin: -1rem 0 0 2rem;
-    perspective: 150rem;
-    transform-style: preserve-3d;
-    position: relative;
-  }
-
-  .tv,
-  .support {
-    transform: rotateX(-10deg) rotateY(-25deg);
   }
 
   .support {
-    width: 110%;
     height: 0.7rem;
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    top: 39.21rem;
   }
 
   .leg {
     width: 0.6rem;
-    height: 6rem;
-    position: relative;
-  }
-
-  .support,
-  .leg {
-    background-color: var(--white-color);
   }
 
   .legLeft {
-    left: -10rem;
+    left: -14rem;
   }
 
   .legRight {
-    height: 6.2rem;
-    right: -10rem;
+    right: -14rem;
   }
 
   .tv {
-    border: 0.6rem solid transparent;
-    background-image: var(--tv-border-gradient);
-  }
-
-  .screen {
-    padding: 0 0.5rem 0 0.2rem;
-    border-right: 0.3rem solid transparent;
-  }
-
-  .carouselButtonsContainer {
-    background-color: var(--bg-color);
-    background-image: var(--bg-image);
+    border-width: 0.6rem;
   }
 }

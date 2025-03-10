@@ -1,6 +1,6 @@
 @use "@/breakpoints" as *;
 
-@media (min-width: $break-large-desktop) {
+@media (min-width: $break-desktop) {
   .homeContentWrapper {
     width: 100%;
     display: flex;
