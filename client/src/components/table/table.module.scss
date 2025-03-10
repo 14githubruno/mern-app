@@ -3,7 +3,6 @@
 .baseTable {
   width: 94%;
   height: 33rem;
-  position: relative;
 }
 
 .tableShow {
@@ -29,7 +28,7 @@
   flex-direction: column;
   align-items: center;
   position: absolute;
-  top: 50%;
+  top: 65%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -48,7 +47,7 @@
 
 @media (min-width: $break-tablet) {
   .nothingContainer {
-    top: 55%;
+    top: 70%;
   }
 
   .nothingIcon,
