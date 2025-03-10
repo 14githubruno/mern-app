@@ -1,6 +1,7 @@
 body {
   background-color: var(--bg-color);
   background-image: var(--bg-image);
+  background-attachment: fixed;
 }
 
 #root {
