@@ -1,5 +1,4 @@
 /**
- * @async
  * @function
  * Middleware to handle app errors.
  *
