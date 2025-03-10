@@ -55,8 +55,8 @@ export default function Form({
           <InputPassword name={"password"} />
           <FormButton {...formButtonProps} />
           {formParagraphArrayProps &&
-            formParagraphArrayProps.map((objWithProps) => {
-              return <FormParagraph {...objWithProps} />;
+            formParagraphArrayProps.map((objWithProps, index) => {
+              return <FormParagraph key={index} {...objWithProps} />;
             })}
         </Fragment>
       );
@@ -64,7 +64,7 @@ export default function Form({
     case "verify user":
       formContent = (
         <Fragment>
-          <InputText name={"secret"} />
+          <InputText name={"sekret"} />
           <FormButton {...formButtonProps} />
         </Fragment>
       );
@@ -76,8 +76,8 @@ export default function Form({
           <InputPassword name={"password"} />
           <FormButton {...formButtonProps} />
           {formParagraphArrayProps &&
-            formParagraphArrayProps.map((objWithProps) => {
-              return <FormParagraph {...objWithProps} />;
+            formParagraphArrayProps.map((objWithProps, index) => {
+              return <FormParagraph key={index} {...objWithProps} />;
             })}
         </Fragment>
       );
@@ -88,20 +88,20 @@ export default function Form({
           <InputEmail name={"email"} />
           <FormButton {...formButtonProps} />
           {formParagraphArrayProps &&
-            formParagraphArrayProps.map((objWithProps) => {
-              return <FormParagraph {...objWithProps} />;
+            formParagraphArrayProps.map((objWithProps, index) => {
+              return <FormParagraph key={index} {...objWithProps} />;
             })}
         </Fragment>
       );
       break;
-    case "verify password secret":
+    case "verify password sekret":
       formContent = (
         <Fragment>
-          <InputText name={"secret"} />
+          <InputText name={"sekret"} />
           <FormButton {...formButtonProps} />
           {formParagraphArrayProps &&
-            formParagraphArrayProps.map((objWithProps) => {
-              return <FormParagraph {...objWithProps} />;
+            formParagraphArrayProps.map((objWithProps, index) => {
+              return <FormParagraph key={index} {...objWithProps} />;
             })}
         </Fragment>
       );
@@ -111,6 +111,10 @@ export default function Form({
         <Fragment>
           <InputPassword name={"password"} placeholder={"Enter new password"} />
           <FormButton {...formButtonProps} />
+          {formParagraphArrayProps &&
+            formParagraphArrayProps.map((objWithProps, index) => {
+              return <FormParagraph key={index} {...objWithProps} />;
+            })}
         </Fragment>
       );
       break;
@@ -133,8 +137,12 @@ export default function Form({
     case "verify user update":
       formContent = (
         <Fragment>
-          <InputText name={"secret"} />
+          <InputText name={"sekret"} />
           <FormButton {...formButtonProps} />
+          {formParagraphArrayProps &&
+            formParagraphArrayProps.map((objWithProps, index) => {
+              return <FormParagraph key={index} {...objWithProps} />;
+            })}
         </Fragment>
       );
       break;

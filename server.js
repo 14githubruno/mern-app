@@ -1,6 +1,7 @@
 // pkgs
 import dotenv from "dotenv";
 import express from "express";
+import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
@@ -19,13 +20,13 @@ import tvSeriesRouter from "./routes/tvseries-routes.js";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
-const { NODE_ENV, PORT, BASE_URL } = process.env;
+const { NODE_ENV, PORT, BASE_URL, PROXIES } = process.env;
 const IS_DEV_MODE = NODE_ENV === "development";
-
 const __dirname = import.meta.dirname;
 
 const app = express();
-app.set("trust proxy", 3);
+
+app.set("trust proxy", Number(PROXIES));
 
 app.use(
   cors({
@@ -33,13 +34,25 @@ app.use(
     credentials: true,
   })
 );
-app.use(helmet());
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        "script-src": ["'self'", BASE_URL],
+      },
+    },
+  })
+);
+
 app.use(compression());
 
 connectDB();
 
 app.use(cookieParser());
+
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/users", userRouter);
@@ -60,6 +73,9 @@ if (IS_DEV_MODE) {
 
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+mongoose.connection.once("open", () => {
+  console.log("MongoDB connected");
+  app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+});
 
 cron.schedule("0 0 * * *", deleteUnveriedUsers);

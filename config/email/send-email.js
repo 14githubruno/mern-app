@@ -1,9 +1,6 @@
 // pkgs
 import nodemailer from "nodemailer";
 
-// db models
-import User from "../../models/user-model.js";
-
 // lib
 import { setEmailTransporterConfig } from "./set-email-transporter-config.js";
 import { throwError } from "../../lib/throw-error.js";
@@ -15,9 +12,6 @@ import { throwError } from "../../lib/throw-error.js";
  *
  * (Uses Nodemailer)
  *
- * (If email does not get sent, delete from db unverified user data)
- *
- * @param {boolean} forRegistration - Indicates if email is being used to register a new account.
  * @param {Response} res - The Express response object.
  * @param {string} to - The user email address to which send the email.
  * @param {string} subject - The email subject.
@@ -26,11 +20,10 @@ import { throwError } from "../../lib/throw-error.js";
  * @returns {Promise<void>} Resolves when the email is sent successfully, or rejects with an error.
  * @throws Error if sending email fails
  */
-const sendEmail = async (forRegistration, res, to, subject, text) => {
-  console.log(to);
+const sendEmail = async (res, to, subject, text) => {
   const mailOptions = {
     from: process.env.MAIL_USER,
-    to: process.env.TEST_MAIL, // will be replaced by to
+    to: process.env.NODE_ENV === "production" ? to : process.env.TEST_MAIL,
     subject,
     text,
   };
@@ -42,19 +35,8 @@ const sendEmail = async (forRegistration, res, to, subject, text) => {
     const info = await transporter.sendMail(mailOptions);
     console.log(info.envelope);
   } catch (err) {
-    //delete unverified user during registration if email is not sent
-    if (forRegistration) {
-      try {
-        const deletedUser = await User.findOneAndDelete(
-          { email: to },
-          { new: true }
-        );
-        if (deletedUser) throwError(res, 500, "Email sending error. Try again");
-      } catch (error) {
-        console.error(error);
-        throwError(res, 500, "Try again with another email");
-      }
-    }
+    console.error(err);
+    throwError(res, 500, "Try again with another email");
   }
 };
 

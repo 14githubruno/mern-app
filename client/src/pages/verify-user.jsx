@@ -1,11 +1,12 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Form from "../components/form/form";
 
 // react
 import { useEffect } from "react";
 
 // redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { apiSlice } from "../redux/api/api-slice";
 import {
   useVerifyUserMutation,
@@ -39,6 +40,7 @@ import toast from "react-hot-toast";
 export default function VerifyUser() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
   const params = useParams();
   const { error: checkError } = useVerifyTokenQuery(params.token, {
     selectFromResult: (result) => {
@@ -52,9 +54,16 @@ export default function VerifyUser() {
 
   const methods = useForm({
     defaultValues: {
-      secret: "",
+      sekret: "",
     },
   });
+
+  useEffect(() => {
+    if (user) {
+      navigate("/profile");
+      toast.error("You are already logged in");
+    }
+  }, [user]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -76,16 +85,17 @@ export default function VerifyUser() {
     }
 
     try {
-      const symbol = { token: params.token, secret: parsedData.secret };
+      const symbol = { token: params.token, secret: parsedData.sekret };
       const res = await verifyUser(symbol).unwrap();
       toast.success(res?.message);
     } catch (err) {
-      toast.error(err?.data?.message);
+      toast.error(err?.data?.message || err?.error);
     }
   };
 
   return (
     <section>
+      <PageTitle title={"Verify your akkount"} />
       <FormProvider {...methods}>
         <Form
           typeOfForm={"verify user"}

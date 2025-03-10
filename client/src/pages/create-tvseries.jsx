@@ -1,4 +1,5 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Form from "../components/form/form";
 
 // react lib
@@ -78,17 +79,16 @@ export default function CreateTvseries() {
       const res = await createOneTvseries(parsedData).unwrap();
       toast.success(res?.message);
     } catch (err) {
-      if (err.data.type === "token") {
-        toast.error("Token has expired. Log in again");
+      if (err?.data?.type === "tokenInvalid") {
         resetAll();
-        return;
       }
-      toast.error(err.data.message);
+      toast.error(err?.data?.message || err?.error);
     }
   };
 
   return (
     <section>
+      <PageTitle title={"Kreate a tvseries"} />
       <FormProvider {...methods}>
         <Form
           typeOfForm={"create tvseries"}

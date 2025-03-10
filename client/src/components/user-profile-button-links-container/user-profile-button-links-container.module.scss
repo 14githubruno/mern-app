@@ -1,11 +1,15 @@
 @use "@/breakpoints" as *;
 
-.userProfileButtonLinkContainer {
+.userProfileButtonLinksContainer {
   width: 90%;
   max-width: 70rem;
   display: flex;
+  justify-content: space-between;
+}
+
+.links {
+  display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: 2rem;
 }
 
@@ -13,20 +17,9 @@
 .link {
   width: 12rem;
   padding: 0.7rem 1.6rem;
+  font-size: 1.3rem;
   text-align: center;
-}
-
-.link {
-  font-size: 1.3rem;
   color: var(--white-color);
-}
-
-.buttonDelete {
-  font-size: 1.3rem;
-  color: var(--red-color);
-  border: 0.1rem solid var(--red-color);
-  background: transparent;
-  cursor: pointer;
 }
 
 .linkToUpdatePage {
@@ -34,15 +27,23 @@
 }
 
 .linkToDashboard {
-  margin-bottom: 2rem;
-  color: var(--white-color);
   border: 0.1rem solid var(--white-color);
 }
 
+.buttonDelete {
+  color: var(--red-color);
+  border: 0.1rem solid var(--red-color);
+  background: transparent;
+  cursor: pointer;
+}
+
 @media (min-width: $break-tablet) {
-  .userProfileButtonLinkContainer {
-    flex-direction: row;
+  .userProfileButtonLinksContainer {
     position: relative;
+  }
+
+  .links {
+    flex-direction: row;
   }
 
   .buttonDelete,
@@ -59,9 +60,5 @@
 
   .link {
     font-size: 1.5rem;
-  }
-
-  .linkToDashboard {
-    margin: 0;
   }
 }

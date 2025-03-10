@@ -1,4 +1,5 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Searchbar from "../components/searchbar/searchbar";
 import WelcomeGuideUserParagraphs from "../components/welcome-guide-user-paragraphs/welcome-guide-user-paragraphs";
 import Table from "../components/table/table";
@@ -57,12 +58,14 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (error) {
-      resetAll();
-      navigate("/", { replace: true });
+      if (error?.data?.type === "tokenInvalid") {
+        resetAll();
+      }
+      toast.error(error?.data?.message || error?.error);
     } else if (data) {
       dispatch(setTvseries([...data.body]));
     }
-  }, [data]);
+  }, [data, error, navigate]);
 
   // this below fires a useEffect
   useHeadTags("dashboard", user);
@@ -91,12 +94,10 @@ export default function Dashboard() {
         setTableRowToDelete(null);
       }
     } catch (err) {
-      if (err.data.type === "token") {
-        toast.error("Token has expired. Log in again");
+      if (err?.data?.type === "tokenInvalid") {
         resetAll();
-        return;
       }
-      toast.error(err.data.message);
+      toast.error(err?.data?.message || err?.error);
     }
   }, [tvseries, tableRowToDelete]);
 
@@ -125,6 +126,7 @@ export default function Dashboard() {
 
   return (
     <section>
+      <PageTitle title={"Dashboard"} pageHasForm={false} />
       <ModalDelete
         nameOfItemToDelete={tableRowToDelete?.title}
         modalDeleteRef={modalDeleteRef}
@@ -150,6 +152,7 @@ export default function Dashboard() {
             selectTableRowToDelete,
             showTableRowInModalView,
           }}
+          kreateTvseriesRoute={"/dashboard/kreate-tvseries"}
         />
       </FormProvider>
     </section>

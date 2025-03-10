@@ -25,7 +25,7 @@ const error = {
  */
 const validatePassword = (pw) => {
   const whitespace = /\s/;
-  const pattern = /^(?=.*?[A-Z])(?=.*?\d)(?=.*?[!#$%&?"]).{10,15}$/;
+  const pattern = /^(?=.*?[A-Z])(?=.*?\d)(?=.*?[!#$%&?"]).{8,20}$/;
 
   let isValid = !whitespace.test(pw) && pattern.test(pw);
   return isValid;

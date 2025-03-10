@@ -6,39 +6,16 @@
   margin: 7rem auto 0 auto;
   display: flex;
   flex-direction: column;
-}
-
-.aerials,
-.tv {
-  width: 100%;
-}
-
-.aerials {
-  display: flex;
-  justify-content: center;
+  align-items: center;
+  perspective: 150rem;
+  transform-style: preserve-3d;
   position: relative;
 }
 
-.aerial {
-  border: 0.155rem solid var(--white-color);
-  background-color: var(--white-color);
-  width: 8rem;
-  height: 0.1rem;
-  position: absolute;
-  top: 0;
-  transform: translateX(-50%);
-}
-
-.aerialLeft {
-  rotate: 45deg;
-}
-
-.aerialRight {
-  rotate: -225deg;
-}
-
 .tv {
-  border: 0.3rem solid var(--white-color);
+  width: 100%;
+  border: 0.3rem solid transparent;
+  background-image: var(--tv-border-gradient);
   display: flex;
   position: relative;
   overflow: hidden;
@@ -46,7 +23,42 @@
 
 .screen {
   flex-basis: 70%;
-  border-right: 0.3rem solid var(--white-color);
+  padding: 0 0.5rem 0 0.2rem;
+  border-right: 0.3rem solid transparent;
+}
+
+.tv,
+.support {
+  transform: rotateX(-10deg) rotateY(-25deg);
+}
+
+.support {
+  width: 110%;
+  height: 0.5rem;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 98%;
+}
+
+.leg {
+  width: 0.3rem;
+  height: 6rem;
+  position: relative;
+}
+
+.support,
+.leg {
+  background-color: var(--white-color);
+}
+
+.legLeft {
+  left: -10rem;
+}
+
+.legRight {
+  height: 6.2rem;
+  right: -10rem;
 }
 
 /*  
@@ -59,27 +71,24 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+  background-color: var(--bg-color);
+  background-image: var(--bg-image);
 }
 
 /* large mobile breakpoint */
 @media (min-width: $break-large-mobile) {
   .homeTelevision {
-    margin-top: 10rem;
     width: 41rem;
     max-width: none;
-  }
-
-  .aerial {
-    border: 0.225rem solid var(--white-color);
-    width: 12rem;
+    margin-top: 4rem;
   }
 
   .tv {
-    border: 0.455rem solid var(--white-color);
+    border-width: 0.455rem;
   }
 
   .screen {
-    border-right: 0.455rem solid var(--white-color);
+    border-right-width: 0.455rem;
   }
 }
 
@@ -87,19 +96,7 @@
 @media (min-width: $break-tablet) {
   .homeTelevision {
     width: 42rem;
-    margin-top: 11rem;
-  }
-
-  .aerial {
-    width: 14rem;
-  }
-
-  .tv {
-    border: 0.6rem solid var(--white-color);
-  }
-
-  .screen {
-    border-right: 0.6rem solid var(--white-color);
+    margin-top: 5rem;
   }
 }
 
@@ -107,33 +104,26 @@
 @media (min-width: $break-large-desktop) {
   .homeTelevision {
     width: 60rem;
-    margin: 10rem 2rem 0 0;
-    perspective: 150rem;
-    transform-style: preserve-3d;
+    margin: -1rem 0 0 2rem;
   }
 
-  .carouselButtonsContainer {
-    background-color: var(--bg-color);
-    background-image: var(--bg-image);
+  .support {
+    height: 0.7rem;
   }
 
-  .aerials,
+  .leg {
+    width: 0.6rem;
+  }
+
+  .legLeft {
+    left: -14rem;
+  }
+
+  .legRight {
+    right: -14rem;
+  }
+
   .tv {
-    transform: rotateX(-10deg) rotateY(-25deg);
-  }
-
-  .aerial {
-    width: 18rem;
-    height: 0.355rem;
-  }
-
-  .tv {
-    border: 0.8rem solid transparent;
-    background-image: var(--tv-border-gradient);
-  }
-
-  .screen {
-    border-right: 0.5rem solid transparent;
-    padding: 0 0.5rem 0 0.2rem;
+    border-width: 0.6rem;
   }
 }

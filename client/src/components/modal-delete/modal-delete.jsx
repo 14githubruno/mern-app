@@ -2,9 +2,6 @@
 import styles from "./modal-delete.module.scss";
 import "./modal-delete.scss";
 
-// react lib
-import { memo } from "react";
-
 /**
  * ModalDelete component.
  *
@@ -21,7 +18,7 @@ import { memo } from "react";
  *
  * @returns {JSX.Element} The rendered ModalDelete component.
  */
-function ModalDelete({
+export default function ModalDelete({
   isUser = false,
   numberOfTvseriesOfUser = 0,
   nameOfItemToDelete,
@@ -61,15 +58,6 @@ function ModalDelete({
         <div className={styles.buttonsWrapper}>
           <button
             onClick={() => {
-              confirm();
-              toggleModalToDelete();
-            }}
-            className={`${styles.button} ${styles.buttonDeletion}`}
-          >
-            Delete
-          </button>
-          <button
-            onClick={() => {
               doNotConfirm();
               toggleModalToDelete();
             }}
@@ -77,10 +65,17 @@ function ModalDelete({
           >
             Kancel
           </button>
+          <button
+            onClick={() => {
+              confirm();
+              toggleModalToDelete();
+            }}
+            className={`${styles.button} ${styles.buttonDeletion}`}
+          >
+            Delete
+          </button>
         </div>
       </div>
     </article>
   );
 }
-
-export default memo(ModalDelete);

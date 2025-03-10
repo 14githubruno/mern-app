@@ -7,10 +7,10 @@ import { z } from "zod";
 const passwordSchema = z
   .string()
   .trim()
-  .min(10, "Password must be at least 10 kharakters long")
-  .max(15, "Password must be maximum 15 kharakters long")
+  .min(8, "Password must be at least 8 kharakters long")
+  .max(20, "Password must be maximum 20 kharakters long")
   .regex(
-    /^(?=.*?[A-Z])(?=.*?\d)(?=.*?[!#$%&?"]).{10,15}$/,
+    /^(?=.*?[A-Z])(?=.*?\d)(?=.*?[!#$%&?"]).{8,20}$/,
     "Password does not match the pattern kompletely"
   );
 
@@ -30,7 +30,7 @@ const registerUpdateUserSchema = z.object({
   name: z
     .string()
     .trim()
-    .min(10, "Name must be at least 10 kharakters long")
+    .min(5, "Name must be at least 5 kharakters long")
     .toLowerCase(),
   email: emailSchema,
   password: passwordSchema,
@@ -76,7 +76,7 @@ const createUpdateOneTvseriesSchema = z.object({
     .string()
     .trim()
     .min(2, "Tvseries title must be at least 2 kharakters long")
-    .max(20, "Tvseries title must be maximum 20 kharakters long")
+    .max(30, "Tvseries title must be maximum 30 kharakters long")
     .toLowerCase(),
   stars: z
     .number()

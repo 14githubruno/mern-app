@@ -15,7 +15,7 @@ const setEmailTransporterConfig = () => {
       pass: process.env.MAIL_PASS,
     },
     tls: {
-      rejectUnauthorized: false, // for now, to avoid certificate error
+      rejectUnauthorized: process.env.NODE_ENV === "production" ? true : false,
     },
   };
 

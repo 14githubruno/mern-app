@@ -17,10 +17,8 @@ router
   .post(protect, limiter, tvSeriesCtrl.createOneTvSeries);
 router
   .route("/:id")
-  .patch(protect, limiter, tvSeriesCtrl.updateOneTvSeries)
-  .delete(protect, limiter, tvSeriesCtrl.deleteOneTvSeries);
-router
-  .route("/:id/:title")
   .get(protect, tvSeriesCtrl.getOneTvseries)
-
+  .patch(protect, limiter, tvSeriesCtrl.updateOneTvSeries)
+  .delete(protect, limiter, tvSeriesCtrl.deleteOneTvSeries)
+  
 export default router;

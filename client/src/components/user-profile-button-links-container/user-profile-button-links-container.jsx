@@ -4,9 +4,6 @@ import styles from "./user-profile-button-links-container.module.scss";
 // react-router-dom lib
 import { Link } from "react-router-dom";
 
-// react lib
-import { memo } from "react";
-
 /**
  * UserProfileButtonLinksContainer component.
  *
@@ -19,26 +16,30 @@ import { memo } from "react";
  *
  * @returns {JSX.Element} The rendered UserProfileButtonLinksContainer component.
  */
-function UserProfileButtonLinksContainer({ toggleModalToDelete }) {
+export default function UserProfileButtonLinksContainer({
+  toggleModalToDelete,
+}) {
   return (
-    <div className={styles.userProfileButtonLinkContainer}>
-      <Link
-        className={`${styles.link} ${styles.linkToUpdatePage}`}
-        to={"/profile/update-user"}
-      >
-        Update user
-      </Link>
-      <Link
-        className={`${styles.link} ${styles.linkToDashboard}`}
-        to={"/dashboard"}
-      >
-        Dashboard
-      </Link>
-      <button className={styles.buttonDelete} onClick={toggleModalToDelete}>
-        Delete user
-      </button>
+    <div className={styles.userProfileButtonLinksContainer}>
+      <div className={styles.links}>
+        <Link
+          className={`${styles.link} ${styles.linkToUpdatePage}`}
+          to={"/profile/update-user"}
+        >
+          Update user
+        </Link>
+        <Link
+          className={`${styles.link} ${styles.linkToDashboard}`}
+          to={"/dashboard"}
+        >
+          Dashboard
+        </Link>
+      </div>
+      <div>
+        <button className={styles.buttonDelete} onClick={toggleModalToDelete}>
+          Delete user
+        </button>
+      </div>
     </div>
   );
 }
-
-export default memo(UserProfileButtonLinksContainer);

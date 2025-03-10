@@ -1,6 +1,9 @@
 // redux lib
 import { createSlice } from "@reduxjs/toolkit";
 
+// lib
+import { setAuthInitialState } from "../../../lib/set-auth-initial-state";
+
 /**
  * @typedef {Object} CurrentStateObject
  * @typedef {Object} ActionWithPayload
@@ -10,11 +13,12 @@ import { createSlice } from "@reduxjs/toolkit";
  * @constant
  * Initial state of auth slice
  *
- * @type {{ user: string|null; tokenExpDate: string|null; }}
+ * @type {{ user: string|null; token: string|null; refresh: string|null; }}
  */
 const initialState = {
-  user: JSON.parse(localStorage.getItem("user")) || null,
-  tokenExpDate: JSON.parse(localStorage.getItem("exp")) || null,
+  user: setAuthInitialState("user"),
+  token: setAuthInitialState("token"),
+  refresh: setAuthInitialState("refresh"),
 };
 
 export const authSlice = createSlice({
@@ -22,7 +26,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     /**
-     * Reducer to set logged in user and token exp date.
+     * Reducer to set logged in user and tokens.
      *
      * (Set state to local storage)
      *
@@ -33,44 +37,30 @@ export const authSlice = createSlice({
      */
     setCredentials: (state, action) => {
       state.user = action.payload.user;
-      state.tokenExpDate = action.payload.tokenExpDate;
+      state.token = action.payload.token;
+      state.refresh = action.payload.refresh;
       localStorage.setItem("user", JSON.stringify(state.user));
-      localStorage.setItem("exp", JSON.stringify(state.tokenExpDate));
+      localStorage.setItem("token", JSON.stringify(state.token));
+      localStorage.setItem("refresh", JSON.stringify(state.refresh));
     },
 
-    /**
-     * Reducer to reset user name (no tokenExp).
-     *
-     * (Set state to local storage)
-     *
-     * @param {CurrentStateObject} state - Current auth state (logged in user)
-     * @param {ActionWithPayload} action - Contains payload with new user name (in case user updates the name).
-     *
-     * @returns {void}
-     */
-    setOnlyCredentialsUser: (state, action) => {
-      state.user = action.payload.user;
-      localStorage.setItem("user", JSON.stringify(state.user));
-    },
     /**
      * Reducer to clear state and set it back to null.
      *
      * (Clear local storage)
      *
-     * (No payload will be provided as dispatching this action will automatically reset auth state and clear local storage)
-     *
      * @param {CurrentStateObject} state - Current auth state (logged in user)
      *
      * @returns {void}
      */
-    clearCredentials: (state) => {
+    clearCredentials: (state, action) => {
       state.user = null;
-      state.tokenExpDate = null;
+      state.token = null;
+      state.refresh = null;
       localStorage.clear();
     },
   },
 });
 
-export const { setCredentials, setOnlyCredentialsUser, clearCredentials } =
-  authSlice.actions;
+export const { setCredentials, clearCredentials } = authSlice.actions;
 export default authSlice.reducer;

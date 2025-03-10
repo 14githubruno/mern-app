@@ -5,14 +5,14 @@ import styles from "./table-row.module.scss";
 import { AiFillStar } from "react-icons/ai";
 import { RxPencil1, RxMagnifyingGlass, RxTrash } from "react-icons/rx";
 
-// react lib
-import { memo } from "react";
-
 // react-router-dom lib
 import { Link } from "react-router-dom";
 
 // react-hook-form lib
 import { useFormContext, useWatch } from "react-hook-form";
+
+// custom lib
+import { parseDateAndTime } from "../../../lib/parse-date-and-time";
 
 /**
  * TableRow component.
@@ -28,19 +28,23 @@ import { useFormContext, useWatch } from "react-hook-form";
  * @param {number} props.stars - The star rating of the single tvseries.
  * @param {string} props.image - The URL of the single tvseries image.
  * @param {string} props.note - The note on the single tvseries.
+ * @param {string} props.createdAt - The ISO date and time string of tvseries creation.
+ * @param {string} props.updatedAt - The ISO date and time string of tvseries update.
  * @param {function} props.toggleModalToDelete - A function to toggle the modal delete visibility.
  * @param {function} props.selectTableRowToDelete - A function to select the single tvseries to be deleted.
  * @param {function} props.showTableRowInModalView - A function to select and display the single tvseries' details in a modal.
  *
  * @returns {JSX.Element} The rendered TableRow component.
  */
-function TableRow({
+export default function TableRow({
   num,
   id,
   title,
   stars,
   image,
   note,
+  createdAt,
+  updatedAt,
   toggleModalToDelete,
   selectTableRowToDelete,
   showTableRowInModalView,
@@ -52,8 +56,8 @@ function TableRow({
 
   return (
     <div className={styles.tableRow} key={id}>
-      <div className={styles.num}>{num}</div>
-      <div className={styles.title}>
+      <div>{num}</div>
+      <div>
         {title
           .replace(filter.toLowerCase(), "*")
           .split("")
@@ -74,8 +78,8 @@ function TableRow({
             }
           })}
       </div>
-      <div className={styles.starsWrapper}>
-        {arrayOfStars.map((star, index) => {
+      <div>
+        {arrayOfStars.map((_, index) => {
           return (
             <AiFillStar
               aria-label="star icon"
@@ -86,7 +90,7 @@ function TableRow({
         })}
         {restOfStars === 0
           ? null
-          : restOfStars.map((star, index) => {
+          : restOfStars.map((_, index) => {
               return (
                 <AiFillStar
                   aria-label="star icon"
@@ -102,8 +106,10 @@ function TableRow({
           backgroundImage: `url(${image})`,
         }}
       ></div>
-      <div className={styles.note}>{note}</div>
-      <div className={styles.iconsContainer}>
+      <div>{note}</div>
+      <div className={styles.date}>{parseDateAndTime(createdAt)}</div>
+      <div className={styles.date}>{parseDateAndTime(updatedAt)}</div>
+      <div>
         <span
           role="button"
           className={styles.iconView}
@@ -116,7 +122,7 @@ function TableRow({
         </span>
         <Link
           className={styles.iconEdit}
-          to={`/dashboard/update-tvseries/${id}/${title}`}
+          to={`/dashboard/update-tvseries/${id}`}
         >
           <RxPencil1 aria-label="pencil edit icon" className={styles.icon} />
         </Link>
@@ -134,5 +140,3 @@ function TableRow({
     </div>
   );
 }
-
-export default memo(TableRow);

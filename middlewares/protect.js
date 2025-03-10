@@ -1,11 +1,8 @@
-// pkgs
-import jwt from "jsonwebtoken";
+// lib
+import { decodeToken } from "../lib/decode-token.js";
 
 // db models
 import User from "../models/user-model.js";
-
-// lib
-import { throwError } from "../lib/throw-error.js";
 
 /**
  * @async
@@ -19,17 +16,63 @@ import { throwError } from "../lib/throw-error.js";
  * @throws Error if authentication fails or an unexpected error occurs.
  */
 const protect = async (req, res, next) => {
-  if (!req.cookies || !req.cookies.jwt) {
-    throwError(res, 401, "No token, user is not authorized");
+  const auth = req.headers.authorization || req.headers.Authorization;
+  const accessToken = auth?.split(" ")[1];
+  const refreshToken = req.headers["refresh-token"];
+  const cookieToken = req.cookies.jwt;
+
+  if (!accessToken || !refreshToken) {
+    return res.status(401).json({
+      message: "Authentication failed: missing token",
+      type: "tokenInvalid",
+    });
   }
 
-  const token = req.cookies.jwt;
+  if (refreshToken && !cookieToken) {
+    return res.status(403).json({
+      message: "Authentication failed: missing cookie",
+      type: "tokenExpiration",
+    });
+  }
+
+  const decodedRefreshToken = decodeToken(
+    refreshToken,
+    process.env.REFRESH_SECRET
+  );
+  if (!decodedRefreshToken) {
+    return res.status(401).json({
+      message: `Authentication failed: refresh token invalid`,
+      type: "tokenInvalid",
+    });
+  }
+
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded._id).select("-password");
+    const decodedAccessToken = decodeToken(
+      accessToken,
+      process.env.ACCESS_SECRET
+    );
+    const decodedCookieToken = decodeToken(
+      cookieToken,
+      process.env.COOKIE_SECRET
+    );
+
+    req.user = await User.findOne({
+      _id: decodedAccessToken.key,
+      email: decodedCookieToken.key,
+    }).select("-password");
     next();
   } catch (err) {
-    throwError(res, 401, "User is not authorized");
+    if (err.message.includes("expired")) {
+      return res.status(403).json({
+        message: "Authentication failed: expired token",
+        type: "tokenExpiration",
+      });
+    } else {
+      return res.status(401).json({
+        message: "Authentication failed: invalid token",
+        type: "tokenInvalid",
+      });
+    }
   }
 };
 

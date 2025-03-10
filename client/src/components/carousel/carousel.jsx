@@ -40,12 +40,7 @@ export default function Carousel({ images }) {
             const { src, alt } = image;
             return (
               <div key={index} className="carousel-slide">
-                <img
-                  className="carousel-slide--image"
-                  loading="lazy"
-                  src={src}
-                  alt={alt}
-                />
+                <img className="carousel-slide--image" src={src} alt={alt} />
               </div>
             );
           })}

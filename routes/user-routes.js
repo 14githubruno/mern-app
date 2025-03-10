@@ -22,6 +22,9 @@ router
   .route("/login")
   .post(limiter, userCtrl.loginUser);
 router
+  .route("/logout")
+  .post(userCtrl.logoutUser);
+router
   .route("/forgot-password")
   .post(limiter, userCtrl.forgotPassword);
 router
@@ -32,17 +35,18 @@ router
   .route("/reset-password/:token")
   .get(userCtrl.verifyToken)
   .patch(limiter, userCtrl.resetPassword);
+router
+  .route("/refresh")
+  .get(userCtrl.refreshToken)
+
 
 /* PRIVATE */
 router
-  .route("/logout")
-  .post(protect, limiter, userCtrl.logoutUser);
-router
   .route("/profile")
-  .get(protect, userCtrl.getUserProfile);
+  .get(protect, userCtrl.getUserProfile)
+  .post(protect, limiter, userCtrl.updateUserProfile)
 router
   .route("/profile/:id")
-  .patch(protect, limiter, userCtrl.updateUserProfile)
   .delete(protect, limiter, userCtrl.deleteUserProfile);
 router
   .route("/profile/verify/:token")

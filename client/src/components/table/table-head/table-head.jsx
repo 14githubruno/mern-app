@@ -1,16 +1,22 @@
 // styles
 import styles from "./table-head.module.scss";
 
-// react lib
-import { memo } from "react";
-
 /**
  * @constant
  * Array of strings representing the table's columns' titles.
  *
  * @type {string[]}
  */
-const tableHeadTitles = ["N°", "Title", "Stars", "Image", "Note", "Actions"];
+const tableHeadTitles = [
+  "N°",
+  "Title",
+  "Stars",
+  "Image",
+  "Note",
+  "Kreated",
+  "Updated",
+  "Aktions",
+];
 
 /**
  * TableHead component.
@@ -19,7 +25,7 @@ const tableHeadTitles = ["N°", "Title", "Stars", "Image", "Note", "Actions"];
  *
  * @returns {JSX.Element} The rendered TableHead component.
  */
-function TableHead() {
+export default function TableHead() {
   return (
     <div className={styles.tableHead}>
       {tableHeadTitles.map((title, index) => {
@@ -32,5 +38,3 @@ function TableHead() {
     </div>
   );
 }
-
-export default memo(TableHead);

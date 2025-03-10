@@ -5,8 +5,8 @@ import styles from "./modal-view.module.scss";
 import { AiFillStar } from "react-icons/ai";
 import { LiaTimesSolid } from "react-icons/lia";
 
-// react lib
-import { memo } from "react";
+// custom lib
+import { parseDateAndTime } from "../../lib/parse-date-and-time";
 
 /**
  * ModalView component.
@@ -20,11 +20,21 @@ import { memo } from "react";
  * @param {number} props.stars - The star rating of the tvseries.
  * @param {string} props.image - The URL of the tvseries image.
  * @param {string} props.note - The note on the tvseries.
+ * @param {string} props.createdAt - The ISO date and time string of tvseries creation.
+ * @param {string} props.updatedAt - The ISO date and time string of tvseries update.
  * @param {function} props.closeModalView - A function to close the modal view.
  *
  * @returns {JSX.Element} The rendered ModalView component.
  */
-function ModalView({ title, stars, image, note, closeModalView }) {
+export default function ModalView({
+  title,
+  stars,
+  image,
+  note,
+  createdAt,
+  updatedAt,
+  closeModalView,
+}) {
   const arrayOfStars = new Array(Number(stars)).fill("*");
   const restOfStars = new Array(5 - Number(stars)).fill("*");
 
@@ -56,6 +66,16 @@ function ModalView({ title, stars, image, note, closeModalView }) {
               })}
         </div>
         <p className={styles.parag}>{note}</p>
+        <div className={styles.dates}>
+          <div className={styles.createdAt}>
+            <span className={styles.dateTitle}>Kreated</span>
+            <span className={styles.date}>{parseDateAndTime(createdAt)}</span>
+          </div>
+          <div className={styles.updatedAt}>
+            <span className={styles.dateTitle}>Updated</span>
+            <span className={styles.date}>{parseDateAndTime(updatedAt)}</span>
+          </div>
+        </div>
         <LiaTimesSolid
           aria-label="close button icon"
           className={styles.closeBtn}
@@ -65,5 +85,3 @@ function ModalView({ title, stars, image, note, closeModalView }) {
     </article>
   );
 }
-
-export default memo(ModalView);

@@ -28,11 +28,13 @@ export default function App() {
       <Toaster
         toastOptions={{
           className: "",
+          duration: 4000,
           style: {
             borderRadius: "0",
+            fontSize: "1.2rem",
           },
         }}
-        position="bottom-right"
+        position="bottom-center"
       />
       <Header />
       <main>

@@ -1,7 +1,12 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Form from "../components/form/form";
 
+// react
+import { useEffect } from "react";
+
 // redux
+import { useSelector } from "react-redux";
 import { useForgotPasswordMutation } from "../redux/api/users-api-slice";
 
 // react-hook-form lib
@@ -26,6 +31,7 @@ import toast from "react-hot-toast";
  */
 export default function ForgotPassword() {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
   const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
 
   const methods = useForm({
@@ -33,6 +39,13 @@ export default function ForgotPassword() {
       email: "",
     },
   });
+
+  useEffect(() => {
+    if (user) {
+      navigate("/profile/update-user");
+      toast.error("You are already logged in. Reset your password from here");
+    }
+  }, [user]);
 
   // this below fires a useEffect
   useHeadTags("forgotPassword");
@@ -49,17 +62,18 @@ export default function ForgotPassword() {
       const res = await forgotPassword(parsedData).unwrap();
       if (res.body) {
         toast.success(res.message);
-        navigate(`/verify-password-secret/${res.body.token}`, {
+        navigate(`/verify-password-sekret/${res.body.token}`, {
           replace: true,
         });
       }
     } catch (err) {
-      toast.error(err?.data?.message);
+      toast.error(err?.data?.message || err.error);
     }
   };
 
   return (
     <section>
+      <PageTitle title={"Send your email to reset password"} />
       <FormProvider {...methods}>
         <Form
           typeOfForm={"forgot password"}

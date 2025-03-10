@@ -50,7 +50,7 @@ const getAllTvSeries = asyncHandler(async (req, res) => {
  * @function
  * Controller to get one tv series from db
  *
- * GET /api/tvseries/:id/:title
+ * GET /api/tvseries/:id
  *
  * Private route
  *
@@ -64,9 +64,9 @@ const getAllTvSeries = asyncHandler(async (req, res) => {
  */
 const getOneTvseries = asyncHandler(async (req, res) => {
   const currentUser = req.user;
-  const { id, title } = req.params;
+  const { id } = req.params;
 
-  const tvseries = await Tvseries.findOne({ _id: id, title });
+  const tvseries = await Tvseries.findOne({ _id: id });
   if (!tvseries)
     throwError(res, 404, `Tv series with title [${title}] not found`);
 
@@ -159,7 +159,6 @@ const updateOneTvSeries = asyncHandler(async (req, res) => {
   const id = req.params.id;
 
   const parsedData = await validate(res, "update-tvseries", req.body);
-  const { title, stars, image, note } = parsedData;
 
   const tvSeriesToUpdate = await Tvseries.findById(id);
   if (!tvSeriesToUpdate)
@@ -172,12 +171,11 @@ const updateOneTvSeries = asyncHandler(async (req, res) => {
     throwError(res, 401, "User not authorized");
   }
 
-  tvSeriesToUpdate.title = title || tvSeriesToUpdate.title;
-  tvSeriesToUpdate.stars = stars || tvSeriesToUpdate.stars;
-  tvSeriesToUpdate.image = image || tvSeriesToUpdate.image;
-  tvSeriesToUpdate.note = note || tvSeriesToUpdate.note;
-
+  for (let prop in parsedData) {
+    tvSeriesToUpdate[prop] = parsedData[prop];
+  }
   const updatedTvSeries = await tvSeriesToUpdate.save();
+
   if (updatedTvSeries) {
     res.status(200).json({
       message: `Tv series with title [${updatedTvSeries.title}] updated`,

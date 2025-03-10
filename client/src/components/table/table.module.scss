@@ -1,8 +1,8 @@
 @use "@/breakpoints" as *;
 
 .baseTable {
-  width: 90%;
-  height: 39.055rem;
+  width: 94%;
+  height: 33rem;
 }
 
 .tableShow {
@@ -23,25 +23,40 @@
 
 .nothingContainer {
   width: 100%;
+  padding: 0 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .nothingParagraph {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   text-align: center;
   color: var(--pink-color);
 }
 
+.nothingLink {
+  text-decoration: underline;
+  text-underline-offset: 0.5rem;
+  cursor: pointer;
+}
+
 @media (min-width: $break-tablet) {
+  .nothingContainer {
+    top: 70%;
+  }
+
   .nothingIcon,
   .notFoundIcon {
-    width: 30rem;
-    height: 30rem;
+    width: 26rem;
+    height: 26rem;
   }
 
   .nothingParagraph {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
   }
 }

@@ -5,6 +5,7 @@ import asyncHandler from "express-async-handler";
 import User from "../models/user-model.js";
 import Tvseries from "../models/tvseries-model.js";
 import Symbol from "../models/symbol-model.js";
+import PseudoUser from "../models/pseudo-user-model.js";
 
 // lib
 import { validate } from "../lib/validate-req-body.js";
@@ -37,50 +38,68 @@ const registerUser = asyncHandler(async (req, res) => {
   const parsedData = await validate(res, "register-user", req.body);
   const { name, email, password } = parsedData;
 
-  const userExists = await User.findOne({ email });
+  const userExists = await User.findOne({ email, verified: true });
   if (userExists) throwError(res, 400, "User already exists");
 
   const hashed = await hashPassword(res, password);
-  const user = await User.create({
+  const userExistsUnverified = await User.findOne({ email, verified: false });
+
+  const newPseudoUser = await PseudoUser.create({
     name,
     email,
     password: hashed,
   });
 
+  let newUserToVerify;
+  if (newPseudoUser && !userExistsUnverified) {
+    newUserToVerify = await User.create({
+      name,
+      email,
+      password: hashed,
+    });
+  }
+
   let symbol;
-  if (user) {
+  if (newPseudoUser) {
     symbol = await Symbol.create({
-      user: user._id,
-      token: generateToken(res, user._id),
+      user: newPseudoUser._id,
+      token: generateToken(
+        newPseudoUser._id,
+        process.env.VERIFICATION_SECRET,
+        process.env.VERIFICATION_EXP
+      ),
       secret: generateSecret(),
     });
   }
 
-  if (user && symbol) {
+  if (newPseudoUser && symbol) {
     res.status(201).json({
-      message: `Dear [${user.name}], check your mailbox to verify your akkount`,
+      message: `Dear [${newPseudoUser.name}], check your mailbox to verify your akkount`,
       body: {
-        _id: user._id,
-        name: user.name,
+        _id: newPseudoUser._id,
+        name: newPseudoUser.name,
         token: symbol.token,
       },
     });
     sendEmail(
-      true,
       res,
       email,
-      `Verify your email, dear ${user.name}`,
-      `Hi, ${user.name}, we need to verify your email.\nSend back this kode to verify it: ${symbol.secret}`
+      `Verify your email, dear ${newPseudoUser.name}`,
+      `Hi, ${newPseudoUser.name}, we need to verify your email.\nSend back this kode to verify it: ${symbol.secret} \nThe kode will be valid for 15 minutes.`
     );
   } else {
-    throwError(res, 400, "Dara are not valid");
+    throwError(
+      res,
+      400,
+      "Dara are not valid or something went wrong. Try again"
+    );
   }
 });
 
 /**
  * @async
  * @function
- * Controller to verify if token exists or expired
+ * Controller to verify if verification token exists or expired
  *
  * GET /api/users/verify/:token
  *
@@ -103,9 +122,9 @@ const registerUser = asyncHandler(async (req, res) => {
 const verifyToken = asyncHandler(async (req, res) => {
   const token = req.params.token;
 
-  const thereIsToken = await Symbol.findOne({ token });
+  const symbol = await Symbol.findOne({ token });
 
-  if (!thereIsToken) {
+  if (!symbol) {
     throwError(res, 400, "Token invalid or expired");
   } else {
     res.status(200).json({
@@ -137,37 +156,33 @@ const verifyUser = asyncHandler(async (req, res) => {
   const parsedData = await validate(res, "check-secret", req.body);
   const { secret } = parsedData;
 
-  const thereIsToken = await Symbol.findOne({
+  const symbol = await Symbol.findOne({
     token,
     secret,
   });
-  if (!thereIsToken)
+  if (!symbol) throwError(res, 400, "Sekrets do not match or token is invalid");
+
+  const decoded = decodeToken(symbol.token, process.env.VERIFICATION_SECRET);
+  const pseudoUser = await PseudoUser.findById(decoded.key);
+  if (!pseudoUser)
     throwError(res, 400, "Sekrets do not match or token invalid");
 
-  const decoded = decodeToken(res, token);
-  const updatedUser = await User.findOneAndUpdate(
-    { _id: decoded._id },
-    { $set: { verified: true } },
+  const finalUser = await User.findOneAndUpdate(
+    { email: pseudoUser.email, verified: false },
+    {
+      $set: {
+        name: pseudoUser.name,
+        password: pseudoUser.password,
+        verified: true,
+      },
+    },
     { new: true }
   );
 
-  if (updatedUser) {
-    const deleteSymbol = await Symbol.deleteOne({
-      token,
-      secret,
+  if (finalUser) {
+    res.status(200).json({
+      message: `Dear [${finalUser.name}], your email is verified. You kan log in`,
     });
-
-    if (deleteSymbol.acknowledged) {
-      return res.status(200).json({
-        message: `Dear ${updatedUser.name}, your email is verified. You kan log in`,
-      });
-    } else {
-      throwError(
-        res,
-        500,
-        "Something went wrong with email verifikation. Try again"
-      );
-    }
   } else {
     throwError(
       res,
@@ -199,8 +214,8 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = parsedData;
 
   const user = await User.findOne({ email });
-
-  if (!user) throwError(res, 400, "Kredentials are not valid");
+  if (!user)
+    throwError(res, 400, "Kredentials are not valid or user doesn't exists");
   if (!user.verified)
     throwError(
       res,
@@ -209,26 +224,43 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 
   const match = await comparePassword(res, password, user.password);
-
   if (user && match) {
-    const token = generateToken(res, user._id, "3d");
-    const cookieMaxAge = 3 * 24 * 60 * 60 * 1000 - 5 * 60 * 1000;
+    const token = generateToken(
+      user._id,
+      process.env.ACCESS_SECRET,
+      process.env.ACCESS_EXP
+    );
+    const refresh = generateToken(
+      user._id,
+      process.env.REFRESH_SECRET,
+      process.env.REFRESH_EXP
+    );
+    const cookie = generateToken(
+      user.email,
+      process.env.COOKIE_SECRET,
+      process.env.COOKIE_EXP
+    );
 
-    res
-      .cookie("jwt", token, {
-        httpOnly: process.env.NODE_ENV === "production",
-        secure: true,
-        maxAge: cookieMaxAge,
-      })
-      .status(200)
-      .json({
-        message: `User [${user.name}] is logged in`,
-        body: {
-          _id: user._id,
-          name: user.name,
-          tokenExpDate: Date.now() + cookieMaxAge,
-        },
-      });
+    try {
+      res
+        .cookie("jwt", cookie, {
+          httpOnly: process.env.NODE_ENV === "production",
+          secure: process.env.NODE_ENV === "production",
+          maxAge: Number(process.env.COOKIE_MAX_AGE),
+        })
+        .status(200)
+        .json({
+          message: `User [${user.name}] is logged in`,
+          body: {
+            _id: user._id,
+            name: user.name,
+            token,
+            refresh,
+          },
+        });
+    } catch (err) {
+      throwError(res, 400, "Kredentials are not valid");
+    }
   } else {
     throwError(res, 400, "Kredentials are not valid");
   }
@@ -258,16 +290,17 @@ const forgotPassword = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
   if (!user) throwError(res, 400, "User does not exist");
 
-  let symbol;
-  if (user) {
-    symbol = await Symbol.create({
-      user: user._id,
-      token: generateToken(res, user._id),
-      secret: generateSecret(),
-    });
-  }
+  const symbol = await Symbol.create({
+    user: user._id,
+    token: generateToken(
+      user._id,
+      process.env.VERIFICATION_SECRET,
+      process.env.VERIFICATION_EXP
+    ),
+    secret: generateSecret(),
+  });
 
-  if (user && symbol) {
+  if (symbol) {
     res.status(201).json({
       message: `Dear [${user.name}], check your mailbox to reset your password`,
       body: {
@@ -277,11 +310,10 @@ const forgotPassword = asyncHandler(async (req, res) => {
       },
     });
     sendEmail(
-      false,
       res,
       email,
       `Reset your password, dear ${user.name}`,
-      `Hi, ${user.name}.\nSend back this kode to reset your password: ${symbol.secret}`
+      `Hi, ${user.name}.\nSend back this kode to reset your password: ${symbol.secret} \nThe kode will be valid for 15 minutes.`
     );
   } else {
     throwError(res, 400, "Data are not valid");
@@ -311,32 +343,32 @@ const verifyPasswordSecret = asyncHandler(async (req, res) => {
   const parsedData = await validate(res, "check-secret", req.body);
   const { secret } = parsedData;
 
-  const thereIsToken = await Symbol.findOne({
+  const symbol = await Symbol.findOne({
     token,
     secret,
   });
-  if (!thereIsToken)
-    throwError(res, 400, "Sekrets do not match or token invalid");
 
-  const decoded = decodeToken(res, token);
-  const unverifiedUser = await User.findOneAndUpdate(
-    { _id: decoded._id },
-    { $set: { verified: false } },
-    { new: true }
-  );
+  if (!symbol) throwError(res, 400, "Sekrets do not match or token invalid");
 
-  if (!unverifiedUser) {
+  const decoded = decodeToken(symbol.token, process.env.VERIFICATION_SECRET);
+  const user = await User.findById(decoded.key);
+
+  if (!user) {
     throwError(res, 500, "Something went wrong. Try again");
   } else {
-    thereIsToken.token = generateToken(res, unverifiedUser._id);
-    const updatedToken = await thereIsToken.save();
+    symbol.token = generateToken(
+      user._id,
+      process.env.VERIFICATION_SECRET,
+      process.env.VERIFICATION_EXP
+    );
+    const updatedToken = await symbol.save();
 
     if (updatedToken) {
       res.status(201).json({
-        message: `Dear [${unverifiedUser.name}], reset now your password to verify your akkount and log in`,
+        message: `Dear [${user.name}], reset now your password to verify your akkount and log in`,
         body: {
-          _id: unverifiedUser._id,
-          name: unverifiedUser.name,
+          _id: user._id,
+          name: user.name,
           token: updatedToken.token,
         },
       });
@@ -369,15 +401,14 @@ const resetPassword = asyncHandler(async (req, res) => {
   const parsedData = await validate(res, "reset-password", req.body);
   const { password } = parsedData;
 
-  const thereIsToken = await Symbol.findOne({ token });
-  if (!thereIsToken)
-    throwError(res, 400, "Sekrets do not match or token invalid");
+  const symbol = await Symbol.findOne({ token });
+  if (!symbol) throwError(res, 400, "Sekrets do not match or token invalid");
 
-  const decoded = decodeToken(res, token);
+  const decoded = decodeToken(symbol.token, process.env.VERIFICATION_SECRET);
   const hashed = await hashPassword(res, password);
   const updatedUser = await User.findOneAndUpdate(
-    { _id: decoded._id },
-    { $set: { verified: true, password: hashed } },
+    { _id: decoded.key },
+    { $set: { password: hashed } },
     { new: true }
   );
 
@@ -386,7 +417,7 @@ const resetPassword = asyncHandler(async (req, res) => {
 
     if (deleteSymbol.acknowledged) {
       return res.status(200).json({
-        message: `Dear ${updatedUser.name}, your password has been reset. You kan now log in`,
+        message: `Dear [${updatedUser.name}], your password has been reset. You kan now log in`,
       });
     } else {
       throwError(
@@ -403,11 +434,11 @@ const resetPassword = asyncHandler(async (req, res) => {
 /**
  * @async
  * @function
- * Controller to logout user and clear authorization cookie
+ * Controller to logout user and clear cookie
  *
  * POST /api/users/logout
  *
- * Private route
+ * Public route
  *
  * (Controller is wrapped by asyncHandler)
  *
@@ -418,15 +449,93 @@ const resetPassword = asyncHandler(async (req, res) => {
  * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
  */
 const logoutUser = asyncHandler(async (req, res) => {
-  const currentUser = req.user;
-
   try {
-    res.clearCookie("jwt");
-    res.status(200).json({
-      message: `User [${currentUser.name}] successfully logged out`,
-    });
+    res.clearCookie("jwt").status(200).json({ message: "Logged out" });
   } catch (error) {
     throwError(res, 500, "Error logging out");
+  }
+});
+
+/**
+ * @async
+ * @function
+ * Controller to send refresh token
+ *
+ * GET /api/users/refresh
+ *
+ * Public route
+ *
+ * (Controller is wrapped by asyncHandler)
+ *
+ * @param {Request} req - Express request
+ * @param {Response} res - Express response
+ *
+ * @returns {void} JSON response
+ */
+const refreshToken = asyncHandler(async (req, res) => {
+  const refreshToken = req.headers["refresh-token"];
+  if (!refreshToken) throwError(res, 401, "Not authorized");
+
+  const decodedRefresh = decodeToken(refreshToken, process.env.REFRESH_SECRET);
+  if (!decodedRefresh) throwError(res, 401, "Not authorized");
+
+  const user = await User.findById(decodedRefresh.key);
+  if (!user) throwError(res, 404, "Not found");
+
+  // check cookie if is there
+  const requestCookie = req.cookies.jwt;
+  let decodedRequestCookie;
+  if (requestCookie) {
+    decodedRequestCookie = decodeToken(
+      requestCookie,
+      process.env.COOKIE_SECRET
+    );
+  }
+  if (decodedRequestCookie && decodedRequestCookie.key !== user.email) {
+    throwError(res, 401, "User not authorized");
+  }
+
+  // create new access token
+  const token = generateToken(
+    user._id,
+    process.env.ACCESS_SECRET,
+    process.env.ACCESS_EXP
+  );
+
+  // create new refresh token
+  const refresh = generateToken(
+    user._id,
+    process.env.REFRESH_SECRET,
+    process.env.REFRESH_EXP
+  );
+
+  // generate new cookie
+  const cookie = generateToken(
+    user.email,
+    process.env.COOKIE_SECRET,
+    process.env.COOKIE_EXP
+  );
+
+  try {
+    res
+      .clearCookie("jwt")
+      .cookie("jwt", cookie, {
+        httpOnly: process.env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV === "production",
+        maxAge: Number(process.env.COOKIE_MAX_AGE),
+      })
+      .status(200)
+      .json({
+        message: `Dear [${user.name}], your tokens are refreshed`,
+        body: {
+          _id: user._id,
+          name: user.name,
+          token,
+          refresh,
+        },
+      });
+  } catch (err) {
+    throwError(res, 500, "Error sending cookie");
   }
 });
 
@@ -450,14 +559,16 @@ const logoutUser = asyncHandler(async (req, res) => {
 const getUserProfile = asyncHandler(async (req, res) => {
   const currentUser = req.user;
 
-  const thereIsUser = await User.findById(currentUser._id);
-  if (!thereIsUser) throwError(res, 404, "User not found");
+  const user = await User.findById(currentUser._id);
+  if (!user) throwError(res, 404, "User not found");
 
   res.status(200).json({
     body: {
       _id: currentUser._id,
       name: currentUser.name,
       email: currentUser.email,
+      createdAt: currentUser.createdAt,
+      updatedAt: currentUser.updatedAt,
     },
   });
 });
@@ -467,7 +578,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
  * @function
  * Controller to update user data
  *
- * PATCH /api/users/profile/:id
+ * POST /api/users/profile
  *
  * Private route
  *
@@ -485,52 +596,48 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   const parsedData = await validate(res, "update-user", req.body);
   const { name, email, password } = parsedData;
 
-  const emailAlreadyTaken = await User.findOne({
+  const takenEmail = await User.findOne({
     email,
     _id: { $ne: currentUser._id },
   });
-  if (emailAlreadyTaken) throwError(res, 400, "This email seems already taken");
+  if (takenEmail) throwError(res, 400, "This email seems already taken");
 
   let user = await User.findById(currentUser._id);
   if (!user) throwError(res, 404, "User not found");
 
-  //first check if data have not changed
   const match = await comparePassword(res, password, user.password);
   const dataMatch = match && name === user.name && email === user.email;
-
   if (dataMatch) throwError(res, 400, "You did not update any data");
 
-  // update user
-  user.name = name;
-  user.email = email;
-  user.password = await hashPassword(res, password);
-  user.verified = false;
-  const updatedUser = await user.save();
+  const pseudoUser = await PseudoUser.create({
+    user: currentUser._id,
+    name,
+    email,
+    password: await hashPassword(res, password),
+  });
 
-  let symbol;
-  if (updatedUser) {
-    symbol = await Symbol.create({
-      user: updatedUser._id,
-      token: generateToken(res, updatedUser._id),
-      secret: generateSecret(),
-    });
-  }
+  const symbol = await Symbol.create({
+    user: currentUser._id,
+    token: generateToken(
+      currentUser._id,
+      process.env.VERIFICATION_SECRET,
+      process.env.VERIFICATION_EXP
+    ),
+    secret: generateSecret(),
+  });
 
-  if (updatedUser && symbol) {
+  if (pseudoUser && symbol) {
     res.status(201).json({
-      message: `Dear [${updatedUser.name}], check your mailbox to update your akkount`,
+      message: `Dear [${pseudoUser.name}], check your mailbox to update your akkount`,
       body: {
-        _id: updatedUser._id,
-        name: updatedUser.name,
         token: symbol.token,
       },
     });
     sendEmail(
-      false,
       res,
       email,
-      `Verify your akkount, dear ${updatedUser.name}`,
-      `Hi, ${updatedUser.name}.\nSend back this kode to verify your akkount and update your data: ${symbol.secret}`
+      `Verify your akkount, dear ${pseudoUser.name}`,
+      `Hi, ${pseudoUser.name}.\nSend back this kode to verify your akkount and update your data: ${symbol.secret} \nThe kode will be valid for 15 minutes.`
     );
   } else {
     throwError(res, 400, "Data are not valid");
@@ -555,34 +662,84 @@ const updateUserProfile = asyncHandler(async (req, res) => {
  * @throws Error if something fails (custom errorHandler will catch the error thrown by throwError fn and send it to client)
  */
 const verifyUpdateUserProfile = asyncHandler(async (req, res) => {
+  const currentUser = req.user;
   const token = req.params.token;
 
   const parsedData = await validate(res, "check-secret", req.body);
   const { secret } = parsedData;
 
-  const thereIsToken = await Symbol.findOne({
+  const symbol = await Symbol.findOne({
     token,
     secret,
   });
-  if (!thereIsToken)
-    throwError(res, 400, "Sekrets do not match or token invalid");
+  if (!symbol) throwError(res, 400, "Sekrets do not match or token invalid");
 
-  const decoded = decodeToken(res, token);
+  const pseudoUsers = await PseudoUser.find({ user: currentUser._id })
+    .sort({ $natural: -1 })
+    .limit(1);
+
+  if (!pseudoUsers.length === 1)
+    throwError(
+      res,
+      400,
+      "You do not seem authorized or something went wrong. Try again"
+    );
+
+  const decoded = decodeToken(token, process.env.VERIFICATION_SECRET);
+  const pseudoUser = pseudoUsers[0];
   const updatedUser = await User.findOneAndUpdate(
-    { _id: decoded._id },
-    { $set: { verified: true } },
+    { _id: decoded.key },
+    {
+      $set: {
+        name: pseudoUser.name,
+        email: pseudoUser.email,
+        password: pseudoUser.password,
+      },
+    },
     { new: true }
   );
 
   if (updatedUser) {
+    const token = generateToken(
+      updatedUser._id,
+      process.env.ACCESS_SECRET,
+      process.env.ACCESS_EXP
+    );
+    const refresh = generateToken(
+      updatedUser._id,
+      process.env.REFRESH_SECRET,
+      process.env.REFRESH_EXP
+    );
+    const cookie = generateToken(
+      updatedUser.email,
+      process.env.COOKIE_SECRET,
+      process.env.COOKIE_EXP
+    );
+
+    res.clearCookie("jwt").cookie("jwt", cookie, {
+      httpOnly: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: Number(process.env.COOKIE_MAX_AGE),
+    });
+
     const deleteSymbol = await Symbol.deleteOne({
       token,
       secret,
     });
 
-    if (deleteSymbol.acknowledged) {
+    const deletePseudoUser = await PseudoUser.deleteOne({
+      user: currentUser._id,
+    });
+
+    if (deleteSymbol.acknowledged && deletePseudoUser.acknowledged) {
       return res.status(200).json({
-        message: `Dear ${updatedUser.name}, your akkount is verified and your data are updated`,
+        message: `Dear [${updatedUser.name}], your akkount is verified and your data are updated`,
+        body: {
+          _id: updatedUser._id,
+          name: updatedUser.name,
+          token,
+          refresh,
+        },
       });
     } else {
       throwError(
@@ -668,6 +825,7 @@ const deleteUserProfile = asyncHandler(async (req, res) => {
  * @property {Function} verifyPasswordSecret - {@link verifyPasswordSecret}
  * @property {Function} resetPassword - {@link resetPassword}
  * @property {Function} logoutUser - {@link logoutUser}
+ * @property {Function} refreshToken - {@link refreshToken}
  * @property {Function} getUserProfile - {@link getUserProfile}
  * @property {Function} updateUserProfile - {@link updateUserProfile}
  * @property {Function} verifyUpdateUserProfile - {@link verifyUpdateUserProfile}
@@ -689,6 +847,7 @@ export const userCtrl = {
   verifyPasswordSecret,
   resetPassword,
   logoutUser,
+  refreshToken,
   getUserProfile,
   updateUserProfile,
   verifyUpdateUserProfile,

@@ -1,4 +1,5 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Form from "../components/form/form";
 
 // react
@@ -6,6 +7,7 @@ import { useEffect } from "react";
 
 // redux
 import { useDispatch } from "react-redux";
+import { setCredentials } from "../redux/features/auth/auth-slice";
 import { apiSlice } from "../redux/api/api-slice";
 import {
   useVerifyUpdateUserProfileMutation,
@@ -53,7 +55,7 @@ export default function VerifyUpdateUserProfile() {
 
   const methods = useForm({
     defaultValues: {
-      secret: "",
+      sekret: "",
     },
   });
 
@@ -77,16 +79,26 @@ export default function VerifyUpdateUserProfile() {
     }
 
     try {
-      const symbol = { token: params.token, secret: parsedData.secret };
+      const symbol = { token: params.token, secret: parsedData.sekret };
       const res = await verifyUpdateUserProfile(symbol).unwrap();
-      toast.success(res?.message);
+      if (res.body) {
+        dispatch(
+          setCredentials({
+            user: res.body.name,
+            token: res.body.token,
+            refresh: res.body.refresh,
+          })
+        );
+      }
+      toast.success(res.message);
     } catch (err) {
-      toast.error(err?.data?.message);
+      toast.error(err?.data?.message || err.error);
     }
   };
 
   return (
     <section>
+      <PageTitle title={"Verify your akkount"} />
       <FormProvider {...methods}>
         <Form
           typeOfForm={"verify user update"}
@@ -96,6 +108,13 @@ export default function VerifyUpdateUserProfile() {
             textOnLoading: "Verifying...",
             text: "Verify",
           }}
+          formParagraphArrayProps={[
+            {
+              paragraphText: "Want to keep your kurrent data?",
+              linkText: "Go to profile",
+              linkHref: "/profile",
+            },
+          ]}
         />
       </FormProvider>
     </section>

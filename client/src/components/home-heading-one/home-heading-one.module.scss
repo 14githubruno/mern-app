@@ -69,12 +69,16 @@
   }
 }
 
-@media (min-width: $break-large-desktop) {
+@media (min-width: $break-desktop) {
   .homeHeadingOne {
     position: relative;
     left: 5rem;
-    font-size: 6.4rem;
     rotate: -18deg;
+  }
+
+  .homeHeadingOne,
+  .kLetter {
+    font-size: 6rem;
   }
 
   .letter {
@@ -171,7 +175,6 @@
   }
 
   .kLetter {
-    font-size: 6.2rem;
     text-shadow: 0.3rem 0.3rem 0 var(--pink-opaque-color);
   }
 
@@ -182,8 +185,8 @@
   }
 
   .homeHeadingOneIcon {
-    width: 4.3rem;
-    height: 4.3rem;
+    width: 4rem;
+    height: 4rem;
   }
 
   .knifeBloodIcon {
@@ -193,5 +196,12 @@
   .noodlesIcon {
     top: 2rem;
     right: 1rem;
+  }
+}
+
+@media (min-width: $break-desktop) {
+  .homeHeadingOne,
+  .kLetter {
+    font-size: 6.2rem;
   }
 }

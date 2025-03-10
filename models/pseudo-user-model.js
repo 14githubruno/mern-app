@@ -1,19 +1,24 @@
 // pkgs
 import mongoose from "mongoose";
 
-const symbolSchema = mongoose.Schema({
+const pseudoUserSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
+    required: false,
     ref: "User",
   },
 
-  token: {
+  name: {
     type: String,
     required: true,
   },
 
-  secret: {
+  email: {
+    type: String,
+    required: true,
+  },
+
+  password: {
     type: String,
     required: true,
   },
@@ -25,4 +30,4 @@ const symbolSchema = mongoose.Schema({
   },
 });
 
-export default mongoose.model("Symbol", symbolSchema);
+export default mongoose.model("PseudoUser", pseudoUserSchema);

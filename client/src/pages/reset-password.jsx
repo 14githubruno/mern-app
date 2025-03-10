@@ -1,11 +1,12 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Form from "../components/form/form";
 
 // react lib
 import { useEffect } from "react";
 
 // redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { apiSlice } from "../redux/api/api-slice";
 import {
   useResetPasswordMutation,
@@ -35,6 +36,7 @@ import toast from "react-hot-toast";
 export default function ResetPassword() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
   const params = useParams();
   const { error: checkError } = useVerifyTokenQuery(params.token, {
     selectFromResult: (result) => {
@@ -51,6 +53,13 @@ export default function ResetPassword() {
       password: "",
     },
   });
+
+  useEffect(() => {
+    if (user) {
+      navigate("/profile/update-user");
+      toast.error("You are already logged in. Reset your password from here");
+    }
+  }, [user]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -78,15 +87,17 @@ export default function ResetPassword() {
         password: parsedData.password,
       };
       const res = await resetPassword(symbolAndPassword).unwrap();
-      console.log(res);
-      toast.success(res?.message);
+      if (res) {
+        toast.success(res.message);
+      }
     } catch (err) {
-      toast.error(err?.data?.message);
+      toast.error(err.data.message || err.error);
     }
   };
 
   return (
     <section>
+      <PageTitle title={"Set a new password"} />
       <FormProvider {...methods}>
         <Form
           typeOfForm={"reset password"}
@@ -96,6 +107,13 @@ export default function ResetPassword() {
             textOnLoading: "Resetting...",
             text: "Reset",
           }}
+          formParagraphArrayProps={[
+            {
+              paragraphText: "Remember your password?",
+              linkText: "Log in",
+              linkHref: "/login",
+            },
+          ]}
         />
       </FormProvider>
     </section>

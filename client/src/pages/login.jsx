@@ -1,4 +1,5 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Form from "../components/form/form";
 
 // react lib
@@ -40,16 +41,14 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const tokenExpDate = useSelector((state) => state.auth.tokenExpDate);
 
   const [loginUser, { isLoading }] = useLoginUserMutation();
 
   useEffect(() => {
-    if (user && tokenExpDate) {
-      methods.reset();
+    if (user) {
       navigate("/", { replace: true });
     }
-  }, [user, tokenExpDate, navigate, methods.reset]);
+  }, [user, navigate]);
 
   // this below fires a useEffect
   useHeadTags("login");
@@ -67,17 +66,19 @@ export default function Login() {
       dispatch(
         setCredentials({
           user: res.body.name,
-          tokenExpDate: res.body.tokenExpDate,
+          token: res.body.token,
+          refresh: res.body.refresh,
         })
       );
       toast.success(res.message);
     } catch (err) {
-      toast.error(err?.data?.message);
+      toast.error(err?.data?.message || err?.error);
     }
   };
 
   return (
     <section>
+      <PageTitle title={"Log in"} />
       <FormProvider {...methods}>
         <Form
           typeOfForm={"login user"}

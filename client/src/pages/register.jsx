@@ -1,4 +1,5 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Form from "../components/form/form";
 
 // react hooks
@@ -42,9 +43,9 @@ export default function Register() {
   const [registerUser, { isLoading }] = useRegisterUserMutation();
 
   useEffect(() => {
-    if (user !== null) {
+    if (user) {
       toast.error("You are currently logged in. To Register new user, log out");
-      navigate("/", { replace: true });
+      navigate("/dashboard", { replace: true });
     }
   }, [user, navigate]);
 
@@ -66,12 +67,13 @@ export default function Register() {
         navigate(`/verify/${res.body.token}`, { replace: true });
       }
     } catch (err) {
-      toast.error(err?.data?.message);
+      toast.error(err?.data?.message || err?.error);
     }
   };
 
   return (
     <section>
+      <PageTitle title={"Register a new akkount"} />
       <FormProvider {...methods}>
         <Form
           typeOfForm={"register user"}

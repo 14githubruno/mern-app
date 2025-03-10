@@ -1,3 +1,4 @@
+@use "@/breakpoints" as *;
 @use "@/keyframes" as *;
 
 .tableRow {
@@ -21,12 +22,10 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
 
-.tableRow > div:last-of-type {
-  display: flex;
-  justify-content: space-evenly;
-  border-right: 0.1rem solid var(--dark-grey-color);
+  @media (min-width: $break-tablet) {
+    padding: 1.4rem 1.4rem 1rem 1.4rem;
+  }
 }
 
 .coloredLettersWrapper {
@@ -56,6 +55,18 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
+}
+
+.tableRow > .date {
+  display: inline-flex;
+  justify-content: center;
+}
+
+// actions icons container
+.tableRow > div:last-of-type {
+  display: flex;
+  justify-content: space-evenly;
+  border-right: 0.1rem solid var(--dark-grey-color);
 }
 
 .icon {

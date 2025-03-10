@@ -3,6 +3,7 @@ import App from "../App";
 import PrivateRoute from "../components/private-route";
 import ErrorPage from "../pages/error-page";
 import Homepage from "../pages/homepage";
+import PrivacyNotice from "../pages/privacy-notice";
 import Register from "../pages/register";
 import VerifyUser from "../pages/verify-user";
 import Login from "../pages/login";
@@ -37,6 +38,10 @@ const browserRouter = createBrowserRouter([
         element: <Homepage />,
       },
       {
+        path: "/privacy-notice",
+        element: <PrivacyNotice />,
+      },
+      {
         path: "/register",
         element: <Register />,
       },
@@ -53,7 +58,7 @@ const browserRouter = createBrowserRouter([
         element: <ForgotPassword />,
       },
       {
-        path: "/verify-password-secret/:token",
+        path: "/verify-password-sekret/:token",
         element: <VerifyPasswordSecret />,
       },
       {
@@ -72,7 +77,7 @@ const browserRouter = createBrowserRouter([
             element: <CreateTvseries />,
           },
           {
-            path: "/dashboard/update-tvseries/:id/:title",
+            path: "/dashboard/update-tvseries/:id",
             element: <UpdateTvseries />,
           },
           {

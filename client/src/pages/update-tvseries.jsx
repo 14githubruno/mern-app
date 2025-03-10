@@ -1,4 +1,5 @@
 // components
+import PageTitle from "../components/page-title/page-title";
 import Form from "../components/form/form";
 import Loader from "../components/loader/loader";
 
@@ -41,7 +42,7 @@ export default function UpdateTvseries() {
   const methods = useForm();
 
   const resetAll = useResetApiAndUser();
-  const { data: singleTvseries, error } = useGetOneTvseriesQuery(params);
+  const { data: singleTvseries, error } = useGetOneTvseriesQuery(params.id);
   const [updateOneTvseries, { isLoading, isSuccess }] =
     useUpdateOneTvseriesMutation();
 
@@ -56,8 +57,10 @@ export default function UpdateTvseries() {
     if (isSuccess) {
       navigate("/dashboard", { replace: true });
     } else if (error) {
-      navigate("/dashboard", { replace: true });
-      toast.error(error.data.message);
+      if (error?.data?.type === "tokenInvalid") {
+        resetAll();
+      }
+      toast.error(error?.data?.message || error?.error);
     }
   }, [isSuccess, navigate, error]);
 
@@ -91,35 +94,36 @@ export default function UpdateTvseries() {
       const res = await updateOneTvseries(parsedData).unwrap();
       toast.success(res.message);
     } catch (err) {
-      if (err.data.type === "token") {
-        toast.error("Token has expired. Log in again");
+      if (err?.data?.type === "tokenInvalid") {
         resetAll();
-        return;
       }
-      toast.error(err.data.message);
+      toast.error(err?.data?.message || err?.error);
     }
   };
 
   return (
     <section>
       {singleTvseries ? (
-        <FormProvider {...methods}>
-          <Form
-            typeOfForm={"update tvseries"}
-            onSubmit={handleUpdateOneTvseries}
-            inputFileProps={{
-              typeOfFile: "image",
-              file: img,
-              funcForInputFile: handleImageConversionAndResize,
-            }}
-            formButtonProps={{
-              isLoading,
-              textOnLoading: "Updating...",
-              text: "Update",
-            }}
-            formLinkHrefToGoBack="/dashboard"
-          />
-        </FormProvider>
+        <>
+          <PageTitle title={"Update a tv series"} />
+          <FormProvider {...methods}>
+            <Form
+              typeOfForm={"update tvseries"}
+              onSubmit={handleUpdateOneTvseries}
+              inputFileProps={{
+                typeOfFile: "image",
+                file: img,
+                funcForInputFile: handleImageConversionAndResize,
+              }}
+              formButtonProps={{
+                isLoading,
+                textOnLoading: "Updating...",
+                text: "Update",
+              }}
+              formLinkHrefToGoBack="/dashboard"
+            />
+          </FormProvider>
+        </>
       ) : (
         <Loader />
       )}
