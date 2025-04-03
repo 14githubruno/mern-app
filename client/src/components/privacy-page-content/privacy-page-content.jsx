@@ -19,9 +19,9 @@ export default function PrivacyPageContent() {
   return (
     <div className={styles.privacyPageContent}>
       <p className={styles.paragraph}>
-        This application is a personal learning project and thus to be
-        considered a playground. The main goal is to experiment with
-        technologies and dive deeper in web development.
+        {
+          "This application is a personal learning project and thus to be considered a playground. The main goal is to experiment with technologies and dive deeper in web development (hence, the application may be taken down at any time, without notice)."
+        }
       </p>
       <button className={styles.btn} onClick={() => setIsK((prev) => !prev)}>
         {isK
